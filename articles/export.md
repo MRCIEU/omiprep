@@ -37,16 +37,16 @@ mydata         <- suppressWarnings( quality_control(mydata) )
 #> ✔ Validating input parameters [8ms]
 #> 
 #> ℹ Sample & Feature Summary Statistics for raw data
-#> ✔ Sample & Feature Summary Statistics for raw data [921ms]
+#> ✔ Sample & Feature Summary Statistics for raw data [986ms]
 #> 
 #> ℹ Copying input data to new 'qc' data layer
-#> ✔ Copying input data to new 'qc' data layer [37ms]
+#> ✔ Copying input data to new 'qc' data layer [36ms]
 #> 
 #> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)
 #> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [17ms]
 #> 
 #> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)
-#> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [16m…
+#> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [17m…
 #> 
 #> ℹ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
 #> ✔ Assessing for sample missingness at specified level of >=20% - excluding 2 sa…
@@ -65,10 +65,10 @@ mydata         <- suppressWarnings( quality_control(mydata) )
 #> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…✔ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
 #> 
 #> ℹ Creating final QC dataset...
-#> ✔ Creating final QC dataset... [861ms]
+#> ✔ Creating final QC dataset... [892ms]
 #> 
 #> ℹ Metabolite QC Process Completed
-#> ✔ Metabolite QC Process Completed [24ms]
+#> ✔ Metabolite QC Process Completed [22ms]
 ```
 
 ## Export Metaboprep
@@ -88,18 +88,18 @@ unname(sapply(files, function(path) {
   parts <- strsplit(path, .Platform$file.sep)[[1]]
   paste(tail(parts, 4), collapse = .Platform$file.sep)
 }))
-#>  [1] "output/metaboprep_export_2025_12_05/input/config.yml"         
-#>  [2] "output/metaboprep_export_2025_12_05/input/data.tsv"           
-#>  [3] "output/metaboprep_export_2025_12_05/input/feature_summary.tsv"
-#>  [4] "output/metaboprep_export_2025_12_05/input/features.tsv"       
-#>  [5] "output/metaboprep_export_2025_12_05/input/sample_summary.tsv" 
-#>  [6] "output/metaboprep_export_2025_12_05/input/samples.tsv"        
-#>  [7] "output/metaboprep_export_2025_12_05/qc/config.yml"            
-#>  [8] "output/metaboprep_export_2025_12_05/qc/data.tsv"              
-#>  [9] "output/metaboprep_export_2025_12_05/qc/feature_summary.tsv"   
-#> [10] "output/metaboprep_export_2025_12_05/qc/feature_tree.RDS"      
-#> [11] "output/metaboprep_export_2025_12_05/qc/features.tsv"          
-#> [12] "output/metaboprep_export_2025_12_05/qc/sample_summary.tsv"    
-#> [13] "output/metaboprep_export_2025_12_05/qc/samples.tsv"           
-#> [14] "output/metaboprep_export_2025_12_05/qc/var_exp.tsv"
+#>  [1] "output/metaboprep_export_2026_03_18/input/config.yml"         
+#>  [2] "output/metaboprep_export_2026_03_18/input/data.tsv"           
+#>  [3] "output/metaboprep_export_2026_03_18/input/feature_summary.tsv"
+#>  [4] "output/metaboprep_export_2026_03_18/input/features.tsv"       
+#>  [5] "output/metaboprep_export_2026_03_18/input/sample_summary.tsv" 
+#>  [6] "output/metaboprep_export_2026_03_18/input/samples.tsv"        
+#>  [7] "output/metaboprep_export_2026_03_18/qc/config.yml"            
+#>  [8] "output/metaboprep_export_2026_03_18/qc/data.tsv"              
+#>  [9] "output/metaboprep_export_2026_03_18/qc/feature_summary.tsv"   
+#> [10] "output/metaboprep_export_2026_03_18/qc/feature_tree.RDS"      
+#> [11] "output/metaboprep_export_2026_03_18/qc/features.tsv"          
+#> [12] "output/metaboprep_export_2026_03_18/qc/sample_summary.tsv"    
+#> [13] "output/metaboprep_export_2026_03_18/qc/samples.tsv"           
+#> [14] "output/metaboprep_export_2026_03_18/qc/var_exp.tsv"
 ```

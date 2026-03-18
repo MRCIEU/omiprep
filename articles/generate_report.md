@@ -46,16 +46,16 @@ mydata <- mydata |>
 #> ✔ Excluding 3 features from sample summary analysis but keeping in output data …
 #> 
 #> ℹ Sample & Feature Summary Statistics for raw data
-#> ✔ Sample & Feature Summary Statistics for raw data [862ms]
+#> ✔ Sample & Feature Summary Statistics for raw data [905ms]
 #> 
 #> ℹ Copying input data to new 'qc' data layer
-#> ✔ Copying input data to new 'qc' data layer [30ms]
+#> ✔ Copying input data to new 'qc' data layer [22ms]
 #> 
 #> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)
-#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [17ms]
+#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [18ms]
 #> 
 #> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)
-#> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [16m…
+#> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [17m…
 #> 
 #> ℹ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
 #> ✔ Assessing for sample missingness at specified level of >=20% - excluding 2 sa…
@@ -67,17 +67,17 @@ mydata <- mydata |>
 #> ✔ Calculating total peak abundance outliers at +/- 5 Sdev - excluding 0 sample(…
 #> 
 #> ℹ Running sample data PCA outlier analysis at +/- 5 Sdev
-#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [17ms]
+#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [29ms]
 #> 
 #> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
 #> ! The stated max PCs [max_num_pcs=10] to use in PCA outlier assessment is greater than the number of available informative PCs [2]
 #> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…✔ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
 #> 
 #> ℹ Creating final QC dataset...
-#> ✔ Creating final QC dataset... [831ms]
+#> ✔ Creating final QC dataset... [872ms]
 #> 
 #> ℹ Metabolite QC Process Completed
-#> ✔ Metabolite QC Process Completed [26ms]
+#> ✔ Metabolite QC Process Completed [22ms]
 ```
 
 ## Generate the metaboprep report
@@ -98,7 +98,7 @@ generate_report(mydata,
 #> Warning in call_block(x): The chunk 'unnamed-chunk-3' has the 'child' option,
 #> and this code chunk must be empty. Its code will be ignored.
 #> output file: /home/runner/work/metaboprep/metaboprep/vignettes/skeleton.knit.md
-#> /opt/hostedtoolcache/pandoc/3.1.11/x64/pandoc +RTS -K512m -RTS /home/runner/work/metaboprep/metaboprep/vignettes/skeleton.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output /home/runner/work/metaboprep/metaboprep/vignettes/myproject_metaboprep_qc_report.html --lua-filter /home/runner/work/_temp/Library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /home/runner/work/_temp/Library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 2 --template /home/runner/work/_temp/Library/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --number-sections --variable theme=bootstrap --css styles.css --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /tmp/RtmpD84TYF/rmarkdown-str1f0e5bac739a.html
+#> /opt/hostedtoolcache/pandoc/3.1.11/x64/pandoc +RTS -K512m -RTS /home/runner/work/metaboprep/metaboprep/vignettes/skeleton.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output /home/runner/work/metaboprep/metaboprep/vignettes/myproject_metaboprep_qc_report.html --lua-filter /home/runner/work/_temp/Library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /home/runner/work/_temp/Library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 2 --template /home/runner/work/_temp/Library/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --number-sections --variable theme=bootstrap --css styles.css --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /tmp/Rtmpq1Pah3/rmarkdown-str22515ebe0a5d.html
 #> 
 #> Output created: myproject_metaboprep_qc_report.html
 ```

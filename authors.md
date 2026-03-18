@@ -14,14 +14,14 @@
 
 ## Citation
 
-Corbin L, Hughes D, Sunderland N, Lee M, McKinlay A (2025). *metaboprep:
+Corbin L, Hughes D, Sunderland N, Lee M, McKinlay A (2026). *metaboprep:
 Metabolomics data preparation and processing pipeline*. R package
 version 1.0.1, <https://mrcieu.github.io/metaboprep/>.
 
     @Manual{,
       title = {metaboprep: Metabolomics data preparation and processing pipeline},
       author = {Laura Corbin and David Hughes and Nicholas Sunderland and Matthew Lee and Alec McKinlay},
-      year = {2025},
+      year = {2026},
       note = {R package version 1.0.1},
       url = {https://mrcieu.github.io/metaboprep/},
     }
