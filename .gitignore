@@ -1,7 +1,11 @@
+# R things
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
+
+# pycharm
+.idea
 
 # mac things 
 .DS_Store

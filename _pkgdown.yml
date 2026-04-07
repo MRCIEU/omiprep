@@ -1,6 +1,6 @@
 url: https://mrcieu.github.io/metaboprep/
 template:
-  bootstrap: 5  
+  bootstrap: 5
   light-switch: true
 
 navbar:
