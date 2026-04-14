@@ -11,7 +11,8 @@
 #' 
 #' @importFrom stats prcomp
 #' @importFrom pcaMethods ppca
-#' @importFrom nFactors parallel nScree
+#' @importFrom nFactors nScree
+#' @importFrom irlba prcomp_irlba
 #'
 #' @return a data.frame
 #' @export
@@ -42,20 +43,35 @@ method(pc_and_outliers, Metaboprep) <- function(metaboprep, source_layer="input"
   })
 
   # perform PCA
-  mypca  <- stats::prcomp(pcadata, center = FALSE, scale = FALSE)
+  # full SVD is unnecessary — only top k PCs are needed for outlier detection and nScree
+  # irlba truncated SVD is ~10x faster at large dimensions but degrades when k > 10%
+  # of min(n,p); fall back to base prcomp in that case
+  # mypca  <- stats::prcomp(pcadata, center = FALSE, scale = FALSE)
+  k <- min(50, nrow(pcadata) - 1, ncol(pcadata))
+  # irlba inefficient when k is large fraction of min(n,p), fallback to prcomp
+  if (k / min(nrow(pcadata), ncol(pcadata)) > 0.1) {
+    mypca <- stats::prcomp(pcadata, center = FALSE, scale = FALSE)
+  } else {
+    mypca <- irlba::prcomp_irlba(pcadata, n = k, center = FALSE, scale = FALSE)
+  }
   varexp <- summary(mypca)[[6]][2, ]
 
   # find number of sig PCs
-  ev <- eigen(cor(pcadata))
-  if (ncol(pcadata) < 300) {
-    ap             <- nFactors::parallel(subject=nrow(pcadata), var=ncol(pcadata), rep=100, cent=.05)
-    ns             <- nFactors::nScree(x=ev$values, aparallel=ap$eigen$qevpea)
-    nsig_parrallel <- ns[[1]][["nparallel"]]
-  } else {
-    ns             <- nFactors::nScree(x=ev$values)
-    nsig_parrallel <- NA_real_
-  }
+  # data was z-scored prior to prcomp so cor(pcadata) == cov(pcadata)
+  # therefore eigen(cor(pcadata))$values == prcomp(pcadata)$sdev^2
+  # no need to recompute and generate potentially massive cor matrix
+  #ev <- eigen(cor(pcadata))
+  ev <- mypca$sdev^2
+
+  # takes a long time and we dont use nsig_parrallel anywhere other than the report
+  #ap             <- nFactors::parallel(subject=nrow(pcadata), var=ncol(pcadata), rep=100, cent=.05)
+  #ns             <- nFactors::nScree(x=ev$values, aparallel=ap$eigen$qevpea)
+  #nsig_parrallel <- ns[[1]][["nparallel"]]
+  #ns             <- nFactors::nScree(x=ev$values)
+  ns             <- nFactors::nScree(x=ev)
+  nsig_parrallel <- NA_real_
   af <- as.numeric( ns[[1]][["naf"]] )
+  cat("AF = ",af,"\n")
   if(af < 2) { af = 2 }
 
   # identify outliers - 3SD

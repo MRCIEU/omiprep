@@ -17,7 +17,8 @@ summarise <- new_generic(name = "summarise",
                                   feature_ids       = NULL, 
                                   features_exclude  = NULL, 
                                   output            ="data.frame",
-                                  cores             = NULL) { S7_dispatch() })
+                                  cores             = NULL, 
+                                  fast              = FALSE) { S7_dispatch() })
 #' @name summarise
 method(summarise, Metaboprep) <- function(metaboprep, 
                                           source_layer      ="input", 
@@ -28,7 +29,8 @@ method(summarise, Metaboprep) <- function(metaboprep,
                                           feature_ids       = NULL, 
                                           features_exclude  = NULL, 
                                           output            ="data.frame",
-                                          cores             = NULL) {
+                                          cores             = NULL, 
+                                          fast              = FALSE) {
   
   # check inputs 
   output       <- match.arg(output, choices = c("object", "data.frame"))
@@ -53,7 +55,8 @@ method(summarise, Metaboprep) <- function(metaboprep,
                                  feature_ids      = feature_ids,
                                  features_exclude = features_exclude,
                                  output           = "data.frame",
-                                 cores            = cores)
+                                 cores            = cores, 
+                                 fast             = fast)
 
   sample_sum <- sample_summary(metaboprep,
                                source_layer  = source_layer,

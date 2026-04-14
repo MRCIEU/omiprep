@@ -11,11 +11,12 @@
 #' @param features_exclude character, vector of feature id indicating features to exclude from the sample and PCA summary analysis but keep in the data
 #' @param output character, type of output, either 'object' to return the updated metaboprep object, or 'data.frame' to return the data.
 #' @param cores number of cores available for parallelism; the default null will try find the maximum available cores - 1; set to 1 for linear, but potentially slow, computation of the correlation matrix. 
+#' @param fast If \code{TRUE}, accelerates correlation computation by imputing missing values to the column median, pre-ranking all columns, and computing Pearson correlation on ranked data (approximating Spearman). Substantially faster than exact Spearman at large feature dimensions (\eqn{p > 5000}) but assumes missing data are missing at random. Features with high missingness will have inflated rank ties at the median (ensure these are filtered out appropriately with the missingness option). Default \code{FALSE}.
 #' @include class_metaboprep.R
 #' @export
-feature_summary <- new_generic(name = "feature_summary", dispatch_args = c("metaboprep"), function(metaboprep, source_layer="input", outlier_udist=5, tree_cut_height=0.5, feature_selection = "max_var_exp", sample_ids=NULL, feature_ids=NULL, features_exclude=NULL, output="data.frame", cores=NULL) { S7_dispatch() })
+feature_summary <- new_generic(name = "feature_summary", dispatch_args = c("metaboprep"), function(metaboprep, source_layer="input", outlier_udist=5, tree_cut_height=0.5, feature_selection = "max_var_exp", sample_ids=NULL, feature_ids=NULL, features_exclude=NULL, output="data.frame", cores=NULL, fast=FALSE) { S7_dispatch() })
 #' @name feature_summary
-method(feature_summary, Metaboprep) <- function(metaboprep, source_layer="input", outlier_udist=5, tree_cut_height=0.5, feature_selection = "max_var_exp", sample_ids=NULL, feature_ids=NULL, features_exclude=NULL, output="data.frame", cores=NULL) {
+method(feature_summary, Metaboprep) <- function(metaboprep, source_layer="input", outlier_udist=5, tree_cut_height=0.5, feature_selection = "max_var_exp", sample_ids=NULL, feature_ids=NULL, features_exclude=NULL, output="data.frame", cores=NULL, fast=FALSE) {
 
   # options
   output       <- match.arg(output, choices = c("object", "matrix", "data.frame"))
@@ -53,7 +54,7 @@ method(feature_summary, Metaboprep) <- function(metaboprep, source_layer="input"
   }
 
   # do the tree cut
-  res  <- tree_and_independent_features(dat, tree_cut_height = tree_cut_height, features_exclude = features_exclude, feature_selection = feature_selection, cores = cores)
+  res  <- tree_and_independent_features(dat, tree_cut_height = tree_cut_height, features_exclude = features_exclude, feature_selection = feature_selection, cores = cores, fast = fast)
   indf <- res$data
   
   

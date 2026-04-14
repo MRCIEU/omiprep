@@ -7,6 +7,7 @@
 #' @param features_exclude character, vector of feature id indicating features to exclude from the sample and PCA summary analysis but keep in the data
 #' @param feature_selection character. Method for selecting a representative feature from each correlated feature cluster. 
 #' @param cores number of cores available for parallelism; the default null will try find the maximum available cores - 1; set to 1 for linear, but potentially slow, computation of the correlation matrix. 
+#' @param fast If \code{TRUE}, accelerates correlation computation by imputing missing values to the column median, pre-ranking all columns, and computing Pearson correlation on ranked data (approximating Spearman). Substantially faster than exact Spearman at large feature dimensions (\eqn{p > 5000}) but assumes missing data are missing at random. Features with high missingness will have inflated rank ties at the median (ensure these are filtered out appropriately with the missingness option). Default \code{FALSE}.
 #' One of:
 #' \describe{
 #'   \item{\code{"max_var_exp"}}{(Default) Selects the feature with the highest sum of absolute Spearman correlations to other features in the cluster; 
@@ -30,7 +31,7 @@
 #' 
 #' @export
 #'
-tree_and_independent_features = function(data, tree_cut_height = 0.5, features_exclude = NULL, feature_selection = "max_var_exp", cores = NULL){
+tree_and_independent_features = function(data, tree_cut_height = 0.5, features_exclude = NULL, feature_selection = "max_var_exp", cores = NULL, fast = FALSE){
 
   # testing
   if (FALSE) {
@@ -80,15 +81,35 @@ tree_and_independent_features = function(data, tree_cut_height = 0.5, features_e
   }
   
   
-  # make tree - parallelism (ML suggestion)
-  if (cores == 1) {
-    cor_matrix <- stats::cor(data, method="spearman", use = "pairwise.complete.obs")
+  # if fast then impute and rank once so we can avoid "pairwise.complete.obs" overhead
+  if (fast) {
+    col_medians  <- apply(data, 2, median, na.rm = TRUE)
+    na_idx       <- which(is.na(data), arr.ind = TRUE)
+    data[na_idx] <- col_medians[na_idx[, 2]]
+    
+    ranked <- apply(data, 2, rank, ties.method = "average")
+    
+    # parallelism (ML suggestion) - pearsons on imputed ranked = fast
+    if (cores == 1) {
+      cor_matrix <- stats::cor(ranked, method = "pearson")
+    } else {
+      idx    <- split(1:ncol(ranked), cut(seq_along(1:ncol(ranked)), breaks=cores, labels=FALSE))
+      c_list <- parallel::mclapply(idx, function(j) {
+        stats::cor(ranked[, j, drop=FALSE], ranked, method="pearson")
+      }, mc.cores=cores)
+      cor_matrix <- do.call(rbind, c_list)
+    }
   } else {
-    idx <- split(1:ncol(data), cut(seq_along(1:ncol(data)), breaks=cores, labels=FALSE))
-    c_list <- parallel::mclapply(idx, function(j) {
-      stats::cor(data[, j, drop=FALSE], data, method="spearman", use="pairwise.complete.obs")
-    }, mc.cores=cores)
-    cor_matrix <- do.call(rbind, c_list)
+    # parallelism (ML suggestion) - spearman on potentially missing = slow due to pairwise comparisons
+    if (cores == 1) {
+      cor_matrix <- stats::cor(data, method = "spearman",  use = "pairwise.complete.obs")
+    } else {
+      idx <- split(1:ncol(data), cut(seq_along(1:ncol(data)), breaks=cores, labels=FALSE))
+      c_list <- parallel::mclapply(idx, function(j) {
+        stats::cor(data[, j, drop=FALSE], data, method = "spearman",  use = "pairwise.complete.obs")
+      }, mc.cores=cores)
+      cor_matrix <- do.call(rbind, c_list)
+    }
   }
   rownames(cor_matrix) <- colnames(data)
   colnames(cor_matrix) <- colnames(data)
@@ -115,7 +136,7 @@ tree_and_independent_features = function(data, tree_cut_height = 0.5, features_e
     ind2 <- sapply(cluster_ids, function(x){
       w   <- which(k %in% x)
       n   <- names( k[w] )
-      o   <- sort(N[n], decreasing = FALSE)
+      o   <- sort(N[n], decreasing = TRUE)
       out <- names(o)[1]
       return(out)
     })

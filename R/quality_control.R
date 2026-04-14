@@ -21,7 +21,6 @@
 #' @param sample_ids character, vector of sample ids to retain and work with, all others samples will be excluded
 #' @param feature_ids character, vector of feature ids to retain and work with, all other features will be excluded
 #' @param features_exclude_but_keep character, vector of feature ids indicating features to exclude from the sample and PCA quality control analysis but keep in the data, OR a name of a logical column in the features data indicating the same
-#' @param cores number of cores available for parallelism; the default null will try find the maximum available cores - 1; set to 1 for linear, but potentially slow, computation of the correlation matrix. 
 #' 
 #' @include class_metaboprep.R
 #' @importFrom stats quantile
@@ -43,7 +42,8 @@ quality_control <- new_generic("quality_control", c("metaboprep"), function(meta
                                                                             sample_ids = NULL, 
                                                                             feature_ids = NULL, 
                                                                             features_exclude_but_keep = NULL, 
-                                                                            cores = NULL) { S7_dispatch() })
+                                                                            cores = NULL, 
+                                                                            fast = FALSE) { S7_dispatch() })
 #' @name quality_control
 method(quality_control, Metaboprep) <- function(metaboprep, 
                                                 source_layer="input", 
@@ -60,7 +60,8 @@ method(quality_control, Metaboprep) <- function(metaboprep,
                                                 sample_ids = NULL, 
                                                 feature_ids = NULL, 
                                                 features_exclude_but_keep = NULL, 
-                                                cores = NULL){
+                                                cores = NULL, 
+                                                fast  = FALSE){
 
   cli::cli_h1("Starting Metabolite QC Process")
   t_total <- proc.time()
@@ -126,7 +127,8 @@ method(quality_control, Metaboprep) <- function(metaboprep,
                           feature_ids      = feature_ids,
                           features_exclude = exclude_but_keep_feats,
                           output           = "object",
-                          cores            = cores)
+                          cores            = cores, 
+                          fast             = fast)
   .qc_timings[["summarise_raw"]] <- (proc.time() - t_step)["elapsed"]
 
 
@@ -291,7 +293,8 @@ method(quality_control, Metaboprep) <- function(metaboprep,
                              feature_ids      = feature_ids,
                              features_exclude = exclude_but_keep_feats,
                              output           = "object",
-                             cores            = cores)
+                             cores            = cores, 
+                             fast             = fast)
     .qc_timings[["summarise_pca"]] <- (proc.time() - t_step)["elapsed"]
 
     if (is.null(max_num_pcs)) {
@@ -324,7 +327,8 @@ method(quality_control, Metaboprep) <- function(metaboprep,
                           feature_ids      = feature_ids,
                           features_exclude = exclude_but_keep_feats,
                           output           = "object", 
-                          cores            = cores)
+                          cores            = cores, 
+                          fast             = fast)
   .qc_timings[["summarise_final"]] <- (proc.time() - t_step)["elapsed"]
   
   
