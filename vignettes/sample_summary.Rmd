@@ -127,22 +127,20 @@ if (length(varexp) > 100) varexp <- varexp[1:100]
 
 # get acceleration and parallel analysis results
 af <- attr(pc_analysis, 'input_num_pcs_scree')
-np <- attr(pc_analysis, 'input_num_pcs_parallel')
-if (af==np) np <- np+0.1 # make line visible if equal
 
 # as data.frame
 x_labs <- sub("(?i)pc","", names(varexp))
 ve     <- data.frame("pc"      = factor(x_labs, levels=x_labs),
                      "var_exp" = varexp)
-lines  <- data.frame("Analysis" = c("Acceleration", "Parallel"), 
-                     "pc"       = c(af, np))   
+lines  <- data.frame("Analysis" = c("Acceleration"), 
+                     "pc"       = c(af))   
 
 # plot
 ggplot(ve, aes(x = pc, y = var_exp)) +
   geom_line(color = "grey") +
   geom_point(shape = 21, fill = "#377EB8", size = 2) +
   geom_vline(data = lines, aes(xintercept = pc, color = Analysis), inherit.aes = FALSE) +
-  scale_color_manual(values = c("Acceleration"="#E41A1C", "Parallel"="#4DAF4A")) +
+  scale_color_manual(values = c("Acceleration"="#E41A1C")) +
   scale_x_discrete(labels = function(x) ifelse(seq_along(x) %% 10 == 0 | x==1, x, "")) +
   labs(x = "PC", y = "Variance explained") +
   theme_classic() +

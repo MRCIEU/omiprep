@@ -39,7 +39,7 @@ summarise(
 
 \item{cores}{number of cores available for parallelism; the default null will try find the maximum available cores - 1; set to 1 for linear, but potentially slow, computation of the correlation matrix.}
 
-\item{fast}{If \code{TRUE}, accelerates correlation computation by imputing missing values to the column median, pre-ranking all columns, and computing Pearson correlation on ranked data (approximating Spearman). Substantially faster than exact Spearman at large feature dimensions (\eqn{p > 5000}) but assumes missing data are missing at random. Features with high missingness will have inflated rank ties at the median (ensure these are filtered out appropriately with the missingness option). Default \code{FALSE}.}
+\item{fast}{If \code{TRUE}, accelerates correlation computation by imputing missing values to the column minimum, pre-ranking all columns, and computing Pearson correlation on ranked data (approximating Spearman). Substantially faster than exact Spearman at large feature dimensions (\eqn{p > 5000}) but assumes missing data are missing at random. Features with high missingness will have inflated rank ties at the median (ensure these are filtered out appropriately with the missingness option). Default \code{FALSE}.}
 }
 \description{
 Summarise the sample and feature data
