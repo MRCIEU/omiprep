@@ -21,6 +21,6 @@ features <- data.frame(
 )
 data <- matrix(runif(n_samples * n_features), nrow = n_samples, ncol = n_features, dimnames = list(rows = rev(samples[["sample_id"]]), cols = features[["feature_id"]]))
 
-write.csv(data, file.path(system.file("extdata", package = "metaboprep"), "dummy_data.csv"))
-write.csv(samples, file.path(system.file("extdata", package = "metaboprep"), "dummy_samples.csv"))
-write.csv(features, file.path(system.file("extdata", package = "metaboprep"), "dummy_features.csv"))
+write.csv(data, file.path(system.file("extdata", package = "omiprep"), "dummy_data.csv"))
+write.csv(samples, file.path(system.file("extdata", package = "omiprep"), "dummy_samples.csv"))
+write.csv(features, file.path(system.file("extdata", package = "omiprep"), "dummy_features.csv"))

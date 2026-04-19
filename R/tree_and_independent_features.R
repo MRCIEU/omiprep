@@ -2,7 +2,7 @@
 #' @description
 #' This function identifies independent features using Spearman's rho correlation distances, and a dendrogram
 #' tree cut step.
-#' @param data matrix, the metabolite data matrix. samples in row, metabolites in columns
+#' @param data matrix, the 'omics data matrix. samples in row, features in columns
 #' @param tree_cut_height the tree cut height. A value of 0.2 (1-Spearman's rho) is equivalent to saying that features with a rho >= 0.8 are NOT independent.
 #' @param features_exclude character, vector of feature id indicating features to exclude from the sample and PCA summary analysis but keep in the data
 #' @param feature_selection character. Method for selecting a representative feature from each correlated feature cluster. 
