@@ -7,7 +7,7 @@
 total_peak_area(data, ztransform = TRUE)
 }
 \arguments{
-\item{data}{matrix, the metabolite data matrix. Samples in rows, metabolites in columns}
+\item{data}{matrix, the 'omics data matrix. Samples in rows, features in columns}
 
 \item{ztransform}{logical, should the feature data be z-transformed and absolute value minimum, mean shifted prior to summing the feature values. TRUE or FALSE.}
 }

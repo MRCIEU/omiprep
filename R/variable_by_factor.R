@@ -9,7 +9,7 @@
 #' @param orderfactor order factors alphebetically
 #' @param violin box plot or violin plot. violin = TRUE is default
 #'
-#' @keywords metabolomics ggplot
+#' @keywords omics ggplot
 #'
 #' @import ggplot2
 #' @importFrom stats anova aggregate

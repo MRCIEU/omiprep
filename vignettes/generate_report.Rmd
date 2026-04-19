@@ -17,12 +17,12 @@ knitr::opts_chunk$set(
 ## Import example metabolomics data
 
 ```{r render}
-library(metaboprep)
+library(omiprep)
 
-# import data directly as a Metaboprep object
-mydata <- read_metabolon(system.file("extdata", "metabolon_v1.1_example.xlsx", package = "metaboprep"), 
+# import data directly as a Omiprep object
+mydata <- read_metabolon(system.file("extdata", "metabolon_v1.1_example.xlsx", package = "omiprep"), 
                          sheet="OrigScale",
-                         return_Metaboprep = TRUE)
+                         return_Omiprep = TRUE)
 
 ```
 
@@ -57,7 +57,7 @@ mydata <- mydata |>
 
 ```
 
-## Generate the metaboprep report
+## Generate the Omiprep report
 
 ```{r}
 # render report
@@ -71,14 +71,14 @@ generate_report(mydata,
 
 
 ```{r, echo=FALSE}
-file.copy(file.path(getwd(), "myproject_metaboprep_qc_report.html"), 
-          file.path(getwd(), "../docs/articles/myproject_metaboprep_qc_report.html"), overwrite = TRUE)
+file.copy(file.path(getwd(), "myproject_omiprep_qc_report.html"), 
+          file.path(getwd(), "../docs/articles/myproject_omiprep_qc_report.html"), overwrite = TRUE)
 ```
 
 ```{r, echo=FALSE, results="asis"}
 cat('
 <div id="iframe-container" style="width: 100%;">
-  <iframe id="myIframe" src="https://mrcieu.github.io/metaboprep/articles/myproject_metaboprep_qc_report.html" 
+  <iframe id="myIframe" src="https://mrcieu.github.io/omiprep/articles/myproject_omiprep_qc_report.html" 
           width="100%" style="border: none;"></iframe>
 </div>
 

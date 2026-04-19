@@ -5,7 +5,7 @@
 \title{Feature Summary Statistics}
 \usage{
 feature_summary(
-  metaboprep,
+  omiprep,
   source_layer = "input",
   outlier_udist = 5,
   tree_cut_height = 0.5,
@@ -19,7 +19,7 @@ feature_summary(
 )
 }
 \arguments{
-\item{metaboprep}{an object of class Metabolites}
+\item{omiprep}{an object of class Omiprep}
 
 \item{source_layer}{character, the data layer to summarise}
 
@@ -40,7 +40,8 @@ feature_summary(
 \item{cores}{number of cores available for parallelism; the default null will try find the maximum available cores - 1; set to 1 for linear, but potentially slow, computation of the correlation matrix.}
 
 \item{fast}{If \code{TRUE}, accelerates correlation computation by imputing missing values to the column minimum, pre-ranking all columns, and computing Pearson correlation on ranked data (approximating Spearman). Substantially faster than exact Spearman at large feature dimensions (\eqn{p > 5000}) but assumes missing data are missing at random. Features with high missingness will have inflated rank ties at the median (ensure these are filtered out appropriately with the missingness option). Default \code{FALSE}.}
+\item{output}{character, type of output, either 'object' to return the updated omiprep object, or 'data.frame' to return the data.}
 }
 \description{
-This function estimates feature statistics for samples in a matrix of metabolite features.
+This function estimates feature statistics for samples in a matrix of 'omics features.
 }

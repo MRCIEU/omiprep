@@ -1,22 +1,22 @@
 #' @title Generate Output Report
 #' @description
 #' This function writes an output report
-#' @param metaboprep an object of class Metaboprep
+#' @param omiprep an object of class Omiprep
 #' @param output_dir character, the directory to save to
 #' @param output_filename character, default NULL i.e. create from input object
 #' @param project character, name for the current project
 #' @param format character, write either 'html' or 'pdf' report
 #' @param template character, type of report to output only current option is "qc_report"
-#' @include class_metaboprep.R
+#' @include class_omiprep.R
 #' @importFrom rmarkdown render
 #' @export
-generate_report <- new_generic("generate_report", c("metaboprep"), function(metaboprep, output_dir, output_filename=NULL, project = "Project", format="pdf", template="qc_report") { S7_dispatch() })
+generate_report <- new_generic("generate_report", c("omiprep"), function(omiprep, output_dir, output_filename=NULL, project = "Project", format="pdf", template="qc_report") { S7_dispatch() })
 #' @name generate_report
-method(generate_report, Metaboprep) <- function(metaboprep, output_dir, output_filename=NULL, project = "Project", format="pdf", template="qc_report") {
+method(generate_report, Omiprep) <- function(omiprep, output_dir, output_filename=NULL, project = "Project", format="pdf", template="qc_report") {
 
   # testing
   if (FALSE) {
-    output_dir="/Users/xx20081/git/metaboprep/inst/rmarkdown/templates/qc_report/skeleton"
+    output_dir="/Users/xx20081/git/omiprep/inst/rmarkdown/templates/qc_report/skeleton"
     output_filename=NULL
     project = "Project"
     format="pdf"
@@ -26,11 +26,11 @@ method(generate_report, Metaboprep) <- function(metaboprep, output_dir, output_f
   # checks
   format   <- match.arg(format, choices = c("pdf","html"))
   template <- match.arg(template, choices = available_report_templates())
-  stopifnot("\n'qc' data layer not found, have you run the quality_control() function on your Metaboprep object? \n Run `dimnames(metaboprep@data)[[3]]` to see current data layers" = "qc" %in% dimnames(metaboprep@data)[[3]])
+  stopifnot("\n'qc' data layer not found, have you run the quality_control() function on your Omiprep object? \n Run `dimnames(omiprep@data)[[3]]` to see current data layers" = "qc" %in% dimnames(omiprep@data)[[3]])
 
   # name the report
   if (is.null(output_filename)) {
-    outpath <- file.path(output_dir, clean_names(paste0(project, "_metaboprep_", template)))
+    outpath <- file.path(output_dir, clean_names(paste0(project, "_omiprep_", template)))
   } else {
     output_filename <- basename(output_filename)
     outpath <- file.path(output_dir, output_filename)
@@ -45,7 +45,7 @@ method(generate_report, Metaboprep) <- function(metaboprep, output_dir, output_f
   dir.create(dirname(outpath), showWarnings = FALSE, recursive = TRUE)
 
   # get the template
-  template_path <- system.file("rmarkdown", "templates", template, "skeleton", "skeleton.Rmd", package="metaboprep")
+  template_path <- system.file("rmarkdown", "templates", template, "skeleton", "skeleton.Rmd", package="omiprep")
 
   # render the report
   rmarkdown::render(
@@ -54,7 +54,7 @@ method(generate_report, Metaboprep) <- function(metaboprep, output_dir, output_f
     output_dir        = dirname(outpath),
     knit_root_dir     = dirname(outpath),
     intermediates_dir = dirname(outpath),
-    params            = list(project = project, metaboprep = metaboprep),
+    params            = list(project = project, omiprep = omiprep),
     output_format     = paste(format, "document", sep="_"),
     envir             = new.env()  # Use a new environment to avoid conflicts
   )
@@ -94,5 +94,5 @@ method(generate_report, Metaboprep) <- function(metaboprep, output_dir, output_f
   # }
 
 
-  invisible(metaboprep)
+  invisible(omiprep)
 }

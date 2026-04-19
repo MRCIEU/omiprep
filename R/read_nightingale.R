@@ -1,25 +1,25 @@
 #' @title Read Nightingale Data (format 1)
 #' @param filepath character, commercial Nightingale excel sheet with extension .xls or .xlsx
-#' @param return_Metaboprep logical, if TRUE (default) return a Metaboprep object, if FALSE return a list.
-#' @returns list or Metaboprep object, list(data = matrix, samples = samples data.frame, features = features data.frame)
+#' @param return_Omiprep logical, if TRUE (default) return a Omiprep object, if FALSE return a list.
+#' @returns list or Omiprep object, list(data = matrix, samples = samples data.frame, features = features data.frame)
 #'
 #' @examples
 #' # version 1 data format
-#' filepath1 <- system.file("extdata", "nightingale_v1_example.xlsx", package = "metaboprep")
+#' filepath1 <- system.file("extdata", "nightingale_v1_example.xlsx", package = "omiprep")
 #' m <- read_nightingale(filepath1)
 #' 
 #' # version 2 data format
-#' filepath2 <- system.file("extdata", "nightingale_v2_example.xlsx", package = "metaboprep")
+#' filepath2 <- system.file("extdata", "nightingale_v2_example.xlsx", package = "omiprep")
 #' m <- read_nightingale(filepath2)
 #'
 #' @importFrom readxl excel_sheets read_xlsx
 #' @export
-read_nightingale <- function(filepath, return_Metaboprep = TRUE) {
+read_nightingale <- function(filepath, return_Omiprep = TRUE) {
 
   # testing ====
   if (FALSE) {
-    filepath <- system.file("extdata", "nightingale_v1_example.xlsx", package = "metaboprep")
-    filepath <- system.file("extdata", "nightingale_v2_example.xlsx", package = "metaboprep")
+    filepath <- system.file("extdata", "nightingale_v1_example.xlsx", package = "omiprep")
+    filepath <- system.file("extdata", "nightingale_v2_example.xlsx", package = "omiprep")
   }
 
   
@@ -167,8 +167,8 @@ read_nightingale <- function(filepath, return_Metaboprep = TRUE) {
   
   
   # return ====
-  if (return_Metaboprep) {
-    return(Metaboprep(data = data, samples = samples, features = features))
+  if (return_Omiprep) {
+    return(Omiprep(data = data, samples = samples, features = features))
   } else {
     return(list(data = data, samples = samples, features = features))
   }

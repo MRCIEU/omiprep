@@ -5,14 +5,14 @@ editor_options:
 ---
 # Summary of filtered data
 ```{r qcd_data}
-raw_data   <- metaboprep@data[, , "input"]
-qc_data    <- metaboprep@data[, , "qc"]
-excl_samps <- unique(unname(unlist(metaboprep@exclusions$samples)))
-excl_feats <- unique(unname(unlist(metaboprep@exclusions$features)))
+raw_data   <- omiprep@data[, , "input"]
+qc_data    <- omiprep@data[, , "qc"]
+excl_samps <- unique(unname(unlist(omiprep@exclusions$samples)))
+excl_feats <- unique(unname(unlist(omiprep@exclusions$features)))
 qc_data    <- qc_data[setdiff(rownames(qc_data), excl_samps), 
                       setdiff(colnames(qc_data), excl_feats),
                       drop=FALSE]
-qc_sampsum <- metaboprep@sample_summary[, , "qc"]
+qc_sampsum <- omiprep@sample_summary[, , "qc"]
 ```
 
 ## Sample size (N) 
@@ -85,11 +85,11 @@ ggpubr::ggarrange(plotlist = plots, nrow=1, ncol=3)
 
 
 ### Clustering dendrogram of representative features
-Spearman's correlation distance clustering dendrogram highlighting the metabolites used as representative features in blue, the clustering tree cut height is denoted by the horizontal line.
+Spearman's correlation distance clustering dendrogram highlighting the representative features in blue, the clustering tree cut height is denoted by the horizontal line.
 ```{r qc_dendrogram, out.width="100%", fig.width=20, fig.height=5}
 # get data
-qc_feature_sum  <- metaboprep@feature_summary[,,"qc"]
-attribs         <- attributes(metaboprep@feature_summary)
+qc_feature_sum  <- omiprep@feature_summary[,,"qc"]
+attribs         <- attributes(omiprep@feature_summary)
 qc_feature_tree <- attribs$qc_tree
 tree_cut_height <- attribs$qc_tree_cut_height
 dend            <- stats::as.dendrogram(qc_feature_tree)
@@ -122,19 +122,19 @@ ggplot(dend) +
   #       panel.grid = element_blank())
 ```
 
-### Summary of the QC (filtered) metabolite data
-The data reduction table presents the number of metabolites at each phase of the data reduction (Spearman's correlation distance tree cutting) analysis.
+### Summary of the QC (filtered) 'omics data
+The data reduction table presents the number of features at each phase of the data reduction (Spearman's correlation distance tree cutting) analysis.
 
 ```{r qc_data_reduced_table}
 # get data
-qc_feature_sum  <- metaboprep@feature_summary[,,"qc"]
+qc_feature_sum  <- omiprep@feature_summary[,,"qc"]
 
 # table
 data.frame(
-  "Item" = c("Total metabolite count",
-           "Metabolites included in data reduction",
-           "Number of metabolite clusters",
-           "Number of representative metabolites"),
+  "Item" = c("Total feature count",
+             "Features included in data reduction",
+             "Number of feature clusters",
+             "Number of representative features"),
   "Count" = c( ncol(qc_data),
             length(stats::na.omit(qc_feature_sum["k", ])),
             length(unique(stats::na.omit(qc_feature_sum["k", ]))),
@@ -159,11 +159,10 @@ data.frame(
 
 ```{r qc_scree_plot_data}
 # get data
-attribs <- attributes(metaboprep@sample_summary)
+attribs <- attributes(omiprep@sample_summary)
 ve      <- attribs$qc_varexp
 if (length(ve) > 100) ve <- ve[1:100]
 af <- attribs$qc_num_pcs_scree
-np <- attribs$qc_num_pcs_parallel
 
 # compute
 x_labs <- sub("(?i)pc","",names(ve))
@@ -171,7 +170,7 @@ ve <- data.frame("pc" = factor(x_labs, levels=x_labs),
                  "var_exp" = ve)
 ```
 
-Scree plot of the variance explained by each PC (limited to 100 for plotting) and a plot of principal component 1 and 2, as derived from the representative metabolites. The Scree plot also identifies the number of PCs estimated to be informative (vertical lines) by the Cattel's Scree Test acceleration factor (red,  n = `r af`) and Parallel Analysis (green, n = `r np`).
+Scree plot of the variance explained by each PC (limited to 100 for plotting) and a plot of principal component 1 and 2, as derived from the representative features The Scree plot also identifies the number of PCs estimated to be informative (vertical lines) by the Cattel's Scree Test acceleration factor (red,  n = `r af`).
 
 ```{r qc_scree_plot, warning=FALSE, message=FALSE}
 # plot
@@ -179,7 +178,6 @@ ggplot(ve, aes(x = pc, y = var_exp)) +
   geom_line(color = "grey") +
   geom_point(shape = 21, fill = "#377EB8", size = 2) +
   geom_vline(xintercept = af, color = "#E41A1C") +
-  geom_vline(xintercept = np, color = "#4DAF4A") +
   scale_x_discrete(labels = function(x) ifelse(seq_along(x) %% 10 == 0 | x==1, x, "")) +
   labs(x = "PC", y = "Variance explained") +
   theme_classic()
@@ -189,11 +187,11 @@ ggplot(ve, aes(x = pc, y = var_exp)) +
 Individuals in the PC plot were clustered into 4 kmeans (k) clusters, using data from PC1 and PC2. The kmeans clustering and color coding is strictly there to help provide some visualization of the major axes of variation in the sample population(s).
 ```{r qc_pc_plot}
 # get data
-pcs            <- as.data.frame(metaboprep@sample_summary[, grep("^pc[0-9]+$", colnames(metaboprep@sample_summary), value=TRUE), "qc"])
+pcs            <- as.data.frame(omiprep@sample_summary[, grep("^pc[0-9]+$", colnames(omiprep@sample_summary), value=TRUE), "qc"])
 pcs            <- pcs[!is.na(pcs$pc1), ]
-qc_feature_sum <- metaboprep@feature_summary[,,"qc"]
+qc_feature_sum <- omiprep@feature_summary[,,"qc"]
 num_rep_metabs <- sum(qc_feature_sum["independent_features", ] == 1, na.rm = TRUE)
-attribs        <- attributes(metaboprep@sample_summary)
+attribs        <- attributes(omiprep@sample_summary)
 var_exp        <- attribs$qc_varexp
 
 # compute
@@ -216,7 +214,7 @@ if (nrow(pcs) > 0 && sum(complete.cases(pcs[, 1:2])) >= 4) {
   warning("Skipping k-means clustering: pcs[,1:2] contains too many NA/NaN/Inf values or has zero rows.")
 }
 ```
-The plot presents principal components 1 & 2 using `r num_rep_metabs` representative metabolites.
+The plot presents principal components 1 & 2 using `r num_rep_metabs` representative features.
         
 ```{r}
 # plot
@@ -236,8 +234,8 @@ A matrix (pairs) plot of the top five principal components including demarcation
 ```{r pca_pairsplot, out.width="100%"}
 # get data
 npcs    <- 5
-pcs     <- as.data.frame(metaboprep@sample_summary[, grep("^pc[0-9]+$", colnames(metaboprep@sample_summary), value=TRUE), "qc"][, 1:npcs])
-attribs <- attributes(metaboprep@sample_summary)
+pcs     <- as.data.frame(omiprep@sample_summary[, grep("^pc[0-9]+$", colnames(omiprep@sample_summary), value=TRUE), "qc"][, 1:npcs])
+attribs <- attributes(omiprep@sample_summary)
 var_exp <- attribs$qc_varexp[1:npcs]
 
 # compute
@@ -313,7 +311,7 @@ ggpubr::ggarrange(plotlist = plot_list, nrow = npcs-1, ncol = npcs-1)
 ### Estimates of normality: W-statistics for raw and log transformed data
 ```{r compute_for_text}
 # get data
-qc_feature_sum  <- metaboprep@feature_summary[,,"qc"]
+qc_feature_sum  <- omiprep@feature_summary[,,"qc"]
 # remove excluded features
 w = which(excl_feats %in% colnames(qc_feature_sum))
 if(length(w) > 0){
@@ -328,10 +326,10 @@ remain_count = count - nacount
 normcount = sum(qc_feature_sum["W", ] >= 0.95, na.rm = TRUE)
 ```
 
-Of the `r count` features in the data `r nacount` features were excluded from this analysis because of no variation or too few observations (n < 40). Of the remaining `r remain_count` metabolite features, a total of `r normcount` may be considered normally distributed given a Shapiro W-statistic >= 0.95.
+Of the `r count` features in the data `r nacount` features were excluded from this analysis because of no variation or too few observations (n < 40). Of the remaining `r remain_count` features, a total of `r normcount` may be considered normally distributed given a Shapiro W-statistic >= 0.95.
 
 
-### Distribution of W Statistics on Raw and Log10 Metabolite Abundances
+### Distribution of W Statistics on Raw and Log10 'Omic Feature Abundances
 
 Histogram plots of Shapiro W-statistics for raw and log transformed data distributions. A W-statistic value of 1 indicates the sample distribution is perfectly normal and value of 0 indicates it is perfectly uniform. Please note that log transformation of the data *may not* improve the normality of your data.
 
@@ -349,7 +347,7 @@ LogMakesDistributionWorse <- c(
 )
 ```
 
-`r normcount` of the metabolites exhibit distributions that may declared normal, given a W-stat >= 0.95. In `r LogMakesDistributionWorse[1]` instances (`r LogMakesDistributionWorse[2]`%) of the tested metabolites the log10 data W-stat is < raw data W-stat.
+`r normcount` of the features exhibit distributions that may declared normal, given a W-stat >= 0.95. In `r LogMakesDistributionWorse[1]` instances (`r LogMakesDistributionWorse[2]`%) of the tested features the log10 data W-stat is < raw data W-stat.
 
 ```{r w_dist_plot, fig.width=12, fig.height=5}
 # Plot
@@ -368,6 +366,62 @@ ggplot(wdat, aes(x = w, fill = type)) +
 ```
 
 
+### Estimates of skewness on raw abundances
+```{r skewness_for_text}
+skew_thresh <- attr(omiprep@data, "qc_feature_skewness_threshold")
+skew_dir <- attr(omiprep@data, "qc_feature_skewness_direction")
+if (is.null(skew_dir) || is.na(skew_dir)) skew_dir <- "left"
+
+skew_df <- feature_skewness(
+  data = qc_data,
+  threshold = skew_thresh,
+  direction = skew_dir
+)
+
+count_skew <- nrow(skew_df)
+left_count <- sum(skew_df$skew < 0, na.rm = TRUE)
+right_count <- sum(skew_df$skew > 0, na.rm = TRUE)
+mean_skew <- signif(mean(skew_df$skew, na.rm = TRUE), digits = 3)
+
+if (!is.null(skew_thresh) && !is.na(skew_thresh)) {
+  skew_excluded_count <- sum(skew_df$exclude_by_skewness %in% TRUE, na.rm = TRUE)
+  skew_threshold_text <- switch(
+    skew_dir,
+    "left" = glue::glue("skew <= {-skew_thresh}"),
+    "right" = glue::glue("skew >= {skew_thresh}"),
+    "both" = glue::glue("|skew| >= {skew_thresh}")
+  )
+} else {
+  skew_excluded_count <- NA_integer_
+  skew_threshold_text <- "No skewness-based feature exclusion threshold was applied during QC."
+}
+```
+
+Across the `r count_skew` included features, `r left_count` have negative skewness and `r right_count` have positive skewness (mean skewness = `r mean_skew`). Strong negative skewness may indicate upper-end assay censoring (an upper detection bound).
+
+`r if (!is.na(skew_excluded_count)) glue::glue("Using the configured skewness criterion ({skew_threshold_text}), {skew_excluded_count} feature(s) were excluded.") else skew_threshold_text`
+
+```{r skew_dist_plot, fig.width=12, fig.height=5}
+p <- ggplot(skew_df, aes(x = skew)) +
+  geom_histogram(bins = 20, fill = "#377EB8", color = "black", alpha = 0.7) +
+  geom_vline(xintercept = 0, color = "#4D4D4D", linetype = "dashed", size = 0.8) +
+  theme_classic() +
+  labs(x = "Feature skewness", y = "Frequency")
+
+if (!is.null(skew_thresh) && !is.na(skew_thresh)) {
+  if (identical(skew_dir, "left")) {
+    p <- p + geom_vline(xintercept = -skew_thresh, color = "#E41A1C", linetype = "dashed", size = 1)
+  } else if (identical(skew_dir, "right")) {
+    p <- p + geom_vline(xintercept = skew_thresh, color = "#E41A1C", linetype = "dashed", size = 1)
+  } else {
+    p <- p + geom_vline(xintercept = c(-skew_thresh, skew_thresh), color = "#E41A1C", linetype = "dashed", size = 1)
+  }
+}
+
+p
+```
+
+
 \newpage
 
 ## Outliers
@@ -376,7 +430,7 @@ Evaluation of the number of samples and features that are outliers across the QC
 
 ```{r outlier_summary}
 # get data
-# qc_data <-  metaboprep@data[, , "qc"] ## already defined on line 12
+# qc_data <-  omiprep@data[, , "qc"] ## already defined on line 12
 
 # compute
 omat <- outlier_detection(qc_data, by="column")
@@ -434,9 +488,9 @@ Feature missingness may be influenced by the features' biology or pathway classi
 
 ```{r id_feat_batch_vars}
 # get feature summary
-qc_features    <- metaboprep@features
+qc_features    <- omiprep@features
 qc_features    <- qc_features[!qc_features$feature_id %in% excl_feats, ]
-qc_feature_sum <- t(metaboprep@feature_summary[,,"qc"]) |> as.data.frame()
+qc_feature_sum <- t(omiprep@feature_summary[,,"qc"]) |> as.data.frame()
 qc_feature_sum$feature_id <- rownames(qc_feature_sum)
 m = match(qc_features$feature_id, qc_feature_sum$feature_id)
 qc_features = cbind(qc_features, missingness = qc_feature_sum[m, c("missingness")])
@@ -527,10 +581,10 @@ The figure provides an illustrative evaluation of the proportion of *sample miss
 
 ```{r id_sam_batch_vars}
 # get data
-qc_samples     <- metaboprep@samples
-excluded_samps <- unlist(metaboprep@exclusions$samples)
+qc_samples     <- omiprep@samples
+excluded_samps <- unlist(omiprep@exclusions$samples)
 qc_samples     <- qc_samples[!qc_samples$sample_id %in% excluded_samps, ]
-qc_sample_sum  <- metaboprep@sample_summary[,,"qc"] |> as.data.frame()
+qc_sample_sum  <- omiprep@sample_summary[,,"qc"] |> as.data.frame()
 qc_sample_sum$sample_id <- rownames(qc_sample_sum)
 qc_samples    <- merge(qc_samples, qc_sample_sum[, c("sample_id", "missingness", "tpa_complete_features")], on="sample_id", all = TRUE)
 
@@ -684,7 +738,7 @@ Correlation between total abundance (TA; at complete features) and missingness. 
 
 ```{r TPA_missingness, message=FALSE, warning=FALSE}
 # get data
-qc_sample_sum <- metaboprep@sample_summary[,,"qc"]
+qc_sample_sum <- omiprep@sample_summary[,,"qc"]
 a = cor.test( qc_sample_sum[,"missingness"], qc_sample_sum[,"tpa_complete_features"])
 
 # plot
@@ -752,8 +806,8 @@ Analytical power analysis for both continuous and imbalanced presence/absence co
 Simulated effect sizes (standardized by trait SD) are illustrated by their color in each figure. Figure (A) provides estimates of power for continuous traits with the total sample size on the x-axis and the estimated power on the y-axis. Figure (B) provides estimates of power for presence/absence (or binary) traits in an imbalanced design. The estimated power is on the y-axis. The total sample size is set to 99 and the x-axis depicts the number of individuals present (or absent) for the trait. The effects sizes illustrated here were chosen by running an initial set of simulations which identified effects sizes that would span a broad range of power estimates given the sample population’s sample size.
 
 ```{r power_exploration, fig.width=17, fig.height=6}
-p1 = continuous_power_plot( mydata = metaboprep@data[,,"qc"] )
-p2 = imbalanced_power_plot( mydata = metaboprep@data[,,"qc"] )
+p1 = continuous_power_plot( mydata = omiprep@data[,,"qc"] )
+p2 = imbalanced_power_plot( mydata = omiprep@data[,,"qc"] )
 
 ggpubr::ggarrange(p1, p2, labels = c("A", "B"), ncol = 2, nrow = 1, common.legend = FALSE, legend = "right")
 ```

@@ -4,7 +4,7 @@
 #' Subsequent to the derivation of the PC, the median imputed PC data is used to identify the number of informative or "significant" PC by (1) an acceleration analysis, and (2) a parrallel analysis.
 #' Finally the number of sample outliers are determined at 3, 4, and 5 standard deviations from the mean on the top PCs as determined by the acceleration factor analysis.
 #'
-#' @param metaboprep an object of class Metaboprep
+#' @param omiprep an object of class Omiprep
 #' @param source_layer character, type/source of data to use
 #' @param sample_ids character, vector of sample ids to include, default NULL includes all
 #' @param feature_ids character, vector of feature ids to include, default NULL includes all
@@ -17,23 +17,23 @@
 #' @return a data.frame
 #' @export
 #'
-pc_and_outliers <- new_generic("pc_and_outliers", c("metaboprep"), function(metaboprep, source_layer="input", sample_ids=NULL, feature_ids=NULL) { S7_dispatch() })
+pc_and_outliers <- new_generic("pc_and_outliers", c("omiprep"), function(omiprep, source_layer="input", sample_ids=NULL, feature_ids=NULL) { S7_dispatch() })
 #' @name pc_and_outliers
-method(pc_and_outliers, Metaboprep) <- function(metaboprep, source_layer="input", sample_ids=NULL, feature_ids=NULL) {
+method(pc_and_outliers, Omiprep) <- function(omiprep, source_layer="input", sample_ids=NULL, feature_ids=NULL) {
 
   # options & checks
-  source_layer <- match.arg(source_layer, choices = dimnames(metaboprep@data)[[3]])
-  stopifnot("sample_ids must all be found in the data" = all(sample_ids %in% metaboprep@samples[["sample_id"]]) | is.null(sample_ids))
-  stopifnot("feature_ids must all be found in the data" = all(feature_ids %in% metaboprep@features[["feature_id"]]) | is.null(feature_ids))  
+  source_layer <- match.arg(source_layer, choices = dimnames(omiprep@data)[[3]])
+  stopifnot("sample_ids must all be found in the data" = all(sample_ids %in% omiprep@samples[["sample_id"]]) | is.null(sample_ids))
+  stopifnot("feature_ids must all be found in the data" = all(feature_ids %in% omiprep@features[["feature_id"]]) | is.null(feature_ids))  
   
   
   # get ids
-  if (is.null(sample_ids)) sample_ids   <- metaboprep@samples[["sample_id"]]
-  if (is.null(feature_ids)) feature_ids <- metaboprep@features[["feature_id"]]
+  if (is.null(sample_ids)) sample_ids   <- omiprep@samples[["sample_id"]]
+  if (is.null(feature_ids)) feature_ids <- omiprep@features[["feature_id"]]
   
   
   # set data
-  pcadata <- metaboprep@data[sample_ids, feature_ids, source_layer]
+  pcadata <- omiprep@data[sample_ids, feature_ids, source_layer]
   
   
   # impute missingness as medians + z-transformation

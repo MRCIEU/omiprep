@@ -14,19 +14,19 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Create Metaboprep object
+## Create Omiprep object
 
 ```{r setup}
-library(metaboprep)
+library(omiprep)
 
-data     <- read.csv(system.file("extdata", "dummy_data.csv", package = "metaboprep"), header=T, row.names = 1) |> as.matrix()
-samples  <- read.csv(system.file("extdata", "dummy_samples.csv", package = "metaboprep"), header=T, row.names = 1)
-features <- read.csv(system.file("extdata", "dummy_features.csv", package = "metaboprep"), header=T, row.names = 1)
+data     <- read.csv(system.file("extdata", "dummy_data.csv", package = "omiprep"), header=T, row.names = 1) |> as.matrix()
+samples  <- read.csv(system.file("extdata", "dummy_samples.csv", package = "omiprep"), header=T, row.names = 1)
+features <- read.csv(system.file("extdata", "dummy_features.csv", package = "omiprep"), header=T, row.names = 1)
 
-## create Metaboprep object
-mydata <- Metaboprep(data = data, samples = samples, features = features)
+## create Omiprep object
+mydata <- Omiprep(data = data, samples = samples, features = features)
 
-## summary of Metaboprep object
+## summary of Omiprep object
 summary(mydata)
 ```
 

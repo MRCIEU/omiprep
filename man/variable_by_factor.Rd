@@ -39,4 +39,4 @@ variable_by_factor(dep = x , indep = y, dep_name = "expression", indep_name = "s
 
 }
 \keyword{ggplot}
-\keyword{metabolomics}
+\keyword{omics}

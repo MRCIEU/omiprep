@@ -2,13 +2,15 @@
 % Please edit documentation in R/quality_control.R
 \name{quality_control}
 \alias{quality_control}
-\title{Metabolite Quality Control}
+\title{Omics Quality Control}
 \usage{
 quality_control(
-  metaboprep,
+  omiprep,
   source_layer = "input",
   sample_missingness = 0.2,
   feature_missingness = 0.2,
+  feature_skewness_threshold = NULL,
+  feature_skewness_direction = "left",
   total_peak_area_sd = 5,
   outlier_udist = 5,
   outlier_treatment = "leave_be",
@@ -25,13 +27,17 @@ quality_control(
 )
 }
 \arguments{
-\item{metaboprep}{an object of class Metabolites}
+\item{omiprep}{an object of class Omiprep}
 
 \item{source_layer}{character, the data layer to summarise}
 
 \item{sample_missingness}{numeric 0-1, percentage of data missingness which should prompt exclusion of a sample}
 
 \item{feature_missingness}{numeric 0-1, percentage of data missingness which should prompt exclusion of a feature}
+
+\item{feature_skewness_threshold}{numeric, optional skewness threshold to exclude features with skewed distributions. Set to `NULL` to disable.}
+
+\item{feature_skewness_direction}{character, direction of skewness to apply when `feature_skewness_threshold` is set. One of `"left"`, `"right"`, or `"both"`.}
 
 \item{total_peak_area_sd}{numeric, number of TPA SD after which a sample would be excluded}
 
@@ -60,12 +66,12 @@ quality_control(
 \item{fast}{If \code{TRUE}, accelerates correlation computation by imputing missing values to the column minimum, pre-ranking all columns, and computing Pearson correlation on ranked data (approximating Spearman). Substantially faster than exact Spearman at large feature dimensions (\eqn{p > 5000}) but assumes missing data are missing at random. Features with high missingness will have inflated rank ties at the median (ensure these are filtered out appropriately with the missingness option). Default \code{FALSE}.}
 }
 \description{
-This function is a wrapper function that performs the key quality controls steps on a metabolomics data set.
+This function is a wrapper function that performs the key quality controls steps on an 'omics data set.
 Key principles:
  1. keep the source underlying data as it is
  2. copy the source data to a new data layer called qcing for processing
  3. build an exclusion list, accumulating codes for exclusion reasons
  4. make any adjustments needed in the destination copy of the data, flag these in the exclusion list
  5. copy the final result to a data layer called post_qc
- 6. return the Metabolites object with the newly populated data layers
+ 6. return the Omiprep object with the newly populated data layers
 }

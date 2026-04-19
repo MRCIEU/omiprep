@@ -1,38 +1,38 @@
 # Silence R CMD check
-globalVariables(c(""), package = "metaboprep")
+globalVariables(c(""), package = "omiprep")
 
-#' @title Metaboprep Object
+#' @title Omiprep Object
 #' @description
-#' A `Metaboprep` object is a container for matrices of metabolite data, along with associated metadata.
+#' A `Omiprep` object is a container for matrices of 'omics data, along with associated metadata.
 #' It allows for efficient storage and manipulation of data, supporting quality control, transformations,
 #' and various analyses. This object facilitates easy access to data layers, sample and feature summaries,
 #' outlier treatment, and more.
 #' 
-#' @param data numeric matrix, the data matrix containing metabolite values (not to be set directly).
+#' @param data numeric matrix, the data matrix containing 'omics values (not to be set directly).
 #' @param samples data.frame, a data frame containing sample-related information (not to be set directly).
 #' @param features data.frame, a data frame containing feature-related information (not to be set directly).
 #' @param exclusions list, holds exclusion codes for data masking (not to be set directly).
 #' @param feature_summary numeric matrix, summary statistics for features (not to be set directly).
 #' @param sample_summary numeric matrix, summary statistics for samples (not to be set directly).
 #'
-#' @slot data numeric matrix, the metabolite data.
+#' @slot data numeric matrix, the 'omics data.
 #' @slot samples data.frame, the samples data frame
 #' @slot features data.frame, the features data frame
 #' @slot exclusions list, exclusion codes (mask for data).
 #' @slot feature_summary numeric matrix, feature summary statistics.
 #' @slot sample_summary numeric matrix, sample summary statistics.
 #'
-#' @return An object of class Metaboprep, an S7 class.
+#' @return An object of class Omiprep, an S7 class.
 #'
 #' @import S7
 #' 
 #' @export
-#' @name class_metaboprep
-Metaboprep <- new_class(
-  name    = "Metaboprep",
-  package = "metaboprep",
+#' @name class_omiprep
+Omiprep <- new_class(
+  name    = "Omiprep",
+  package = "omiprep",
   ##################################
-  # Fields of the Metaboprep object
+  # Fields of the Omiprep object
   ##################################
   properties = list(
     # the data
@@ -52,11 +52,11 @@ Metaboprep <- new_class(
                               validator = function(value) {
                                 if (length(value)==0) return(NULL)
                                 check_samp  <- identical(names(value[["samples"]]), c("user_excluded", "extreme_sample_missingness","user_defined_sample_missingness", "user_defined_sample_totalpeakarea", "user_defined_sample_pca_outlier"))
-                                check_feat  <- identical(names(value[["features"]]), c("user_excluded", "extreme_feature_missingness","user_defined_feature_missingness"))
+                                check_feat  <- identical(names(value[["features"]]), c("user_excluded", "extreme_feature_missingness", "user_defined_feature_missingness", "user_defined_feature_skewness"))
                                 if (check_samp && check_feat) {
                                   return(NULL)
                                 } else {
-                                  return("should be a lists with names 'samples' and 'features'. In addition, 'samples' should be a list of character vectors named 'user_excluded', extreme_sample_missingness','user_defined_sample_missingness', 'user_defined_sample_totalpeakarea', 'user_defined_sample_pca_outlier'; and 'features' a list of character vectors named 'user_excluded', 'extreme_feature_missingness', 'user_defined_feature_missingness'")
+                                  return("should be a lists with names 'samples' and 'features'. In addition, 'samples' should be a list of character vectors named 'user_excluded', extreme_sample_missingness','user_defined_sample_missingness', 'user_defined_sample_totalpeakarea', 'user_defined_sample_pca_outlier'; and 'features' a list of character vectors named 'user_excluded', 'extreme_feature_missingness', 'user_defined_feature_missingness', 'user_defined_feature_skewness'")
                                 }
                               }),
     # summary data for features
@@ -69,7 +69,7 @@ Metaboprep <- new_class(
                                          validator = function(value) if (!is.array(value) | !is.numeric(value)) "should be a numeric matrix" else NULL)
   ),
   ############################################
-  # Constructor function the Metaboprep object
+  # Constructor function the Omiprep object
   ############################################
   constructor = function(data, samples, features, 
                          exclusions = list(samples  = list(user_excluded                     = character(),
@@ -79,7 +79,8 @@ Metaboprep <- new_class(
                                                            user_defined_sample_pca_outlier   = character()),
                                            features = list(user_excluded                     = character(),
                                                            extreme_feature_missingness       = character(),
-                                                           user_defined_feature_missingness  = character())), 
+                                                           user_defined_feature_missingness  = character(),
+                                                           user_defined_feature_skewness     = character())), 
                          feature_summary = array(data = NA_real_, dim = c(0,0,0)), 
                          sample_summary  = array(data = NA_real_, dim = c(0,0,0))) {
     # if data is a matrix, convert to 3D array
@@ -104,7 +105,7 @@ Metaboprep <- new_class(
                feature_summary = feature_summary)
   },
   ##########################################
-  # Validator function the Metaboprep object
+  # Validator function the Omiprep object
   ##########################################
   validator = function(self) {
     if ((nrow(self@features)>0 & length(self@data)>0) && (nrow(self@features) != ncol(self@data))) {

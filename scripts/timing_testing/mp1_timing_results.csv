@@ -1,0 +1,5 @@
+"pipeline","platform","n_samples","n_features","seconds","minutes"
+"metaboprep1","Nightingale",100,250,4.63000000000102,0.0771666666666836
+"metaboprep1","Nightingale",1000,250,2.05400000000009,0.0342333333333348
+"metaboprep1","Olink",100,3000,13257.947,220.965783333333
+"metaboprep1","Olink",1000,3000,22196.517,369.94195

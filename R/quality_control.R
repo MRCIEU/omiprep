@@ -1,18 +1,20 @@
-#' @title Metabolite Quality Control
+#' @title Omics Quality Control
 #' @description
-#' This function is a wrapper function that performs the key quality controls steps on a metabolomics data set.
+#' This function is a wrapper function that performs the key quality controls steps on an 'omics data set.
 #' Key principles:
 #'  1. keep the source underlying data as it is
 #'  2. copy the source data to a new data layer called qcing for processing
 #'  3. build an exclusion list, accumulating codes for exclusion reasons
 #'  4. make any adjustments needed in the destination copy of the data, flag these in the exclusion list
 #'  5. copy the final result to a data layer called post_qc
-#'  6. return the Metabolites object with the newly populated data layers
+#'  6. return the Omiprep object with the newly populated data layers
 #'
 #' @inheritParams feature_summary
 #' @inheritParams sample_summary
 #' @param sample_missingness numeric 0-1, percentage of data missingness which should prompt exclusion of a sample
 #' @param feature_missingness numeric 0-1, percentage of data missingness which should prompt exclusion of a feature
+#' @param feature_skewness_threshold numeric, optional skewness threshold to exclude features with skewed distributions. Set to `NULL` to disable.
+#' @param feature_skewness_direction character, direction of skewness to apply when `feature_skewness_threshold` is set. One of `"left"`, `"right"`, or `"both"`.
 #' @param total_peak_area_sd numeric, number of TPA SD after which a sample would be excluded
 #' @param outlier_treatment character, how to handle outlier data values - options 'leave_be', 'turn_NA', or 'winsorize'
 #' @param winsorize_quantile numeric, quantile to winsorize to, only relevant if 'outlier_treatment'='winsorize'
@@ -22,15 +24,17 @@
 #' @param feature_ids character, vector of feature ids to retain and work with, all other features will be excluded
 #' @param features_exclude_but_keep character, vector of feature ids indicating features to exclude from the sample and PCA quality control analysis but keep in the data, OR a name of a logical column in the features data indicating the same
 #' 
-#' @include class_metaboprep.R
+#' @include class_omiprep.R
 #' @importFrom stats quantile
 #' @import cli
 #' 
 #' @export
-quality_control <- new_generic("quality_control", c("metaboprep"), function(metaboprep, 
+quality_control <- new_generic("quality_control", c("omiprep"), function(omiprep, 
                                                                             source_layer="input", 
                                                                             sample_missingness = 0.2, 
                                                                             feature_missingness = 0.2, 
+                                                                            feature_skewness_threshold = NULL,
+                                                                            feature_skewness_direction = "left",
                                                                             total_peak_area_sd = 5, 
                                                                             outlier_udist = 5, 
                                                                             outlier_treatment ="leave_be", 
@@ -45,10 +49,12 @@ quality_control <- new_generic("quality_control", c("metaboprep"), function(meta
                                                                             cores = NULL, 
                                                                             fast = FALSE) { S7_dispatch() })
 #' @name quality_control
-method(quality_control, Metaboprep) <- function(metaboprep, 
+method(quality_control, Omiprep) <- function(omiprep, 
                                                 source_layer="input", 
                                                 sample_missingness = 0.2, 
                                                 feature_missingness = 0.2, 
+                                                feature_skewness_threshold = NULL,
+                                                feature_skewness_direction = "left",
                                                 total_peak_area_sd = 5, 
                                                 outlier_udist = 5, 
                                                 outlier_treatment ="leave_be", 
@@ -63,7 +69,7 @@ method(quality_control, Metaboprep) <- function(metaboprep,
                                                 cores = NULL, 
                                                 fast  = FALSE){
 
-  cli::cli_h1("Starting Metabolite QC Process")
+  cli::cli_h1("Starting Omics QC Process")
   t_total <- proc.time()
   .qc_timings <- list()
 
@@ -75,28 +81,40 @@ method(quality_control, Metaboprep) <- function(metaboprep,
   stopifnot("sample_ids must all be found in the data" = is.null(sample_ids) || all(sample_ids %in% metaboprep@samples[["sample_id"]]))
   stopifnot("feature_ids must all be found in the data" = is.null(feature_ids) || all(feature_ids %in% metaboprep@features[["feature_id"]]))
   stopifnot("`features_exclude_but_keep` must be a logical column in the features data or a vector of feature ids all present in the data" = is.null(features_exclude_but_keep) || (all(features_exclude_but_keep %in% names(metaboprep@features)) && all(is.logical(metaboprep@features[[features_exclude_but_keep]]))) || all(features_exclude_but_keep %in% metaboprep@features[["feature_id"]]) )
+  cli::cli_h1("Starting 'Omics QC Process")
+  
+
+  # input validation
+  cli::cli_progress_step("Validating input parameters")
+  source_layer <- match.arg(source_layer, choices = dimnames(omiprep@data)[[3]])
+  outlier_treatment <- match.arg(outlier_treatment, choices = c("leave_be", "turn_NA", "winsorize"))
+  feature_skewness_direction <- match.arg(feature_skewness_direction, choices = c("left", "right", "both"))
+  stopifnot("sample_ids must all be found in the data" = is.null(sample_ids) || all(sample_ids %in% omiprep@samples[["sample_id"]]))
+  stopifnot("feature_ids must all be found in the data" = is.null(feature_ids) || all(feature_ids %in% omiprep@features[["feature_id"]]))  
+  stopifnot("feature_skewness_threshold must be NULL or a non-negative numeric scalar" = is.null(feature_skewness_threshold) || (is.numeric(feature_skewness_threshold) && length(feature_skewness_threshold) == 1 && !is.na(feature_skewness_threshold) && feature_skewness_threshold >= 0))
+  stopifnot("`features_exclude_but_keep` must be a logical column in the features data or a vector of feature ids all present in the data" = is.null(features_exclude_but_keep) || (all(features_exclude_but_keep %in% names(omiprep@features)) && all(is.logical(omiprep@features[[features_exclude_but_keep]]))) || all(features_exclude_but_keep %in% omiprep@features[["feature_id"]]) )
   cli_progress_update()
   .qc_timings[["validation"]] <- (proc.time() - t_step)["elapsed"]
   
 
   # get ids & update exclusions if user has passed a predefined set of ids
   if (is.null(sample_ids)) {
-    sample_ids   <- metaboprep@samples[["sample_id"]] 
+    sample_ids   <- omiprep@samples[["sample_id"]] 
   } else {
     excl_samps <- c()
     cli::cli_progress_step("Assessing sample_id input - excluding {length(excl_samps)} sample(s)")
-    excl_samps <- setdiff(metaboprep@samples[["sample_id"]], sample_ids)
+    excl_samps <- setdiff(omiprep@samples[["sample_id"]], sample_ids)
     cli::cli_progress_update()
-    metaboprep@exclusions$samples$user_excluded <- excl_samps
+    omiprep@exclusions$samples$user_excluded <- excl_samps
   }
   if (is.null(feature_ids)) {
-    feature_ids <- metaboprep@features[["feature_id"]]
+    feature_ids <- omiprep@features[["feature_id"]]
   } else {
     excl_feats <- c()
     cli::cli_progress_step("Assessing feature_id input - excluding {length(excl_feats)} feature(s)")
-    excl_feats <- setdiff(metaboprep@features[["feature_id"]], feature_ids)
+    excl_feats <- setdiff(omiprep@features[["feature_id"]], feature_ids)
     cli::cli_progress_update()
-    metaboprep@exclusions$features$user_excluded <- excl_feats
+    omiprep@exclusions$features$user_excluded <- excl_feats
   }
 
 
@@ -104,8 +122,8 @@ method(quality_control, Metaboprep) <- function(metaboprep,
   exclude_but_keep_feats <- character()
   if (!is.null(features_exclude_but_keep)) {
     cli::cli_progress_step("Excluding {length(exclude_but_keep_feats)} features from sample summary analysis but keeping in output data")
-    if (length(features_exclude_but_keep)==1 && features_exclude_but_keep %in% colnames(metaboprep@features)) {
-      exclude_but_keep_feats <- metaboprep@features[metaboprep@features[[features_exclude_but_keep]]==TRUE, "feature_id"]
+    if (length(features_exclude_but_keep)==1 && features_exclude_but_keep %in% colnames(omiprep@features)) {
+      exclude_but_keep_feats <- omiprep@features[omiprep@features[[features_exclude_but_keep]]==TRUE, "feature_id"]
     } else {
       exclude_but_keep_feats <- features_exclude_but_keep
     }
@@ -118,7 +136,7 @@ method(quality_control, Metaboprep) <- function(metaboprep,
   t_step <- proc.time()
   stopifnot("No remaining features" = length(setdiff(feature_ids, exclude_but_keep_feats)) > 0)
   stopifnot("No remaining samples"  = length(sample_ids) > 0)
-  metaboprep <- summarise(metaboprep,
+  metaboprep <- summarise(omiprep,
                           source_layer     = source_layer,
                           outlier_udist    = outlier_udist,
                           tree_cut_height  = tree_cut_height,
@@ -135,10 +153,10 @@ method(quality_control, Metaboprep) <- function(metaboprep,
   # data to work from and add another layer - we now work with the 'destination data', plus any exclusions, from now on
   cli::cli_progress_step("Copying {source_layer} data to new 'qc' data layer")
   t_step <- proc.time()
-  dat <- metaboprep@data[, , source_layer]
+  dat <- omiprep@data[, , source_layer]
   dat[!rownames(dat) %in% sample_ids, ]  <- NA_real_
   dat[, !colnames(dat) %in% feature_ids] <- NA_real_
-  metaboprep@data <- add_layer(current    = metaboprep@data,
+  omiprep@data <- add_layer(current    = omiprep@data,
                                layer      = dat,
                                layer_name = "qc")
   .qc_timings[["copy_layer"]] <- (proc.time() - t_step)["elapsed"]
@@ -152,11 +170,11 @@ method(quality_control, Metaboprep) <- function(metaboprep,
   est_feats  <- setdiff(feature_ids, exclude_but_keep_feats)
   stopifnot("No remaining features" = length(est_feats) > 0)
   stopifnot("No remaining samples" = length(est_samps) > 0)
-  dat        <- metaboprep@data[est_samps, est_feats, "qc"]
+  dat        <- omiprep@data[est_samps, est_feats, "qc"]
   samplemis  <- missingness(dat, by="row")
   excl_samps <- samplemis[samplemis$missingness >= 0.8, "sample_id"]
   cli::cli_progress_update()
-  metaboprep@exclusions$samples$extreme_sample_missingness <- excl_samps
+  omiprep@exclusions$samples$extreme_sample_missingness <- excl_samps
   sample_ids <- setdiff(sample_ids, excl_samps)
   .qc_timings[["extreme_sample_missingness"]] <- (proc.time() - t_step)["elapsed"]
 
@@ -169,11 +187,11 @@ method(quality_control, Metaboprep) <- function(metaboprep,
   est_feats  <- setdiff(feature_ids, exclude_but_keep_feats)
   stopifnot("No remaining features" = length(est_feats) > 0)
   stopifnot("No remaining samples" = length(est_samps) > 0)
-  dat        <- metaboprep@data[est_samps, est_feats, "qc"]
+  dat        <- omiprep@data[est_samps, est_feats, "qc"]
   featuremis <- missingness(dat, by="column")
   excl_feats <- featuremis[featuremis$missingness >= 0.8, "feature_id"]
   cli::cli_progress_update()
-  metaboprep@exclusions$features$extreme_feature_missingness <- excl_feats
+  omiprep@exclusions$features$extreme_feature_missingness <- excl_feats
   feature_ids <- setdiff(feature_ids, excl_feats)
   .qc_timings[["extreme_feature_missingness"]] <- (proc.time() - t_step)["elapsed"]
 
@@ -187,11 +205,11 @@ method(quality_control, Metaboprep) <- function(metaboprep,
     est_feats  <- setdiff(feature_ids, exclude_but_keep_feats)
     stopifnot("No remaining features" = length(est_feats) > 0)
     stopifnot("No remaining samples" = length(est_samps) > 0)
-    dat        <- metaboprep@data[est_samps, est_feats, "qc"]
+    dat        <- omiprep@data[est_samps, est_feats, "qc"]
     samplemis  <- missingness(dat, by="row")
     excl_samps <- samplemis[samplemis$missingness >= sample_missingness, "sample_id"]
     cli::cli_progress_update()
-    metaboprep@exclusions$samples$user_defined_sample_missingness <- excl_samps
+    omiprep@exclusions$samples$user_defined_sample_missingness <- excl_samps
     sample_ids <- setdiff(sample_ids, excl_samps)
     .qc_timings[["sample_missingness"]] <- (proc.time() - t_step)["elapsed"]
   }
@@ -206,11 +224,33 @@ method(quality_control, Metaboprep) <- function(metaboprep,
     est_feats  <- setdiff(feature_ids, exclude_but_keep_feats)
     stopifnot("No remaining features" = length(est_feats) > 0)
     stopifnot("No remaining samples" = length(est_samps) > 0)
-    dat        <- metaboprep@data[sample_ids, est_feats, "qc"]
+    dat        <- omiprep@data[sample_ids, est_feats, "qc"]
     featuremis <- missingness(dat, by="column")
     excl_feats <- featuremis[featuremis$missingness >= feature_missingness, "feature_id"]
     cli::cli_progress_update()
-    metaboprep@exclusions$features$user_defined_feature_missingness <- excl_feats
+    omiprep@exclusions$features$user_defined_feature_missingness <- excl_feats
+    feature_ids <- setdiff(feature_ids, excl_feats)
+  }
+
+  # re-estimate feature skewness
+  if (!is.null(feature_skewness_threshold) && !is.na(feature_skewness_threshold)) {
+    excl_feats <- c()
+    skew_cut_text <- switch(
+      feature_skewness_direction,
+      "left" = paste0("<= -", signif(feature_skewness_threshold, digits = 3)),
+      "right" = paste0(">= ", signif(feature_skewness_threshold, digits = 3)),
+      "both" = paste0("|skew| >= ", signif(feature_skewness_threshold, digits = 3))
+    )
+    cli::cli_progress_step("Assessing for feature skewness at threshold {skew_cut_text} - excluding {length(excl_feats)} feature(s)")
+    est_samps <- sample_ids
+    est_feats <- setdiff(feature_ids, exclude_but_keep_feats)
+    stopifnot("No remaining features" = length(est_feats) > 0)
+    stopifnot("No remaining samples" = length(est_samps) > 0)
+    dat <- omiprep@data[est_samps, est_feats, "qc"]
+    skew_df <- feature_skewness(dat, threshold = feature_skewness_threshold, direction = feature_skewness_direction)
+    excl_feats <- skew_df[skew_df$exclude_by_skewness %in% TRUE, "feature_id"]
+    cli::cli_progress_update()
+    omiprep@exclusions$features$user_defined_feature_skewness <- excl_feats
     feature_ids <- setdiff(feature_ids, excl_feats)
     .qc_timings[["feature_missingness"]] <- (proc.time() - t_step)["elapsed"]
   }
@@ -225,7 +265,7 @@ method(quality_control, Metaboprep) <- function(metaboprep,
     est_feats     <- setdiff(feature_ids, exclude_but_keep_feats)
     stopifnot("No remaining features" = length(est_feats) > 0)
     stopifnot("No remaining samples" = length(est_samps) > 0)
-    dat           <- metaboprep@data[est_samps, est_feats, "qc"]
+    dat           <- omiprep@data[est_samps, est_feats, "qc"]
     tpa           <- total_peak_area(dat)
     tpa[["sdev"]] <- sd(tpa$tpa_total, na.rm = TRUE)
     tpa[["mean"]] <- mean(tpa$tpa_total, na.rm = TRUE)
@@ -233,7 +273,7 @@ method(quality_control, Metaboprep) <- function(metaboprep,
     tpa[["LL"]]   <- tpa$mean - tpa$sdev * total_peak_area_sd
     excl_samps    <- tpa$sample_id[!(tpa$tpa_total >= tpa$LL & tpa$tpa_total <= tpa$UL)]
     cli::cli_progress_update()
-    metaboprep@exclusions$samples$user_defined_sample_totalpeakarea <- excl_samps
+    omiprep@exclusions$samples$user_defined_sample_totalpeakarea <- excl_samps
     sample_ids    <- setdiff(sample_ids, excl_samps)
     .qc_timings[["total_peak_area"]] <- (proc.time() - t_step)["elapsed"]
   }
@@ -246,7 +286,7 @@ method(quality_control, Metaboprep) <- function(metaboprep,
     est_feats     <- setdiff(feature_ids, exclude_but_keep_feats)
     stopifnot("No remaining features" = length(est_feats) > 0)
     stopifnot("No remaining samples" = length(est_samps) > 0)
-    dat           <- metaboprep@data[est_samps, est_feats, "qc"]
+    dat           <- omiprep@data[est_samps, est_feats, "qc"]
     if (outlier_treatment != "leave_be") {
   
       omat <- outlier_detection(dat, nsd = outlier_udist, meansd = FALSE, by="column")
@@ -256,10 +296,10 @@ method(quality_control, Metaboprep) <- function(metaboprep,
       adjust_samps <- rownames(omat)[indices[,1]]
       adjust_feats <- colnames(omat)[indices[,2]]
   
-      if(metabolites@outlier_treatment == "turn_NA") {
+      if(outlier_treatment == "turn_NA") {
   
         # turn NA in actual destination data
-        metaboprep@data[adjust_samps, adjust_feats, "qc"] <- NA_real_
+        omiprep@data[adjust_samps, adjust_feats, "qc"] <- NA_real_
         cli::cli_alert_info("All identified outliers were turned into NA...")
   
       } else if (outlier_treatment == "winsorize") {
@@ -270,7 +310,7 @@ method(quality_control, Metaboprep) <- function(metaboprep,
           quantile_value <- quantile(dat[!rownames(dat) %in% adjust_samps, fid], probs = c(winsorize_quantile), na.rm = TRUE)
   
           # set in the destination data
-          metabolites@data[adjust_samps, fid, "qc"] <- quantile_value
+          omiprep@data[adjust_samps, fid, "qc"] <- quantile_value
           cli::cli_alert_info("Outliers were winsorized to the {winsorize_quantile * 100} quantile of remaining (non outlying) values.")
         }
       }
@@ -284,10 +324,10 @@ method(quality_control, Metaboprep) <- function(metaboprep,
     num_pcs    <- "..."
     cli::cli_progress_step("Sample PCA outlier analysis - re-identify feature independence and PC outliers - excluding {length(excl_samps)} sample(s) over PCs 1:{num_pcs}")
     t_step      <- proc.time()
-    metaboprep  <- summarise(metaboprep,
-                             source_layer     = "qc",
-                             outlier_udist    = outlier_udist,
-                             tree_cut_height  = tree_cut_height,
+    omiprep  <- summarise(omiprep,  
+                             source_layer     = "qc", 
+                             outlier_udist    = outlier_udist, 
+                             tree_cut_height  = tree_cut_height, 
                              feature_selection= feature_selection,
                              sample_ids       = sample_ids,
                              feature_ids      = feature_ids,
@@ -298,19 +338,19 @@ method(quality_control, Metaboprep) <- function(metaboprep,
     .qc_timings[["summarise_pca"]] <- (proc.time() - t_step)["elapsed"]
 
     if (is.null(max_num_pcs)) {
-      num_pcs <- attr(metaboprep@sample_summary, "qc_num_pcs_scree")
-    } else if (max_num_pcs > attr(metaboprep@sample_summary, "qc_num_pcs_scree")) {
-      num_pcs <- attr(metaboprep@sample_summary, "qc_num_pcs_scree")
+      num_pcs <- attr(omiprep@sample_summary, "qc_num_pcs_scree")
+    } else if (max_num_pcs > attr(omiprep@sample_summary, "qc_num_pcs_scree")) {
+      num_pcs <- attr(omiprep@sample_summary, "qc_num_pcs_scree")
       cli::cli_progress_update()
       cli::cli_alert_warning("The stated max PCs [max_num_pcs={max_num_pcs}] to use in PCA outlier assessment is greater than the number of available informative PCs [{num_pcs}]")
     } else {
       num_pcs <- max_num_pcs
     }
-    pca_data   <- metaboprep@sample_summary[sample_ids, grep("^pc[0-9]+$", colnames(metaboprep@sample_summary), value=TRUE), "qc"]
+    pca_data   <- omiprep@sample_summary[sample_ids, grep("^pc[0-9]+$", colnames(omiprep@sample_summary), value=TRUE), "qc"]
     outliers   <- outlier_detection(pca_data[, 1:num_pcs], nsd = pc_outlier_sd, meansd = TRUE, by = "column")
     excl_samps <- names(which(apply(outliers, 1, function(x) sum(x) > 0)))
     cli::cli_progress_update()
-    metaboprep@exclusions$samples$user_defined_sample_pca_outlier <- excl_samps
+    omiprep@exclusions$samples$user_defined_sample_pca_outlier <- excl_samps
     sample_ids <- setdiff(sample_ids, excl_samps)
   }
   
@@ -318,10 +358,10 @@ method(quality_control, Metaboprep) <- function(metaboprep,
   # Make final QC dataset
   cli::cli_progress_step("Creating final QC dataset...")
   t_step     <- proc.time()
-  metaboprep <- summarise(metaboprep,
-                          source_layer     = "qc",
-                          outlier_udist    = outlier_udist,
-                          tree_cut_height  = tree_cut_height,
+  omiprep <- summarise(omiprep, 
+                          source_layer     = "qc", 
+                          outlier_udist    = outlier_udist, 
+                          tree_cut_height  = tree_cut_height, 
                           feature_selection= feature_selection,
                           sample_ids       = sample_ids,
                           feature_ids      = feature_ids,
@@ -333,26 +373,28 @@ method(quality_control, Metaboprep) <- function(metaboprep,
   
   
   # set parameters used
-  attr(metaboprep@data, "qc_sample_missingness")        <- sample_missingness
-  attr(metaboprep@data, "qc_feature_missingness")       <- feature_missingness
-  attr(metaboprep@data, "qc_total_peak_area_sd")        <- total_peak_area_sd
-  attr(metaboprep@data, "qc_outlier_udist")             <- outlier_udist
-  attr(metaboprep@data, "qc_outlier_treatment")         <- outlier_treatment
-  attr(metaboprep@data, "qc_winsorize_quantile")        <- winsorize_quantile
-  attr(metaboprep@data, "qc_tree_cut_height")           <- tree_cut_height
-  attr(metaboprep@data, "qc_pc_outlier_sd")             <- pc_outlier_sd
-  attr(metaboprep@data, "qc_features_exclude_but_keep") <- exclude_but_keep_feats
+  attr(omiprep@data, "qc_sample_missingness")        <- sample_missingness
+  attr(omiprep@data, "qc_feature_missingness")       <- feature_missingness
+  attr(omiprep@data, "qc_feature_skewness_threshold")<- feature_skewness_threshold
+  attr(omiprep@data, "qc_feature_skewness_direction")<- feature_skewness_direction
+  attr(omiprep@data, "qc_total_peak_area_sd")        <- total_peak_area_sd
+  attr(omiprep@data, "qc_outlier_udist")             <- outlier_udist
+  attr(omiprep@data, "qc_outlier_treatment")         <- outlier_treatment
+  attr(omiprep@data, "qc_winsorize_quantile")        <- winsorize_quantile
+  attr(omiprep@data, "qc_tree_cut_height")           <- tree_cut_height
+  attr(omiprep@data, "qc_pc_outlier_sd")             <- pc_outlier_sd
+  attr(omiprep@data, "qc_features_exclude_but_keep") <- exclude_but_keep_feats
 
   
   # set exclusion data to NA
-  excl_samps <- unique(unlist(metaboprep@exclusions$samples))
-  excl_feats <- unique(unlist(metaboprep@exclusions$features))
-  metaboprep@data[rownames(metaboprep@data) %in% excl_samps, ,"qc"]  <- NA_real_
-  metaboprep@data[, colnames(metaboprep@data) %in% excl_feats, "qc"] <- NA_real_
+  excl_samps <- unique(unlist(omiprep@exclusions$samples))
+  excl_feats <- unique(unlist(omiprep@exclusions$features))
+  omiprep@data[rownames(omiprep@data) %in% excl_samps, ,"qc"]  <- NA_real_
+  omiprep@data[, colnames(omiprep@data) %in% excl_feats, "qc"] <- NA_real_
   
   # flag exclusions and reasons in feature and sample data
-  samp_reason_df <- do.call(rbind, lapply(names(metaboprep@exclusions$samples), function(reason) {
-    ids <- metaboprep@exclusions$samples[[reason]]
+  samp_reason_df <- do.call(rbind, lapply(names(omiprep@exclusions$samples), function(reason) {
+    ids <- omiprep@exclusions$samples[[reason]]
     if (length(ids) == 0) return(data.frame(sample_id = character(), reason_excluded = character()))
     data.frame(sample_id = ids, reason_excluded = reason)
   }))
@@ -363,8 +405,8 @@ method(quality_control, Metaboprep) <- function(metaboprep,
     samp_reason_df$excluded <- logical()
   }
   
-  feat_reason_df <- do.call(rbind, lapply(names(metaboprep@exclusions$features), function(reason) {
-    ids <- metaboprep@exclusions$features[[reason]]
+  feat_reason_df <- do.call(rbind, lapply(names(omiprep@exclusions$features), function(reason) {
+    ids <- omiprep@exclusions$features[[reason]]
     if (length(ids) == 0) return(data.frame(feature_id = character(), reason_excluded = character()))
     data.frame(feature_id = ids, reason_excluded = reason)
   }))
@@ -375,19 +417,18 @@ method(quality_control, Metaboprep) <- function(metaboprep,
     feat_reason_df$excluded <- logical()
   }
   
-  s <- merge(metaboprep@samples, samp_reason_df, by="sample_id", all = TRUE)
-  f <- merge(metaboprep@features, feat_reason_df, by="feature_id", all = TRUE)
-  s <- s[order(match(s[["sample_id"]],  rownames(metaboprep@data))), ]
-  f <- f[order(match(f[["feature_id"]], colnames(metaboprep@data))), ]
+  s <- merge(omiprep@samples, samp_reason_df, by="sample_id", all = TRUE)
+  f <- merge(omiprep@features, feat_reason_df, by="feature_id", all = TRUE)
+  s <- s[order(match(s[["sample_id"]],  rownames(omiprep@data))), ]
+  f <- f[order(match(f[["feature_id"]], colnames(omiprep@data))), ]
   rownames(s) <- s$sample_id
   rownames(f) <- f$feature_id
   s[is.na(s$excluded), "excluded"] <- FALSE
   f[is.na(f$excluded), "excluded"] <- FALSE
-  metaboprep@samples  <- s
-  metaboprep@features <- f
+  omiprep@samples  <- s
+  omiprep@features <- f
   
   .qc_timings[["total"]] <- (proc.time() - t_total)["elapsed"]
-  cli::cli_progress_step("Metabolite QC Process Completed")
 
   # step timing summary
   timing_df <- data.frame(
@@ -398,6 +439,7 @@ method(quality_control, Metaboprep) <- function(metaboprep,
   cli::cli_h2("Step timings")
   print(timing_df, row.names = FALSE)
 
-  # return the metabolites with underlying data (+/- adjustments) and exclusion matrix
-  return(metaboprep)
+  # return the omiprep with underlying data (+/- adjustments) and exclusion matrix
+  cli::cli_progress_step("'Omics QC Process Completed")
+  return(omiprep)
 }

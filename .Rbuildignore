@@ -8,6 +8,5 @@ scripts
 ^pkgdown$
 ^\.github$
 ^data-raw$
-^\.claude$
 ^\.idea$
 ^index\.md$

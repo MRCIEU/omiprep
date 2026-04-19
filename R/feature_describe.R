@@ -1,8 +1,9 @@
 #' @title Summary Statistics for Features
 #' @description
-#' This function allows you to 'describe' metabolite features using the describe() function from the psych package,
+#' This function allows you to 'describe' 'omics features using the describe() function from the psych package,
 #' as well as estimate variance, a dispersion index, the coeficent of variation, and shapiro's W-statistic.
-#' @param data matrix, the metabolite data matrix. Samples in row, metabolites in columns
+#' The output from \code{psych::describe()} includes feature-level skewness and kurtosis estimates.
+#' @param data matrix, the 'omics data matrix. Samples in row, features in columns
 #'
 #' @importFrom psych describe
 #' @importFrom stats var sd na.omit shapiro.test
@@ -69,6 +70,5 @@ feature_describe = function(data){
   return(out)
 
 }
-
 
 

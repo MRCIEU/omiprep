@@ -1,4 +1,4 @@
-url: https://mrcieu.github.io/metaboprep/
+url: https://mrcieu.github.io/omiprep/
 template:
   bootstrap: 5
   light-switch: true
@@ -26,6 +26,8 @@ navbar:
         href: articles/sample_summary.html
       - text: Features
         href: articles/feature_summary.html
+      - text: Skewness & truncation
+        href: articles/skewness_qc.html
       - text: QC pipeline
         href: articles/quality_control.html
       - text: -------
@@ -42,13 +44,13 @@ navbar:
         href: articles/batch_normalise.html
         
 reference:
-- title: "Metaboprep Object"
+- title: "Omiprep Object"
   desc: >
-    The main S7 class behind the metaboprep R package along with class helper functions. 
+    The main S7 class behind the omiprep R package along with class helper functions. 
     A container for measurement, sample, and feature data.
   contents:
-    - class_metaboprep
-    - summary.Metaboprep
+    - class_omiprep
+    - summary.Omiprep
     - add_layer
     
 - title: "Importing & Exporting Data"
@@ -76,7 +78,7 @@ reference:
     - quality_control
     - available_report_templates
     - generate_report
-    - run_metaboprep1
+    - run_omiprep1
     - shiny_app
     
 - title: "Other processing tools"

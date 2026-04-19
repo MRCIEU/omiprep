@@ -4,17 +4,17 @@
 \alias{export_comets}
 \title{Export Data to `COMETS` format}
 \usage{
-export_comets(metaboprep, directory, layer = NULL)
+export_comets(omiprep, directory, layer = NULL)
 }
 \arguments{
-\item{metaboprep}{A `Metaboprep` object containing the data to be exported.}
+\item{omiprep}{A `Omiprep` object containing the data to be exported.}
 
 \item{directory}{character, string specifying the path to the directory where the data should be written.}
 
-\item{layer}{character, the name of the `metaboprep@data` layer (3rd array dimension) to write out}
+\item{layer}{character, the name of the `omiprep@data` layer (3rd array dimension) to write out}
 }
 \value{
-the `Metaboprep` object, invisibly, for use in pipes
+the `Omiprep` object, invisibly, for use in pipes
 }
 \description{
 Export Data to `COMETS` format

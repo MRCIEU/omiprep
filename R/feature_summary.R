@@ -1,7 +1,7 @@
 #' @title Feature Summary Statistics
 #' @description
-#' This function estimates feature statistics for samples in a matrix of metabolite features.
-#' @param metaboprep an object of class Metabolites
+#' This function estimates feature statistics for samples in a matrix of 'omics features.
+#' @param omiprep an object of class Omiprep
 #' @param source_layer character, the data layer to summarise
 #' @param outlier_udist the unit distance in SD or IQR from the mean or median estimate, respectively outliers are identified at. Default value is 5.
 #' @param tree_cut_height numeric, the threshold for feature independence in hierarchical clustering. Default is 0.5.
@@ -17,22 +17,28 @@
 feature_summary <- new_generic(name = "feature_summary", dispatch_args = c("metaboprep"), function(metaboprep, source_layer="input", outlier_udist=5, tree_cut_height=0.5, feature_selection = "max_var_exp", sample_ids=NULL, feature_ids=NULL, features_exclude=NULL, output="data.frame", cores=NULL, fast=FALSE) { S7_dispatch() })
 #' @name feature_summary
 method(feature_summary, Metaboprep) <- function(metaboprep, source_layer="input", outlier_udist=5, tree_cut_height=0.5, feature_selection = "max_var_exp", sample_ids=NULL, feature_ids=NULL, features_exclude=NULL, output="data.frame", cores=NULL, fast=FALSE) {
+#' @param output character, type of output, either 'object' to return the updated omiprep object, or 'data.frame' to return the data.
+#' @include class_omiprep.R
+#' @export
+feature_summary <- new_generic(name = "feature_summary", dispatch_args = c("omiprep"), function(omiprep, source_layer="input", outlier_udist=5, tree_cut_height=0.5, feature_selection = "max_var_exp", sample_ids=NULL, feature_ids=NULL, features_exclude=NULL, output="data.frame") { S7_dispatch() })
+#' @name feature_summary
+method(feature_summary, Omiprep) <- function(omiprep, source_layer="input", outlier_udist=5, tree_cut_height=0.5, feature_selection = "max_var_exp", sample_ids=NULL, feature_ids=NULL, features_exclude=NULL, output="data.frame") {
 
   # options
   output       <- match.arg(output, choices = c("object", "matrix", "data.frame"))
-  source_layer <- match.arg(source_layer, choices = dimnames(metaboprep@data)[[3]])
-  stopifnot("sample_ids must all be found in the data" = all(sample_ids %in% metaboprep@samples[["sample_id"]]) | is.null(sample_ids))
-  stopifnot("feature_ids must all be found in the data" = all(feature_ids %in% metaboprep@features[["feature_id"]]) | is.null(feature_ids))  
-  stopifnot("features_exclude must all be found in the data" = all(features_exclude %in% metaboprep@features[["feature_id"]]) | is.null(features_exclude)) 
+  source_layer <- match.arg(source_layer, choices = dimnames(omiprep@data)[[3]])
+  stopifnot("sample_ids must all be found in the data" = all(sample_ids %in% omiprep@samples[["sample_id"]]) | is.null(sample_ids))
+  stopifnot("feature_ids must all be found in the data" = all(feature_ids %in% omiprep@features[["feature_id"]]) | is.null(feature_ids))  
+  stopifnot("features_exclude must all be found in the data" = all(features_exclude %in% omiprep@features[["feature_id"]]) | is.null(features_exclude)) 
   
   
   # get ids
-  if (is.null(sample_ids)) sample_ids   <- metaboprep@samples[["sample_id"]]
-  if (is.null(feature_ids)) feature_ids <- metaboprep@features[["feature_id"]]
+  if (is.null(sample_ids)) sample_ids   <- omiprep@samples[["sample_id"]]
+  if (is.null(feature_ids)) feature_ids <- omiprep@features[["feature_id"]]
   
   
   # the data to work with
-  dat <- metaboprep@data[sample_ids, feature_ids, source_layer]
+  dat <- omiprep@data[sample_ids, feature_ids, source_layer]
   
   
   ## feature missingness
@@ -59,20 +65,20 @@ method(feature_summary, Metaboprep) <- function(metaboprep, source_layer="input"
   
   
   # combine summary data
-  ids     <- data.frame("feature_id" = colnames(metaboprep@data))
+  ids     <- data.frame("feature_id" = colnames(omiprep@data))
   df_list <- list(ids, featuremis, outliers, description, indf)
   out     <- Reduce(function(x, y) merge(x, y, by = "feature_id", all = TRUE), df_list)
   
   
   # ensure correct order
-  out <- out[order(match(out[["feature_id"]], colnames(metaboprep@data))), ]
+  out <- out[order(match(out[["feature_id"]], colnames(omiprep@data))), ]
   rownames(out) <- out[["feature_id"]]
   
   
   # add to feature_summary matrix
   mat           <- as.matrix(out[, !(names(out) %in% "feature_id")])
   mat           <- t(mat)
-  metaboprep@feature_summary <- add_layer(current    = metaboprep@feature_summary,
+  omiprep@feature_summary <- add_layer(current    = omiprep@feature_summary,
                                           layer      = mat,
                                           layer_name = source_layer)
   
@@ -80,10 +86,10 @@ method(feature_summary, Metaboprep) <- function(metaboprep, source_layer="input"
   # set attributes with processing details & return desired output
   ret <- switch(output,
                 "object"     = {
-                  attr(metaboprep@feature_summary, paste0(source_layer, "_tree")) <- res$tree
-                  attr(metaboprep@feature_summary, paste0(source_layer, "_outlier_udist")) <- outlier_udist
-                  attr(metaboprep@feature_summary, paste0(source_layer, "_tree_cut_height")) <- tree_cut_height
-                  metaboprep
+                  attr(omiprep@feature_summary, paste0(source_layer, "_tree")) <- res$tree
+                  attr(omiprep@feature_summary, paste0(source_layer, "_outlier_udist")) <- outlier_udist
+                  attr(omiprep@feature_summary, paste0(source_layer, "_tree_cut_height")) <- tree_cut_height
+                  omiprep
                 },
                 "matrix"     = {
                   attr(mat, paste0(source_layer, "_tree"))            <- res$tree

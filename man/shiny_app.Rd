@@ -2,16 +2,16 @@
 % Please edit documentation in R/shiny_app.R
 \name{shiny_app}
 \alias{shiny_app}
-\title{Metaboprep Shiny App}
+\title{Omiprep Shiny App}
 \usage{
-shiny_app(metaboprep)
+shiny_app(omiprep)
 }
 \arguments{
-\item{metaboprep}{an object of class Metaboprep}
+\item{omiprep}{an object of class Omiprep}
 }
 \value{
 Runs a Shiny app
 }
 \description{
-Launch a Shiny app to explore the Metaboprep object
+Launch a Shiny app to explore the Omiprep object
 }

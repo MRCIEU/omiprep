@@ -16,12 +16,12 @@ knitr::opts_chunk$set(
 
 
 ```{r setup}
-library(metaboprep)
+library(omiprep)
 
 # import data 
-m <- read_metabolon(system.file("extdata", "metabolon_v1.1_example.xlsx", package = "metaboprep"), 
+m <- read_metabolon(system.file("extdata", "metabolon_v1.1_example.xlsx", package = "omiprep"), 
                     sheet = "OrigScale",      ## The name of the sheet in the excel file to read in
-                    return_Metaboprep = TRUE  ## Whether to return a Metaboprep object (TRUE) or a list (FALSE)
+                    return_Omiprep = TRUE  ## Whether to return a Omiprep object (TRUE) or a list (FALSE)
                     )
 ```
 
@@ -33,6 +33,8 @@ m <- quality_control(m,
                      source_layer = "input", 
                      sample_missingness  = 0.2, 
                      feature_missingness = 0.2, 
+                     feature_skewness_threshold = NULL,
+                     feature_skewness_direction = "left",
                      total_peak_area_sd  = 5, 
                      outlier_udist       = 5, 
                      outlier_treatment   = "leave_be", 
@@ -45,7 +47,7 @@ m <- quality_control(m,
 ```
 
 
-### View a summary of the Metaboprep object
+### View a summary of the Omiprep object
 
 ```{r summary}
 # view summary

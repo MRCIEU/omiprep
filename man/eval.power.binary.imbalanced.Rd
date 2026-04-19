@@ -34,4 +34,4 @@ eval.power.binary.imbalanced( N_case = c(1000, 2000),
 
 
 }
-\keyword{metabolomics}
+\keyword{omics}

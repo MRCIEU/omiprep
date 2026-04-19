@@ -5,14 +5,14 @@
 \title{Principal Component Analysis}
 \usage{
 pc_and_outliers(
-  metaboprep,
+  omiprep,
   source_layer = "input",
   sample_ids = NULL,
   feature_ids = NULL
 )
 }
 \arguments{
-\item{metaboprep}{an object of class Metaboprep}
+\item{omiprep}{an object of class Omiprep}
 
 \item{source_layer}{character, type/source of data to use}
 
