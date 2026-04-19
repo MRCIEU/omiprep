@@ -42,7 +42,8 @@ m <- quality_control(m,
                      tree_cut_height     = 0.5, 
                      pc_outlier_sd       = 5, 
                      sample_ids          = NULL, 
-                     feature_ids         = NULL)
+                     feature_ids         = NULL, 
+                     cores               = 1)
 ```
 
 

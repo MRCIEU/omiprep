@@ -44,7 +44,7 @@ mydata      <- Omiprep(data = datain$data, samples = datain$samples, features = 
 
 ```{r, warnngs=FALSE}
 ## Adding suppressWarnings() to avoid deparse() error when rendering vignette with S7 method warnings
-mydata         <- suppressWarnings( quality_control(mydata) )
+mydata         <- suppressWarnings( quality_control(mydata, cores = 1) )
 ```
 
 

@@ -63,7 +63,7 @@ test_that("sample pca outlier works", {
   
   
   # run the QC ====
-  m <- quality_control(m, pc_outlier_sd = threshold_sd, max_num_pcs = 2)
+  m <- quality_control(m, pc_outlier_sd = threshold_sd, max_num_pcs = 2, cores = 2)
   
   
   # check ====

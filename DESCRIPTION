@@ -21,6 +21,7 @@ Imports:
     ggpubr,
     nFactors,
     pcaMethods,
+    irlba,
     psych,
     pwr,
     readxl,

@@ -139,7 +139,8 @@ test_that("omiprep output same as metaboprep1", {
                        tree_cut_height     = as.numeric(params$tree_cut_height),
                        feature_selection   = "least_missingness",
                        pc_outlier_sd       = as.numeric(params$PC_outlier_SD), 
-                       max_num_pcs = 6)
+                       max_num_pcs         = 6, 
+                       cores               = 2) # only 2 core seems allowed with CRAN devtools::check()
   
   # compare sample exclusions 
   orig_samp_excl <- setdiff(raw_samp$SAMPLE_NAME, qc_samp$SAMPLE_NAME)

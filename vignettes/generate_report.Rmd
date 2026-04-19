@@ -51,7 +51,8 @@ mydata <- mydata |>
                   tree_cut_height     = 0.5, 
                   pc_outlier_sd       = 5,
                   feature_selection   = "least_missingness", 
-                  features_exclude_but_keep = xenos 
+                  features_exclude_but_keep = xenos,
+                  cores               = 1
                   )
 
 ```

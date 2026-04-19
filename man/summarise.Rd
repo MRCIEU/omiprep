@@ -13,7 +13,9 @@ summarise(
   sample_ids = NULL,
   feature_ids = NULL,
   features_exclude = NULL,
-  output = "data.frame"
+  output = "data.frame",
+  cores = NULL,
+  fast = FALSE
 )
 }
 \arguments{
@@ -33,6 +35,11 @@ summarise(
 
 \item{features_exclude}{character, vector of feature id indicating features to exclude from the sample and PCA summary analysis but keep in the data}
 
+\item{output}{character, type of output, either 'object' to return the updated metaboprep object, or 'data.frame' to return the data.}
+
+\item{cores}{number of cores available for parallelism; the default null will try find the maximum available cores - 1; set to 1 for linear, but potentially slow, computation of the correlation matrix.}
+
+\item{fast}{If \code{TRUE}, accelerates correlation computation by imputing missing values to the column minimum, pre-ranking all columns, and computing Pearson correlation on ranked data (approximating Spearman). Substantially faster than exact Spearman at large feature dimensions (\eqn{p > 5000}) but assumes missing data are missing at random. Features with high missingness will have inflated rank ties at the median (ensure these are filtered out appropriately with the missingness option). Default \code{FALSE}.}
 \item{output}{character, type of output, either 'object' to return the updated omiprep object, or 'data.frame' to return the data.}
 }
 \description{

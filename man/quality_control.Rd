@@ -21,7 +21,9 @@ quality_control(
   max_num_pcs = 10,
   sample_ids = NULL,
   feature_ids = NULL,
-  features_exclude_but_keep = NULL
+  features_exclude_but_keep = NULL,
+  cores = NULL,
+  fast = FALSE
 )
 }
 \arguments{
@@ -58,6 +60,10 @@ quality_control(
 \item{feature_ids}{character, vector of feature ids to retain and work with, all other features will be excluded}
 
 \item{features_exclude_but_keep}{character, vector of feature ids indicating features to exclude from the sample and PCA quality control analysis but keep in the data, OR a name of a logical column in the features data indicating the same}
+
+\item{cores}{number of cores available for parallelism; the default null will try find the maximum available cores - 1; set to 1 for linear, but potentially slow, computation of the correlation matrix.}
+
+\item{fast}{If \code{TRUE}, accelerates correlation computation by imputing missing values to the column minimum, pre-ranking all columns, and computing Pearson correlation on ranked data (approximating Spearman). Substantially faster than exact Spearman at large feature dimensions (\eqn{p > 5000}) but assumes missing data are missing at random. Features with high missingness will have inflated rank ties at the median (ensure these are filtered out appropriately with the missingness option). Default \code{FALSE}.}
 }
 \description{
 This function is a wrapper function that performs the key quality controls steps on an 'omics data set.

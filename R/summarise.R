@@ -16,7 +16,9 @@ summarise <- new_generic(name = "summarise",
                                   sample_ids        = NULL, 
                                   feature_ids       = NULL, 
                                   features_exclude  = NULL, 
-                                  output="data.frame") { S7_dispatch() })
+                                  output            ="data.frame",
+                                  cores             = NULL, 
+                                  fast              = FALSE) { S7_dispatch() })
 #' @name summarise
 method(summarise, Omiprep) <- function(omiprep, 
                                           source_layer      ="input", 
@@ -26,7 +28,9 @@ method(summarise, Omiprep) <- function(omiprep,
                                           sample_ids        = NULL, 
                                           feature_ids       = NULL, 
                                           features_exclude  = NULL, 
-                                          output="data.frame") {
+                                          output            ="data.frame",
+                                          cores             = NULL, 
+                                          fast              = FALSE) {
   
   # check inputs 
   output       <- match.arg(output, choices = c("object", "data.frame"))
@@ -47,10 +51,12 @@ method(summarise, Omiprep) <- function(omiprep,
                                  outlier_udist    = outlier_udist, 
                                  tree_cut_height  = tree_cut_height,
                                  feature_selection= feature_selection,
-                                 sample_ids       = sample_ids, 
+                                 sample_ids       = sample_ids,
                                  feature_ids      = feature_ids,
                                  features_exclude = features_exclude, 
-                                 output           = "data.frame")
+                                 output           = "data.frame",
+                                 cores            = cores,
+                                 fast             = fast)
   
   sample_sum  <- sample_summary(omiprep,  
                                 source_layer  = source_layer, 

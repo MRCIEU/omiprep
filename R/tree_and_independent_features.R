@@ -6,6 +6,8 @@
 #' @param tree_cut_height the tree cut height. A value of 0.2 (1-Spearman's rho) is equivalent to saying that features with a rho >= 0.8 are NOT independent.
 #' @param features_exclude character, vector of feature id indicating features to exclude from the sample and PCA summary analysis but keep in the data
 #' @param feature_selection character. Method for selecting a representative feature from each correlated feature cluster. 
+#' @param cores number of cores available for parallelism; the default null will try find the maximum available cores - 1; set to 1 for linear, but potentially slow, computation of the correlation matrix. 
+#' @param fast If \code{TRUE}, accelerates correlation computation by imputing missing values to the column minimum, pre-ranking all columns, and computing Pearson correlation on ranked data (approximating Spearman). Substantially faster than exact Spearman at large feature dimensions (\eqn{p > 5000}) but assumes missing data are missing at random. Features with high missingness will have inflated rank ties at the median (ensure these are filtered out appropriately with the missingness option). Default \code{FALSE}.
 #' One of:
 #' \describe{
 #'   \item{\code{"max_var_exp"}}{(Default) Selects the feature with the highest sum of absolute Spearman correlations to other features in the cluster; 
@@ -24,11 +26,12 @@
 #'   \item{tree}{A `hclust` object representing the hierarchical clustering of the features based on 1 - |Spearman's rho| distance.}
 #' }
 #' 
-#' @importFrom stats cor as.dist hclust cutree
+#' @importFrom stats as.dist hclust cutree
+#' @importFrom parallel mclapply
 #' 
 #' @export
 #'
-tree_and_independent_features = function(data, tree_cut_height = 0.5, features_exclude = NULL, feature_selection = "max_var_exp"){
+tree_and_independent_features = function(data, tree_cut_height = 0.5, features_exclude = NULL, feature_selection = "max_var_exp", cores = NULL, fast = FALSE){
 
   # testing
   if (FALSE) {
@@ -45,6 +48,18 @@ tree_and_independent_features = function(data, tree_cut_height = 0.5, features_e
   
   # checks 
   feature_selection <- match.arg(feature_selection, choices = c("max_var_exp", "least_missingness"))
+  
+  
+  # find available cores for parallel processing
+  if (is.null(cores)) {
+    cores <- local({
+      slurm <- as.integer(Sys.getenv("SLURM_CPUS_PER_TASK")) # guard against cluster specifying all node cores
+      if (!is.na(slurm)) slurm else max(parallel::detectCores() - 1, 1)
+    })
+  }
+  if (!(is.numeric(cores) && length(cores) == 1 && cores >= 1 && cores == as.integer(cores))) {
+    stop(sprintf("Cores must be a positive integer, got: %s", deparse(cores)))
+  }
   
   # remove excluded features
   if (!is.null(features_exclude)) {
@@ -66,11 +81,41 @@ tree_and_independent_features = function(data, tree_cut_height = 0.5, features_e
   }
   
   
-  # make tree
-  cor_matrix  <- stats::cor(data, method="spearman", use = "pairwise.complete.obs")
-  dist_matrix <- stats::as.dist(1-abs(cor_matrix))
+  # if fast then impute and rank once so we can avoid "pairwise.complete.obs" overhead
+  if (fast) {
+    col_medians  <- apply(data, 2, min, na.rm = TRUE)
+    na_idx       <- which(is.na(data), arr.ind = TRUE)
+    data[na_idx] <- col_medians[na_idx[, 2]]
+    
+    ranked <- apply(data, 2, rank, ties.method = "average")
+    
+    # parallelism (ML suggestion) - pearsons on imputed ranked = fast
+    if (cores == 1) {
+      cor_matrix <- stats::cor(ranked, method = "pearson")
+    } else {
+      idx    <- split(1:ncol(ranked), cut(seq_along(1:ncol(ranked)), breaks=cores, labels=FALSE))
+      c_list <- parallel::mclapply(idx, function(j) {
+        stats::cor(ranked[, j, drop=FALSE], ranked, method="pearson")
+      }, mc.cores=cores)
+      cor_matrix <- do.call(rbind, c_list)
+    }
+  } else {
+    # parallelism (ML suggestion) - spearman on potentially missing = slow due to pairwise comparisons
+    if (cores == 1) {
+      cor_matrix <- stats::cor(data, method = "spearman",  use = "pairwise.complete.obs")
+    } else {
+      idx <- split(1:ncol(data), cut(seq_along(1:ncol(data)), breaks=cores, labels=FALSE))
+      c_list <- parallel::mclapply(idx, function(j) {
+        stats::cor(data[, j, drop=FALSE], data, method = "spearman",  use = "pairwise.complete.obs")
+      }, mc.cores=cores)
+      cor_matrix <- do.call(rbind, c_list)
+    }
+  }
+  rownames(cor_matrix) <- colnames(data)
+  colnames(cor_matrix) <- colnames(data)
+  dist_matrix <- stats::as.dist(1 - abs(cor_matrix))
   stree       <- stats::hclust(dist_matrix, method = "complete")
-
+  
   
   # restrict based on cut off
   k <- stats::cutree(stree, h = tree_cut_height)
@@ -91,7 +136,7 @@ tree_and_independent_features = function(data, tree_cut_height = 0.5, features_e
     ind2 <- sapply(cluster_ids, function(x){
       w   <- which(k %in% x)
       n   <- names( k[w] )
-      o   <- sort(N[n], decreasing = FALSE)
+      o   <- sort(N[n], decreasing = TRUE)
       out <- names(o)[1]
       return(out)
     })

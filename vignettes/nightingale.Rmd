@@ -55,7 +55,8 @@ mydata <- mydata |>
                   tree_cut_height     = 0.5, 
                   pc_outlier_sd       = 5, 
                   feature_selection   = "max_var_exp",
-                  features_exclude_but_keep = NULL
+                  features_exclude_but_keep = NULL,
+                  cores               = 1
                   )
 ```
 

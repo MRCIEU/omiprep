@@ -91,7 +91,8 @@ mydata <- mydata |>
                   tree_cut_height     = 0.5, 
                   pc_outlier_sd       = 5,
                   feature_selection   = "least_missingness", ## We suggest using `least_missingness` when working with data, like Metabolon, with high missingness. Default is "max_var_exp".
-                  features_exclude_but_keep = xenos ## exclude xenobiotics from QC, but retain them in the final dataset
+                  features_exclude_but_keep = xenos, ## exclude xenobiotics from QC, but retain them in the final dataset
+                  cores               = 1
                   )
 
 ```

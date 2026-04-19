@@ -11,7 +11,8 @@
 #' 
 #' @importFrom stats prcomp
 #' @importFrom pcaMethods ppca
-#' @importFrom nFactors parallel nScree
+#' @importFrom nFactors nScree
+#' @importFrom irlba prcomp_irlba
 #'
 #' @return a data.frame
 #' @export
@@ -35,43 +36,55 @@ method(pc_and_outliers, Omiprep) <- function(omiprep, source_layer="input", samp
   pcadata <- omiprep@data[sample_ids, feature_ids, source_layer]
   
   
-  # impute missingness as medians
-  pcadata = median_impute(data = pcadata)
-
-  
-  # z-transformation
-  pcadata = apply(pcadata, 2, function(x){
+  # impute missingness as medians + z-transformation
+  pcadata <- median_impute(data = pcadata)
+  pcadata <- apply(pcadata, 2, function(x){
     ( x - mean(x, na.rm = TRUE) ) / sd(x, na.rm = TRUE)
   })
-  
-  
+
   # perform PCA
-  mypca  <- stats::prcomp(pcadata, center = FALSE, scale = FALSE)
+  # full SVD is unnecessary — only top k PCs are needed for outlier detection and nScree
+  # irlba truncated SVD is ~10x faster at large dimensions but degrades when k > 10%
+  # of min(n,p); fall back to base prcomp in that case
+  # mypca  <- stats::prcomp(pcadata, center = FALSE, scale = FALSE)
+  k <- min(50, nrow(pcadata) - 1, ncol(pcadata))
+  # irlba inefficient when k is large fraction of min(n,p), fallback to prcomp
+  if (k / min(nrow(pcadata), ncol(pcadata)) > 0.1) {
+    mypca <- stats::prcomp(pcadata, center = FALSE, scale = FALSE)
+  } else {
+    mypca <- irlba::prcomp_irlba(pcadata, n = k, center = FALSE, scale = FALSE)
+  }
   varexp <- summary(mypca)[[6]][2, ]
 
-  
   # find number of sig PCs
-  ev <- eigen(cor(pcadata))
-  ap <- nFactors::parallel(subject=nrow(pcadata), var=ncol(pcadata), rep=100, cent=.05)
-  ns <- nFactors::nScree(x=ev$values, aparallel=ap$eigen$qevpea)
-  af <- as.numeric( ns[[1]][["naf"]] )
-  if(af < 2) { af = 2 }
-  nsig_parrallel <- ns[[1]][["nparallel"]]
+  # data was z-scored prior to prcomp so cor(pcadata) == cov(pcadata)
+  # therefore eigen(cor(pcadata))$values == prcomp(pcadata)$sdev^2
+  # no need to recompute and generate potentially massive cor matrix
+  #ev <- eigen(cor(pcadata))
+  ev <- mypca$sdev^2
 
+  # takes a long time and we dont use nsig_parrallel anywhere other than the report
+  #ap             <- nFactors::parallel(subject=nrow(pcadata), var=ncol(pcadata), rep=100, cent=.05)
+  #ns             <- nFactors::nScree(x=ev$values, aparallel=ap$eigen$qevpea)
+  #nsig_parrallel <- ns[[1]][["nparallel"]]
+  #ns             <- nFactors::nScree(x=ev$values)
+  ns             <- nFactors::nScree(x=ev)
+  nsig_parrallel <- NA_real_
+  af <- as.numeric( ns[[1]][["naf"]] )
+  cat("AF = ",af,"\n")
+  if(af < 2) { af = 2 }
 
   # identify outliers - 3SD
   o_mat3           <- outlier_detection(mypca$x[, 1:af], nsd = 3, by = "column")
   colnames(o_mat3) <- paste0(colnames(o_mat3), "_3_sd_outlier")
   max_cols         <- ifelse(ncol(mypca$x)<10, ncol(mypca$x), ifelse(af > 10, af, 10))
   pc_out           <- cbind(mypca$x[,1:max_cols], o_mat3)
-   
-  
+
   # identify outliers - 4SD
   o_mat4           <- outlier_detection(mypca$x[, 1:af], nsd = 4, by = "column")
   colnames(o_mat4) <- paste0(colnames(o_mat4), "_4_sd_outlier")
   pc_out           <- cbind(pc_out, o_mat4)
- 
-  
+
   # identify outliers - 5SD
   o_mat5           <- outlier_detection(mypca$x[, 1:af], nsd = 5, by = "column")
   colnames(o_mat5) <- paste0(colnames(o_mat5), "_5_sd_outlier")

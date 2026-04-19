@@ -7,7 +7,7 @@
 #'
 #' @keywords omics multivariate ANOVA
 #'
-#' @importFrom stats lm
+#' @importFrom stats lm cor
 #' @importFrom car Anova
 #' @importFrom ggpubr ggtexttable ttheme
 #'

@@ -45,7 +45,9 @@ quality_control <- new_generic("quality_control", c("omiprep"), function(omiprep
                                                                             max_num_pcs = 10, 
                                                                             sample_ids = NULL, 
                                                                             feature_ids = NULL, 
-                                                                            features_exclude_but_keep = NULL) { S7_dispatch() })
+                                                                            features_exclude_but_keep = NULL, 
+                                                                            cores = NULL, 
+                                                                            fast = FALSE) { S7_dispatch() })
 #' @name quality_control
 method(quality_control, Omiprep) <- function(omiprep, 
                                                 source_layer="input", 
@@ -63,8 +65,22 @@ method(quality_control, Omiprep) <- function(omiprep,
                                                 max_num_pcs = 10, 
                                                 sample_ids = NULL, 
                                                 feature_ids = NULL, 
-                                                features_exclude_but_keep = NULL){
+                                                features_exclude_but_keep = NULL, 
+                                                cores = NULL, 
+                                                fast  = FALSE){
 
+  cli::cli_h1("Starting Omics QC Process")
+  t_total <- proc.time()
+  .qc_timings <- list()
+
+  # input validation
+  cli::cli_progress_step("Validating input parameters")
+  t_step <- proc.time()
+  source_layer <- match.arg(source_layer, choices = dimnames(metaboprep@data)[[3]])
+  outlier_treatment <- match.arg(outlier_treatment, choices = c("leave_be", "turn_NA", "winsorize"))
+  stopifnot("sample_ids must all be found in the data" = is.null(sample_ids) || all(sample_ids %in% metaboprep@samples[["sample_id"]]))
+  stopifnot("feature_ids must all be found in the data" = is.null(feature_ids) || all(feature_ids %in% metaboprep@features[["feature_id"]]))
+  stopifnot("`features_exclude_but_keep` must be a logical column in the features data or a vector of feature ids all present in the data" = is.null(features_exclude_but_keep) || (all(features_exclude_but_keep %in% names(metaboprep@features)) && all(is.logical(metaboprep@features[[features_exclude_but_keep]]))) || all(features_exclude_but_keep %in% metaboprep@features[["feature_id"]]) )
   cli::cli_h1("Starting 'Omics QC Process")
   
 
@@ -78,6 +94,7 @@ method(quality_control, Omiprep) <- function(omiprep,
   stopifnot("feature_skewness_threshold must be NULL or a non-negative numeric scalar" = is.null(feature_skewness_threshold) || (is.numeric(feature_skewness_threshold) && length(feature_skewness_threshold) == 1 && !is.na(feature_skewness_threshold) && feature_skewness_threshold >= 0))
   stopifnot("`features_exclude_but_keep` must be a logical column in the features data or a vector of feature ids all present in the data" = is.null(features_exclude_but_keep) || (all(features_exclude_but_keep %in% names(omiprep@features)) && all(is.logical(omiprep@features[[features_exclude_but_keep]]))) || all(features_exclude_but_keep %in% omiprep@features[["feature_id"]]) )
   cli_progress_update()
+  .qc_timings[["validation"]] <- (proc.time() - t_step)["elapsed"]
   
 
   # get ids & update exclusions if user has passed a predefined set of ids
@@ -116,32 +133,39 @@ method(quality_control, Omiprep) <- function(omiprep,
 
   # run sample summary and feature summary on the raw data
   cli::cli_progress_step("Sample & Feature Summary Statistics for raw data")
+  t_step <- proc.time()
   stopifnot("No remaining features" = length(setdiff(feature_ids, exclude_but_keep_feats)) > 0)
   stopifnot("No remaining samples"  = length(sample_ids) > 0)
-  omiprep <- summarise(omiprep, 
-                          source_layer     = source_layer, 
-                          outlier_udist    = outlier_udist, 
-                          tree_cut_height  = tree_cut_height, 
+  metaboprep <- summarise(omiprep,
+                          source_layer     = source_layer,
+                          outlier_udist    = outlier_udist,
+                          tree_cut_height  = tree_cut_height,
                           feature_selection= feature_selection,
-                          sample_ids       = sample_ids, 
+                          sample_ids       = sample_ids,
                           feature_ids      = feature_ids,
                           features_exclude = exclude_but_keep_feats,
-                          output           = "object")
+                          output           = "object",
+                          cores            = cores, 
+                          fast             = fast)
+  .qc_timings[["summarise_raw"]] <- (proc.time() - t_step)["elapsed"]
 
 
   # data to work from and add another layer - we now work with the 'destination data', plus any exclusions, from now on
   cli::cli_progress_step("Copying {source_layer} data to new 'qc' data layer")
+  t_step <- proc.time()
   dat <- omiprep@data[, , source_layer]
   dat[!rownames(dat) %in% sample_ids, ]  <- NA_real_
   dat[, !colnames(dat) %in% feature_ids] <- NA_real_
   omiprep@data <- add_layer(current    = omiprep@data,
                                layer      = dat,
                                layer_name = "qc")
+  .qc_timings[["copy_layer"]] <- (proc.time() - t_step)["elapsed"]
 
 
   # very bad sample missingness
   excl_samps <- c()
   cli::cli_progress_step("Assessing for extreme sample missingness >=80% - excluding {length(excl_samps)} sample(s)")
+  t_step     <- proc.time()
   est_samps  <- sample_ids
   est_feats  <- setdiff(feature_ids, exclude_but_keep_feats)
   stopifnot("No remaining features" = length(est_feats) > 0)
@@ -152,11 +176,13 @@ method(quality_control, Omiprep) <- function(omiprep,
   cli::cli_progress_update()
   omiprep@exclusions$samples$extreme_sample_missingness <- excl_samps
   sample_ids <- setdiff(sample_ids, excl_samps)
-  
-  
+  .qc_timings[["extreme_sample_missingness"]] <- (proc.time() - t_step)["elapsed"]
+
+
   # very bad feature missingness
   excl_feats <- c()
   cli::cli_progress_step("Assessing for extreme feature missingness >=80% - excluding {length(excl_feats)} feature(s)")
+  t_step     <- proc.time()
   est_samps  <- sample_ids
   est_feats  <- setdiff(feature_ids, exclude_but_keep_feats)
   stopifnot("No remaining features" = length(est_feats) > 0)
@@ -167,12 +193,14 @@ method(quality_control, Omiprep) <- function(omiprep,
   cli::cli_progress_update()
   omiprep@exclusions$features$extreme_feature_missingness <- excl_feats
   feature_ids <- setdiff(feature_ids, excl_feats)
-  
+  .qc_timings[["extreme_feature_missingness"]] <- (proc.time() - t_step)["elapsed"]
+
 
   # re-estimate sample missingness and exclude based on user-defined
   if (!is.null(sample_missingness) && !is.na(sample_missingness)) {
     excl_samps <- c()
     cli::cli_progress_step("Assessing for sample missingness at specified level of >={round(sample_missingness*100)}% - excluding {length(excl_samps)} sample(s)")
+    t_step     <- proc.time()
     est_samps  <- sample_ids
     est_feats  <- setdiff(feature_ids, exclude_but_keep_feats)
     stopifnot("No remaining features" = length(est_feats) > 0)
@@ -183,13 +211,15 @@ method(quality_control, Omiprep) <- function(omiprep,
     cli::cli_progress_update()
     omiprep@exclusions$samples$user_defined_sample_missingness <- excl_samps
     sample_ids <- setdiff(sample_ids, excl_samps)
+    .qc_timings[["sample_missingness"]] <- (proc.time() - t_step)["elapsed"]
   }
 
-  
+
   # re-estimate feature missingness
   if (!is.null(feature_missingness) && !is.na(feature_missingness)) {
     excl_feats <- c()
     cli::cli_progress_step("Assessing for feature missingness at specified level of >={round(feature_missingness*100)}% - excluding {length(excl_feats)} feature(s)")
+    t_step     <- proc.time()
     est_samps  <- sample_ids
     est_feats  <- setdiff(feature_ids, exclude_but_keep_feats)
     stopifnot("No remaining features" = length(est_feats) > 0)
@@ -222,13 +252,15 @@ method(quality_control, Omiprep) <- function(omiprep,
     cli::cli_progress_update()
     omiprep@exclusions$features$user_defined_feature_skewness <- excl_feats
     feature_ids <- setdiff(feature_ids, excl_feats)
+    .qc_timings[["feature_missingness"]] <- (proc.time() - t_step)["elapsed"]
   }
 
-  
+
   # total peak area
   if (!is.null(total_peak_area_sd) && !is.na(total_peak_area_sd)) {
     excl_samps <- c()
     cli::cli_progress_step("Calculating total peak abundance outliers at +/- {total_peak_area_sd} Sdev - excluding {length(excl_samps)} sample(s)")
+    t_step        <- proc.time()
     est_samps     <- sample_ids
     est_feats     <- setdiff(feature_ids, exclude_but_keep_feats)
     stopifnot("No remaining features" = length(est_feats) > 0)
@@ -243,6 +275,7 @@ method(quality_control, Omiprep) <- function(omiprep,
     cli::cli_progress_update()
     omiprep@exclusions$samples$user_defined_sample_totalpeakarea <- excl_samps
     sample_ids    <- setdiff(sample_ids, excl_samps)
+    .qc_timings[["total_peak_area"]] <- (proc.time() - t_step)["elapsed"]
   }
 
 
@@ -290,15 +323,19 @@ method(quality_control, Omiprep) <- function(omiprep,
     excl_samps <- "..."
     num_pcs    <- "..."
     cli::cli_progress_step("Sample PCA outlier analysis - re-identify feature independence and PC outliers - excluding {length(excl_samps)} sample(s) over PCs 1:{num_pcs}")
+    t_step      <- proc.time()
     omiprep  <- summarise(omiprep,  
                              source_layer     = "qc", 
                              outlier_udist    = outlier_udist, 
                              tree_cut_height  = tree_cut_height, 
                              feature_selection= feature_selection,
-                             sample_ids       = sample_ids, 
+                             sample_ids       = sample_ids,
                              feature_ids      = feature_ids,
                              features_exclude = exclude_but_keep_feats,
-                             output           = "object")
+                             output           = "object",
+                             cores            = cores, 
+                             fast             = fast)
+    .qc_timings[["summarise_pca"]] <- (proc.time() - t_step)["elapsed"]
 
     if (is.null(max_num_pcs)) {
       num_pcs <- attr(omiprep@sample_summary, "qc_num_pcs_scree")
@@ -320,15 +357,19 @@ method(quality_control, Omiprep) <- function(omiprep,
 
   # Make final QC dataset
   cli::cli_progress_step("Creating final QC dataset...")
+  t_step     <- proc.time()
   omiprep <- summarise(omiprep, 
                           source_layer     = "qc", 
                           outlier_udist    = outlier_udist, 
                           tree_cut_height  = tree_cut_height, 
                           feature_selection= feature_selection,
-                          sample_ids       = sample_ids, 
+                          sample_ids       = sample_ids,
                           feature_ids      = feature_ids,
                           features_exclude = exclude_but_keep_feats,
-                          output           = "object")
+                          output           = "object", 
+                          cores            = cores, 
+                          fast             = fast)
+  .qc_timings[["summarise_final"]] <- (proc.time() - t_step)["elapsed"]
   
   
   # set parameters used
@@ -387,8 +428,18 @@ method(quality_control, Omiprep) <- function(omiprep,
   omiprep@samples  <- s
   omiprep@features <- f
   
-  cli::cli_progress_step("'Omics QC Process Completed")
+  .qc_timings[["total"]] <- (proc.time() - t_total)["elapsed"]
 
-  # return the omiprep object with underlying data (+/- adjustments) and exclusion matrix
+  # step timing summary
+  timing_df <- data.frame(
+    step    = names(.qc_timings),
+    seconds = round(unlist(.qc_timings), 2)
+  )
+  timing_df$pct <- round(100 * timing_df$seconds / .qc_timings[["total"]], 1)
+  cli::cli_h2("Step timings")
+  print(timing_df, row.names = FALSE)
+
+  # return the omiprep with underlying data (+/- adjustments) and exclusion matrix
+  cli::cli_progress_step("'Omics QC Process Completed")
   return(omiprep)
 }

@@ -9,3 +9,4 @@ scripts
 ^\.github$
 ^data-raw$
 ^\.idea$
+^index\.md$
