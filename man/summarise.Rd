@@ -5,7 +5,7 @@
 \title{Summary Statistics}
 \usage{
 summarise(
-  metaboprep,
+  omiprep,
   source_layer = "input",
   outlier_udist = 5,
   tree_cut_height = 0.5,
@@ -17,7 +17,7 @@ summarise(
 )
 }
 \arguments{
-\item{metaboprep}{an object of class Metaboprep}
+\item{omiprep}{an object of class Omiprep}
 
 \item{source_layer}{character, the data layer to summarise}
 
@@ -33,7 +33,7 @@ summarise(
 
 \item{features_exclude}{character, vector of feature id indicating features to exclude from the sample and PCA summary analysis but keep in the data}
 
-\item{output}{character, type of output, either 'object' to return the updated metaboprep object, or 'data.frame' to return the data.}
+\item{output}{character, type of output, either 'object' to return the updated omiprep object, or 'data.frame' to return the data.}
 }
 \description{
 Summarise the sample and feature data

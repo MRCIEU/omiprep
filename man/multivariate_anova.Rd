@@ -34,5 +34,5 @@ multivariate_anova(dep = ex_data[,1], indep_df = ex_data[, 2:3])
 
 }
 \keyword{ANOVA}
-\keyword{metabolomics}
 \keyword{multivariate}
+\keyword{omics}

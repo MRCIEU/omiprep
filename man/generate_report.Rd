@@ -5,7 +5,7 @@
 \title{Generate Output Report}
 \usage{
 generate_report(
-  metaboprep,
+  omiprep,
   output_dir,
   output_filename = NULL,
   project = "Project",
@@ -14,7 +14,7 @@ generate_report(
 )
 }
 \arguments{
-\item{metaboprep}{an object of class Metaboprep}
+\item{omiprep}{an object of class Omiprep}
 
 \item{output_dir}{character, the directory to save to}
 

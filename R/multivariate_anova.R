@@ -5,7 +5,7 @@
 #' @param dep a vector of the dependent variable
 #' @param indep_df a data frame of the independent variable
 #'
-#' @keywords metabolomics multivariate ANOVA
+#' @keywords omics multivariate ANOVA
 #'
 #' @importFrom stats lm
 #' @importFrom car Anova

@@ -13,30 +13,30 @@ knitr::opts_chunk$set(
 )
 ```
 
-# metaboprep
+# omiprep
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
 <!-- <div style="text-align: center"> -->
-<!--   <img src="man/figures/logo.png" alt="metaboprep logo" width="150"/>  -->
+<!--   <img src="man/figures/logo.png" alt="omiprep logo" width="150"/>  -->
 <!-- </div> -->
 
 
-The goal of `metaboprep` is to:  
+The goal of `omiprep` is to:  
 
-1. Read in and processes (un)targeted metabolite data, saving datasets in tab-delimited format for use elsewhere
+1. Read in and processes various 'omics data, saving datasets in tab-delimited format for use elsewhere
 2. Provide useful summary data in the form of tab-delimited text file and a html report.  
 3. Perform data filtering on the data set using a standard pipeline and according to user-defined thresholds.  
 
 
 ## Installation
 
-You can install the development version of metaboprep from [GitHub](https://github.com/MRCIEU/metaboprep/tree/v2_development) with:
+You can install the development version of omiprep from [GitHub](https://github.com/MRCIEU/omiprep/tree/v2_development) with:
 
 ``` r
 # install.packages("pak")
-pak::pak("MRCIEU/metaboprep")
+pak::pak("MRCIEU/omiprep")
 ```
 
 ## Cheatsheet
@@ -45,23 +45,23 @@ pak::pak("MRCIEU/metaboprep")
 
 ## Example
 
-This is a basic example which shows you how to load data and run the `metaboprep` quality control pipeline.
+This is a basic example which shows you how to load data and run the `omiprep` quality control pipeline.
 
-### Read data into R and create the Metaboprep object
+### Read data into R and create the Omiprep object
 
 ```{r}
-library(metaboprep)
+library(omiprep)
 
 # import data 
-mydata <- read_metabolon(system.file("extdata", "metabolon_v1.1_example.xlsx", package = "metaboprep"), 
+mydata <- read_metabolon(system.file("extdata", "metabolon_v1.1_example.xlsx", package = "omiprep"), 
                          sheet = "OrigScale",      ## The name of the sheet in the excel file to read in
-                         return_Metaboprep = FALSE  ## Whether to return a Metaboprep object (TRUE) or a list (FALSE)
+                         return_Omiprep = FALSE    ## Whether to return a Omiprep object (TRUE) or a list (FALSE)
                          )
 
-# create metaboprep object
-mydata <-  Metaboprep(data     = mydata$data, 
-                    features = mydata$features, 
-                    samples  = mydata$samples)
+# create omiprep object
+mydata <-  Omiprep(data     = mydata$data, 
+                   features = mydata$features, 
+                   samples  = mydata$samples)
 
 ```
 
@@ -85,7 +85,7 @@ mydata <- mydata |> quality_control( source_layer = "input",
 ```
 
 
-### View a summary of the Metaboprep object
+### View a summary of the Omiprep object
 
 ```{r summary}
 # view summary

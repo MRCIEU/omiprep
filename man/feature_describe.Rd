@@ -7,13 +7,13 @@
 feature_describe(data)
 }
 \arguments{
-\item{data}{matrix, the metabolite data matrix. Samples in row, metabolites in columns}
+\item{data}{matrix, the 'omics data matrix. Samples in row, features in columns}
 }
 \value{
 a data frame of summary statistics for features (columns) of a matrix
 }
 \description{
-This function allows you to 'describe' metabolite features using the describe() function from the psych package,
+This function allows you to 'describe' 'omics features using the describe() function from the psych package,
 as well as estimate variance, a dispersion index, the coeficent of variation, and shapiro's W-statistic.
 The output from \code{psych::describe()} includes feature-level skewness and kurtosis estimates.
 }

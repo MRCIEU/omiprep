@@ -14,29 +14,29 @@ knitr::opts_chunk$set(
 )
 ```
 
-`Metaboprep` can export data to various formats. 
+`Omiprep` can export data to various formats. 
 
 ## Setup
 
-### load the metaboprep library
+### load the omiprep library
 
 ```{r}
-library(metaboprep)
+library(omiprep)
 ```
 
 
-### Read in the data and make a Metaboprep object
+### Read in the data and make a Omiprep object
 
-Create a `Metaboprep` object as described in the [Getting Started](index.html) vignette. 
+Create a `Omiprep` object as described in the [Getting Started](index.html) vignette. 
 
 ```{r setup, results='hide'}
 # read in the metabolon data as a list object
-datain     <- read_metabolon(system.file("extdata", "metabolon_v1.1_example.xlsx", package = "metaboprep"), 
+datain     <- read_metabolon(system.file("extdata", "metabolon_v1.1_example.xlsx", package = "omiprep"), 
                             sheet="OrigScale", 
-                            return_Metaboprep = FALSE)
+                            return_Omiprep = FALSE)
 
-# build the Metaboprep class object
-mydata      <- Metaboprep(data = datain$data, samples = datain$samples, features = datain$features)
+# build the Omiprep class object
+mydata      <- Omiprep(data = datain$data, samples = datain$samples, features = datain$features)
 
 ```
 
@@ -48,13 +48,13 @@ mydata         <- suppressWarnings( quality_control(mydata) )
 ```
 
 
-## Export Metaboprep
-```{r export_metaboprep}
+## Export Omiprep
+```{r export_omiprep}
 # where to put the files
 output_dir <- file.path(getwd(), "output")
 
 # run export
-export(mydata, directory = output_dir, format = "metaboprep")
+export(mydata, directory = output_dir, format = "omiprep")
 
 # view output directory files
 files <- list.files(output_dir, full.names = TRUE, recursive = TRUE)

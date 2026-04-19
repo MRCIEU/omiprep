@@ -5,7 +5,7 @@
 \title{Feature Summary Statistics}
 \usage{
 feature_summary(
-  metaboprep,
+  omiprep,
   source_layer = "input",
   outlier_udist = 5,
   tree_cut_height = 0.5,
@@ -17,7 +17,7 @@ feature_summary(
 )
 }
 \arguments{
-\item{metaboprep}{an object of class Metabolites}
+\item{omiprep}{an object of class Omiprep}
 
 \item{source_layer}{character, the data layer to summarise}
 
@@ -33,8 +33,8 @@ feature_summary(
 
 \item{features_exclude}{character, vector of feature id indicating features to exclude from the sample and PCA summary analysis but keep in the data}
 
-\item{output}{character, type of output, either 'object' to return the updated metaboprep object, or 'data.frame' to return the data.}
+\item{output}{character, type of output, either 'object' to return the updated omiprep object, or 'data.frame' to return the data.}
 }
 \description{
-This function estimates feature statistics for samples in a matrix of metabolite features.
+This function estimates feature statistics for samples in a matrix of 'omics features.
 }

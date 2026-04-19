@@ -58,8 +58,8 @@ test_that("sample pca outlier works", {
   )
   
   
-  # load metaboprep object ====
-  m <- Metaboprep(data_with_outliers, samples, features)
+  # load omiprep object ====
+  m <- Omiprep(data_with_outliers, samples, features)
   
   
   # run the QC ====

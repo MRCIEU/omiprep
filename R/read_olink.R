@@ -1,11 +1,11 @@
 #' @title Read and Process Olink NPX Data File
 #' @description
-#'  This function reads and processes an Olink NPX file in long format. It supports `.csv`, `.xls`, `.xlsx`, `.txt`, `.zip`, and `.parquet` formats, using Olink's own OlinkAnalyze::read_NPX() function, and returns a metaboprep object or a list of matrices and metadata frames for further analysis.
+#'  This function reads and processes an Olink NPX file in long format. It supports `.csv`, `.xls`, `.xlsx`, `.txt`, `.zip`, and `.parquet` formats, using Olink's own OlinkAnalyze::read_NPX() function, and returns a omiprep object or a list of matrices and metadata frames for further analysis.
 #'
 #' @param filepath A string specifying the path to the Olink NPX file.
-#' @param return_Metaboprep logical, if TRUE (default) return a Metaboprep object, if FALSE return a list.
+#' @param return_Omiprep logical, if TRUE (default) return a Omiprep object, if FALSE return a list.
 #' 
-#' @returns Metaboprep object or a named list with the following elements:
+#' @returns Omiprep object or a named list with the following elements:
 #' \describe{
 #'   \item{data}{A matrix of NPX values with `SampleID` as rows and `OlinkID` as columns, containing only sample data.}
 #'   \item{samples}{A `data.frame` containing metadata for samples.}
@@ -25,18 +25,18 @@
 #'
 #' @examples
 #' \dontrun{
-#'   filepath <- system.file("extdata", "example_olink_data.txt", package = "metaboprep")
+#'   filepath <- system.file("extdata", "example_olink_data.txt", package = "omiprep")
 #'   olink_data <- read_olink(filepath)
 #' }
 #' @importFrom OlinkAnalyze read_NPX
 #' @importFrom reshape2 dcast
 #' @export
 
-read_olink <- function(filepath, return_Metaboprep = FALSE) {
+read_olink <- function(filepath, return_Omiprep = FALSE) {
   
   # testing ====
   if (FALSE) {
-    filepath <- system.file("extdata", "olink_v1_example.txt", package = "metaboprep")
+    filepath <- system.file("extdata", "olink_v1_example.txt", package = "omiprep")
   }
   
   
@@ -148,8 +148,8 @@ read_olink <- function(filepath, return_Metaboprep = FALSE) {
   
   
   # return ====
-  if (return_Metaboprep) {
-    return(Metaboprep(data = data, 
+  if (return_Omiprep) {
+    return(Omiprep(data = data, 
                       samples = samples, 
                       features = features))
   } else {

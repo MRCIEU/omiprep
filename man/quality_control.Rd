@@ -2,10 +2,10 @@
 % Please edit documentation in R/quality_control.R
 \name{quality_control}
 \alias{quality_control}
-\title{Metabolite Quality Control}
+\title{Omics Quality Control}
 \usage{
 quality_control(
-  metaboprep,
+  omiprep,
   source_layer = "input",
   sample_missingness = 0.2,
   feature_missingness = 0.2,
@@ -25,7 +25,7 @@ quality_control(
 )
 }
 \arguments{
-\item{metaboprep}{an object of class Metabolites}
+\item{omiprep}{an object of class Omiprep}
 
 \item{source_layer}{character, the data layer to summarise}
 
@@ -60,12 +60,12 @@ quality_control(
 \item{features_exclude_but_keep}{character, vector of feature ids indicating features to exclude from the sample and PCA quality control analysis but keep in the data, OR a name of a logical column in the features data indicating the same}
 }
 \description{
-This function is a wrapper function that performs the key quality controls steps on a metabolomics data set.
+This function is a wrapper function that performs the key quality controls steps on an 'omics data set.
 Key principles:
  1. keep the source underlying data as it is
  2. copy the source data to a new data layer called qcing for processing
  3. build an exclusion list, accumulating codes for exclusion reasons
  4. make any adjustments needed in the destination copy of the data, flag these in the exclusion list
  5. copy the final result to a data layer called post_qc
- 6. return the Metabolites object with the newly populated data layers
+ 6. return the Omiprep object with the newly populated data layers
 }

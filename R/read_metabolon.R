@@ -5,21 +5,21 @@
 #' @param feature_id_col character, the excel column containing the feature_id mapping to the data. 
 #' @param sample_sheet character or integer, the excel sheet name (or index) from which to read the sample data. 
 #' @param sample_id_col character, the excel column containing the sample_id mapping to the data. 
-#' @param return_Metaboprep logical, if TRUE (default) return a Metaboprep object, if FALSE return a list.
-#' @returns list or Metaboprep object, list(data = matrix, samples = samples data.frame, features = features data.frame)
+#' @param return_Omiprep logical, if TRUE (default) return a Omiprep object, if FALSE return a list.
+#' @returns list or Omiprep object, list(data = matrix, samples = samples data.frame, features = features data.frame)
 #'
 #' @examples
 #' # version 1.1 data format
-#' filepath1 <- system.file("extdata", "metabolon_v1.1_example.xlsx", package = "metaboprep")
+#' filepath1 <- system.file("extdata", "metabolon_v1.1_example.xlsx", package = "omiprep")
 #' m <- read_metabolon(filepath1, sheet = 2)
 #' 
 #' # version 1.2 data format (different column names)
-#' filepath2 <- system.file("extdata", "metabolon_v1.2_example.xlsx", package = "metaboprep")
+#' filepath2 <- system.file("extdata", "metabolon_v1.2_example.xlsx", package = "omiprep")
 #' m <- read_metabolon(filepath2, sheet = 'OrigScale')
 #'
 #' 
 #' # version 2 data format
-#' filepath3 <- system.file("extdata", "metabolon_v2_example.xlsx", package = "metaboprep")
+#' filepath3 <- system.file("extdata", "metabolon_v2_example.xlsx", package = "omiprep")
 #' m <- read_metabolon(filepath3, 
 #'                     sheet = 'Batch-normalized Data', 
 #'                     feature_sheet = 'Chemical Annotation', 
@@ -29,19 +29,19 @@
 #'
 #' @importFrom readxl excel_sheets read_xlsx
 #' @export
-read_metabolon <- function(filepath, sheet = NULL, feature_sheet = NULL, feature_id_col = NULL, sample_sheet = NULL, sample_id_col = NULL, return_Metaboprep = TRUE) {
+read_metabolon <- function(filepath, sheet = NULL, feature_sheet = NULL, feature_id_col = NULL, sample_sheet = NULL, sample_id_col = NULL, return_Omiprep = TRUE) {
 
   # testing ====
   if (FALSE) {
-    #filepath <- system.file("extdata", "metabolon_v1.1_example.xlsx", package = "metaboprep")
-    filepath <- system.file("extdata", "metabolon_v1.2_example.xlsx", package = "metaboprep")
+    #filepath <- system.file("extdata", "metabolon_v1.1_example.xlsx", package = "omiprep")
+    filepath <- system.file("extdata", "metabolon_v1.2_example.xlsx", package = "omiprep")
     sheet = 'OrigScale'
     feature_sheet = NULL
     feature_id_col = NULL
     sample_sheet = NULL
     sample_id_col = NULL
     
-    # filepath <- system.file("extdata", "metabolon_v2_example.xlsx", package = "metaboprep")
+    # filepath <- system.file("extdata", "metabolon_v2_example.xlsx", package = "omiprep")
     # sheet = 'Batch-normalized Data'
     # feature_sheet = 'Chemical Annotation'
     # feature_id_col = 'CHEM_ID'
@@ -191,8 +191,8 @@ read_metabolon <- function(filepath, sheet = NULL, feature_sheet = NULL, feature
   
   
   # return ====
-  if (return_Metaboprep) {
-    return(Metaboprep(data = data, samples = samples, features = features))
+  if (return_Omiprep) {
+    return(Omiprep(data = data, samples = samples, features = features))
   } else {
     return(list(data = data, samples = samples, features = features))
   }

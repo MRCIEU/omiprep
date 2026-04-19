@@ -3,25 +3,25 @@
 ## Sample size of `r project` data set:  
 
 ```{r sample_size, echo=FALSE, results = 'asis'}
-layer_names = dimnames(metaboprep@data)[[3]]
-excl_samps = unique( unlist(metaboprep@exclusions$samples ))
-incl_samps = setdiff(rownames(metaboprep@data[, ,layer_names[2]]), excl_samps)
-excl_feats = unique( unlist(metaboprep@exclusions$features ))
-incl_feats = setdiff(colnames(metaboprep@data[, ,layer_names[2]]), excl_feats)
+layer_names = dimnames(omiprep@data)[[3]]
+excl_samps = unique( unlist(omiprep@exclusions$samples ))
+incl_samps = setdiff(rownames(omiprep@data[, ,layer_names[2]]), excl_samps)
+excl_feats = unique( unlist(omiprep@exclusions$features ))
+incl_feats = setdiff(colnames(omiprep@data[, ,layer_names[2]]), excl_feats)
 
 sample_size_table <- data.frame(
   Dataset  = toupper(gsub("_"," ",layer_names)),
-  Samples  = c( nrow(metaboprep@data[ , ,layer_names[1]]) , length(incl_samps) ),
-  Features = c( ncol(metaboprep@data[ , ,layer_names[1]]) ,  length(incl_feats) ),
+  Samples  = c( nrow(omiprep@data[ , ,layer_names[1]]) , length(incl_samps) ),
+  Features = c( ncol(omiprep@data[ , ,layer_names[1]]) ,  length(incl_feats) ),
   stringsAsFactors = FALSE
 )
 
 # extract
-# sample_size_table <- do.call(rbind, lapply(dimnames(metaboprep@data)[[3]], function(layer_name) {
+# sample_size_table <- do.call(rbind, lapply(dimnames(omiprep@data)[[3]], function(layer_name) {
 #   
-#   incl_samps <- setdiff(rownames(metaboprep@data[, , layer_name]), unlist(metaboprep@exclusions[["samples"]]))
-#   incl_feats <- setdiff(colnames(metaboprep@data[, , layer_name]), unlist(metaboprep@exclusions[["features"]]))
-#   data <- metaboprep@data[incl_samps, incl_feats, layer_name]
+#   incl_samps <- setdiff(rownames(omiprep@data[, , layer_name]), unlist(omiprep@exclusions[["samples"]]))
+#   incl_feats <- setdiff(colnames(omiprep@data[, , layer_name]), unlist(omiprep@exclusions[["features"]]))
+#   data <- omiprep@data[incl_samps, incl_feats, layer_name]
 #   
 #   data.frame(
 #     `Dataset`  = toupper(gsub("_"," ",layer_name)), 
@@ -56,7 +56,7 @@ Missingness is evaluated across samples and features using the original (input) 
 ## Visual structure of missingness in the raw data
 ```{r missing_matrix, fig.width=10, fig.height=6}
 # raw data
-namat <- metaboprep@data[, , "input"]
+namat <- omiprep@data[, , "input"]
 namat[!is.na(namat)] <- 1 
 namat[is.na(namat)] <- 0
 nadat <- as.data.frame(namat)
@@ -101,7 +101,7 @@ The distribution of missingness is summarized in:
 
 ```{r missing_summary_compute}
 # raw data
-data <- metaboprep@data[, , "input"]
+data <- omiprep@data[, , "input"]
 
 # calculate missingness
 missing <- rbind(

@@ -3,12 +3,12 @@
 #' Summarise the sample and feature data
 #' @inheritParams sample_summary
 #' @inheritParams feature_summary
-#' @param output character, type of output, either 'object' to return the updated metaboprep object, or 'data.frame' to return the data.
-#' @include class_metaboprep.R
+#' @param output character, type of output, either 'object' to return the updated omiprep object, or 'data.frame' to return the data.
+#' @include class_omiprep.R
 #' @export
 summarise <- new_generic(name = "summarise", 
-                         dispatch_args = c("metaboprep"), 
-                         function(metaboprep, 
+                         dispatch_args = c("omiprep"), 
+                         function(omiprep, 
                                   source_layer      = "input", 
                                   outlier_udist     = 5, 
                                   tree_cut_height   = 0.5, 
@@ -18,7 +18,7 @@ summarise <- new_generic(name = "summarise",
                                   features_exclude  = NULL, 
                                   output="data.frame") { S7_dispatch() })
 #' @name summarise
-method(summarise, Metaboprep) <- function(metaboprep, 
+method(summarise, Omiprep) <- function(omiprep, 
                                           source_layer      ="input", 
                                           outlier_udist     = 5, 
                                           tree_cut_height   = 0.5, 
@@ -30,19 +30,19 @@ method(summarise, Metaboprep) <- function(metaboprep,
   
   # check inputs 
   output       <- match.arg(output, choices = c("object", "data.frame"))
-  source_layer <- match.arg(source_layer, choices = dimnames(metaboprep@data)[[3]])
-  stopifnot("sample_ids must all be found in the data" = all(sample_ids %in% metaboprep@samples[["sample_id"]]) | is.null(sample_ids))
-  stopifnot("feature_ids must all be found in the data" = all(feature_ids %in% metaboprep@features[["feature_id"]]) | is.null(feature_ids))  
-  stopifnot("features_exclude must all be found in the data" = all(features_exclude %in% metaboprep@features[["feature_id"]]) | is.null(features_exclude)) 
+  source_layer <- match.arg(source_layer, choices = dimnames(omiprep@data)[[3]])
+  stopifnot("sample_ids must all be found in the data" = all(sample_ids %in% omiprep@samples[["sample_id"]]) | is.null(sample_ids))
+  stopifnot("feature_ids must all be found in the data" = all(feature_ids %in% omiprep@features[["feature_id"]]) | is.null(feature_ids))  
+  stopifnot("features_exclude must all be found in the data" = all(features_exclude %in% omiprep@features[["feature_id"]]) | is.null(features_exclude)) 
   
   
   # get ids
-  if (is.null(sample_ids)) sample_ids   <- metaboprep@samples[["sample_id"]]
-  if (is.null(feature_ids)) feature_ids <- metaboprep@features[["feature_id"]]
+  if (is.null(sample_ids)) sample_ids   <- omiprep@samples[["sample_id"]]
+  if (is.null(feature_ids)) feature_ids <- omiprep@features[["feature_id"]]
   
   
   # run summaries
-  feature_sum <- feature_summary(metaboprep, 
+  feature_sum <- feature_summary(omiprep, 
                                  source_layer     = source_layer, 
                                  outlier_udist    = outlier_udist, 
                                  tree_cut_height  = tree_cut_height,
@@ -52,7 +52,7 @@ method(summarise, Metaboprep) <- function(metaboprep,
                                  features_exclude = features_exclude, 
                                  output           = "data.frame")
   
-  sample_sum  <- sample_summary(metaboprep,  
+  sample_sum  <- sample_summary(omiprep,  
                                 source_layer  = source_layer, 
                                 outlier_udist = outlier_udist, 
                                 sample_ids    = sample_ids, 
@@ -61,13 +61,13 @@ method(summarise, Metaboprep) <- function(metaboprep,
   
   indep_feats <- feature_sum[feature_sum$independent_features & !is.na(feature_sum$independent_features), "feature_id"]
   
-  pc_outlier  <- pc_and_outliers(metaboprep, 
+  pc_outlier  <- pc_and_outliers(omiprep, 
                                  source_layer = source_layer, 
                                  sample_ids   = sample_ids, 
                                  feature_ids  = indep_feats)
   
   sample_sum  <- merge(sample_sum, pc_outlier, by="sample_id", all = TRUE)
-  sample_sum  <- sample_sum[order(match(sample_sum[["sample_id"]], rownames(metaboprep@data))), ]
+  sample_sum  <- sample_sum[order(match(sample_sum[["sample_id"]], rownames(omiprep@data))), ]
   rownames(sample_sum) <- sample_sum[["sample_id"]]
   
   # keep attributes
@@ -84,26 +84,26 @@ method(summarise, Metaboprep) <- function(metaboprep,
              # set feature summary
              feature_sum_mat <- as.matrix(feature_sum[, !(names(feature_sum) %in% "feature_id")])
              feature_sum_mat <- t(feature_sum_mat)
-             metaboprep@feature_summary <- add_layer(current    = metaboprep@feature_summary,
+             omiprep@feature_summary <- add_layer(current    = omiprep@feature_summary,
                                                      layer      = feature_sum_mat,
                                                      layer_name = source_layer, force=TRUE)
              # keep attributes
              feat_attrs <- attributes(feature_sum)
              for (att in setdiff(names(feat_attrs), c("row.names", "names", "class"))) {
-               attr(metaboprep@feature_summary, att) <- feat_attrs[[att]]
+               attr(omiprep@feature_summary, att) <- feat_attrs[[att]]
              }
              
              # set sample summary
              sample_sum_mat <- as.matrix(sample_sum[, !(names(sample_sum) %in% "sample_id")])
-             metaboprep@sample_summary <- add_layer(current    = metaboprep@sample_summary,
+             omiprep@sample_summary <- add_layer(current    = omiprep@sample_summary,
                                                     layer      = sample_sum_mat,
                                                     layer_name = source_layer, force=TRUE)
              # keep attributes
              samp_attrs <- attributes(sample_sum)
              for (att in setdiff(names(samp_attrs), c("row.names", "names", "class"))) {
-               attr(metaboprep@sample_summary, att) <- samp_attrs[[att]]
+               attr(omiprep@sample_summary, att) <- samp_attrs[[att]]
              }
-             metaboprep
+             omiprep
            },
            "data.frame" = list(sample_summary  = sample_sum, 
                                feature_summary = feature_sum) 

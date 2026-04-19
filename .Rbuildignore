@@ -8,3 +8,4 @@ scripts
 ^pkgdown$
 ^\.github$
 ^data-raw$
+^\.idea$

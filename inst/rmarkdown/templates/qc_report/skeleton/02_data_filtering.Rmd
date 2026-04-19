@@ -2,7 +2,7 @@
 
 ## Exclusion summary
 ```{r exclusion_table}
-excl <- metaboprep@exclusions
+excl <- omiprep@exclusions
 
 make_df <- function(label, lst) {
   reasons <- paste0("   - ", gsub("_", " ", names(lst)))
@@ -35,11 +35,11 @@ reason_note <- function(reason, kind = c("features", "samples")) {
       "user_excluded" = "Features manually excluded.",
       "extreme_feature_missingness" = "Features with missingness >=80%.",
       "user_defined_feature_missingness" = glue::glue(
-        "Features exclusions based on the user defined threshold of *>={sprintf('%.0f%%', attr(metaboprep@data, 'qc_feature_missingness') * 100)}."
+        "Features exclusions based on the user defined threshold of *>={sprintf('%.0f%%', attr(omiprep@data, 'qc_feature_missingness') * 100)}."
       ),
       "user_defined_feature_skewness" = {
-        skew_thresh <- attr(metaboprep@data, "qc_feature_skewness_threshold")
-        skew_dir <- attr(metaboprep@data, "qc_feature_skewness_direction")
+        skew_thresh <- attr(omiprep@data, "qc_feature_skewness_threshold")
+        skew_dir <- attr(omiprep@data, "qc_feature_skewness_direction")
         if (is.null(skew_thresh) || is.na(skew_thresh)) {
           "Skewness-based feature exclusions were disabled."
         } else if (identical(skew_dir, "left")) {
@@ -59,18 +59,18 @@ reason_note <- function(reason, kind = c("features", "samples")) {
     "user_excluded" = "Samples manually excluded.",
     "extreme_sample_missingness" = "Samples with missingness >=80%.",
     "user_defined_sample_missingness" = glue::glue(
-      "Samples exclusions based on user defined threshold of *>={sprintf('%.0f%%', attr(metaboprep@data, 'qc_sample_missingness') * 100)}."
+      "Samples exclusions based on user defined threshold of *>={sprintf('%.0f%%', attr(omiprep@data, 'qc_sample_missingness') * 100)}."
     ),
     "user_defined_sample_totalpeakarea" = glue::glue(
-      "Samples with a total-peak-area or total-sum-abundance that is *>={attr(metaboprep@data, 'qc_total_peak_area_sd')} SD from the mean."
+      "Samples with a total-peak-area or total-sum-abundance that is *>={attr(omiprep@data, 'qc_total_peak_area_sd')} SD from the mean."
     ),
     "user_defined_sample_pca_outlier" = {
-      npcs <- attr(metaboprep@sample_summary, "qc_num_pcs_scree")
+      npcs <- attr(omiprep@sample_summary, "qc_num_pcs_scree")
       if (is.null(npcs) || is.na(npcs)) {
         npcs <- "available informative"
       }
       glue::glue(
-        "Samples that are *>={attr(metaboprep@data, 'qc_pc_outlier_sd')} SD from the mean on principal components 1-to-{npcs}."
+        "Samples that are *>={attr(omiprep@data, 'qc_pc_outlier_sd')} SD from the mean on principal components 1-to-{npcs}."
       )
     },
     paste0(gsub("_", " ", reason), ".")
@@ -115,25 +115,25 @@ excl_tbl |>
 \newpage
 
 
-## Metabolite or feature reduction and principal components
+## 'Omics feature reduction and principal components
 
 A data reduction was carried out to identify a list of representative features for generating a sample principal component analysis. This step reduces the level of inter-correlation in the data to ensure that the principal components are not driven by groups of correlated features.
 
 ```{r pca_1_2}
 # get data
-qcing_feature_sum <- metaboprep@feature_summary[, , "input"]
+qcing_feature_sum <- omiprep@feature_summary[, , "input"]
 qcing_feature_sum <- qcing_feature_sum[, colSums(is.na(qcing_feature_sum)) < nrow(qcing_feature_sum), drop = FALSE]
-pcs               <- metaboprep@sample_summary[, grep("^pc[0-9]+$", colnames(metaboprep@sample_summary), value=TRUE), "input"]
-attribs           <- attributes(metaboprep@sample_summary)
+pcs               <- omiprep@sample_summary[, grep("^pc[0-9]+$", colnames(omiprep@sample_summary), value=TRUE), "input"]
+attribs           <- attributes(omiprep@sample_summary)
 af                <- attribs$qc_num_pcs_scree
 pc_outlier_sd     <- attribs$qc_outlier_udist
 
 # compute
 tbl1 <- data.frame(
-  "Item" = c("Total metabolite count",
-           "Metabolites included in data reduction",
-           "Number of metabolite clusters",
-           "Number of representative metabolites"),
+  "Item" = c("Total feature count",
+             "Features included in data reduction",
+             "Number of feature clusters",
+             "Number of representative features"),
   "Count" = c(ncol(qcing_feature_sum),
             sum(!is.na(qcing_feature_sum["k", ])),
             length(unique(stats::na.omit(qcing_feature_sum["k", ]))),
@@ -155,7 +155,7 @@ cutoffs <- apply(pcs[, 1:af], 2, function(x){
 })
 ```
 
-The data reduction table presents the number of metabolites at each phase of the data reduction (Spearman's correlation distance tree cutting) analysis.
+The data reduction table presents the number of features at each phase of the data reduction (Spearman's correlation distance tree cutting) analysis.
 
 ```{r}
 # table
@@ -176,7 +176,7 @@ tbl1 |>
 ```
 
 
-The following plot respresents principal components 1 and 2 using `r sum(!is.na(qcing_feature_sum["k", ]))` representative metabolites. The red vertical and horizontal lines indicate the standard deviation cutoffs for identifying individual outliers. Outliers are those >=`r pc_outlier_sd` SD from the mean of PCs 1-`r af`.
+The following plot respresents principal components 1 and 2 using `r sum(!is.na(qcing_feature_sum["k", ]))` representative features The red vertical and horizontal lines indicate the standard deviation cutoffs for identifying individual outliers. Outliers are those >=`r pc_outlier_sd` SD from the mean of PCs 1-`r af`.
 ```{r}
 # plot
 ggplot(pcs, aes(x = pc1, y = pc2, fill = outliers)) +

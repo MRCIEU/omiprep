@@ -2,29 +2,29 @@
 % Please edit documentation in R/export.R
 \name{export}
 \alias{export}
-\title{Export Data from a Metaboprep Object}
+\title{Export Data from a Omiprep Object}
 \usage{
-export(metaboprep, directory, format = "metaboprep", ...)
+export(omiprep, directory, format = "omiprep", ...)
 }
 \arguments{
-\item{metaboprep}{A `Metaboprep` object containing the data to be exported.}
+\item{omiprep}{A `Omiprep` object containing the data to be exported.}
 
 \item{directory}{character, string specifying the path to the directory where the data should be written.}
 
-\item{format}{character, string specifying the format of the exported data - one of "metaboprep", "comets", or "metaboanalyst".}
+\item{format}{character, string specifying the format of the exported data - one of "omiprep", "comets", or "metaboanalyst".}
 
 \item{...}{
   Arguments passed on to \code{\link[=export_comets]{export_comets}}, \code{\link[=export_metaboanalyst]{export_metaboanalyst}}
   \describe{
-    \item{\code{layer}}{character, the name of the `metaboprep@data` layer (3rd array dimension) to write out}
-    \item{\code{group_col}}{character, the column name in the `metaboprep@samples` data identifying the group for one-factor analysis}
+    \item{\code{layer}}{character, the name of the `omiprep@data` layer (3rd array dimension) to write out}
+    \item{\code{group_col}}{character, the column name in the `omiprep@samples` data identifying the group for one-factor analysis}
   }}
 }
 \value{
-the `Metaboprep` object, invisibly, for use in pipes
+the `Omiprep` object, invisibly, for use in pipes
 }
 \description{
-Exports all data from a `Metaboprep` object to a structured directory format.
+Exports all data from a `Omiprep` object to a structured directory format.
 For each data layer, the function creates a subdirectory containing:
 - the primary data matrix (`data.tsv`),
 - associated feature and sample metadata (`features.tsv`, `samples.tsv`),

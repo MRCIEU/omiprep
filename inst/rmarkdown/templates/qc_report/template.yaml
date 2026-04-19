@@ -1,5 +1,5 @@
-name: Metaboprep Report
+name: Omiprep Report
 description: >
-   A report for processed metabolites data.
+   A report for processed 'omics data.
 create_dir: FALSE
 

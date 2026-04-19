@@ -1,10 +1,10 @@
 ---
-pagetitle: "metaboprep"
+pagetitle: "omiprep"
 ---
 
 ```{=html}
 <div class="text-center py-4">
-  <h1 class="display-5 fw-bold">metaboprep</h1>
+  <h1 class="display-5 fw-bold">omiprep</h1>
   <p class="lead text-muted">Metabolomics &amp; proteomics data preparation and quality control pipeline for R</p>
   <div class="d-flex justify-content-center gap-2 flex-wrap mt-3">
     <a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" target="_blank">
@@ -16,7 +16,7 @@ pagetitle: "metaboprep"
 
 ## Overview
 
-`metaboprep` supports the full data-preparation workflow for untargeted and targeted omics data:
+`omiprep` supports the full data-preparation workflow for untargeted and targeted omics data:
 
 1. **Import** raw data from Metabolon, Nightingale Health, Olink, and SomaLogic platforms (Excel / flat-text)  
 2. **Summarise** sample- and feature-level statistics  
@@ -28,19 +28,19 @@ pagetitle: "metaboprep"
 
 ```r
 # install.packages("pak")
-pak::pak("MRCIEU/metaboprep")
+pak::pak("MRCIEU/omiprep")
 ```
 
 ## Quick start
 
 ```r
-library(metaboprep)
+library(omiprep)
 
 # 1. Read data
 mydata <- read_metabolon(
-  system.file("extdata", "metabolon_v1.1_example.xlsx", package = "metaboprep"),
+  system.file("extdata", "metabolon_v1.1_example.xlsx", package = "omiprep"),
   sheet             = "OrigScale",
-  return_Metaboprep = TRUE
+  return_Omiprep = TRUE
 )
 
 # 2. Run QC pipeline

@@ -1,12 +1,12 @@
 library(testthat)
 
-test_that("metaboprep output same as metaboprep1", {
+test_that("omiprep output same as metaboprep1", {
   # skip if offline 
   skip_if_offline()
   skip_on_cran()
   
   # example data
-  fp  <- system.file("extdata", "metabolon_v1.1_example.xlsx", package = "metaboprep")
+  fp  <- system.file("extdata", "metabolon_v1.1_example.xlsx", package = "omiprep")
 
   # get the previous version and attached 
   tmp_lib <- tempfile("mainlib_") # "~/Desktop/mainlib" #  
@@ -122,8 +122,8 @@ test_that("metaboprep output same as metaboprep1", {
   qc_sum_samp   <- read.csv(grep("sample_anno", qc_sum_files, value=TRUE), sep="\t") 
   qc_sum_feat   <- read.csv(grep("feature_anno", qc_sum_files, value=TRUE), sep="\t") 
   
-  # run new metaboprep
-  m <- read_metabolon(fp, sheet="OrigScale", return_Metaboprep = TRUE)
+  # run new omiprep
+  m <- read_metabolon(fp, sheet="OrigScale", return_Omiprep = TRUE)
   m <- batch_normalise(m,
                        run_mode_col = "platform", 
                        run_mode_colmap = c(pos="pos", neg="neg"),

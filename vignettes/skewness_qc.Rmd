@@ -25,11 +25,7 @@ Some measurement platforms have upper limits of quantification which can result 
 5. and visualize pre/post filtering impact.
 
 ```{r setup}
-if (requireNamespace("devtools", quietly = TRUE)) {
-  devtools::load_all(".")
-} else {
-  library(metaboprep)
-}
+library(omiprep)
 library(ggplot2)
 
 set.seed(20260408)
@@ -119,7 +115,7 @@ This is the key motivation: some individual **features** have visibly skewed dis
 
 ## 2) What skewness means (per feature)
 
-`metaboprep` computes skewness **for each feature across samples** using `psych::describe()` and takes the `skew`
+`omiprep` computes skewness **for each feature across samples** using `psych::describe()` and takes the `skew`
 column (default `type = 3` in `psych::skew`):
 
 \[
@@ -210,13 +206,12 @@ excluded_tbl$simulated_group <- features$simulated_group[match(excluded_tbl$feat
 table(excluded_tbl$simulated_group, useNA = "ifany")
 ```
 
-Equivalent `quality_control()` call in `metaboprep`:
 
-```{r qc_call_reference, eval=FALSE}
-m <- Metaboprep(data = data, samples = samples, features = features)
+```{r qc_call_reference, eval=TRUE}
+m <- Omiprep(data = data, samples = samples, features = features)
 
 m_qc <- quality_control(
-  metaboprep = m,
+  omiprep = m,
   source_layer = "input",
   sample_missingness = 0.2,
   feature_missingness = 0.2,
@@ -241,8 +236,8 @@ pre_skew <- feature_skewness(data, threshold = NULL)
 post_matrix <- data[, included_features, drop = FALSE]
 post_skew <- feature_skewness(post_matrix, threshold = NULL)
 
-pre_skew$stage <- "Pre-filter"
-post_skew$stage <- "Post-filter"
+pre_skew$stage  <- factor("Pre-filter",  levels = c("Pre-filter", "Post-filter"))
+post_skew$stage <- factor("Post-filter", levels = c("Pre-filter", "Post-filter"))
 skew_compare <- rbind(
   pre_skew[, c("feature_id", "skew", "stage")],
   post_skew[, c("feature_id", "skew", "stage")]
@@ -252,11 +247,16 @@ skew_compare <- rbind(
 ### 4a) Feature-skewness distribution before vs after filtering
 
 ```{r post_filter_skew_hist, fig.width=10, fig.height=4.8}
+params_used <- attributes(m_qc@data)
+skewness_threshold <- ifelse(params_used$qc_feature_skewness_direction=="left", 
+                             -1 * params_used$qc_feature_skewness_threshold, 
+                              1 * params_used$qc_feature_skewness_threshold)
+
 ggplot(skew_compare, aes(x = skew, fill = stage)) +
   geom_histogram(bins = 30, color = "white", alpha = 0.85) +
   facet_wrap(~stage, nrow = 1) +
   geom_vline(xintercept = 0, color = "#4D4D4D", linetype = "dashed") +
-  geom_vline(xintercept = -skew_threshold, color = "#E41A1C", linetype = "dashed", linewidth = 1) +
+  geom_vline(xintercept = skewness_threshold, color = "#E41A1C", linetype = "dashed", linewidth = 1) +
   theme_classic() +
   scale_fill_manual(values = c("Pre-filter" = "#9ECAE1", "Post-filter" = "#3182BD")) +
   guides(fill = "none") +
@@ -264,7 +264,7 @@ ggplot(skew_compare, aes(x = skew, fill = stage)) +
     x = "Skewness value (per feature)",
     y = "Count (features)",
     title = "Feature-level skewness distribution before and after filtering",
-    subtitle = paste0("Red dashed line: left-skew exclusion threshold = ", -skew_threshold)
+    subtitle = paste0("Red dashed line: left-skew exclusion threshold = ", skewness_threshold)
   )
 ```
 
@@ -273,11 +273,11 @@ ggplot(skew_compare, aes(x = skew, fill = stage)) +
 ```{r post_filter_group_counts, fig.width=9, fig.height=4.8}
 pre_counts <- as.data.frame(table(features$simulated_group), stringsAsFactors = FALSE)
 names(pre_counts) <- c("simulated_group", "n")
-pre_counts$stage <- "Pre-filter"
+pre_counts$stage <- factor("Pre-filter",  levels = c("Pre-filter", "Post-filter"))
 
 post_counts <- as.data.frame(table(features$simulated_group[features$feature_id %in% included_features]), stringsAsFactors = FALSE)
 names(post_counts) <- c("simulated_group", "n")
-post_counts$stage <- "Post-filter"
+post_counts$stage <- factor("Post-filter",  levels = c("Pre-filter", "Post-filter"))
 
 counts_df <- rbind(pre_counts, post_counts)
 counts_df$simulated_group <- factor(counts_df$simulated_group, levels = c("normal", "left_skew", "right_skew"))
@@ -285,10 +285,11 @@ counts_df$simulated_group <- factor(counts_df$simulated_group, levels = c("norma
 ggplot(counts_df, aes(x = simulated_group, y = n, fill = stage)) +
   geom_col(position = position_dodge(width = 0.75), width = 0.65) +
   theme_classic() +
-  scale_fill_manual(values = c("Pre-filter" = "#9ECAE1", "Post-filter" = "#3182BD")) +
+  scale_fill_manual(values = c("Pre-filter" = "#9ECAE1", "Post-filter" = "#3182BD"), drop = FALSE) +
   labs(
     x = "Simulated feature type",
     y = "Count (features)",
+    fill = "Stage",
     title = "Feature retention by simulated type after skewness filtering"
   )
 ```
@@ -302,12 +303,13 @@ box_df <- rbind(
   data.frame(stage = "Pre-filter", simulated_group = pre_plot$simulated_group, skew = pre_plot$skew),
   data.frame(stage = "Post-filter", simulated_group = post_plot$simulated_group, skew = post_plot$skew)
 )
+box_df$stage <- factor(box_df$stage,  levels = c("Pre-filter", "Post-filter"))
 
 box_df$simulated_group <- factor(box_df$simulated_group, levels = c("normal", "left_skew", "right_skew"))
 
 ggplot(box_df, aes(x = simulated_group, y = skew, fill = stage)) +
   geom_boxplot(outlier.alpha = 0.25, position = position_dodge(width = 0.75)) +
-  geom_hline(yintercept = -skew_threshold, color = "#E41A1C", linetype = "dashed") +
+  geom_hline(yintercept = -skewness_threshold, color = "#E41A1C", linetype = "dashed") +
   theme_classic() +
   scale_fill_manual(values = c("Pre-filter" = "#9ECAE1", "Post-filter" = "#3182BD")) +
   labs(

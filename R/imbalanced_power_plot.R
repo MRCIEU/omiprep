@@ -123,7 +123,7 @@ imbalanced_power_plot = function(mydata){
 #'
 #' This function estimates an appropriate distribution of effect sizes to simulate in a power analysis.
 #'
-#' @param mydata Your metabolite data matrix, with samples in rows
+#' @param mydata Your 'omics data matrix, with samples in rows
 #'
 #' @keywords power anlysis
 #'
@@ -190,7 +190,7 @@ find.PA.effect.sizes.2.sim = function(mydata){
 #' @param effect a numeric vector of effect size
 #' @param alpha a numeric vector of significance thresholds
 #'
-#' @keywords metabolomics
+#' @keywords omics
 #'
 #' @importFrom pwr pwr.t2n.test
 #'

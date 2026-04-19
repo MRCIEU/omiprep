@@ -11,3 +11,6 @@
 .DS_Store
 docs
 inst/doc
+
+# github pages 
+index.md

@@ -7,7 +7,7 @@
 continuous_power_plot(mydata)
 }
 \arguments{
-\item{mydata}{Your metabolite data matrix, with samples in rows}
+\item{mydata}{Your 'omics data matrix, with samples in rows}
 }
 \value{
 a ggplot2 object

@@ -46,8 +46,8 @@ test_that("missingness assessment works", {
   )
   
   
-  # load metaboprep object ====
-  m <- Metaboprep(data, samples, features)
+  # load omiprep object ====
+  m <- Omiprep(data, samples, features)
   
   
   # run the QC ====

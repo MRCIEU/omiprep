@@ -1,23 +1,23 @@
-#' @title Summary Method for Metaboprep Object
+#' @title Summary Method for Omiprep Object
 #' @description
-#' Provides a concise, human-readable summary of a `Metaboprep` object.
+#' Provides a concise, human-readable summary of a `Omiprep` object.
 #' It reports key dimensions of the data, the presence of metadata columns,
 #' the number of data layers, and the status of quality control summaries and exclusions.
 #'
-#' @param object A `Metaboprep` object.
+#' @param object A `Omiprep` object.
 #' @param ... Additional arguments (not used).
 #'
 #' @return Invisibly returns NULL. Prints a formatted summary to the console.
 #'
 #'
-#' @seealso \code{\link{class_metaboprep}}
+#' @seealso \code{\link{class_omiprep}}
 #' @importFrom S7 method S7_inherits
-#' @name summary.Metaboprep
-method(summary, Metaboprep) <- function(object, ...) {
+#' @name summary.Omiprep
+method(summary, Omiprep) <- function(object, ...) {
   
   output <- c()
   
-  output <- c(output, "Metaboprep Object Summary", "--------------------------")
+  output <- c(output, "Omiprep Object Summary", "--------------------------")
   
   # Basic structure
   output <- c(output,

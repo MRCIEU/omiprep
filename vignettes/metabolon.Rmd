@@ -20,15 +20,15 @@ knitr::opts_chunk$set(
 Read in the Metabolon data using the `read_metabolon` function. Here we will read in the example data provided with the package, as a list object.
 
 ```{r setup}
-library(metaboprep)
+library(omiprep)
 
 # example file
-filepath <- system.file("extdata", "metabolon_v1.2_example.xlsx", package = "metaboprep")
+filepath <- system.file("extdata", "metabolon_v1.2_example.xlsx", package = "omiprep")
 
-# import data as a list object rather than directly as a Metaboprep object
+# import data as a list object rather than directly as a Omiprep object
 dat <- read_metabolon(filepath, 
                       sheet = 'OrigScale', 
-                      return_Metaboprep = FALSE)
+                      return_Omiprep = FALSE)
 ```
 
 ## Quick look at data structure of the imported data
@@ -38,19 +38,19 @@ str(dat)
 ```
 
 
-## Create Metaboprep object 
+## Create Omiprep object 
 
-Once imported, we pass the data to the Metaboprep() function to build the `Metaboprep` class object. 
+Once imported, we pass the data to the Omiprep() function to build the `Omiprep` class object. 
 
-```{r metaboprep_obj}
-## This step could be avoided by defining return_Metaboprep = TRUE in read_metabolon() function above.
-mydata <- Metaboprep(data     = dat$data, 
-                     features = dat$features, 
-                     samples  = dat$samples)
+```{r omioprep_obj}
+## This step could be avoided by defining return_Omiprep = TRUE in read_metabolon() function above.
+mydata <- Omiprep(data     = dat$data, 
+                  features = dat$features, 
+                  samples  = dat$samples)
 ```
 
 
-## Quick summary of the metaboprep object
+## Quick summary of the Omiprep object
 
 ```{r summary_before_qc}
 summary(mydata)
@@ -96,7 +96,7 @@ mydata <- mydata |>
 
 ```
 
-## Quick summary of the metaboprep object following QC
+## Quick summary of the Omiprep object following QC
 
 ```{r summary_after_qc}
 summary(mydata)

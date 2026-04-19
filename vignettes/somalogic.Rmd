@@ -20,27 +20,27 @@ Read in the SomaLogic data using the `read_somalogic` function. Here we will rea
 
 
 ```{r setup}
-library(metaboprep)
+library(omiprep)
 
 # example file
-filepath <- system.file("extdata", "somalogic_v1_example.adat", package = "metaboprep")
+filepath <- system.file("extdata", "somalogic_v1_example.adat", package = "omiprep")
 
 # import
 dat <- read_somalogic(filepath,
-                      return_Metaboprep = FALSE)
+                      return_Omiprep = FALSE)
 
 # create the object (down-sampled for speed)
-m <- Metaboprep(data     = dat$data[1:9, 1:100], 
-                samples  = dat$samples[1:9, ], 
-                features = dat$features[1:100, ],
-                )
+m <- Omiprep(data     = dat$data[1:9, 1:100], 
+             samples  = dat$samples[1:9, ], 
+             features = dat$features[1:100, ]
+             )
 
 ```
 
 
 ## Quick look to identify the types of data imported
 
-Note that we would advocate that you read in olink data as a list object first, as it will often have additional information that you may wish to inspect prior to creating the `Metaboprep` object.
+Note that we would advocate that you read in olink data as a list object first, as it will often have additional information that you may wish to inspect prior to creating the `Omiprep` object.
 
 
 ```{r dat_names}
@@ -48,19 +48,19 @@ names(dat)
 ```
 
 
-## Create Metaboprep object 
+## Create Omiprep object 
 
-Once imported, we pass the data to the Metaboprep() function to build the `Metaboprep` class object. 
+Once imported, we pass the data to the Omiprep() function to build the `Omiprep` class object. 
 
-```{r metaboprep_obj}
-mydata <- Metaboprep(data     = dat$data[1:9, 1:100], 
-                     samples  = dat$samples[1:9, ], 
-                     features = dat$features[1:100, ]
-                     )
+```{r omiprep_obj}
+mydata <- Omiprep(data     = dat$data[1:9, 1:100], 
+                  samples  = dat$samples[1:9, ], 
+                  features = dat$features[1:100, ]
+                  )
 ```
 
 
-## Quick summary of the metaboprep object
+## Quick summary of the Omiprep object
 
 ```{r summary_before_qc}
 summary(mydata)
@@ -88,7 +88,7 @@ mydata <- mydata |>
 
 ```
 
-## Quick summary of the metaboprep object following QC
+## Quick summary of the Omiprep object following QC
 
 ```{r summary_after_qc}
 summary(mydata)

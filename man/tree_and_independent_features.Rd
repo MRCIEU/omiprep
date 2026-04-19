@@ -12,7 +12,7 @@ tree_and_independent_features(
 )
 }
 \arguments{
-\item{data}{matrix, the metabolite data matrix. samples in row, metabolites in columns}
+\item{data}{matrix, the 'omics data matrix. samples in row, features in columns}
 
 \item{tree_cut_height}{the tree cut height. A value of 0.2 (1-Spearman's rho) is equivalent to saying that features with a rho >= 0.8 are NOT independent.}
 

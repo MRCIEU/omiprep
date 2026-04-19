@@ -5,7 +5,7 @@
 \title{Sample Summary Statistics}
 \usage{
 sample_summary(
-  metaboprep,
+  omiprep,
   source_layer = "input",
   outlier_udist = 5,
   sample_ids = NULL,
@@ -14,7 +14,7 @@ sample_summary(
 )
 }
 \arguments{
-\item{metaboprep}{an object of class Metaboprep}
+\item{omiprep}{an object of class Omiprep}
 
 \item{source_layer}{character, the data layer to summarise}
 
@@ -24,7 +24,7 @@ sample_summary(
 
 \item{feature_ids}{character, vector of feature ids to work with}
 
-\item{output}{character, type of output, either 'object' to return the updated metaboprep object, or 'data.frame' to return the data.}
+\item{output}{character, type of output, either 'object' to return the updated omiprep object, or 'data.frame' to return the data.}
 }
 \description{
 Summarise the sample data

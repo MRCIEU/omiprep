@@ -2,7 +2,7 @@
 #'
 #' This function (1) identifies an informative distribution of effect and power estimates given your datas total sample size and (2) returns a summary plot.
 #'
-#' @param mydata Your metabolite data matrix, with samples in rows
+#' @param mydata Your 'omics data matrix, with samples in rows
 #'
 #' @keywords continuous trait power analysis plot
 #'
@@ -95,7 +95,7 @@ continuous_power_plot = function(mydata){
 #'
 #' This function estimates an appropriate distribution of effect sizes to simulate in a continuous trait power analysis.
 #'
-#' @param mydata Your metabolite data matrix, with samples in rows
+#' @param mydata Your omics data matrix, with samples in rows
 #'
 #' @keywords power analysis
 #'

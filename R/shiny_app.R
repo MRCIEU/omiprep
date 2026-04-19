@@ -1,9 +1,9 @@
-#' @title Metaboprep Shiny App
-#' @description Launch a Shiny app to explore the Metaboprep object
-#' @param metaboprep an object of class Metaboprep
+#' @title Omiprep Shiny App
+#' @description Launch a Shiny app to explore the Omiprep object
+#' @param omiprep an object of class Omiprep
 #' @return Runs a Shiny app
 #' 
-#' @include class_metaboprep.R
+#' @include class_omiprep.R
 #' @importFrom shiny navbarPage mainPanel tabPanel sidebarLayout sidebarPanel selectizeInput plotOutput updateSelectizeInput reactive renderPlot h3
 #' @importFrom DT DTOutput
 #' @import ggplot2
@@ -13,14 +13,14 @@
 #' @importFrom bslib bs_theme
 #' 
 #' @export
-shiny_app <- new_generic("shiny_app", c("metaboprep"), function(metaboprep) { S7_dispatch() })
+shiny_app <- new_generic("shiny_app", c("omiprep"), function(omiprep) { S7_dispatch() })
 #' @name shiny_app
-method(shiny_app, Metaboprep) <- function(metaboprep) {
+method(shiny_app, Omiprep) <- function(omiprep) {
   
   side_bar_width   <- 3
   
   ui <- navbarPage(
-    "Metaboprep Explorer",
+    "Omiprep Explorer",
     
     theme = bs_theme(
       version = 5,
@@ -106,62 +106,62 @@ method(shiny_app, Metaboprep) <- function(metaboprep) {
     ################
     updateSelectizeInput(
       session, "sample",
-      choices = dimnames(metaboprep@data)[[1]],
-      selected = dimnames(metaboprep@data)[[1]][1],
+      choices = dimnames(omiprep@data)[[1]],
+      selected = dimnames(omiprep@data)[[1]][1],
       server = TRUE
     )
     updateSelectizeInput(
       session, "feature",
-      choices = dimnames(metaboprep@data)[[2]],
-      selected = dimnames(metaboprep@data)[[2]][1],
+      choices = dimnames(omiprep@data)[[2]],
+      selected = dimnames(omiprep@data)[[2]][1],
       server = TRUE
     )
     updateSelectizeInput(
       session, "layer",
-      choices = dimnames(metaboprep@data)[[3]],
-      selected = dimnames(metaboprep@data)[[3]][1],
+      choices = dimnames(omiprep@data)[[3]],
+      selected = dimnames(omiprep@data)[[3]][1],
       server = TRUE
     )
     updateSelectizeInput(
       session, "layer_f",
-      choices = dimnames(metaboprep@data)[[3]],
-      selected = dimnames(metaboprep@data)[[3]][length(dimnames(metaboprep@data)[[3]])],
+      choices = dimnames(omiprep@data)[[3]],
+      selected = dimnames(omiprep@data)[[3]][length(dimnames(omiprep@data)[[3]])],
       server = TRUE
     )
     updateSelectizeInput(
       session, "feature_f",
-      choices = dimnames(metaboprep@data)[[2]],
-      selected = dimnames(metaboprep@data)[[2]][1],
+      choices = dimnames(omiprep@data)[[2]],
+      selected = dimnames(omiprep@data)[[2]][1],
       server = TRUE
     )
     updateSelectizeInput(
       session, "layer_s",
-      choices = dimnames(metaboprep@data)[[3]],
-      selected = dimnames(metaboprep@data)[[3]][length(dimnames(metaboprep@data)[[3]])],
+      choices = dimnames(omiprep@data)[[3]],
+      selected = dimnames(omiprep@data)[[3]][length(dimnames(omiprep@data)[[3]])],
       server = TRUE
     )
     updateSelectizeInput(
       session, "sample_s",
-      choices = dimnames(metaboprep@data)[[1]],
-      selected = dimnames(metaboprep@data)[[1]][1],
+      choices = dimnames(omiprep@data)[[1]],
+      selected = dimnames(omiprep@data)[[1]][1],
       server = TRUE
     )
     updateSelectizeInput(
       session, "layer_t",
-      choices = dimnames(metaboprep@data)[[3]],
-      selected = dimnames(metaboprep@data)[[3]][length(dimnames(metaboprep@data)[[3]])],
+      choices = dimnames(omiprep@data)[[3]],
+      selected = dimnames(omiprep@data)[[3]][length(dimnames(omiprep@data)[[3]])],
       server = TRUE
     )
     updateSelectizeInput(
       session, "select_rows",
-      choices = dimnames(metaboprep@data)[[1]],
-      # selected = dimnames(metaboprep@data)[[3]][1],  
+      choices = dimnames(omiprep@data)[[1]],
+      # selected = dimnames(omiprep@data)[[3]][1],  
       server = TRUE
     )
     updateSelectizeInput(
       session, "select_cols",
-      choices = dimnames(metaboprep@data)[[2]],
-      # selected = dimnames(metaboprep@data)[[2]][1],
+      choices = dimnames(omiprep@data)[[2]],
+      # selected = dimnames(omiprep@data)[[2]][1],
       server = TRUE
     )
     
@@ -170,8 +170,8 @@ method(shiny_app, Metaboprep) <- function(metaboprep) {
     ################
     # exclusions data.frame
     excl_dt <- reactive({
-      if (length(unlist(metaboprep@exclusions)) > 0) {
-        excl_vec <- unlist(metaboprep@exclusions)
+      if (length(unlist(omiprep@exclusions)) > 0) {
+        excl_vec <- unlist(omiprep@exclusions)
         parts    <- strsplit(names(excl_vec), "\\.", fixed = FALSE)
         exclusions_df <- data.frame(
           id     = unname(excl_vec),
@@ -212,7 +212,7 @@ method(shiny_app, Metaboprep) <- function(metaboprep) {
       req(input$layer)
       
       # the data
-      df <- metaboprep@data[, , input$layer, drop = TRUE]
+      df <- omiprep@data[, , input$layer, drop = TRUE]
       df <- reshape2::melt(df, varnames = c("sample_id", "feature_id"), value.name = "value")
       df$sample_id  <- factor(df$sample_id,  levels = unique(df$sample_id))
       df$feature_id <- factor(df$feature_id, levels = unique(df$feature_id))
@@ -245,7 +245,7 @@ method(shiny_app, Metaboprep) <- function(metaboprep) {
     feature_data <- reactive({
       req(input$layer_f, input$feature_f)
       
-      data <- metaboprep@data[, , input$layer_f, drop = TRUE]
+      data <- omiprep@data[, , input$layer_f, drop = TRUE]
       data <- data[, input$feature_f, drop = FALSE]
       
       df   <- data.frame(feature_id = input$feature_f, level = data[, 1], index = seq_len(length(data)))
@@ -372,9 +372,9 @@ method(shiny_app, Metaboprep) <- function(metaboprep) {
       req(input$feature, input$sample, input$layer)
       
       df <- data.frame(
-        sample_id  = as.factor(dimnames(metaboprep@data)[[1]]),
-        value      = metaboprep@data[, input$feature, input$layer, drop = TRUE], 
-        excluded   = dimnames(metaboprep@data)[[1]] %in% unname(unlist(metaboprep@exclusions$samples))
+        sample_id  = as.factor(dimnames(omiprep@data)[[1]]),
+        value      = omiprep@data[, input$feature, input$layer, drop = TRUE], 
+        excluded   = dimnames(omiprep@data)[[1]] %in% unname(unlist(omiprep@exclusions$samples))
       )
       
       ggplot(df, aes(x = sample_id, y = value, color = excluded)) +
@@ -397,7 +397,7 @@ method(shiny_app, Metaboprep) <- function(metaboprep) {
     output$overview_table <- DT::renderDT({
       req(input$layer_t)
       
-      df <- metaboprep@data[ , , input$layer, drop = TRUE]
+      df <- omiprep@data[ , , input$layer, drop = TRUE]
       
       if (!is.null(input$select_rows)) {
         df <- df[input$select_rows, , drop = FALSE]

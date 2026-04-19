@@ -7,7 +7,7 @@
 find.PA.effect.sizes.2.sim(mydata)
 }
 \arguments{
-\item{mydata}{Your metabolite data matrix, with samples in rows}
+\item{mydata}{Your 'omics data matrix, with samples in rows}
 }
 \value{
 a vector of effect sizes

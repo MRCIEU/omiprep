@@ -1,7 +1,7 @@
-#' @title Export Data from a Metaboprep Object
+#' @title Export Data from a Omiprep Object
 #'
 #' @description
-#' Exports all data from a `Metaboprep` object to a structured directory format.
+#' Exports all data from a `Omiprep` object to a structured directory format.
 #' For each data layer, the function creates a subdirectory containing:
 #' - the primary data matrix (`data.tsv`),
 #' - associated feature and sample metadata (`features.tsv`, `samples.tsv`),
@@ -11,46 +11,46 @@
 #' 
 #' @inheritDotParams export_comets layer
 #' @inheritDotParams export_metaboanalyst layer group_col
-#' @param metaboprep A `Metaboprep` object containing the data to be exported.
+#' @param omiprep A `Omiprep` object containing the data to be exported.
 #' @param directory character, string specifying the path to the directory where the data should be written.
-#' @param format character, string specifying the format of the exported data - one of "metaboprep", "comets", or "metaboanalyst".
-#' @param ... other parameters passed to \code{export_metaboprep()}, \code{export_comets()}, or \code{export_metaboanalyst()}.
+#' @param format character, string specifying the format of the exported data - one of "omiprep", "comets", or "metaboanalyst".
+#' @param ... other parameters passed to \code{export_omiprep()}, \code{export_comets()}, or \code{export_metaboanalyst()}.
 #'
-#' @return the `Metaboprep` object, invisibly, for use in pipes
+#' @return the `Omiprep` object, invisibly, for use in pipes
 #'
 #' @export
-export <- new_generic("export", c("metaboprep", "directory"), function(metaboprep, directory, format = "metaboprep", ...) { S7_dispatch() })
+export <- new_generic("export", c("omiprep", "directory"), function(omiprep, directory, format = "omiprep", ...) { S7_dispatch() })
 #' @name export
-method(export, list(Metaboprep, class_character)) <- function(metaboprep, directory, format = "metaboprep", ...) {
+method(export, list(Omiprep, class_character)) <- function(omiprep, directory, format = "omiprep", ...) {
   
-  format <- match.arg(format, choices = c("metaboprep", "comets", "metaboanalyst"))
+  format <- match.arg(format, choices = c("omiprep", "comets", "metaboanalyst"))
   
   switch (format,
-    "metaboprep"    = export_metaboprep(metaboprep, directory, ...), 
-    "comets"        = export_comets(metaboprep, directory, ...),
-    "metaboanalyst" = export_metaboanalyst(metaboprep, directory, ...)
+    "omiprep"    = export_omiprep(omiprep, directory, ...), 
+    "comets"        = export_comets(omiprep, directory, ...),
+    "metaboanalyst" = export_metaboanalyst(omiprep, directory, ...)
   )
   
-  invisible(metaboprep)
+  invisible(omiprep)
 }
 
 
-#' @title Export Data to `Metaboprep` format
+#' @title Export Data to `Omiprep` format
 #' @inheritParams export
-#' @return the `Metaboprep` object, invisibly, for use in pipes
+#' @return the `Omiprep` object, invisibly, for use in pipes
 #' 
 #' @importFrom yaml write_yaml 
 #' 
 #' @export
-export_metaboprep <- new_generic("export_metaboprep", c("metaboprep", "directory"), function(metaboprep, directory, ...) { S7_dispatch() })
-#' @name export_metaboprep
-method(export_metaboprep, list(Metaboprep, class_character)) <- function(metaboprep, directory, ...) {
+export_omiprep <- new_generic("export_omiprep", c("omiprep", "directory"), function(omiprep, directory, ...) { S7_dispatch() })
+#' @name export_omiprep
+method(export_omiprep, list(Omiprep, class_character)) <- function(omiprep, directory, ...) {
   
   # make the directories
-  message("Exporting in metaboprep format to: \n\t\t", directory)
+  message("Exporting in omiprep format to: \n\t\t", directory)
   today    <- gsub("-", "_", Sys.Date())
-  dir      <- file.path(sub("/$", "", directory), paste0("metaboprep_export_", today))
-  layers   <- stats::setNames(dimnames(metaboprep@data)[[3]], dimnames(metaboprep@data)[[3]])
+  dir      <- file.path(sub("/$", "", directory), paste0("omiprep_export_", today))
+  layers   <- stats::setNames(dimnames(omiprep@data)[[3]], dimnames(omiprep@data)[[3]])
   sub_dirs <- lapply(layers, function(x) file.path(dir, x))
   invisible(lapply(sub_dirs, dir.create, showWarnings = FALSE, recursive = TRUE))
 
@@ -63,7 +63,7 @@ method(export_metaboprep, list(Metaboprep, class_character)) <- function(metabop
 
     
     # deal with feature tree separately
-    tree      <- attr(metaboprep@feature_summary, paste0(layer, "_tree"))
+    tree      <- attr(omiprep@feature_summary, paste0(layer, "_tree"))
     tree_path <- NULL
     if (!is.null(tree)) {
       tree_path <- file.path(sub_dirs[[layer]], "feature_tree.RDS")
@@ -74,45 +74,45 @@ method(export_metaboprep, list(Metaboprep, class_character)) <- function(metabop
     # gather the yaml config parameters
     config <- list(layer_index = j,
                    layer_name  = layer,
-                   sample_missingness        = attr(metaboprep@data, paste0(layer, "_sample_missingness")), 
-                   feature_missingness       = attr(metaboprep@data, paste0(layer, "_feature_missingness")), 
-                   feature_skewness_threshold = attr(metaboprep@data, paste0(layer, "_feature_skewness_threshold")),
-                   feature_skewness_direction = attr(metaboprep@data, paste0(layer, "_feature_skewness_direction")),
-                   total_peak_area_sd        = attr(metaboprep@data, paste0(layer, "_total_peak_area_sd")), 
-                   outlier_udist             = attr(metaboprep@data, paste0(layer, "_outlier_udist")), 
-                   outlier_treatment         = attr(metaboprep@data, paste0(layer, "_outlier_treatment")), 
-                   winsorize_quantile        = attr(metaboprep@data, paste0(layer, "_winsorize_quantile")), 
-                   tree_cut_height           = attr(metaboprep@data, paste0(layer, "_tree_cut_height")), 
-                   pc_outlier_sd             = attr(metaboprep@data, paste0(layer, "_pc_outlier_sd")), 
-                   features_exclude_but_keep = attr(metaboprep@data, paste0(layer, "_features_exclude_but_keep")))
+                   sample_missingness        = attr(omiprep@data, paste0(layer, "_sample_missingness")), 
+                   feature_missingness       = attr(omiprep@data, paste0(layer, "_feature_missingness")), 
+                   feature_skewness_threshold = attr(omiprep@data, paste0(layer, "_feature_skewness_threshold")),
+                   feature_skewness_direction = attr(omiprep@data, paste0(layer, "_feature_skewness_direction")),
+                   total_peak_area_sd        = attr(omiprep@data, paste0(layer, "_total_peak_area_sd")), 
+                   outlier_udist             = attr(omiprep@data, paste0(layer, "_outlier_udist")), 
+                   outlier_treatment         = attr(omiprep@data, paste0(layer, "_outlier_treatment")), 
+                   winsorize_quantile        = attr(omiprep@data, paste0(layer, "_winsorize_quantile")), 
+                   tree_cut_height           = attr(omiprep@data, paste0(layer, "_tree_cut_height")), 
+                   pc_outlier_sd             = attr(omiprep@data, paste0(layer, "_pc_outlier_sd")), 
+                   features_exclude_but_keep = attr(omiprep@data, paste0(layer, "_features_exclude_but_keep")))
 
     
     # exclusions
-    excl_feats <- if (layer == "qc") { unique(unlist(metaboprep@exclusions[["features"]])) } else { character(0L) }
-    excl_samps <- if (layer == "qc") { unique(unlist(metaboprep@exclusions[["samples"]])) } else { character(0L) }
+    excl_feats <- if (layer == "qc") { unique(unlist(omiprep@exclusions[["features"]])) } else { character(0L) }
+    excl_samps <- if (layer == "qc") { unique(unlist(omiprep@exclusions[["samples"]])) } else { character(0L) }
     
     
     # update config
-    config[["total_n_features"]]    <- ncol(metaboprep@data)
-    config[["total_n_samples"]]     <- nrow(metaboprep@data)
-    config[["included_n_features"]] <- length(setdiff(colnames(metaboprep@data), excl_feats))
-    config[["included_n_samples"]]  <- length(setdiff(rownames(metaboprep@data), excl_samps))
+    config[["total_n_features"]]    <- ncol(omiprep@data)
+    config[["total_n_samples"]]     <- nrow(omiprep@data)
+    config[["included_n_features"]] <- length(setdiff(colnames(omiprep@data), excl_feats))
+    config[["included_n_samples"]]  <- length(setdiff(rownames(omiprep@data), excl_samps))
     config[["excluded_features"]]   <- excl_feats
     config[["excluded_samples"]]    <- excl_samps
 
     
     # get the features
-    features   <- metaboprep@features
+    features   <- omiprep@features
     incl_feats <- features[!features$feature_id %in% excl_feats, "feature_id"]
 
     
     # get the samples
-    samples    <- metaboprep@samples
+    samples    <- omiprep@samples
     incl_samps <- samples[!samples$sample_id %in% excl_samps, "sample_id"]
     
     
     # get the data
-    data <- metaboprep@data[incl_samps, incl_feats, layer]
+    data <- omiprep@data[incl_samps, incl_feats, layer]
     data <- cbind(
       data.frame("sample_id" = rownames(data)),
       as.data.frame(data)
@@ -126,8 +126,8 @@ method(export_metaboprep, list(Metaboprep, class_character)) <- function(metabop
     
     
     # write the feature summary if present
-    if (layer %in% dimnames(metaboprep@feature_summary)[[3]]) {
-      feat_sum <- t(metaboprep@feature_summary[, incl_feats, layer])
+    if (layer %in% dimnames(omiprep@feature_summary)[[3]]) {
+      feat_sum <- t(omiprep@feature_summary[, incl_feats, layer])
       feat_sum <- cbind(
         data.frame("feature_id" = rownames(feat_sum)),
         as.data.frame(feat_sum)
@@ -140,8 +140,8 @@ method(export_metaboprep, list(Metaboprep, class_character)) <- function(metabop
 
     
     # write the sample summary if present
-    if (layer %in% dimnames(metaboprep@sample_summary)[[3]]) {
-      samp_sum <- metaboprep@sample_summary[incl_samps, , layer]
+    if (layer %in% dimnames(omiprep@sample_summary)[[3]]) {
+      samp_sum <- omiprep@sample_summary[incl_samps, , layer]
       samp_sum <- cbind(
         data.frame("sample_id" = rownames(samp_sum)),
         as.data.frame(samp_sum)
@@ -149,7 +149,7 @@ method(export_metaboprep, list(Metaboprep, class_character)) <- function(metabop
       write.table(samp_sum, file.path(sub_dirs[[layer]], "sample_summary.tsv"), sep="\t", row.names = FALSE, quote = FALSE)
       
       # write variance explained
-      var_exp <- attr(metaboprep@sample_summary, paste0(layer, "_varexp"))
+      var_exp <- attr(omiprep@sample_summary, paste0(layer, "_varexp"))
       if (!is.null(var_exp)) {
         ve <- data.frame("pc"    = names(var_exp),
                          "value" = var_exp)
@@ -157,67 +157,67 @@ method(export_metaboprep, list(Metaboprep, class_character)) <- function(metabop
       }
       
       # write analysis data
-      config[["num_pcs_scree"]]    <- attr(metaboprep@sample_summary, paste0(layer, "_num_pcs_scree"))
-      config[["num_pcs_parallel"]] <- attr(metaboprep@sample_summary, paste0(layer, "_num_pcs_parallel"))
+      config[["num_pcs_scree"]]    <- attr(omiprep@sample_summary, paste0(layer, "_num_pcs_scree"))
+      config[["num_pcs_parallel"]] <- attr(omiprep@sample_summary, paste0(layer, "_num_pcs_parallel"))
     }
 
     # write config
     yaml::write_yaml(config, file.path(sub_dirs[[layer]], "config.yml"))
   }
 
-  invisible(metaboprep)
+  invisible(omiprep)
 }
 
 
 #' @title Export Data to `COMETS` format
 #' @inheritParams export
-#' @param layer character, the name of the `metaboprep@data` layer (3rd array dimension) to write out 
-#' @return the `Metaboprep` object, invisibly, for use in pipes
+#' @param layer character, the name of the `omiprep@data` layer (3rd array dimension) to write out 
+#' @return the `Omiprep` object, invisibly, for use in pipes
 #' @importFrom openxlsx addWorksheet writeData saveWorkbook
 #' @export
-export_comets <- new_generic("export_comets", c("metaboprep", "directory"), function(metaboprep, directory, layer = NULL) { S7_dispatch() })
+export_comets <- new_generic("export_comets", c("omiprep", "directory"), function(omiprep, directory, layer = NULL) { S7_dispatch() })
 #' @name export_comets
-method(export_comets, list(Metaboprep, class_character)) <- function(metaboprep, directory, layer = NULL) {
+method(export_comets, list(Omiprep, class_character)) <- function(omiprep, directory, layer = NULL) {
 
   # testing 
   if (FALSE) {
     library(devtools)
     load_all()
-    directory <- "~/Desktop/metaboprep_test"
-    data     <- read.csv(system.file("extdata", "dummy_data.csv",     package = "metaboprep"), header=T, row.names = 1) |> as.matrix()
-    samples  <- read.csv(system.file("extdata", "dummy_samples.csv",  package = "metaboprep"), header=T, row.names = 1)
-    features <- read.csv(system.file("extdata", "dummy_features.csv", package = "metaboprep"), header=T, row.names = 1)
-    metaboprep <- Metaboprep(data = data, samples = samples, features = features)
+    directory <- "~/Desktop/omiprep_test"
+    data     <- read.csv(system.file("extdata", "dummy_data.csv",     package = "omiprep"), header=T, row.names = 1) |> as.matrix()
+    samples  <- read.csv(system.file("extdata", "dummy_samples.csv",  package = "omiprep"), header=T, row.names = 1)
+    features <- read.csv(system.file("extdata", "dummy_features.csv", package = "omiprep"), header=T, row.names = 1)
+    omiprep <- Omiprep(data = data, samples = samples, features = features)
   }
   
   
   # init ====
   today  <- gsub("-", "_", Sys.Date())
-  fp     <- file.path(sub("/$", "", directory), paste0("metaboprep_comets_export_", today, ".xlsx"))
+  fp     <- file.path(sub("/$", "", directory), paste0("omiprep_comets_export_", today, ".xlsx"))
   dir.create(dirname(fp), showWarnings = FALSE)
-  layers <- dimnames(metaboprep@data)[[3]]
+  layers <- dimnames(omiprep@data)[[3]]
   if (is.null(layer)) {
     if ("qc" %in% layers) {
       layer <- "qc"
     } else if ("input" %in% layers) {
       layer <- "input"
     } else {
-      warning("Neither 'qc' nor 'input' layer found in metaboprep@data.")
+      warning("Neither 'qc' nor 'input' layer found in omiprep@data.")
       layer <- NULL
     }
   } else {
     if (!(layer %in% layers)) {
-      stop(sprintf("Specified layer '%s' not found in metaboprep@data.", layer))
+      stop(sprintf("Specified layer '%s' not found in omiprep@data.", layer))
     }
   }
   message(paste0("Exporting data layer `", layer, "` in comets format to ", fp))
     
   
   # extract data ====
-  data     <- metaboprep@data[, , layer] |> as.data.frame()
+  data     <- omiprep@data[, , layer] |> as.data.frame()
   data     <- cbind(SAMPLE_ID = rownames(data), data)
-  samples  <- metaboprep@samples
-  features <- metaboprep@features
+  samples  <- omiprep@samples
+  features <- omiprep@features
   names(samples)[names(samples) == "sample_id"] <- "SAMPLE_ID"
   names(features)[names(features) == "feature_id"] <- "metabid"
   name_cols <- grep("name", names(features), ignore.case = TRUE, value = TRUE)
@@ -354,46 +354,46 @@ method(export_comets, list(Metaboprep, class_character)) <- function(metaboprep,
 
 #' @title Export Data to `MetaboAnalyst` format
 #' @inheritParams export
-#' @param layer character, the name of the `metaboprep@data` layer (3rd array dimension) to write out 
-#' @param group_col character, the column name in the `metaboprep@samples` data identifying the group for one-factor analysis
-#' @return the `Metaboprep` object, invisibly, for use in pipes
+#' @param layer character, the name of the `omiprep@data` layer (3rd array dimension) to write out 
+#' @param group_col character, the column name in the `omiprep@samples` data identifying the group for one-factor analysis
+#' @return the `Omiprep` object, invisibly, for use in pipes
 #'
 #' @export
-export_metaboanalyst <- new_generic("export_metaboanalyst", c("metaboprep", "directory"), function(metaboprep, directory, layer = NULL, group_col = NULL) { S7_dispatch() })
+export_metaboanalyst <- new_generic("export_metaboanalyst", c("omiprep", "directory"), function(omiprep, directory, layer = NULL, group_col = NULL) { S7_dispatch() })
 #' @name export_metaboanalyst
-method(export_metaboanalyst, list(Metaboprep, class_character)) <- function(metaboprep, directory, layer = NULL, group_col = NULL) {
+method(export_metaboanalyst, list(Omiprep, class_character)) <- function(omiprep, directory, layer = NULL, group_col = NULL) {
   message("Exporting in export_metaboanalyst format to ", directory)
   # code
 
   if (FALSE) {
     library(devtools)
     load_all()
-    directory <- "~/Desktop/metaboprep_test"
-    data     <- read.csv(system.file("extdata", "dummy_data.csv",     package = "metaboprep"), header=T, row.names = 1) |> as.matrix()
-    samples  <- read.csv(system.file("extdata", "dummy_samples.csv",  package = "metaboprep"), header=T, row.names = 1)
-    features <- read.csv(system.file("extdata", "dummy_features.csv", package = "metaboprep"), header=T, row.names = 1)
-    metaboprep <- Metaboprep(data = data, samples = samples, features = features)
+    directory <- "~/Desktop/omiprep_test"
+    data     <- read.csv(system.file("extdata", "dummy_data.csv",     package = "omiprep"), header=T, row.names = 1) |> as.matrix()
+    samples  <- read.csv(system.file("extdata", "dummy_samples.csv",  package = "omiprep"), header=T, row.names = 1)
+    features <- read.csv(system.file("extdata", "dummy_features.csv", package = "omiprep"), header=T, row.names = 1)
+    omiprep <- Omiprep(data = data, samples = samples, features = features)
     layer = NULL
     group_col = "sex"
   }
   
   # init ====
   today  <- gsub("-", "_", Sys.Date())
-  fp     <- file.path(sub("/$", "", directory), paste0("metaboprep_metaboanalyst_export_", today, ".csv"))
+  fp     <- file.path(sub("/$", "", directory), paste0("omiprep_metaboanalyst_export_", today, ".csv"))
   dir.create(dirname(fp), showWarnings = FALSE)
-  layers <- dimnames(metaboprep@data)[[3]]
+  layers <- dimnames(omiprep@data)[[3]]
   if (is.null(layer)) {
     if ("qc" %in% layers) {
       layer <- "qc"
     } else if ("input" %in% layers) {
       layer <- "input"
     } else {
-      warning("Neither 'qc' nor 'input' layer found in metaboprep@data.")
+      warning("Neither 'qc' nor 'input' layer found in omiprep@data.")
       layer <- NULL
     }
   } else {
     if (!(layer %in% layers)) {
-      stop(sprintf("Specified layer '%s' not found in metaboprep@data.", layer))
+      stop(sprintf("Specified layer '%s' not found in omiprep@data.", layer))
     }
   }
   message(paste0("Exporting data layer `", layer, "` in comets format to ", fp))
@@ -401,16 +401,16 @@ method(export_metaboanalyst, list(Metaboprep, class_character)) <- function(meta
   
   # grouping column 
   if (is.null(group_col)) {
-    group_dat <- data.frame(`PatientID` = rownames(metaboprep@data[, , layer]),
+    group_dat <- data.frame(`PatientID` = rownames(omiprep@data[, , layer]),
                             group = 0)
   } else {
-    group_dat <- metaboprep@samples[, c("sample_id", group_col)]
+    group_dat <- omiprep@samples[, c("sample_id", group_col)]
     colnames(group_dat) <- c("PatientID", group_col)
   }
   
   
   # extract data ====
-  ddata <- metaboprep@data[, , layer] |> as.data.frame()
+  ddata <- omiprep@data[, , layer] |> as.data.frame()
   data <- cbind(`PatientID` = rownames(data), data)
   
   

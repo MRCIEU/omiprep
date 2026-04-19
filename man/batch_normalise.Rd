@@ -5,7 +5,7 @@
 \title{Batch Normalisation}
 \usage{
 batch_normalise(
-  metaboprep,
+  omiprep,
   run_mode_col,
   run_mode_colmap,
   source_layer = "input",
@@ -13,7 +13,7 @@ batch_normalise(
 )
 }
 \arguments{
-\item{metaboprep}{an object of class Metaboprep}
+\item{omiprep}{an object of class Omiprep}
 
 \item{run_mode_col}{character, column name in features data containing the run mode}
 
