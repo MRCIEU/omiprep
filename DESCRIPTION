@@ -1,6 +1,6 @@
 Package: omiprep
 Title: Omics data preparation and processing pipeline
-Version: 1.0.1
+Version: 1.0.0
 Authors@R: c(person("Laura", "Corbin",        email = "laura.corbin@bristol.ac.uk",        role = c("aut")), 
              person("David", "Hughes",        email = "hughes.evoanth@gmail.com",          role = c("aut", "cre")),
              person("Nicholas", "Sunderland", email = "nicholas.sunderland@bristol.ac.uk", role = c("aut")),

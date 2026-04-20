@@ -76,11 +76,11 @@ method(quality_control, Omiprep) <- function(omiprep,
   # input validation
   cli::cli_progress_step("Validating input parameters")
   t_step <- proc.time()
-  source_layer <- match.arg(source_layer, choices = dimnames(metaboprep@data)[[3]])
+  source_layer <- match.arg(source_layer, choices = dimnames(omiprep@data)[[3]])
   outlier_treatment <- match.arg(outlier_treatment, choices = c("leave_be", "turn_NA", "winsorize"))
-  stopifnot("sample_ids must all be found in the data" = is.null(sample_ids) || all(sample_ids %in% metaboprep@samples[["sample_id"]]))
-  stopifnot("feature_ids must all be found in the data" = is.null(feature_ids) || all(feature_ids %in% metaboprep@features[["feature_id"]]))
-  stopifnot("`features_exclude_but_keep` must be a logical column in the features data or a vector of feature ids all present in the data" = is.null(features_exclude_but_keep) || (all(features_exclude_but_keep %in% names(metaboprep@features)) && all(is.logical(metaboprep@features[[features_exclude_but_keep]]))) || all(features_exclude_but_keep %in% metaboprep@features[["feature_id"]]) )
+  stopifnot("sample_ids must all be found in the data" = is.null(sample_ids) || all(sample_ids %in% omiprep@samples[["sample_id"]]))
+  stopifnot("feature_ids must all be found in the data" = is.null(feature_ids) || all(feature_ids %in% omiprep@features[["feature_id"]]))
+  stopifnot("`features_exclude_but_keep` must be a logical column in the features data or a vector of feature ids all present in the data" = is.null(features_exclude_but_keep) || (all(features_exclude_but_keep %in% names(omiprep@features)) && all(is.logical(omiprep@features[[features_exclude_but_keep]]))) || all(features_exclude_but_keep %in% omiprep@features[["feature_id"]]) )
   cli::cli_h1("Starting 'Omics QC Process")
   
 
@@ -136,7 +136,7 @@ method(quality_control, Omiprep) <- function(omiprep,
   t_step <- proc.time()
   stopifnot("No remaining features" = length(setdiff(feature_ids, exclude_but_keep_feats)) > 0)
   stopifnot("No remaining samples"  = length(sample_ids) > 0)
-  metaboprep <- summarise(omiprep,
+  omiprep    <- summarise(omiprep,
                           source_layer     = source_layer,
                           outlier_udist    = outlier_udist,
                           tree_cut_height  = tree_cut_height,

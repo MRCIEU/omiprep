@@ -32,7 +32,7 @@ The goal of `omiprep` is to:
 
 ## Installation
 
-You can install the development version of omiprep from [GitHub](https://github.com/MRCIEU/omiprep/tree/v2_development) with:
+You can install the latest version of omiprep from [GitHub](https://github.com/MRCIEU/omiprep) with:
 
 ``` r
 # install.packages("pak")
@@ -40,7 +40,7 @@ pak::pak("MRCIEU/omiprep")
 ```
 
 ## Cheatsheet
-![Cheatsheet](man/figures/cheatsheet.png)
+![](man/figures/omiprep_cheatsheet.png)
 
 
 ## Example

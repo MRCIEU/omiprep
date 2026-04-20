@@ -219,7 +219,9 @@ m_qc <- quality_control(
   feature_skewness_direction = "left",
   total_peak_area_sd = NA,
   outlier_udist = 5,
-  pc_outlier_sd = NA
+  pc_outlier_sd = NA, 
+  cores = 2, 
+  fast = FALSE
 )
 ```
 

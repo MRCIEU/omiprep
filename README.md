@@ -36,10 +36,7 @@ pak::pak("MRCIEU/omiprep")
 
 ## Cheatsheet
 
-<figure>
-<img src="man/figures/cheatsheet.png" alt="Cheatsheet" />
-<figcaption aria-hidden="true">Cheatsheet</figcaption>
-</figure>
+![](man/figures/omiprep_cheatsheet.png)
 
 ## Example
 
@@ -83,7 +80,7 @@ mydata <- mydata |> quality_control( source_layer = "input",
 #> 
 #> ── Starting Metabolite QC Process ──────────────────────────────────────────────
 #> ℹ Validating input parameters✔ Validating input parameters [4ms]
-#> ℹ Sample & Feature Summary Statistics for raw data✔ Sample & Feature Summary Statistics for raw data [447ms]
+#> ℹ Sample & Feature Summary Statistics for raw data✔ Sample & Feature Summary Statistics for raw data [456ms]
 #> ℹ Copying input data to new 'qc' data layer✔ Copying input data to new 'qc' data layer [12ms]
 #> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [11ms]
 #> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [8ms]
@@ -93,8 +90,8 @@ mydata <- mydata |> quality_control( source_layer = "input",
 #> ℹ Running sample data PCA outlier analysis at +/- 5 Sdev✔ Running sample data PCA outlier analysis at +/- 5 Sdev [8ms]
 #> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…                                                                                 ! The stated max PCs [max_num_pcs=10] to use in PCA outlier assessment is greater than the number of available informative PCs [2]
 #> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…✔ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
-#> ℹ Creating final QC dataset...✔ Creating final QC dataset... [443ms]
-#> ℹ Metabolite QC Process Completed✔ Metabolite QC Process Completed [9ms]
+#> ℹ Creating final QC dataset...✔ Creating final QC dataset... [442ms]
+#> ℹ Metabolite QC Process Completed✔ Metabolite QC Process Completed [10ms]
 ```
 
 ### View a summary of the Omiprep object

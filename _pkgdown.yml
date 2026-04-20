@@ -70,6 +70,7 @@ reference:
     - sample_summary
     - pc_and_outliers
     - tree_and_independent_features
+    - feature_skewness
     
 - title: "Quality control & Reporting"
   desc: >
@@ -78,7 +79,7 @@ reference:
     - quality_control
     - available_report_templates
     - generate_report
-    - run_omiprep1
+    - run_metaboprep1
     - shiny_app
     
 - title: "Other processing tools"
