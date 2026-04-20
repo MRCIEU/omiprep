@@ -6,7 +6,7 @@ This function writes an output report
 
 ``` r
 generate_report(
-  metaboprep,
+  omiprep,
   output_dir,
   output_filename = NULL,
   project = "Project",
@@ -17,9 +17,9 @@ generate_report(
 
 ## Arguments
 
-- metaboprep:
+- omiprep:
 
-  an object of class Metaboprep
+  an object of class Omiprep
 
 - output_dir:
 

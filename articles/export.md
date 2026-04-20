@@ -1,29 +1,28 @@
 # Export Data
 
-`Metaboprep` can export data to various formats.
+`Omiprep` can export data to various formats.
 
 ## Setup
 
-### load the metaboprep library
+### load the omiprep library
 
 ``` r
-library(metaboprep)
+library(omiprep)
 ```
 
-### Read in the data and make a Metaboprep object
+### Read in the data and make a Omiprep object
 
-Create a `Metaboprep` object as described in the [Getting
-Started](https://mrcieu.github.io/metaboprep/articles/index.md)
-vignette.
+Create a `Omiprep` object as described in the [Getting
+Started](https://mrcieu.github.io/omiprep/articles/index.md) vignette.
 
 ``` r
 # read in the metabolon data as a list object
-datain     <- read_metabolon(system.file("extdata", "metabolon_v1.1_example.xlsx", package = "metaboprep"), 
+datain     <- read_metabolon(system.file("extdata", "metabolon_v1.1_example.xlsx", package = "omiprep"), 
                             sheet="OrigScale", 
-                            return_Metaboprep = FALSE)
+                            return_Omiprep = FALSE)
 
-# build the Metaboprep class object
-mydata      <- Metaboprep(data = datain$data, samples = datain$samples, features = datain$features)
+# build the Omiprep class object
+mydata      <- Omiprep(data = datain$data, samples = datain$samples, features = datain$features)
 ```
 
 ## Run the quality control
@@ -32,19 +31,24 @@ mydata      <- Metaboprep(data = datain$data, samples = datain$samples, features
 ## Adding suppressWarnings() to avoid deparse() error when rendering vignette with S7 method warnings
 mydata         <- suppressWarnings( quality_control(mydata, cores = 1) )
 #> 
-#> ── Starting Metabolite QC Process ──────────────────────────────────────────────
+#> ── Starting Omics QC Process ───────────────────────────────────────────────────
 #> ℹ Validating input parameters
-#> ✔ Validating input parameters [8ms]
+#> 
+#> ℹ Validating input parameters── Starting 'Omics QC Process ──────────────────────────────────────────────────
+#> ℹ Validating input parameters✔ Validating input parameters [20ms]
+#> 
+#> ℹ Validating input parameters
+#> ✔ Validating input parameters [14ms]
 #> 
 #> ℹ Sample & Feature Summary Statistics for raw data
 #> AF =  2
-#> ✔ Sample & Feature Summary Statistics for raw data [579ms]
+#> ✔ Sample & Feature Summary Statistics for raw data [559ms]
 #> 
 #> ℹ Copying input data to new 'qc' data layer
-#> ✔ Copying input data to new 'qc' data layer [35ms]
+#> ✔ Copying input data to new 'qc' data layer [23ms]
 #> 
 #> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)
-#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [21ms]
+#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [25ms]
 #> 
 #> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)
 #> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [17m…
@@ -59,7 +63,7 @@ mydata         <- suppressWarnings( quality_control(mydata, cores = 1) )
 #> ✔ Calculating total peak abundance outliers at +/- 5 Sdev - excluding 0 sample(…
 #> 
 #> ℹ Running sample data PCA outlier analysis at +/- 5 Sdev
-#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [26ms]
+#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [25ms]
 #> 
 #> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
 #> AF =  2
@@ -68,38 +72,37 @@ mydata         <- suppressWarnings( quality_control(mydata, cores = 1) )
 #> 
 #> ℹ Creating final QC dataset...
 #> AF =  2
-#> ✔ Creating final QC dataset... [634ms]
 #> 
-#> ℹ Metabolite QC Process Completed
+#> ℹ Creating final QC dataset...── Step timings ──
+#> ℹ Creating final QC dataset...
+#> ℹ Creating final QC dataset...
+#>                         step seconds   pct
+#>                   validation    0.02   1.0
+#>                summarise_raw    0.54  28.2
+#>                   copy_layer    0.00   0.0
+#>   extreme_sample_missingness    0.00   0.0
+#>  extreme_feature_missingness    0.00   0.0
+#>           sample_missingness    0.00   0.0
+#>              total_peak_area    0.00   0.0
+#>                summarise_pca    0.61  31.8
+#>              summarise_final    0.52  27.1
+#>                        total    1.92 100.2
+#> ✔ Creating final QC dataset... [559ms]
 #> 
-#> ℹ Metabolite QC Process Completed── Step timings ──
-#> ℹ Metabolite QC Process Completed
-#> ℹ Metabolite QC Process Completed
-#>                         step seconds  pct
-#>                   validation    0.00  0.0
-#>                summarise_raw    0.57 27.8
-#>                   copy_layer    0.00  0.0
-#>   extreme_sample_missingness    0.00  0.0
-#>  extreme_feature_missingness    0.00  0.0
-#>           sample_missingness    0.00  0.0
-#>          feature_missingness    0.00  0.0
-#>              total_peak_area    0.00  0.0
-#>                summarise_pca    0.65 31.7
-#>              summarise_final    0.60 29.2
-#>                        total    2.05 99.9
-#> ✔ Metabolite QC Process Completed [40ms]
+#> ℹ 'Omics QC Process Completed
+#> ✔ 'Omics QC Process Completed [27ms]
 ```
 
-## Export Metaboprep
+## Export Omiprep
 
 ``` r
 # where to put the files
 output_dir <- file.path(getwd(), "output")
 
 # run export
-export(mydata, directory = output_dir, format = "metaboprep")
-#> Exporting in metaboprep format to: 
-#>      /home/runner/work/metaboprep/metaboprep/vignettes/output
+export(mydata, directory = output_dir, format = "omiprep")
+#> Exporting in omiprep format to: 
+#>      /home/runner/work/omiprep/omiprep/vignettes/output
 
 # view output directory files
 files <- list.files(output_dir, full.names = TRUE, recursive = TRUE)
@@ -107,18 +110,18 @@ unname(sapply(files, function(path) {
   parts <- strsplit(path, .Platform$file.sep)[[1]]
   paste(tail(parts, 4), collapse = .Platform$file.sep)
 }))
-#>  [1] "output/metaboprep_export_2026_04_17/input/config.yml"         
-#>  [2] "output/metaboprep_export_2026_04_17/input/data.tsv"           
-#>  [3] "output/metaboprep_export_2026_04_17/input/feature_summary.tsv"
-#>  [4] "output/metaboprep_export_2026_04_17/input/features.tsv"       
-#>  [5] "output/metaboprep_export_2026_04_17/input/sample_summary.tsv" 
-#>  [6] "output/metaboprep_export_2026_04_17/input/samples.tsv"        
-#>  [7] "output/metaboprep_export_2026_04_17/qc/config.yml"            
-#>  [8] "output/metaboprep_export_2026_04_17/qc/data.tsv"              
-#>  [9] "output/metaboprep_export_2026_04_17/qc/feature_summary.tsv"   
-#> [10] "output/metaboprep_export_2026_04_17/qc/feature_tree.RDS"      
-#> [11] "output/metaboprep_export_2026_04_17/qc/features.tsv"          
-#> [12] "output/metaboprep_export_2026_04_17/qc/sample_summary.tsv"    
-#> [13] "output/metaboprep_export_2026_04_17/qc/samples.tsv"           
-#> [14] "output/metaboprep_export_2026_04_17/qc/var_exp.tsv"
+#>  [1] "output/omiprep_export_2026_04_20/input/config.yml"         
+#>  [2] "output/omiprep_export_2026_04_20/input/data.tsv"           
+#>  [3] "output/omiprep_export_2026_04_20/input/feature_summary.tsv"
+#>  [4] "output/omiprep_export_2026_04_20/input/features.tsv"       
+#>  [5] "output/omiprep_export_2026_04_20/input/sample_summary.tsv" 
+#>  [6] "output/omiprep_export_2026_04_20/input/samples.tsv"        
+#>  [7] "output/omiprep_export_2026_04_20/qc/config.yml"            
+#>  [8] "output/omiprep_export_2026_04_20/qc/data.tsv"              
+#>  [9] "output/omiprep_export_2026_04_20/qc/feature_summary.tsv"   
+#> [10] "output/omiprep_export_2026_04_20/qc/feature_tree.RDS"      
+#> [11] "output/omiprep_export_2026_04_20/qc/features.tsv"          
+#> [12] "output/omiprep_export_2026_04_20/qc/sample_summary.tsv"    
+#> [13] "output/omiprep_export_2026_04_20/qc/samples.tsv"           
+#> [14] "output/omiprep_export_2026_04_20/qc/var_exp.tsv"
 ```

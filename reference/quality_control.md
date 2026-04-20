@@ -1,22 +1,24 @@
-# Metabolite Quality Control
+# Omics Quality Control
 
 This function is a wrapper function that performs the key quality
-controls steps on a metabolomics data set. Key principles: 1. keep the
-source underlying data as it is 2. copy the source data to a new data
-layer called qcing for processing 3. build an exclusion list,
-accumulating codes for exclusion reasons 4. make any adjustments needed
-in the destination copy of the data, flag these in the exclusion list 5.
-copy the final result to a data layer called post_qc 6. return the
-Metabolites object with the newly populated data layers
+controls steps on an 'omics data set. Key principles: 1. keep the source
+underlying data as it is 2. copy the source data to a new data layer
+called qcing for processing 3. build an exclusion list, accumulating
+codes for exclusion reasons 4. make any adjustments needed in the
+destination copy of the data, flag these in the exclusion list 5. copy
+the final result to a data layer called post_qc 6. return the Omiprep
+object with the newly populated data layers
 
 ## Usage
 
 ``` r
 quality_control(
-  metaboprep,
+  omiprep,
   source_layer = "input",
   sample_missingness = 0.2,
   feature_missingness = 0.2,
+  feature_skewness_threshold = NULL,
+  feature_skewness_direction = "left",
   total_peak_area_sd = 5,
   outlier_udist = 5,
   outlier_treatment = "leave_be",
@@ -35,9 +37,9 @@ quality_control(
 
 ## Arguments
 
-- metaboprep:
+- omiprep:
 
-  an object of class Metabolites
+  an object of class Omiprep
 
 - source_layer:
 
@@ -52,6 +54,17 @@ quality_control(
 
   numeric 0-1, percentage of data missingness which should prompt
   exclusion of a feature
+
+- feature_skewness_threshold:
+
+  numeric, optional skewness threshold to exclude features with skewed
+  distributions. Set to \`NULL\` to disable.
+
+- feature_skewness_direction:
+
+  character, direction of skewness to apply when
+  \`feature_skewness_threshold\` is set. One of \`"left"\`, \`"right"\`,
+  or \`"both"\`.
 
 - total_peak_area_sd:
 

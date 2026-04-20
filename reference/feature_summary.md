@@ -1,13 +1,13 @@
 # Feature Summary Statistics
 
 This function estimates feature statistics for samples in a matrix of
-metabolite features.
+'omics features.
 
 ## Usage
 
 ``` r
 feature_summary(
-  metaboprep,
+  omiprep,
   source_layer = "input",
   outlier_udist = 5,
   tree_cut_height = 0.5,
@@ -23,9 +23,9 @@ feature_summary(
 
 ## Arguments
 
-- metaboprep:
+- omiprep:
 
-  an object of class Metabolites
+  an object of class Omiprep
 
 - source_layer:
 

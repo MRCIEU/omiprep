@@ -3,13 +3,13 @@
 This function reads and processes an Olink NPX file in long format. It
 supports \`.csv\`, \`.xls\`, \`.xlsx\`, \`.txt\`, \`.zip\`, and
 \`.parquet\` formats, using Olink's own OlinkAnalyze::read_NPX()
-function, and returns a metaboprep object or a list of matrices and
+function, and returns a omiprep object or a list of matrices and
 metadata frames for further analysis.
 
 ## Usage
 
 ``` r
-read_olink(filepath, return_Metaboprep = FALSE)
+read_olink(filepath, return_Omiprep = FALSE)
 ```
 
 ## Arguments
@@ -18,14 +18,14 @@ read_olink(filepath, return_Metaboprep = FALSE)
 
   A string specifying the path to the Olink NPX file.
 
-- return_Metaboprep:
+- return_Omiprep:
 
-  logical, if TRUE (default) return a Metaboprep object, if FALSE return
-  a list.
+  logical, if TRUE (default) return a Omiprep object, if FALSE return a
+  list.
 
 ## Value
 
-Metaboprep object or a named list with the following elements:
+Omiprep object or a named list with the following elements:
 
 - data:
 
@@ -67,7 +67,7 @@ indicating that the data is likely not from Olink.
 
 ``` r
 if (FALSE) { # \dontrun{
-  filepath <- system.file("extdata", "example_olink_data.txt", package = "metaboprep")
+  filepath <- system.file("extdata", "example_olink_data.txt", package = "omiprep")
   olink_data <- read_olink(filepath)
 } # }
 ```

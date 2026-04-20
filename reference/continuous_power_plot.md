@@ -14,7 +14,7 @@ continuous_power_plot(mydata)
 
 - mydata:
 
-  Your metabolite data matrix, with samples in rows
+  Your 'omics data matrix, with samples in rows
 
 ## Value
 
@@ -27,7 +27,7 @@ ex_data = matrix(NA, 1000, 2)
 continuous_power_plot( ex_data )
 #> Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
 #> ℹ Please use `linewidth` instead.
-#> ℹ The deprecated feature was likely used in the metaboprep package.
+#> ℹ The deprecated feature was likely used in the omiprep package.
 #>   Please report the issue to the authors.
 
 ```

@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Batch Normalise • metaboprep</title>
+<title>Batch Normalise • omiprep</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
 <link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
 <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
@@ -23,9 +23,9 @@
 
     <nav class="navbar navbar-expand-lg fixed-top " aria-label="Site navigation"><div class="container">
 
-    <a class="navbar-brand me-2" href="../index.html">metaboprep</a>
+    <a class="navbar-brand me-2" href="../index.html">omiprep</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,6 +47,7 @@
     <li><h6 class="dropdown-header" data-toc-skip>Summaries</h6></li>
     <li><a class="dropdown-item" href="../articles/sample_summary.html">Samples</a></li>
     <li><a class="dropdown-item" href="../articles/feature_summary.html">Features</a></li>
+    <li><a class="dropdown-item" href="../articles/skewness_qc.html">Skewness &amp; truncation</a></li>
     <li><a class="dropdown-item" href="../articles/quality_control.html">QC pipeline</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Reports</h6></li>
@@ -94,21 +95,21 @@
     
     
 <div class="section level2">
-<h2 id="create-metaboprep-object">Create Metaboprep object<a class="anchor" aria-label="anchor" href="#create-metaboprep-object"></a>
+<h2 id="create-omiprep-object">Create Omiprep object<a class="anchor" aria-label="anchor" href="#create-omiprep-object"></a>
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mrcieu.github.io/metaboprep/">metaboprep</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mrcieu.github.io/omiprep/">omiprep</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">data</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"dummy_data.csv"</span>, package <span class="op">=</span> <span class="st">"metaboprep"</span><span class="op">)</span>, header<span class="op">=</span><span class="cn">T</span>, row.names <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="va">samples</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"dummy_samples.csv"</span>, package <span class="op">=</span> <span class="st">"metaboprep"</span><span class="op">)</span>, header<span class="op">=</span><span class="cn">T</span>, row.names <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
-<span><span class="va">features</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"dummy_features.csv"</span>, package <span class="op">=</span> <span class="st">"metaboprep"</span><span class="op">)</span>, header<span class="op">=</span><span class="cn">T</span>, row.names <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">data</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"dummy_data.csv"</span>, package <span class="op">=</span> <span class="st">"omiprep"</span><span class="op">)</span>, header<span class="op">=</span><span class="cn">T</span>, row.names <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">samples</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"dummy_samples.csv"</span>, package <span class="op">=</span> <span class="st">"omiprep"</span><span class="op">)</span>, header<span class="op">=</span><span class="cn">T</span>, row.names <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">features</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"dummy_features.csv"</span>, package <span class="op">=</span> <span class="st">"omiprep"</span><span class="op">)</span>, header<span class="op">=</span><span class="cn">T</span>, row.names <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co">## create Metaboprep object</span></span>
-<span><span class="va">mydata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/class_metaboprep.html">Metaboprep</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, samples <span class="op">=</span> <span class="va">samples</span>, features <span class="op">=</span> <span class="va">features</span><span class="op">)</span></span>
+<span><span class="co">## create Omiprep object</span></span>
+<span><span class="va">mydata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/class_omiprep.html">Omiprep</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, samples <span class="op">=</span> <span class="va">samples</span>, features <span class="op">=</span> <span class="va">features</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co">## summary of Metaboprep object</span></span>
+<span><span class="co">## summary of Omiprep object</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">mydata</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Metaboprep Object Summary</span></span>
+<span><span class="co">#&gt; Omiprep Object Summary</span></span>
 <span><span class="co">#&gt; --------------------------</span></span>
 <span><span class="co">#&gt; Samples      : 100</span></span>
 <span><span class="co">#&gt; Features     : 20</span></span>
@@ -142,7 +143,8 @@
 <span><span class="co">#&gt; -----------------</span></span>
 <span><span class="co">#&gt; user_excluded                    | 0</span></span>
 <span><span class="co">#&gt; extreme_feature_missingness      | 0</span></span>
-<span><span class="co">#&gt; user_defined_feature_missingness | 0</span></span></code></pre></div>
+<span><span class="co">#&gt; user_defined_feature_missingness | 0</span></span>
+<span><span class="co">#&gt; user_defined_feature_skewness    | 0</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="run-batch-normalisation">Run batch normalisation<a class="anchor" aria-label="anchor" href="#run-batch-normalisation"></a>
@@ -151,7 +153,7 @@
 <code class="sourceCode R"><span><span class="va">mydata</span> <span class="op">&lt;-</span> <span class="va">mydata</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/batch_normalise.html">batch_normalise</a></span><span class="op">(</span>run_mode_col <span class="op">=</span> <span class="st">"platform"</span>, run_mode_colmap <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>pos<span class="op">=</span><span class="st">"pos"</span>, neg<span class="op">=</span><span class="st">"neg"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; &lt;metaboprep::Metaboprep&gt;</span></span>
+<span><span class="co">#&gt; &lt;omiprep::Omiprep&gt;</span></span>
 <span><span class="co">#&gt;  @ data           : num [1:100, 1:20, 1:2] 0.755887 0.662386 0.444527 0.627146 0.000465 ...</span></span>
 <span><span class="co">#&gt;  .. - attr(*, "dimnames")=List of 3</span></span>
 <span><span class="co">#&gt;  ..  ..$ : chr [1:100] "id_100" "id_99" "id_98" "id_97" ...</span></span>
@@ -176,10 +178,11 @@
 <span><span class="co">#&gt;  ..  ..$ user_defined_sample_missingness  : chr(0) </span></span>
 <span><span class="co">#&gt;  ..  ..$ user_defined_sample_totalpeakarea: chr(0) </span></span>
 <span><span class="co">#&gt;  ..  ..$ user_defined_sample_pca_outlier  : chr(0) </span></span>
-<span><span class="co">#&gt;  .. $ features:List of 3</span></span>
+<span><span class="co">#&gt;  .. $ features:List of 4</span></span>
 <span><span class="co">#&gt;  ..  ..$ user_excluded                   : chr(0) </span></span>
 <span><span class="co">#&gt;  ..  ..$ extreme_feature_missingness     : chr(0) </span></span>
 <span><span class="co">#&gt;  ..  ..$ user_defined_feature_missingness: chr(0) </span></span>
+<span><span class="co">#&gt;  ..  ..$ user_defined_feature_skewness   : chr(0) </span></span>
 <span><span class="co">#&gt;  @ feature_summary: num[0 , 0 , 0 ] </span></span>
 <span><span class="co">#&gt;  @ sample_summary : num[0 , 0 , 0 ]</span></span></code></pre></div>
 </div>

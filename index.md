@@ -1,4 +1,4 @@
-# metaboprep
+# omiprep
 
 Metabolomics & proteomics data preparation and quality control pipeline
 for R
@@ -8,8 +8,8 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 
 ## Overview
 
-`metaboprep` supports the full data-preparation workflow for untargeted
-and targeted omics data:
+`omiprep` supports the full data-preparation workflow for untargeted and
+targeted omics data:
 
 1.  **Import** raw data from Metabolon, Nightingale Health, Olink, and
     SomaLogic platforms (Excel / flat-text)  
@@ -23,19 +23,19 @@ and targeted omics data:
 
 ``` r
 # install.packages("pak")
-pak::pak("MRCIEU/metaboprep")
+pak::pak("MRCIEU/omiprep")
 ```
 
 ## Quick start
 
 ``` r
-library(metaboprep)
+library(omiprep)
 
 # 1. Read data
 mydata <- read_metabolon(
-  system.file("extdata", "metabolon_v1.1_example.xlsx", package = "metaboprep"),
+  system.file("extdata", "metabolon_v1.1_example.xlsx", package = "omiprep"),
   sheet             = "OrigScale",
-  return_Metaboprep = TRUE
+  return_Omiprep = TRUE
 )
 
 # 2. Run QC pipeline
@@ -61,75 +61,71 @@ generate_report(mydata, output_dir = ".")
 
 ### Importing Data
 
-##### [Metabolon](https://mrcieu.github.io/metaboprep/articles/metabolon.md)
+##### [Metabolon](https://mrcieu.github.io/omiprep/articles/metabolon.md)
 
 Import untargeted metabolomics data from Metabolon Excel sheets.
 
-[Read →](https://mrcieu.github.io/metaboprep/articles/metabolon.md)
+[Read →](https://mrcieu.github.io/omiprep/articles/metabolon.md)
 
-##### [Nightingale Health](https://mrcieu.github.io/metaboprep/articles/nightingale.md)
+##### [Nightingale Health](https://mrcieu.github.io/omiprep/articles/nightingale.md)
 
 Import NMR-based metabolomic data from Nightingale Health.
 
-[Read →](https://mrcieu.github.io/metaboprep/articles/nightingale.md)
+[Read →](https://mrcieu.github.io/omiprep/articles/nightingale.md)
 
-##### [Olink](https://mrcieu.github.io/metaboprep/articles/olink.md)
+##### [Olink](https://mrcieu.github.io/omiprep/articles/olink.md)
 
 Import proximity extension assay proteomic data from Olink.
 
-[Read →](https://mrcieu.github.io/metaboprep/articles/olink.md)
+[Read →](https://mrcieu.github.io/omiprep/articles/olink.md)
 
-##### [SomaLogic](https://mrcieu.github.io/metaboprep/articles/somalogic.md)
+##### [SomaLogic](https://mrcieu.github.io/omiprep/articles/somalogic.md)
 
 Import aptamer-based proteomic data from SomaLogic SomaScan.
 
-[Read →](https://mrcieu.github.io/metaboprep/articles/somalogic.md)
+[Read →](https://mrcieu.github.io/omiprep/articles/somalogic.md)
 
 ### Summaries & QC
 
-##### [Sample Summary](https://mrcieu.github.io/metaboprep/articles/sample_summary.md)
+##### [Sample Summary](https://mrcieu.github.io/omiprep/articles/sample_summary.md)
 
 Compute per-sample statistics: missingness, total peak area, and
 PCA-based outlier detection.
 
-[Read →](https://mrcieu.github.io/metaboprep/articles/sample_summary.md)
+[Read →](https://mrcieu.github.io/omiprep/articles/sample_summary.md)
 
-##### [Feature Summary](https://mrcieu.github.io/metaboprep/articles/feature_summary.md)
+##### [Feature Summary](https://mrcieu.github.io/omiprep/articles/feature_summary.md)
 
 Compute per-feature statistics: missingness, variance, and independent
 feature trees.
 
-[Read
-→](https://mrcieu.github.io/metaboprep/articles/feature_summary.md)
+[Read →](https://mrcieu.github.io/omiprep/articles/feature_summary.md)
 
-##### [QC Pipeline](https://mrcieu.github.io/metaboprep/articles/quality_control.md)
+##### [QC Pipeline](https://mrcieu.github.io/omiprep/articles/quality_control.md)
 
 Run the full quality control pipeline with configurable thresholds for
 missingness, outliers, and more.
 
-[Read
-→](https://mrcieu.github.io/metaboprep/articles/quality_control.md)
+[Read →](https://mrcieu.github.io/omiprep/articles/quality_control.md)
 
 ### Reports & Export
 
-##### [Generate HTML / PDF Report](https://mrcieu.github.io/metaboprep/articles/generate_report.md)
+##### [Generate HTML / PDF Report](https://mrcieu.github.io/omiprep/articles/generate_report.md)
 
 Produce a fully annotated, interactive QC report in HTML or PDF format.
 
-[Read
-→](https://mrcieu.github.io/metaboprep/articles/generate_report.md)
+[Read →](https://mrcieu.github.io/omiprep/articles/generate_report.md)
 
-##### [Export Data](https://mrcieu.github.io/metaboprep/articles/export.md)
+##### [Export Data](https://mrcieu.github.io/omiprep/articles/export.md)
 
 Export processed data and summary tables to Excel or tab-delimited flat
 files.
 
-[Read →](https://mrcieu.github.io/metaboprep/articles/export.md)
+[Read →](https://mrcieu.github.io/omiprep/articles/export.md)
 
-##### [Batch Normalisation](https://mrcieu.github.io/metaboprep/articles/batch_normalise.md)
+##### [Batch Normalisation](https://mrcieu.github.io/omiprep/articles/batch_normalise.md)
 
 Correct for run-order and batch effects using quantile or rank-based
 normalisation.
 
-[Read
-→](https://mrcieu.github.io/metaboprep/articles/batch_normalise.md)
+[Read →](https://mrcieu.github.io/omiprep/articles/batch_normalise.md)

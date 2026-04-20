@@ -1,24 +1,24 @@
 # Feature summary
 
-## Create Metaboprep object
+## Create Omiprep object
 
 ``` r
-library(metaboprep)
+library(omiprep)
 
 # import data
-data     <- read.csv(system.file("extdata", "dummy_data.csv",     package = "metaboprep"), header=T, row.names = 1) |> as.matrix()
-samples  <- read.csv(system.file("extdata", "dummy_samples.csv",  package = "metaboprep"), header=T, row.names = 1)
-features <- read.csv(system.file("extdata", "dummy_features.csv", package = "metaboprep"), header=T, row.names = 1)
+data     <- read.csv(system.file("extdata", "dummy_data.csv",     package = "omiprep"), header=T, row.names = 1) |> as.matrix()
+samples  <- read.csv(system.file("extdata", "dummy_samples.csv",  package = "omiprep"), header=T, row.names = 1)
+features <- read.csv(system.file("extdata", "dummy_features.csv", package = "omiprep"), header=T, row.names = 1)
 
 # create object
-mydata <- Metaboprep(data = data, samples = samples, features = features)
+mydata <- Omiprep(data = data, samples = samples, features = features)
 ```
 
-## Summary of Metaboprep object
+## Summary of Omiprep object
 
 ``` r
 summary(mydata)
-#> Metaboprep Object Summary
+#> Omiprep Object Summary
 #> --------------------------
 #> Samples      : 100
 #> Features     : 20
@@ -53,13 +53,14 @@ summary(mydata)
 #> user_excluded                    | 0
 #> extreme_feature_missingness      | 0
 #> user_defined_feature_missingness | 0
+#> user_defined_feature_skewness    | 0
 ```
 
 ## Run feature summary
 
 ``` r
 # note that for illustrative purposes we are using a log outlier unit distance of 1.0 here, in practice we tend to favor a value of 5.0.
-feature_sum1 <- feature_summary(metaboprep     = mydata, 
+feature_sum1 <- feature_summary(omiprep         = mydata, 
                                 source_layer    = "input", 
                                 outlier_udist   = 1.0,
                                 tree_cut_height = 0.5,
@@ -131,7 +132,7 @@ sids <- mydata@samples[mydata@samples$sex == "female", "sample_id"]
 fids <- mydata@features[, "feature_id"] |> sample(10)
 
 # note that for illustrative purposes we are using a log outlier unit distance of 1.0 here, in practice we tend to favor a value of 5.0.
-feature_sum_subset <- feature_summary(metaboprep      = mydata, 
+feature_sum_subset <- feature_summary(omiprep         = mydata, 
                                       source_layer    = "input", 
                                       outlier_udist   = 1.0,
                                       tree_cut_height = 0.5,
@@ -160,7 +161,7 @@ feature_sum_subset <- feature_summary(metaboprep      = mydata,
 
 ``` r
 # note that for illustrative purposes we are using a log outlier unit distance of 1.0 here, in practice we tend to favor a value of 5.0.
-sam_n_feat_sum <- summarise(metaboprep      = mydata, 
+sam_n_feat_sum <- summarise(omiprep         = mydata, 
                             source_layer    = "input", 
                             outlier_udist   = 1.0,
                             tree_cut_height = 0.5,

@@ -12,7 +12,7 @@ PCs as determined by the acceleration factor analysis.
 
 ``` r
 pc_and_outliers(
-  metaboprep,
+  omiprep,
   source_layer = "input",
   sample_ids = NULL,
   feature_ids = NULL
@@ -21,9 +21,9 @@ pc_and_outliers(
 
 ## Arguments
 
-- metaboprep:
+- omiprep:
 
-  an object of class Metaboprep
+  an object of class Omiprep
 
 - source_layer:
 

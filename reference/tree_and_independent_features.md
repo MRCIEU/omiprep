@@ -20,8 +20,7 @@ tree_and_independent_features(
 
 - data:
 
-  matrix, the metabolite data matrix. samples in row, metabolites in
-  columns
+  matrix, the 'omics data matrix. samples in row, features in columns
 
 - tree_cut_height:
 

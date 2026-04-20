@@ -13,7 +13,7 @@ find.PA.effect.sizes.2.sim(mydata)
 
 - mydata:
 
-  Your metabolite data matrix, with samples in rows
+  Your 'omics data matrix, with samples in rows
 
 ## Value
 

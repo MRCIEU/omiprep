@@ -5,14 +5,14 @@ Export Data to \`MetaboAnalyst\` format
 ## Usage
 
 ``` r
-export_metaboanalyst(metaboprep, directory, layer = NULL, group_col = NULL)
+export_metaboanalyst(omiprep, directory, layer = NULL, group_col = NULL)
 ```
 
 ## Arguments
 
-- metaboprep:
+- omiprep:
 
-  A \`Metaboprep\` object containing the data to be exported.
+  A \`Omiprep\` object containing the data to be exported.
 
 - directory:
 
@@ -21,14 +21,14 @@ export_metaboanalyst(metaboprep, directory, layer = NULL, group_col = NULL)
 
 - layer:
 
-  character, the name of the \`metaboprep@data\` layer (3rd array
+  character, the name of the \`omiprep@data\` layer (3rd array
   dimension) to write out
 
 - group_col:
 
-  character, the column name in the \`metaboprep@samples\` data
-  identifying the group for one-factor analysis
+  character, the column name in the \`omiprep@samples\` data identifying
+  the group for one-factor analysis
 
 ## Value
 
-the \`Metaboprep\` object, invisibly, for use in pipes
+the \`Omiprep\` object, invisibly, for use in pipes

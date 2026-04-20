@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>quality_control • metaboprep</title>
+<title>quality_control • omiprep</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
 <link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
 <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
@@ -23,9 +23,9 @@
 
     <nav class="navbar navbar-expand-lg fixed-top " aria-label="Site navigation"><div class="container">
 
-    <a class="navbar-brand me-2" href="../index.html">metaboprep</a>
+    <a class="navbar-brand me-2" href="../index.html">omiprep</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,6 +47,7 @@
     <li><h6 class="dropdown-header" data-toc-skip>Summaries</h6></li>
     <li><a class="dropdown-item" href="../articles/sample_summary.html">Samples</a></li>
     <li><a class="dropdown-item" href="../articles/feature_summary.html">Features</a></li>
+    <li><a class="dropdown-item" href="../articles/skewness_qc.html">Skewness &amp; truncation</a></li>
     <li><a class="dropdown-item" href="../articles/quality_control.html">QC pipeline</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Reports</h6></li>
@@ -94,12 +95,12 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mrcieu.github.io/metaboprep/">metaboprep</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mrcieu.github.io/omiprep/">omiprep</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># import data </span></span>
-<span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_metabolon.html">read_metabolon</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"metabolon_v1.1_example.xlsx"</span>, package <span class="op">=</span> <span class="st">"metaboprep"</span><span class="op">)</span>, </span>
+<span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_metabolon.html">read_metabolon</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"metabolon_v1.1_example.xlsx"</span>, package <span class="op">=</span> <span class="st">"omiprep"</span><span class="op">)</span>, </span>
 <span>                    sheet <span class="op">=</span> <span class="st">"OrigScale"</span>,      <span class="co">## The name of the sheet in the excel file to read in</span></span>
-<span>                    return_Metaboprep <span class="op">=</span> <span class="cn">TRUE</span>  <span class="co">## Whether to return a Metaboprep object (TRUE) or a list (FALSE)</span></span>
+<span>                    return_Omiprep <span class="op">=</span> <span class="cn">TRUE</span>  <span class="co">## Whether to return a Omiprep object (TRUE) or a list (FALSE)</span></span>
 <span>                    <span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="run-the-quality-control-pipeline">Run the quality control pipeline<a class="anchor" aria-label="anchor" href="#run-the-quality-control-pipeline"></a>
@@ -110,6 +111,8 @@
 <span>                     source_layer <span class="op">=</span> <span class="st">"input"</span>, </span>
 <span>                     sample_missingness  <span class="op">=</span> <span class="fl">0.2</span>, </span>
 <span>                     feature_missingness <span class="op">=</span> <span class="fl">0.2</span>, </span>
+<span>                     feature_skewness_threshold <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>                     feature_skewness_direction <span class="op">=</span> <span class="st">"left"</span>,</span>
 <span>                     total_peak_area_sd  <span class="op">=</span> <span class="fl">5</span>, </span>
 <span>                     outlier_udist       <span class="op">=</span> <span class="fl">5</span>, </span>
 <span>                     outlier_treatment   <span class="op">=</span> <span class="st">"leave_be"</span>, </span>
@@ -120,22 +123,27 @@
 <span>                     feature_ids         <span class="op">=</span> <span class="cn">NULL</span>, </span>
 <span>                     cores               <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Starting Metabolite QC Process</span> <span style="color: #00BBBB;">──────────────────────────────────────────────</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Starting Omics QC Process</span> <span style="color: #00BBBB;">───────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Validating input parameters</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Validating input parameters <span style="color: #B2B2B2;">[8ms]</span></span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Validating input parameters<span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Starting 'Omics QC Process</span> <span style="color: #00BBBB;">──────────────────────────────────────────────────</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Validating input parameters<span style="color: #00BB00;">✔</span> Validating input parameters <span style="color: #B2B2B2;">[17ms]</span></span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Validating input parameters</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Validating input parameters <span style="color: #B2B2B2;">[13ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample &amp; Feature Summary Statistics for raw data</span></span>
 <span><span class="co">#&gt; AF =  2</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Sample &amp; Feature Summary Statistics for raw data <span style="color: #B2B2B2;">[585ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Sample &amp; Feature Summary Statistics for raw data <span style="color: #B2B2B2;">[561ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Copying input data to new 'qc' data layer</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Copying input data to new 'qc' data layer <span style="color: #B2B2B2;">[35ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Copying input data to new 'qc' data layer <span style="color: #B2B2B2;">[23ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Assessing for extreme sample missingness &gt;=80% - excluding 0 sample(s)</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for extreme sample missingness &gt;=80% - excluding 0 sample(s) <span style="color: #B2B2B2;">[21ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for extreme sample missingness &gt;=80% - excluding 0 sample(s) <span style="color: #B2B2B2;">[24ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Assessing for extreme feature missingness &gt;=80% - excluding 0 feature(s)</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for extreme feature missingness &gt;=80% - excluding 0 feature(s) <span style="color: #B2B2B2;">[17m</span>…</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for extreme feature missingness &gt;=80% - excluding 0 feature(s) <span style="color: #B2B2B2;">[16m</span>…</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Assessing for sample missingness at specified level of &gt;=20% - excluding 0 sa…</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for sample missingness at specified level of &gt;=20% - excluding 2 sa…</span></span>
@@ -147,7 +155,7 @@
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Calculating total peak abundance outliers at +/- 5 Sdev - excluding 0 sample(…</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Running sample data PCA outlier analysis at +/- 5 Sdev</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Running sample data PCA outlier analysis at +/- 5 Sdev <span style="color: #B2B2B2;">[25ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Running sample data PCA outlier analysis at +/- 5 Sdev <span style="color: #B2B2B2;">[24ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample PCA outlier analysis - re-identify feature independence and PC outlier…</span></span>
 <span><span class="co">#&gt; AF =  2</span></span>
@@ -156,34 +164,33 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Creating final QC dataset...</span></span>
 <span><span class="co">#&gt; AF =  2</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Creating final QC dataset... <span style="color: #B2B2B2;">[598ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Metabolite QC Process Completed</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Metabolite QC Process Completed── <span style="font-weight: bold;">Step timings</span> ──</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Metabolite QC Process Completed</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Metabolite QC Process Completed</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Creating final QC dataset...── <span style="font-weight: bold;">Step timings</span> ──</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Creating final QC dataset...</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Creating final QC dataset...</span></span>
 <span><span class="co">#&gt;                         step seconds   pct</span></span>
-<span><span class="co">#&gt;                   validation    0.00   0.0</span></span>
-<span><span class="co">#&gt;                summarise_raw    0.57  28.5</span></span>
+<span><span class="co">#&gt;                   validation    0.02   1.0</span></span>
+<span><span class="co">#&gt;                summarise_raw    0.54  28.0</span></span>
 <span><span class="co">#&gt;                   copy_layer    0.00   0.0</span></span>
 <span><span class="co">#&gt;   extreme_sample_missingness    0.00   0.0</span></span>
 <span><span class="co">#&gt;  extreme_feature_missingness    0.00   0.0</span></span>
 <span><span class="co">#&gt;           sample_missingness    0.00   0.0</span></span>
-<span><span class="co">#&gt;          feature_missingness    0.00   0.0</span></span>
 <span><span class="co">#&gt;              total_peak_area    0.00   0.0</span></span>
-<span><span class="co">#&gt;                summarise_pca    0.63  31.5</span></span>
-<span><span class="co">#&gt;              summarise_final    0.56  28.0</span></span>
-<span><span class="co">#&gt;                        total    2.00 100.0</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Metabolite QC Process Completed <span style="color: #B2B2B2;">[30ms]</span></span></span></code></pre></div>
+<span><span class="co">#&gt;                summarise_pca    0.61  31.7</span></span>
+<span><span class="co">#&gt;              summarise_final    0.53  27.5</span></span>
+<span><span class="co">#&gt;                        total    1.93 100.2</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Creating final QC dataset... <span style="color: #B2B2B2;">[570ms]</span></span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> 'Omics QC Process Completed</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> 'Omics QC Process Completed <span style="color: #B2B2B2;">[23ms]</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="view-a-summary-of-the-metaboprep-object">View a summary of the Metaboprep object<a class="anchor" aria-label="anchor" href="#view-a-summary-of-the-metaboprep-object"></a>
+<h3 id="view-a-summary-of-the-omiprep-object">View a summary of the Omiprep object<a class="anchor" aria-label="anchor" href="#view-a-summary-of-the-omiprep-object"></a>
 </h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># view summary</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Metaboprep Object Summary</span></span>
+<span><span class="co">#&gt; Omiprep Object Summary</span></span>
 <span><span class="co">#&gt; --------------------------</span></span>
 <span><span class="co">#&gt; Samples      : 100</span></span>
 <span><span class="co">#&gt; Features     : 100</span></span>
@@ -217,7 +224,8 @@
 <span><span class="co">#&gt; -----------------</span></span>
 <span><span class="co">#&gt; user_excluded                    | 0</span></span>
 <span><span class="co">#&gt; extreme_feature_missingness      | 0</span></span>
-<span><span class="co">#&gt; user_defined_feature_missingness | 0</span></span></code></pre></div>
+<span><span class="co">#&gt; user_defined_feature_missingness | 0</span></span>
+<span><span class="co">#&gt; user_defined_feature_skewness    | 0</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

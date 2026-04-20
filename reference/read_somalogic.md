@@ -9,7 +9,7 @@ analysis.
 ## Usage
 
 ``` r
-read_somalogic(filepath, return_Metaboprep = FALSE)
+read_somalogic(filepath, return_Omiprep = FALSE)
 ```
 
 ## Arguments
@@ -18,14 +18,14 @@ read_somalogic(filepath, return_Metaboprep = FALSE)
 
   A string specifying the path to the SomaLogic \`.adat\` file.
 
-- return_Metaboprep:
+- return_Omiprep:
 
-  logical, if TRUE (default) return a Metaboprep object, if FALSE return
-  a list.
+  logical, if TRUE (default) return a Omiprep object, if FALSE return a
+  list.
 
 ## Value
 
-A metaboprep object or a named list with the following elements:
+A omiprep object or a named list with the following elements:
 
 - data:
 

@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Import Metabolon Metabolomic Data • metaboprep</title>
+<title>Import Metabolon Metabolomic Data • omiprep</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
 <link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
 <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
@@ -23,9 +23,9 @@
 
     <nav class="navbar navbar-expand-lg fixed-top " aria-label="Site navigation"><div class="container">
 
-    <a class="navbar-brand me-2" href="../index.html">metaboprep</a>
+    <a class="navbar-brand me-2" href="../index.html">omiprep</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,6 +47,7 @@
     <li><h6 class="dropdown-header" data-toc-skip>Summaries</h6></li>
     <li><a class="dropdown-item" href="../articles/sample_summary.html">Samples</a></li>
     <li><a class="dropdown-item" href="../articles/feature_summary.html">Features</a></li>
+    <li><a class="dropdown-item" href="../articles/skewness_qc.html">Skewness &amp; truncation</a></li>
     <li><a class="dropdown-item" href="../articles/quality_control.html">QC pipeline</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Reports</h6></li>
@@ -100,15 +101,15 @@
 function. Here we will read in the example data provided with the
 package, as a list object.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mrcieu.github.io/metaboprep/">metaboprep</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mrcieu.github.io/omiprep/">omiprep</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># example file</span></span>
-<span><span class="va">filepath</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"metabolon_v1.2_example.xlsx"</span>, package <span class="op">=</span> <span class="st">"metaboprep"</span><span class="op">)</span></span>
+<span><span class="va">filepath</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"metabolon_v1.2_example.xlsx"</span>, package <span class="op">=</span> <span class="st">"omiprep"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># import data as a list object rather than directly as a Metaboprep object</span></span>
+<span><span class="co"># import data as a list object rather than directly as a Omiprep object</span></span>
 <span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_metabolon.html">read_metabolon</a></span><span class="op">(</span><span class="va">filepath</span>, </span>
 <span>                      sheet <span class="op">=</span> <span class="st">'OrigScale'</span>, </span>
-<span>                      return_Metaboprep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<span>                      return_Omiprep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="quick-look-at-data-structure-of-the-imported-data">Quick look at data structure of the imported data<a class="anchor" aria-label="anchor" href="#quick-look-at-data-structure-of-the-imported-data"></a>
@@ -143,22 +144,22 @@ package, as a list object.</p>
 <span><span class="co">#&gt;   ..$ group_hmdb       : chr [1:104] NA NA "HMDB123" "HMDB124" ...</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="create-metaboprep-object">Create Metaboprep object<a class="anchor" aria-label="anchor" href="#create-metaboprep-object"></a>
+<h2 id="create-omiprep-object">Create Omiprep object<a class="anchor" aria-label="anchor" href="#create-omiprep-object"></a>
 </h2>
-<p>Once imported, we pass the data to the Metaboprep() function to build
-the <code>Metaboprep</code> class object.</p>
+<p>Once imported, we pass the data to the Omiprep() function to build
+the <code>Omiprep</code> class object.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">## This step could be avoided by defining return_Metaboprep = TRUE in read_metabolon() function above.</span></span>
-<span><span class="va">mydata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/class_metaboprep.html">Metaboprep</a></span><span class="op">(</span>data     <span class="op">=</span> <span class="va">dat</span><span class="op">$</span><span class="va">data</span>, </span>
-<span>                     features <span class="op">=</span> <span class="va">dat</span><span class="op">$</span><span class="va">features</span>, </span>
-<span>                     samples  <span class="op">=</span> <span class="va">dat</span><span class="op">$</span><span class="va">samples</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co">## This step could be avoided by defining return_Omiprep = TRUE in read_metabolon() function above.</span></span>
+<span><span class="va">mydata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/class_omiprep.html">Omiprep</a></span><span class="op">(</span>data     <span class="op">=</span> <span class="va">dat</span><span class="op">$</span><span class="va">data</span>, </span>
+<span>                  features <span class="op">=</span> <span class="va">dat</span><span class="op">$</span><span class="va">features</span>, </span>
+<span>                  samples  <span class="op">=</span> <span class="va">dat</span><span class="op">$</span><span class="va">samples</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="quick-summary-of-the-metaboprep-object">Quick summary of the metaboprep object<a class="anchor" aria-label="anchor" href="#quick-summary-of-the-metaboprep-object"></a>
+<h2 id="quick-summary-of-the-omiprep-object">Quick summary of the Omiprep object<a class="anchor" aria-label="anchor" href="#quick-summary-of-the-omiprep-object"></a>
 </h2>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">mydata</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Metaboprep Object Summary</span></span>
+<span><span class="co">#&gt; Omiprep Object Summary</span></span>
 <span><span class="co">#&gt; --------------------------</span></span>
 <span><span class="co">#&gt; Samples      : 100</span></span>
 <span><span class="co">#&gt; Features     : 104</span></span>
@@ -192,7 +193,8 @@ the <code>Metaboprep</code> class object.</p>
 <span><span class="co">#&gt; -----------------</span></span>
 <span><span class="co">#&gt; user_excluded                    | 0</span></span>
 <span><span class="co">#&gt; extreme_feature_missingness      | 0</span></span>
-<span><span class="co">#&gt; user_defined_feature_missingness | 0</span></span></code></pre></div>
+<span><span class="co">#&gt; user_defined_feature_missingness | 0</span></span>
+<span><span class="co">#&gt; user_defined_feature_skewness    | 0</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="identify-the-xenobiotics-to-exclude-from-the-qc-steps">Identify the Xenobiotics to exclude from the QC steps<a class="anchor" aria-label="anchor" href="#identify-the-xenobiotics-to-exclude-from-the-qc-steps"></a>
@@ -238,16 +240,21 @@ specifying the xenobiotics to exclude from the QC steps.</p>
 <span>                  cores               <span class="op">=</span> <span class="fl">1</span></span>
 <span>                  <span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Starting Metabolite QC Process</span> <span style="color: #00BBBB;">──────────────────────────────────────────────</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Starting Omics QC Process</span> <span style="color: #00BBBB;">───────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Validating input parameters</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Validating input parameters <span style="color: #B2B2B2;">[8ms]</span></span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Validating input parameters<span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Starting 'Omics QC Process</span> <span style="color: #00BBBB;">──────────────────────────────────────────────────</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Validating input parameters<span style="color: #00BB00;">✔</span> Validating input parameters <span style="color: #B2B2B2;">[17ms]</span></span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Validating input parameters</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Validating input parameters <span style="color: #B2B2B2;">[13ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Excluding 0 features from sample summary analysis but keeping in output data</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Excluding 7 features from sample summary analysis but keeping in output data …</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample &amp; Feature Summary Statistics for raw data</span></span>
 <span><span class="co">#&gt; AF =  2</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Sample &amp; Feature Summary Statistics for raw data <span style="color: #B2B2B2;">[595ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Sample &amp; Feature Summary Statistics for raw data <span style="color: #B2B2B2;">[548ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Copying input data to new 'qc' data layer</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Copying input data to new 'qc' data layer <span style="color: #B2B2B2;">[25ms]</span></span></span>
@@ -256,7 +263,7 @@ specifying the xenobiotics to exclude from the QC steps.</p>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for extreme sample missingness &gt;=80% - excluding 1 sample(s) <span style="color: #B2B2B2;">[19ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Assessing for extreme feature missingness &gt;=80% - excluding 0 feature(s)</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for extreme feature missingness &gt;=80% - excluding 0 feature(s) <span style="color: #B2B2B2;">[19m</span>…</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for extreme feature missingness &gt;=80% - excluding 0 feature(s) <span style="color: #B2B2B2;">[18m</span>…</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Assessing for sample missingness at specified level of &gt;=20% - excluding 0 sa…</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for sample missingness at specified level of &gt;=20% - excluding 0 sa…</span></span>
@@ -268,7 +275,7 @@ specifying the xenobiotics to exclude from the QC steps.</p>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Calculating total peak abundance outliers at +/- 5 Sdev - excluding 0 sample(…</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Running sample data PCA outlier analysis at +/- 5 Sdev</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Running sample data PCA outlier analysis at +/- 5 Sdev <span style="color: #B2B2B2;">[18ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Running sample data PCA outlier analysis at +/- 5 Sdev <span style="color: #B2B2B2;">[17ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample PCA outlier analysis - re-identify feature independence and PC outlier…</span></span>
 <span><span class="co">#&gt; AF =  2</span></span>
@@ -277,33 +284,32 @@ specifying the xenobiotics to exclude from the QC steps.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Creating final QC dataset...</span></span>
 <span><span class="co">#&gt; AF =  2</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Creating final QC dataset... <span style="color: #B2B2B2;">[604ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Metabolite QC Process Completed</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Metabolite QC Process Completed── <span style="font-weight: bold;">Step timings</span> ──</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Metabolite QC Process Completed</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Metabolite QC Process Completed</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Creating final QC dataset...── <span style="font-weight: bold;">Step timings</span> ──</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Creating final QC dataset...</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Creating final QC dataset...</span></span>
 <span><span class="co">#&gt;                         step seconds   pct</span></span>
-<span><span class="co">#&gt;                   validation    0.00   0.0</span></span>
-<span><span class="co">#&gt;                summarise_raw    0.57  28.1</span></span>
+<span><span class="co">#&gt;                   validation    0.02   1.0</span></span>
+<span><span class="co">#&gt;                summarise_raw    0.53  27.3</span></span>
 <span><span class="co">#&gt;                   copy_layer    0.00   0.0</span></span>
 <span><span class="co">#&gt;   extreme_sample_missingness    0.00   0.0</span></span>
 <span><span class="co">#&gt;  extreme_feature_missingness    0.00   0.0</span></span>
 <span><span class="co">#&gt;           sample_missingness    0.00   0.0</span></span>
-<span><span class="co">#&gt;          feature_missingness    0.00   0.0</span></span>
 <span><span class="co">#&gt;              total_peak_area    0.00   0.0</span></span>
-<span><span class="co">#&gt;                summarise_pca    0.64  31.5</span></span>
-<span><span class="co">#&gt;              summarise_final    0.55  27.1</span></span>
-<span><span class="co">#&gt;                        total    2.03 100.0</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Metabolite QC Process Completed <span style="color: #B2B2B2;">[27ms]</span></span></span></code></pre></div>
+<span><span class="co">#&gt;                summarise_pca    0.61  31.5</span></span>
+<span><span class="co">#&gt;              summarise_final    0.52  26.8</span></span>
+<span><span class="co">#&gt;                        total    1.94 100.1</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Creating final QC dataset... <span style="color: #B2B2B2;">[580ms]</span></span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> 'Omics QC Process Completed</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> 'Omics QC Process Completed <span style="color: #B2B2B2;">[20ms]</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="quick-summary-of-the-metaboprep-object-following-qc">Quick summary of the metaboprep object following QC<a class="anchor" aria-label="anchor" href="#quick-summary-of-the-metaboprep-object-following-qc"></a>
+<h2 id="quick-summary-of-the-omiprep-object-following-qc">Quick summary of the Omiprep object following QC<a class="anchor" aria-label="anchor" href="#quick-summary-of-the-omiprep-object-following-qc"></a>
 </h2>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">mydata</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Metaboprep Object Summary</span></span>
+<span><span class="co">#&gt; Omiprep Object Summary</span></span>
 <span><span class="co">#&gt; --------------------------</span></span>
 <span><span class="co">#&gt; Samples      : 100</span></span>
 <span><span class="co">#&gt; Features     : 104</span></span>
@@ -337,7 +343,8 @@ specifying the xenobiotics to exclude from the QC steps.</p>
 <span><span class="co">#&gt; -----------------</span></span>
 <span><span class="co">#&gt; user_excluded                    | 0</span></span>
 <span><span class="co">#&gt; extreme_feature_missingness      | 0</span></span>
-<span><span class="co">#&gt; user_defined_feature_missingness | 1</span></span></code></pre></div>
+<span><span class="co">#&gt; user_defined_feature_missingness | 1</span></span>
+<span><span class="co">#&gt; user_defined_feature_skewness    | 0</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

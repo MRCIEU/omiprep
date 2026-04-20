@@ -6,7 +6,7 @@ Run batch normalisation based on the platform flag in the features data
 
 ``` r
 batch_normalise(
-  metaboprep,
+  omiprep,
   run_mode_col,
   run_mode_colmap,
   source_layer = "input",
@@ -16,9 +16,9 @@ batch_normalise(
 
 ## Arguments
 
-- metaboprep:
+- omiprep:
 
-  an object of class Metaboprep
+  an object of class Omiprep
 
 - run_mode_col:
 

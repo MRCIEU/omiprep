@@ -1,26 +1,26 @@
 # Import Nightingale Metabolomic Data
 
-## Import Nightingale data directly into a Metaboprep object
+## Import Nightingale data directly into a Omiprep object
 
 Read in the Nightingale Health data using the `read_nightingale`
 function. Here we will read in the example data provided with the
-package, and convert it directly into a Metaboprep S7 object.
+package, and convert it directly into a Omiprep S7 object.
 
 ``` r
-library(metaboprep)
+library(omiprep)
 
 # example file
-filepath <- system.file("extdata", "nightingale_v1_example.xlsx", package = "metaboprep")
+filepath <- system.file("extdata", "nightingale_v1_example.xlsx", package = "omiprep")
 
 # import
-mydata <- read_nightingale(filepath, return_Metaboprep = TRUE)
+mydata <- read_nightingale(filepath, return_Omiprep = TRUE)
 ```
 
 ## Quick look at data structure of the imported data
 
 ``` r
 str(mydata)
-#> <metaboprep::Metaboprep>
+#> <omiprep::Omiprep>
 #>  @ data           : num [1:50, 1:12, 1] 3.85 NA 5.2 3.01 2.68 ...
 #>  .. - attr(*, "dimnames")=List of 3
 #>  ..  ..$ : chr [1:50] "ind1" "ind2" "ind3" "ind4" ...
@@ -78,10 +78,11 @@ str(mydata)
 #>  ..  ..$ user_defined_sample_missingness  : chr(0) 
 #>  ..  ..$ user_defined_sample_totalpeakarea: chr(0) 
 #>  ..  ..$ user_defined_sample_pca_outlier  : chr(0) 
-#>  .. $ features:List of 3
+#>  .. $ features:List of 4
 #>  ..  ..$ user_excluded                   : chr(0) 
 #>  ..  ..$ extreme_feature_missingness     : chr(0) 
 #>  ..  ..$ user_defined_feature_missingness: chr(0) 
+#>  ..  ..$ user_defined_feature_skewness   : chr(0) 
 #>  @ feature_summary: num[0 , 0 , 0 ] 
 #>  @ sample_summary : num[0 , 0 , 0 ]
 ```
@@ -106,22 +107,27 @@ mydata <- mydata |>
                   cores               = 1
                   )
 #> 
-#> ── Starting Metabolite QC Process ──────────────────────────────────────────────
+#> ── Starting Omics QC Process ───────────────────────────────────────────────────
 #> ℹ Validating input parameters
-#> ✔ Validating input parameters [8ms]
+#> 
+#> ℹ Validating input parameters── Starting 'Omics QC Process ──────────────────────────────────────────────────
+#> ℹ Validating input parameters✔ Validating input parameters [17ms]
+#> 
+#> ℹ Validating input parameters
+#> ✔ Validating input parameters [13ms]
 #> 
 #> ℹ Sample & Feature Summary Statistics for raw data
 #> AF =  2
-#> ✔ Sample & Feature Summary Statistics for raw data [74ms]
+#> ✔ Sample & Feature Summary Statistics for raw data [76ms]
 #> 
 #> ℹ Copying input data to new 'qc' data layer
-#> ✔ Copying input data to new 'qc' data layer [22ms]
+#> ✔ Copying input data to new 'qc' data layer [15ms]
 #> 
 #> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)
 #> ✔ Assessing for extreme sample missingness >=80% - excluding 2 sample(s) [16ms]
 #> 
 #> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)
-#> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [16m…
+#> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [23m…
 #> 
 #> ℹ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
 #> ✔ Assessing for sample missingness at specified level of >=20% - excluding 1 sa…
@@ -133,7 +139,7 @@ mydata <- mydata |>
 #> ✔ Calculating total peak abundance outliers at +/- 5 Sdev - excluding 0 sample(…
 #> 
 #> ℹ Running sample data PCA outlier analysis at +/- 5 Sdev
-#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [17ms]
+#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [16ms]
 #> 
 #> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
 #> AF =  1
@@ -142,33 +148,32 @@ mydata <- mydata |>
 #> 
 #> ℹ Creating final QC dataset...
 #> AF =  1
-#> ✔ Creating final QC dataset... [58ms]
 #> 
-#> ℹ Metabolite QC Process Completed
-#> 
-#> ℹ Metabolite QC Process Completed── Step timings ──
-#> ℹ Metabolite QC Process Completed
-#> ℹ Metabolite QC Process Completed
+#> ℹ Creating final QC dataset...── Step timings ──
+#> ℹ Creating final QC dataset...
+#> ℹ Creating final QC dataset...
 #>                         step seconds   pct
-#>                   validation    0.00   0.0
+#>                   validation    0.02   4.6
 #>                summarise_raw    0.06  13.7
 #>                   copy_layer    0.00   0.0
 #>   extreme_sample_missingness    0.00   0.0
 #>  extreme_feature_missingness    0.00   0.0
 #>           sample_missingness    0.00   0.0
-#>          feature_missingness    0.00   0.0
 #>              total_peak_area    0.00   0.0
-#>                summarise_pca    0.15  34.2
-#>              summarise_final    0.04   9.1
-#>                        total    0.44 100.5
-#> ✔ Metabolite QC Process Completed [18ms]
+#>                summarise_pca    0.14  31.9
+#>              summarise_final    0.03   6.8
+#>                        total    0.44 100.2
+#> ✔ Creating final QC dataset... [60ms]
+#> 
+#> ℹ 'Omics QC Process Completed
+#> ✔ 'Omics QC Process Completed [13ms]
 ```
 
-## Quick summary of the metaboprep object following QC
+## Quick summary of the Omiprep object following QC
 
 ``` r
 summary(mydata)
-#> Metaboprep Object Summary
+#> Omiprep Object Summary
 #> --------------------------
 #> Samples      : 50
 #> Features     : 12
@@ -203,4 +208,5 @@ summary(mydata)
 #> user_excluded                    | 0
 #> extreme_feature_missingness      | 0
 #> user_defined_feature_missingness | 0
+#> user_defined_feature_skewness    | 0
 ```

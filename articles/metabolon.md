@@ -7,15 +7,15 @@ will read in the example data provided with the package, as a list
 object.
 
 ``` r
-library(metaboprep)
+library(omiprep)
 
 # example file
-filepath <- system.file("extdata", "metabolon_v1.2_example.xlsx", package = "metaboprep")
+filepath <- system.file("extdata", "metabolon_v1.2_example.xlsx", package = "omiprep")
 
-# import data as a list object rather than directly as a Metaboprep object
+# import data as a list object rather than directly as a Omiprep object
 dat <- read_metabolon(filepath, 
                       sheet = 'OrigScale', 
-                      return_Metaboprep = FALSE)
+                      return_Omiprep = FALSE)
 ```
 
 ## Quick look at data structure of the imported data
@@ -50,23 +50,23 @@ str(dat)
 #>   ..$ group_hmdb       : chr [1:104] NA NA "HMDB123" "HMDB124" ...
 ```
 
-## Create Metaboprep object
+## Create Omiprep object
 
-Once imported, we pass the data to the Metaboprep() function to build
-the `Metaboprep` class object.
+Once imported, we pass the data to the Omiprep() function to build the
+`Omiprep` class object.
 
 ``` r
-## This step could be avoided by defining return_Metaboprep = TRUE in read_metabolon() function above.
-mydata <- Metaboprep(data     = dat$data, 
-                     features = dat$features, 
-                     samples  = dat$samples)
+## This step could be avoided by defining return_Omiprep = TRUE in read_metabolon() function above.
+mydata <- Omiprep(data     = dat$data, 
+                  features = dat$features, 
+                  samples  = dat$samples)
 ```
 
-## Quick summary of the metaboprep object
+## Quick summary of the Omiprep object
 
 ``` r
 summary(mydata)
-#> Metaboprep Object Summary
+#> Omiprep Object Summary
 #> --------------------------
 #> Samples      : 100
 #> Features     : 104
@@ -101,6 +101,7 @@ summary(mydata)
 #> user_excluded                    | 0
 #> extreme_feature_missingness      | 0
 #> user_defined_feature_missingness | 0
+#> user_defined_feature_skewness    | 0
 ```
 
 ## Identify the Xenobiotics to exclude from the QC steps
@@ -148,16 +149,21 @@ mydata <- mydata |>
                   cores               = 1
                   )
 #> 
-#> ── Starting Metabolite QC Process ──────────────────────────────────────────────
+#> ── Starting Omics QC Process ───────────────────────────────────────────────────
 #> ℹ Validating input parameters
-#> ✔ Validating input parameters [8ms]
+#> 
+#> ℹ Validating input parameters── Starting 'Omics QC Process ──────────────────────────────────────────────────
+#> ℹ Validating input parameters✔ Validating input parameters [17ms]
+#> 
+#> ℹ Validating input parameters
+#> ✔ Validating input parameters [13ms]
 #> 
 #> ℹ Excluding 0 features from sample summary analysis but keeping in output data
 #> ✔ Excluding 7 features from sample summary analysis but keeping in output data …
 #> 
 #> ℹ Sample & Feature Summary Statistics for raw data
 #> AF =  2
-#> ✔ Sample & Feature Summary Statistics for raw data [595ms]
+#> ✔ Sample & Feature Summary Statistics for raw data [548ms]
 #> 
 #> ℹ Copying input data to new 'qc' data layer
 #> ✔ Copying input data to new 'qc' data layer [25ms]
@@ -166,7 +172,7 @@ mydata <- mydata |>
 #> ✔ Assessing for extreme sample missingness >=80% - excluding 1 sample(s) [19ms]
 #> 
 #> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)
-#> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [19m…
+#> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [18m…
 #> 
 #> ℹ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
 #> ✔ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
@@ -178,7 +184,7 @@ mydata <- mydata |>
 #> ✔ Calculating total peak abundance outliers at +/- 5 Sdev - excluding 0 sample(…
 #> 
 #> ℹ Running sample data PCA outlier analysis at +/- 5 Sdev
-#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [18ms]
+#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [17ms]
 #> 
 #> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
 #> AF =  2
@@ -187,33 +193,32 @@ mydata <- mydata |>
 #> 
 #> ℹ Creating final QC dataset...
 #> AF =  2
-#> ✔ Creating final QC dataset... [604ms]
 #> 
-#> ℹ Metabolite QC Process Completed
-#> 
-#> ℹ Metabolite QC Process Completed── Step timings ──
-#> ℹ Metabolite QC Process Completed
-#> ℹ Metabolite QC Process Completed
+#> ℹ Creating final QC dataset...── Step timings ──
+#> ℹ Creating final QC dataset...
+#> ℹ Creating final QC dataset...
 #>                         step seconds   pct
-#>                   validation    0.00   0.0
-#>                summarise_raw    0.57  28.1
+#>                   validation    0.02   1.0
+#>                summarise_raw    0.53  27.3
 #>                   copy_layer    0.00   0.0
 #>   extreme_sample_missingness    0.00   0.0
 #>  extreme_feature_missingness    0.00   0.0
 #>           sample_missingness    0.00   0.0
-#>          feature_missingness    0.00   0.0
 #>              total_peak_area    0.00   0.0
-#>                summarise_pca    0.64  31.5
-#>              summarise_final    0.55  27.1
-#>                        total    2.03 100.0
-#> ✔ Metabolite QC Process Completed [27ms]
+#>                summarise_pca    0.61  31.5
+#>              summarise_final    0.52  26.8
+#>                        total    1.94 100.1
+#> ✔ Creating final QC dataset... [580ms]
+#> 
+#> ℹ 'Omics QC Process Completed
+#> ✔ 'Omics QC Process Completed [20ms]
 ```
 
-## Quick summary of the metaboprep object following QC
+## Quick summary of the Omiprep object following QC
 
 ``` r
 summary(mydata)
-#> Metaboprep Object Summary
+#> Omiprep Object Summary
 #> --------------------------
 #> Samples      : 100
 #> Features     : 104
@@ -248,4 +253,5 @@ summary(mydata)
 #> user_excluded                    | 0
 #> extreme_feature_missingness      | 0
 #> user_defined_feature_missingness | 1
+#> user_defined_feature_skewness    | 0
 ```

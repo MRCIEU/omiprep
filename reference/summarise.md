@@ -6,7 +6,7 @@ Summarise the sample and feature data
 
 ``` r
 summarise(
-  metaboprep,
+  omiprep,
   source_layer = "input",
   outlier_udist = 5,
   tree_cut_height = 0.5,
@@ -22,9 +22,9 @@ summarise(
 
 ## Arguments
 
-- metaboprep:
+- omiprep:
 
-  an object of class Metaboprep
+  an object of class Omiprep
 
 - source_layer:
 
@@ -61,7 +61,7 @@ summarise(
 - output:
 
   character, type of output, either 'object' to return the updated
-  metaboprep object, or 'data.frame' to return the data.
+  omiprep object, or 'data.frame' to return the data.
 
 - cores:
 

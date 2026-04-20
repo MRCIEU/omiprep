@@ -5,14 +5,14 @@ Export Data to \`COMETS\` format
 ## Usage
 
 ``` r
-export_comets(metaboprep, directory, layer = NULL)
+export_comets(omiprep, directory, layer = NULL)
 ```
 
 ## Arguments
 
-- metaboprep:
+- omiprep:
 
-  A \`Metaboprep\` object containing the data to be exported.
+  A \`Omiprep\` object containing the data to be exported.
 
 - directory:
 
@@ -21,9 +21,9 @@ export_comets(metaboprep, directory, layer = NULL)
 
 - layer:
 
-  character, the name of the \`metaboprep@data\` layer (3rd array
+  character, the name of the \`omiprep@data\` layer (3rd array
   dimension) to write out
 
 ## Value
 
-the \`Metaboprep\` object, invisibly, for use in pipes
+the \`Omiprep\` object, invisibly, for use in pipes

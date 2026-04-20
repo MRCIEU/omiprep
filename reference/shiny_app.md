@@ -1,18 +1,18 @@
-# Metaboprep Shiny App
+# Omiprep Shiny App
 
-Launch a Shiny app to explore the Metaboprep object
+Launch a Shiny app to explore the Omiprep object
 
 ## Usage
 
 ``` r
-shiny_app(metaboprep)
+shiny_app(omiprep)
 ```
 
 ## Arguments
 
-- metaboprep:
+- omiprep:
 
-  an object of class Metaboprep
+  an object of class Omiprep
 
 ## Value
 

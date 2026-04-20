@@ -6,7 +6,7 @@ Summarise the sample data
 
 ``` r
 sample_summary(
-  metaboprep,
+  omiprep,
   source_layer = "input",
   outlier_udist = 5,
   sample_ids = NULL,
@@ -17,9 +17,9 @@ sample_summary(
 
 ## Arguments
 
-- metaboprep:
+- omiprep:
 
-  an object of class Metaboprep
+  an object of class Omiprep
 
 - source_layer:
 
@@ -41,4 +41,4 @@ sample_summary(
 - output:
 
   character, type of output, either 'object' to return the updated
-  metaboprep object, or 'data.frame' to return the data.
+  omiprep object, or 'data.frame' to return the data.

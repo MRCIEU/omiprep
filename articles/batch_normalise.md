@@ -1,20 +1,20 @@
 # Batch Normalise
 
-## Create Metaboprep object
+## Create Omiprep object
 
 ``` r
-library(metaboprep)
+library(omiprep)
 
-data     <- read.csv(system.file("extdata", "dummy_data.csv", package = "metaboprep"), header=T, row.names = 1) |> as.matrix()
-samples  <- read.csv(system.file("extdata", "dummy_samples.csv", package = "metaboprep"), header=T, row.names = 1)
-features <- read.csv(system.file("extdata", "dummy_features.csv", package = "metaboprep"), header=T, row.names = 1)
+data     <- read.csv(system.file("extdata", "dummy_data.csv", package = "omiprep"), header=T, row.names = 1) |> as.matrix()
+samples  <- read.csv(system.file("extdata", "dummy_samples.csv", package = "omiprep"), header=T, row.names = 1)
+features <- read.csv(system.file("extdata", "dummy_features.csv", package = "omiprep"), header=T, row.names = 1)
 
-## create Metaboprep object
-mydata <- Metaboprep(data = data, samples = samples, features = features)
+## create Omiprep object
+mydata <- Omiprep(data = data, samples = samples, features = features)
 
-## summary of Metaboprep object
+## summary of Omiprep object
 summary(mydata)
-#> Metaboprep Object Summary
+#> Omiprep Object Summary
 #> --------------------------
 #> Samples      : 100
 #> Features     : 20
@@ -49,6 +49,7 @@ summary(mydata)
 #> user_excluded                    | 0
 #> extreme_feature_missingness      | 0
 #> user_defined_feature_missingness | 0
+#> user_defined_feature_skewness    | 0
 ```
 
 ## Run batch normalisation
@@ -57,7 +58,7 @@ summary(mydata)
 mydata <- mydata |>
   batch_normalise(run_mode_col = "platform", run_mode_colmap = c(pos="pos", neg="neg")) |>
   print()
-#> <metaboprep::Metaboprep>
+#> <omiprep::Omiprep>
 #>  @ data           : num [1:100, 1:20, 1:2] 0.755887 0.662386 0.444527 0.627146 0.000465 ...
 #>  .. - attr(*, "dimnames")=List of 3
 #>  ..  ..$ : chr [1:100] "id_100" "id_99" "id_98" "id_97" ...
@@ -82,10 +83,11 @@ mydata <- mydata |>
 #>  ..  ..$ user_defined_sample_missingness  : chr(0) 
 #>  ..  ..$ user_defined_sample_totalpeakarea: chr(0) 
 #>  ..  ..$ user_defined_sample_pca_outlier  : chr(0) 
-#>  .. $ features:List of 3
+#>  .. $ features:List of 4
 #>  ..  ..$ user_excluded                   : chr(0) 
 #>  ..  ..$ extreme_feature_missingness     : chr(0) 
 #>  ..  ..$ user_defined_feature_missingness: chr(0) 
+#>  ..  ..$ user_defined_feature_skewness   : chr(0) 
 #>  @ feature_summary: num[0 , 0 , 0 ] 
 #>  @ sample_summary : num[0 , 0 , 0 ]
 ```

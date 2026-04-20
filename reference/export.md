@@ -1,6 +1,6 @@
-# Export Data from a Metaboprep Object
+# Export Data from a Omiprep Object
 
-Exports all data from a \`Metaboprep\` object to a structured directory
+Exports all data from a \`Omiprep\` object to a structured directory
 format. For each data layer, the function creates a subdirectory
 containing: - the primary data matrix (\`data.tsv\`), - associated
 feature and sample metadata (\`features.tsv\`, \`samples.tsv\`), -
@@ -12,14 +12,14 @@ parameters.
 ## Usage
 
 ``` r
-export(metaboprep, directory, format = "metaboprep", ...)
+export(omiprep, directory, format = "omiprep", ...)
 ```
 
 ## Arguments
 
-- metaboprep:
+- omiprep:
 
-  A \`Metaboprep\` object containing the data to be exported.
+  A \`Omiprep\` object containing the data to be exported.
 
 - directory:
 
@@ -29,24 +29,24 @@ export(metaboprep, directory, format = "metaboprep", ...)
 - format:
 
   character, string specifying the format of the exported data - one of
-  "metaboprep", "comets", or "metaboanalyst".
+  "omiprep", "comets", or "metaboanalyst".
 
 - ...:
 
   Arguments passed on to
-  [`export_comets`](https://mrcieu.github.io/metaboprep/reference/export_comets.md),
-  [`export_metaboanalyst`](https://mrcieu.github.io/metaboprep/reference/export_metaboanalyst.md)
+  [`export_comets`](https://mrcieu.github.io/omiprep/reference/export_comets.md),
+  [`export_metaboanalyst`](https://mrcieu.github.io/omiprep/reference/export_metaboanalyst.md)
 
   `layer`
 
-  :   character, the name of the \`metaboprep@data\` layer (3rd array
+  :   character, the name of the \`omiprep@data\` layer (3rd array
       dimension) to write out
 
   `group_col`
 
-  :   character, the column name in the \`metaboprep@samples\` data
+  :   character, the column name in the \`omiprep@samples\` data
       identifying the group for one-factor analysis
 
 ## Value
 
-the \`Metaboprep\` object, invisibly, for use in pipes
+the \`Omiprep\` object, invisibly, for use in pipes

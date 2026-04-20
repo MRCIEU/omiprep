@@ -1,9 +1,11 @@
 # Summary Statistics for Features
 
-This function allows you to 'describe' metabolite features using the
+This function allows you to 'describe' 'omics features using the
 describe() function from the psych package, as well as estimate
 variance, a dispersion index, the coeficent of variation, and shapiro's
-W-statistic.
+W-statistic. The output from
+[`psych::describe()`](https://rdrr.io/pkg/psych/man/describe.html)
+includes feature-level skewness and kurtosis estimates.
 
 ## Usage
 
@@ -15,8 +17,7 @@ feature_describe(data)
 
 - data:
 
-  matrix, the metabolite data matrix. Samples in row, metabolites in
-  columns
+  matrix, the 'omics data matrix. Samples in row, features in columns
 
 ## Value
 

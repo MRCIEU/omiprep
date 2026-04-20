@@ -13,8 +13,7 @@ total_peak_area(data, ztransform = TRUE)
 
 - data:
 
-  matrix, the metabolite data matrix. Samples in rows, metabolites in
-  columns
+  matrix, the 'omics data matrix. Samples in rows, features in columns
 
 - ztransform:
 
