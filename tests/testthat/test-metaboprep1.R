@@ -89,13 +89,13 @@ test_that("omiprep output same as metaboprep1", {
   script_lines <- script_lines[1:cut_index]
   inject_lines <- c(
     "library(devtools)",
-    sprintf('load_all("%s")', tmp_lib)
+    sprintf('load_all("%s")', normalizePath(tmp_lib, winslash = "/"))
   )
   new_script <- c(inject_lines, "", script_lines)
   writeLines(new_script, pipeline_script)
 
-  res <- system2(file.path(R.home("bin"), "Rscript"), 
-                 c("run_metaboprep_pipeline.R", file.path(getwd(), "parameter_file_updated.sh")), 
+  res <- system2(file.path(R.home("bin"), "Rscript"),
+                 c("run_metaboprep_pipeline.R", normalizePath(file.path(getwd(), "parameter_file_updated.sh"), winslash = "/")),
                  stdout = TRUE,
                  stderr = TRUE)
   

@@ -1,3 +1,13 @@
+.par_lapply <- function(X, FUN, cores, ...) {
+  if (.Platform$OS.type == "windows" && cores > 1) {
+    cl <- parallel::makeCluster(cores)
+    on.exit(parallel::stopCluster(cl))
+    parallel::parLapply(cl, X, FUN, ...)
+  } else {
+    parallel::mclapply(X, FUN, mc.cores = cores, ...)
+  }
+}
+
 #' @title Identify Independent Features in a Numeric Matrix
 #' @description
 #' This function identifies independent features using Spearman's rho correlation distances, and a dendrogram
@@ -27,8 +37,8 @@
 #' }
 #' 
 #' @importFrom stats as.dist hclust cutree
-#' @importFrom parallel mclapply
-#' 
+#' @importFrom parallel mclapply makeCluster stopCluster parLapply
+#'
 #' @export
 #'
 tree_and_independent_features = function(data, tree_cut_height = 0.5, features_exclude = NULL, feature_selection = "max_var_exp", cores = NULL, fast = FALSE){
@@ -94,9 +104,9 @@ tree_and_independent_features = function(data, tree_cut_height = 0.5, features_e
       cor_matrix <- stats::cor(ranked, method = "pearson")
     } else {
       idx    <- split(1:ncol(ranked), cut(seq_along(1:ncol(ranked)), breaks=cores, labels=FALSE))
-      c_list <- parallel::mclapply(idx, function(j) {
+      c_list <- .par_lapply(idx, function(j) {
         stats::cor(ranked[, j, drop=FALSE], ranked, method="pearson")
-      }, mc.cores=cores)
+      }, cores=cores)
       cor_matrix <- do.call(rbind, c_list)
     }
   } else {
@@ -105,9 +115,9 @@ tree_and_independent_features = function(data, tree_cut_height = 0.5, features_e
       cor_matrix <- stats::cor(data, method = "spearman",  use = "pairwise.complete.obs")
     } else {
       idx <- split(1:ncol(data), cut(seq_along(1:ncol(data)), breaks=cores, labels=FALSE))
-      c_list <- parallel::mclapply(idx, function(j) {
+      c_list <- .par_lapply(idx, function(j) {
         stats::cor(data[, j, drop=FALSE], data, method = "spearman",  use = "pairwise.complete.obs")
-      }, mc.cores=cores)
+      }, cores=cores)
       cor_matrix <- do.call(rbind, c_list)
     }
   }

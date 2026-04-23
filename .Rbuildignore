@@ -10,3 +10,4 @@ scripts
 ^data-raw$
 ^\.idea$
 ^index\.md$
+^vignettes/output$
