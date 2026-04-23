@@ -35,17 +35,17 @@ mydata         <- suppressWarnings( quality_control(mydata, cores = 1) )
 #> ℹ Validating input parameters
 #> 
 #> ℹ Validating input parameters── Starting 'Omics QC Process ──────────────────────────────────────────────────
-#> ℹ Validating input parameters✔ Validating input parameters [20ms]
+#> ℹ Validating input parameters✔ Validating input parameters [18ms]
 #> 
 #> ℹ Validating input parameters
 #> ✔ Validating input parameters [14ms]
 #> 
 #> ℹ Sample & Feature Summary Statistics for raw data
 #> AF =  2
-#> ✔ Sample & Feature Summary Statistics for raw data [559ms]
+#> ✔ Sample & Feature Summary Statistics for raw data [571ms]
 #> 
 #> ℹ Copying input data to new 'qc' data layer
-#> ✔ Copying input data to new 'qc' data layer [23ms]
+#> ✔ Copying input data to new 'qc' data layer [24ms]
 #> 
 #> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)
 #> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [25ms]
@@ -63,7 +63,7 @@ mydata         <- suppressWarnings( quality_control(mydata, cores = 1) )
 #> ✔ Calculating total peak abundance outliers at +/- 5 Sdev - excluding 0 sample(…
 #> 
 #> ℹ Running sample data PCA outlier analysis at +/- 5 Sdev
-#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [25ms]
+#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [26ms]
 #> 
 #> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
 #> AF =  2
@@ -78,19 +78,19 @@ mydata         <- suppressWarnings( quality_control(mydata, cores = 1) )
 #> ℹ Creating final QC dataset...
 #>                         step seconds   pct
 #>                   validation    0.02   1.0
-#>                summarise_raw    0.54  28.2
+#>                summarise_raw    0.55  27.8
 #>                   copy_layer    0.00   0.0
 #>   extreme_sample_missingness    0.00   0.0
 #>  extreme_feature_missingness    0.00   0.0
 #>           sample_missingness    0.00   0.0
 #>              total_peak_area    0.00   0.0
-#>                summarise_pca    0.61  31.8
-#>              summarise_final    0.52  27.1
-#>                        total    1.92 100.2
-#> ✔ Creating final QC dataset... [559ms]
+#>                summarise_pca    0.63  31.8
+#>              summarise_final    0.53  26.8
+#>                        total    1.98 100.0
+#> ✔ Creating final QC dataset... [589ms]
 #> 
 #> ℹ 'Omics QC Process Completed
-#> ✔ 'Omics QC Process Completed [27ms]
+#> ✔ 'Omics QC Process Completed [24ms]
 ```
 
 ## Export Omiprep
@@ -123,5 +123,19 @@ unname(sapply(files, function(path) {
 #> [11] "output/omiprep_export_2026_04_20/qc/features.tsv"          
 #> [12] "output/omiprep_export_2026_04_20/qc/sample_summary.tsv"    
 #> [13] "output/omiprep_export_2026_04_20/qc/samples.tsv"           
-#> [14] "output/omiprep_export_2026_04_20/qc/var_exp.tsv"
+#> [14] "output/omiprep_export_2026_04_20/qc/var_exp.tsv"           
+#> [15] "output/omiprep_export_2026_04_23/input/config.yml"         
+#> [16] "output/omiprep_export_2026_04_23/input/data.tsv"           
+#> [17] "output/omiprep_export_2026_04_23/input/feature_summary.tsv"
+#> [18] "output/omiprep_export_2026_04_23/input/features.tsv"       
+#> [19] "output/omiprep_export_2026_04_23/input/sample_summary.tsv" 
+#> [20] "output/omiprep_export_2026_04_23/input/samples.tsv"        
+#> [21] "output/omiprep_export_2026_04_23/qc/config.yml"            
+#> [22] "output/omiprep_export_2026_04_23/qc/data.tsv"              
+#> [23] "output/omiprep_export_2026_04_23/qc/feature_summary.tsv"   
+#> [24] "output/omiprep_export_2026_04_23/qc/feature_tree.RDS"      
+#> [25] "output/omiprep_export_2026_04_23/qc/features.tsv"          
+#> [26] "output/omiprep_export_2026_04_23/qc/sample_summary.tsv"    
+#> [27] "output/omiprep_export_2026_04_23/qc/samples.tsv"           
+#> [28] "output/omiprep_export_2026_04_23/qc/var_exp.tsv"
 ```

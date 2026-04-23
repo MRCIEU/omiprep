@@ -120,16 +120,16 @@ mydata <- mydata |>
 #> 
 #> ℹ Sample & Feature Summary Statistics for raw data
 #> AF =  1
-#> ✔ Sample & Feature Summary Statistics for raw data [389ms]
+#> ✔ Sample & Feature Summary Statistics for raw data [398ms]
 #> 
 #> ℹ Copying input data to new 'qc' data layer
-#> ✔ Copying input data to new 'qc' data layer [23ms]
+#> ✔ Copying input data to new 'qc' data layer [26ms]
 #> 
 #> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)
-#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [16ms]
+#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [17ms]
 #> 
 #> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)
-#> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [16m…
+#> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [17m…
 #> 
 #> ℹ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
 #> ✔ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
@@ -156,19 +156,19 @@ mydata <- mydata |>
 #> ℹ Creating final QC dataset...
 #>                         step seconds  pct
 #>                   validation    0.02  1.5
-#>                summarise_raw    0.37 27.8
+#>                summarise_raw    0.38 27.9
 #>                   copy_layer    0.00  0.0
 #>   extreme_sample_missingness    0.00  0.0
 #>  extreme_feature_missingness    0.00  0.0
 #>           sample_missingness    0.00  0.0
 #>              total_peak_area    0.00  0.0
-#>                summarise_pca    0.43 32.3
-#>              summarise_final    0.32 24.0
-#>                        total    1.33 99.8
-#> ✔ Creating final QC dataset... [347ms]
+#>                summarise_pca    0.44 32.3
+#>              summarise_final    0.32 23.5
+#>                        total    1.36 99.7
+#> ✔ Creating final QC dataset... [353ms]
 #> 
 #> ℹ 'Omics QC Process Completed
-#> ✔ 'Omics QC Process Completed [14ms]
+#> ✔ 'Omics QC Process Completed [15ms]
 ```
 
 ## Quick summary of the Omiprep object following QC
