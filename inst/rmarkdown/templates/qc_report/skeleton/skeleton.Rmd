@@ -20,7 +20,8 @@ urlcolor: blue
 knitr::opts_chunk$set(
   echo = FALSE, quote = FALSE, comment = NA,
   warning = FALSE, message = FALSE, error = FALSE,
-  fig.align = "center"
+  fig.align = "center",
+  out.width = "\\linewidth"
 )
 
 suppressPackageStartupMessages(library(ggplot2))
