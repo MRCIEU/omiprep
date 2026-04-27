@@ -112,13 +112,13 @@ mydata <- mydata |>
 #> 
 #> ℹ Sample & Feature Summary Statistics for raw data
 #> AF =  17
-#> ✔ Sample & Feature Summary Statistics for raw data [594ms]
+#> ✔ Sample & Feature Summary Statistics for raw data [589ms]
 #> 
 #> ℹ Copying input data to new 'qc' data layer
-#> ✔ Copying input data to new 'qc' data layer [24ms]
+#> ✔ Copying input data to new 'qc' data layer [26ms]
 #> 
 #> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)
-#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [19ms]
+#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [20ms]
 #> 
 #> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)
 #> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [25m…
@@ -145,21 +145,21 @@ mydata <- mydata |>
 #> ℹ Creating final QC dataset...── Step timings ──
 #> ℹ Creating final QC dataset...
 #> ℹ Creating final QC dataset...
-#>                         step seconds  pct
-#>                   validation    0.02  1.0
-#>                summarise_raw    0.57 28.2
-#>                   copy_layer    0.00  0.0
-#>   extreme_sample_missingness    0.00  0.0
-#>  extreme_feature_missingness    0.00  0.0
-#>           sample_missingness    0.00  0.0
-#>              total_peak_area    0.00  0.0
-#>                summarise_pca    0.65 32.1
-#>              summarise_final    0.57 28.2
-#>                        total    2.02 99.9
-#> ✔ Creating final QC dataset... [605ms]
+#>                         step seconds   pct
+#>                   validation    0.02   0.9
+#>                summarise_raw    0.56  24.3
+#>                   copy_layer    0.00   0.0
+#>   extreme_sample_missingness    0.00   0.0
+#>  extreme_feature_missingness    0.00   0.0
+#>           sample_missingness    0.00   0.0
+#>              total_peak_area    0.00   0.0
+#>                summarise_pca    0.62  26.9
+#>              summarise_final    0.87  37.8
+#>                        total    2.30 100.0
+#> ✔ Creating final QC dataset... [907ms]
 #> 
 #> ℹ 'Omics QC Process Completed
-#> ✔ 'Omics QC Process Completed [14ms]
+#> ✔ 'Omics QC Process Completed [13ms]
 ```
 
 ## Quick summary of the Omiprep object following QC

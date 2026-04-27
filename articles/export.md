@@ -42,16 +42,16 @@ mydata         <- suppressWarnings( quality_control(mydata, cores = 1) )
 #> 
 #> ℹ Sample & Feature Summary Statistics for raw data
 #> AF =  2
-#> ✔ Sample & Feature Summary Statistics for raw data [571ms]
+#> ✔ Sample & Feature Summary Statistics for raw data [551ms]
 #> 
 #> ℹ Copying input data to new 'qc' data layer
-#> ✔ Copying input data to new 'qc' data layer [24ms]
+#> ✔ Copying input data to new 'qc' data layer [23ms]
 #> 
 #> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)
 #> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [25ms]
 #> 
 #> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)
-#> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [17m…
+#> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [18m…
 #> 
 #> ℹ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
 #> ✔ Assessing for sample missingness at specified level of >=20% - excluding 2 sa…
@@ -77,20 +77,20 @@ mydata         <- suppressWarnings( quality_control(mydata, cores = 1) )
 #> ℹ Creating final QC dataset...
 #> ℹ Creating final QC dataset...
 #>                         step seconds   pct
-#>                   validation    0.02   1.0
-#>                summarise_raw    0.55  27.8
+#>                   validation    0.02   1.1
+#>                summarise_raw    0.53  27.9
 #>                   copy_layer    0.00   0.0
 #>   extreme_sample_missingness    0.00   0.0
 #>  extreme_feature_missingness    0.00   0.0
 #>           sample_missingness    0.00   0.0
 #>              total_peak_area    0.00   0.0
-#>                summarise_pca    0.63  31.8
-#>              summarise_final    0.53  26.8
-#>                        total    1.98 100.0
-#> ✔ Creating final QC dataset... [589ms]
+#>                summarise_pca    0.60  31.6
+#>              summarise_final    0.52  27.4
+#>                        total    1.90 100.1
+#> ✔ Creating final QC dataset... [562ms]
 #> 
 #> ℹ 'Omics QC Process Completed
-#> ✔ 'Omics QC Process Completed [24ms]
+#> ✔ 'Omics QC Process Completed [29ms]
 ```
 
 ## Export Omiprep
@@ -124,18 +124,18 @@ unname(sapply(files, function(path) {
 #> [12] "output/omiprep_export_2026_04_20/qc/sample_summary.tsv"    
 #> [13] "output/omiprep_export_2026_04_20/qc/samples.tsv"           
 #> [14] "output/omiprep_export_2026_04_20/qc/var_exp.tsv"           
-#> [15] "output/omiprep_export_2026_04_23/input/config.yml"         
-#> [16] "output/omiprep_export_2026_04_23/input/data.tsv"           
-#> [17] "output/omiprep_export_2026_04_23/input/feature_summary.tsv"
-#> [18] "output/omiprep_export_2026_04_23/input/features.tsv"       
-#> [19] "output/omiprep_export_2026_04_23/input/sample_summary.tsv" 
-#> [20] "output/omiprep_export_2026_04_23/input/samples.tsv"        
-#> [21] "output/omiprep_export_2026_04_23/qc/config.yml"            
-#> [22] "output/omiprep_export_2026_04_23/qc/data.tsv"              
-#> [23] "output/omiprep_export_2026_04_23/qc/feature_summary.tsv"   
-#> [24] "output/omiprep_export_2026_04_23/qc/feature_tree.RDS"      
-#> [25] "output/omiprep_export_2026_04_23/qc/features.tsv"          
-#> [26] "output/omiprep_export_2026_04_23/qc/sample_summary.tsv"    
-#> [27] "output/omiprep_export_2026_04_23/qc/samples.tsv"           
-#> [28] "output/omiprep_export_2026_04_23/qc/var_exp.tsv"
+#> [15] "output/omiprep_export_2026_04_27/input/config.yml"         
+#> [16] "output/omiprep_export_2026_04_27/input/data.tsv"           
+#> [17] "output/omiprep_export_2026_04_27/input/feature_summary.tsv"
+#> [18] "output/omiprep_export_2026_04_27/input/features.tsv"       
+#> [19] "output/omiprep_export_2026_04_27/input/sample_summary.tsv" 
+#> [20] "output/omiprep_export_2026_04_27/input/samples.tsv"        
+#> [21] "output/omiprep_export_2026_04_27/qc/config.yml"            
+#> [22] "output/omiprep_export_2026_04_27/qc/data.tsv"              
+#> [23] "output/omiprep_export_2026_04_27/qc/feature_summary.tsv"   
+#> [24] "output/omiprep_export_2026_04_27/qc/feature_tree.RDS"      
+#> [25] "output/omiprep_export_2026_04_27/qc/features.tsv"          
+#> [26] "output/omiprep_export_2026_04_27/qc/sample_summary.tsv"    
+#> [27] "output/omiprep_export_2026_04_27/qc/samples.tsv"           
+#> [28] "output/omiprep_export_2026_04_27/qc/var_exp.tsv"
 ```
