@@ -12,6 +12,7 @@
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![R-CMD-check](https://github.com/MRCIEU/omiprep/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/MRCIEU/omiprep/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of `omiprep` is to:
@@ -77,20 +78,44 @@ mydata <- mydata |> quality_control( source_layer = "input",
                                      sample_ids          = NULL, 
                                      feature_ids         = NULL)
 #> 
-#> ── Starting Metabolite QC Process ──────────────────────────────────────────────
-#> ℹ Validating input parameters✔ Validating input parameters [4ms]
-#> ℹ Sample & Feature Summary Statistics for raw data✔ Sample & Feature Summary Statistics for raw data [463ms]
-#> ℹ Copying input data to new 'qc' data layer✔ Copying input data to new 'qc' data layer [11ms]
-#> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [11ms]
-#> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [8ms]
+#> ── Starting Omics QC Process ───────────────────────────────────────────────────
+#> ℹ Validating input parameters                              
+#> ℹ Validating input parameters                              ── Starting 'Omics QC Process ──────────────────────────────────────────────────
+#> ℹ Validating input parameters✔ Validating input parameters [9ms]
+#> ℹ Validating input parameters✔ Validating input parameters [7ms]
+#> ℹ Sample & Feature Summary Statistics for raw data
+#> AF =  2
+#> ✔ Sample & Feature Summary Statistics for raw data [272ms]
+#> ℹ Copying input data to new 'qc' data layer✔ Copying input data to new 'qc' data layer [16ms]
+#> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [10ms]
+#> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [9ms]
 #> ℹ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…✔ Assessing for sample missingness at specified level of >=20% - excluding 2 sa…
 #> ℹ Assessing for feature missingness at specified level of >=20% - excluding 0 f…✔ Assessing for feature missingness at specified level of >=20% - excluding 0 f…
 #> ℹ Calculating total peak abundance outliers at +/- 5 Sdev - excluding 0 sample(…✔ Calculating total peak abundance outliers at +/- 5 Sdev - excluding 0 sample(…
-#> ℹ Running sample data PCA outlier analysis at +/- 5 Sdev✔ Running sample data PCA outlier analysis at +/- 5 Sdev [9ms]
-#> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…                                                                                 ! The stated max PCs [max_num_pcs=10] to use in PCA outlier assessment is greater than the number of available informative PCs [2]
+#> ℹ Running sample data PCA outlier analysis at +/- 5 Sdev✔ Running sample data PCA outlier analysis at +/- 5 Sdev [8ms]
+#> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
+#> AF =  2
+#> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…                                                                                 ! The stated max PCs [max_num_pcs=10] to use in PCA outlier assessment is greater than the number of available informative PCs [2]
 #> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…✔ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
-#> ℹ Creating final QC dataset...✔ Creating final QC dataset... [445ms]
-#> ℹ Metabolite QC Process Completed✔ Metabolite QC Process Completed [10ms]
+#> ℹ Creating final QC dataset...
+#> AF =  2
+#>                                
+#> ℹ Creating final QC dataset...                               ── Step timings ──
+#> ℹ Creating final QC dataset...                               
+#> ℹ Creating final QC dataset...
+#>                         step seconds   pct
+#>                   validation    0.01   1.2
+#>                summarise_raw    0.26  31.0
+#>                   copy_layer    0.00   0.0
+#>   extreme_sample_missingness    0.00   0.0
+#>  extreme_feature_missingness    0.00   0.0
+#>           sample_missingness    0.00   0.0
+#>              total_peak_area    0.00   0.0
+#>                summarise_pca    0.26  31.0
+#>              summarise_final    0.20  23.9
+#>                        total    0.84 100.2
+#> ✔ Creating final QC dataset... [217ms]
+#> ℹ 'Omics QC Process Completed✔ 'Omics QC Process Completed [11ms]
 ```
 
 ### View a summary of the Omiprep object
