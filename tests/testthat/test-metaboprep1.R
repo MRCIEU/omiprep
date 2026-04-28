@@ -4,6 +4,10 @@ test_that("omiprep output same as metaboprep1", {
   # skip if offline 
   skip_if_offline()
   skip_on_cran()
+  skip_if(
+    !nzchar(Sys.getenv("RUN_INTEGRATION_TESTS")),
+    message = "Skipping integration test (set RUN_INTEGRATION_TESTS=true to enable)"
+  )
   
   # example data
   fp  <- system.file("extdata", "metabolon_v1.1_example.xlsx", package = "omiprep")
