@@ -105,23 +105,23 @@ mydata <- mydata |>
 #> ℹ Validating input parameters
 #> 
 #> ℹ Validating input parameters── Starting 'Omics QC Process ──────────────────────────────────────────────────
-#> ℹ Validating input parameters✔ Validating input parameters [17ms]
+#> ℹ Validating input parameters✔ Validating input parameters [18ms]
 #> 
 #> ℹ Validating input parameters
-#> ✔ Validating input parameters [13ms]
+#> ✔ Validating input parameters [15ms]
 #> 
 #> ℹ Sample & Feature Summary Statistics for raw data
 #> AF =  17
-#> ✔ Sample & Feature Summary Statistics for raw data [565ms]
+#> ✔ Sample & Feature Summary Statistics for raw data [524ms]
 #> 
 #> ℹ Copying input data to new 'qc' data layer
-#> ✔ Copying input data to new 'qc' data layer [26ms]
+#> ✔ Copying input data to new 'qc' data layer [22ms]
 #> 
 #> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)
-#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [20ms]
+#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [18ms]
 #> 
 #> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)
-#> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [24m…
+#> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [22m…
 #> 
 #> ℹ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
 #> ✔ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
@@ -147,19 +147,19 @@ mydata <- mydata |>
 #> ℹ Creating final QC dataset...
 #>                         step seconds  pct
 #>                   validation    0.02  1.0
-#>                summarise_raw    0.54 28.0
+#>                summarise_raw    0.50 24.6
 #>                   copy_layer    0.00  0.0
 #>   extreme_sample_missingness    0.00  0.0
 #>  extreme_feature_missingness    0.00  0.0
 #>           sample_missingness    0.00  0.0
 #>              total_peak_area    0.00  0.0
-#>                summarise_pca    0.61 31.6
-#>              summarise_final    0.54 28.0
-#>                        total    1.93 99.9
-#> ✔ Creating final QC dataset... [585ms]
+#>                summarise_pca    0.57 28.0
+#>              summarise_final    0.73 35.9
+#>                        total    2.03 99.8
+#> ✔ Creating final QC dataset... [767ms]
 #> 
 #> ℹ 'Omics QC Process Completed
-#> ✔ 'Omics QC Process Completed [14ms]
+#> ✔ 'Omics QC Process Completed [12ms]
 ```
 
 ## Quick summary of the Omiprep object following QC

@@ -116,20 +116,20 @@ mydata <- mydata |>
 #> ℹ Validating input parameters✔ Validating input parameters [17ms]
 #> 
 #> ℹ Validating input parameters
-#> ✔ Validating input parameters [13ms]
+#> ✔ Validating input parameters [14ms]
 #> 
 #> ℹ Sample & Feature Summary Statistics for raw data
 #> AF =  1
-#> ✔ Sample & Feature Summary Statistics for raw data [387ms]
+#> ✔ Sample & Feature Summary Statistics for raw data [346ms]
 #> 
 #> ℹ Copying input data to new 'qc' data layer
-#> ✔ Copying input data to new 'qc' data layer [23ms]
+#> ✔ Copying input data to new 'qc' data layer [22ms]
 #> 
 #> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)
-#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [15ms]
+#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [16ms]
 #> 
 #> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)
-#> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [15m…
+#> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [16m…
 #> 
 #> ℹ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
 #> ✔ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
@@ -155,17 +155,17 @@ mydata <- mydata |>
 #> ℹ Creating final QC dataset...
 #> ℹ Creating final QC dataset...
 #>                         step seconds   pct
-#>                   validation    0.02   1.5
-#>                summarise_raw    0.37  28.2
+#>                   validation    0.02   1.7
+#>                summarise_raw    0.33  27.8
 #>                   copy_layer    0.00   0.0
 #>   extreme_sample_missingness    0.00   0.0
 #>  extreme_feature_missingness    0.00   0.0
 #>           sample_missingness    0.00   0.0
 #>              total_peak_area    0.00   0.0
-#>                summarise_pca    0.42  32.1
-#>              summarise_final    0.32  24.4
-#>                        total    1.31 100.0
-#> ✔ Creating final QC dataset... [347ms]
+#>                summarise_pca    0.37  31.1
+#>              summarise_final    0.28  23.6
+#>                        total    1.19 100.2
+#> ✔ Creating final QC dataset... [307ms]
 #> 
 #> ℹ 'Omics QC Process Completed
 #> ✔ 'Omics QC Process Completed [13ms]
