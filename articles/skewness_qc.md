@@ -251,7 +251,7 @@ m_qc <- quality_control(
   feature_missingness = 0.2,
   feature_skewness_threshold = 1.25,
   feature_skewness_direction = "left",
-  total_peak_area_sd = NA,
+  total_sum_abundance_sd = NA,
   outlier_udist = 5,
   pc_outlier_sd = NA, 
   cores = 2, 
@@ -262,20 +262,20 @@ m_qc <- quality_control(
 #> ℹ Validating input parameters
 #> 
 #> ℹ Validating input parameters── Starting 'Omics QC Process ──────────────────────────────────────────────────
-#> ℹ Validating input parameters✔ Validating input parameters [24ms]
+#> ℹ Validating input parameters✔ Validating input parameters [23ms]
 #> 
 #> ℹ Validating input parameters
-#> ✔ Validating input parameters [18ms]
+#> ✔ Validating input parameters [17ms]
 #> 
 #> ℹ Sample & Feature Summary Statistics for raw data
 #> AF =  3
-#> ✔ Sample & Feature Summary Statistics for raw data [37.9s]
+#> ✔ Sample & Feature Summary Statistics for raw data [40.3s]
 #> 
 #> ℹ Copying input data to new 'qc' data layer
 #> ✔ Copying input data to new 'qc' data layer [40ms]
 #> 
 #> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)
-#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [31ms]
+#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [35ms]
 #> 
 #> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)
 #> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [32m…
@@ -290,7 +290,7 @@ m_qc <- quality_control(
 #> ✔ Assessing for feature skewness at threshold <= -1.25 - excluding 80 feature(s…
 #> 
 #> ℹ Running sample data PCA outlier analysis at +/- 5 Sdev
-#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [31ms]
+#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [29ms]
 #> 
 #> ℹ Creating final QC dataset...
 #> AF =  6
@@ -300,15 +300,15 @@ m_qc <- quality_control(
 #> ℹ Creating final QC dataset...
 #>                         step seconds   pct
 #>                   validation    0.03   0.0
-#>                summarise_raw   37.83  58.0
+#>                summarise_raw   40.32  57.7
 #>                   copy_layer    0.02   0.0
 #>   extreme_sample_missingness    0.01   0.0
 #>  extreme_feature_missingness    0.02   0.0
 #>           sample_missingness    0.01   0.0
-#>          feature_missingness    0.27   0.4
-#>              summarise_final   26.85  41.1
-#>                        total   65.25 100.0
-#> ✔ Creating final QC dataset... [26.9s]
+#>          feature_missingness    0.26   0.4
+#>              summarise_final   29.03  41.5
+#>                        total   69.91 100.0
+#> ✔ Creating final QC dataset... [29.1s]
 #> 
 #> ℹ 'Omics QC Process Completed
 #> ✔ 'Omics QC Process Completed [13ms]

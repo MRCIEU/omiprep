@@ -6,6 +6,9 @@ Export Data to \`Omiprep\` format
 
 ``` r
 export_omiprep(omiprep, directory, ...)
+
+## S7 method for classes <omiprep::Omiprep>, <character>
+export_omiprep(omiprep, directory, ...)
 ```
 
 ## Arguments

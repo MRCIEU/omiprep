@@ -5,6 +5,13 @@ reports key dimensions of the data, the presence of metadata columns,
 the number of data layers, and the status of quality control summaries
 and exclusions.
 
+## Usage
+
+``` r
+## S7 method for class <omiprep::Omiprep>
+summary(object, ...)
+```
+
 ## Arguments
 
 - object:

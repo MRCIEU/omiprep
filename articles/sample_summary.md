@@ -71,7 +71,7 @@ sample_sum1 <- sample_summary(omiprep         = mydata,
 
 ## Table of sample summary
 
-| sample_id | missingness | tpa_total | tpa_complete_features | outlier_count |
+| sample_id | missingness | tsa_total | tsa_complete_features | outlier_count |
 |:---------:|:-----------:|:---------:|:---------------------:|:-------------:|
 |  id_100   |      0      |  38.699   |        38.699         |       0       |
 |   id_99   |      0      |  39.451   |        39.451         |       0       |
@@ -109,7 +109,7 @@ sample_sum_subset <- sample_summary(omiprep       = mydata,
 
 ## Table of sample summary on subset
 
-| sample_id | missingness | tpa_total | tpa_complete_features | outlier_count |
+| sample_id | missingness | tsa_total | tsa_complete_features | outlier_count |
 |:---------:|:-----------:|:---------:|:---------------------:|:-------------:|
 |   id_98   |      0      |  22.241   |        22.241         |       0       |
 |   id_97   |      0      |  15.765   |        15.765         |       1       |
@@ -234,7 +234,7 @@ Also, please note that when running on a subset, you are returned the
 full summary for all samples and features, but only the summary data for
 the specified subset will be populated, the rest will be `NA`.
 
-| sample_id | missingness | tpa_total | tpa_complete_features | outlier_count | pc1 | pc2 | pc3 | pc4 | pc5 | pc6 | pc7 | pc8 | pc9 | pc10 | pc1_3_sd_outlier | pc2_3_sd_outlier | pc3_3_sd_outlier | pc1_4_sd_outlier | pc2_4_sd_outlier | pc3_4_sd_outlier | pc1_5_sd_outlier | pc2_5_sd_outlier | pc3_5_sd_outlier |
+| sample_id | missingness | tsa_total | tsa_complete_features | outlier_count | pc1 | pc2 | pc3 | pc4 | pc5 | pc6 | pc7 | pc8 | pc9 | pc10 | pc1_3_sd_outlier | pc2_3_sd_outlier | pc3_3_sd_outlier | pc1_4_sd_outlier | pc2_4_sd_outlier | pc3_4_sd_outlier | pc1_5_sd_outlier | pc2_5_sd_outlier | pc3_5_sd_outlier |
 |:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
 | id_100 | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA |
 | id_99 | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA |

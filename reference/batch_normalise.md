@@ -12,6 +12,15 @@ batch_normalise(
   source_layer = "input",
   dest_layer = "batch_normalised"
 )
+
+## S7 method for class <omiprep::Omiprep>
+batch_normalise(
+  omiprep,
+  run_mode_col,
+  run_mode_colmap,
+  source_layer = "input",
+  dest_layer = "batch_normalised"
+)
 ```
 
 ## Arguments

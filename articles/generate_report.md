@@ -31,7 +31,7 @@ mydata <- mydata |>
   quality_control(source_layer        = "input", 
                   sample_missingness  = 0.2, 
                   feature_missingness = 0.2, 
-                  total_peak_area_sd  = 5, 
+                  total_sum_abundance_sd  = 5, 
                   outlier_udist       = 5, 
                   outlier_treatment   = "leave_be", 
                   winsorize_quantile  = 1.0, 
@@ -46,17 +46,17 @@ mydata <- mydata |>
 #> ℹ Validating input parameters
 #> 
 #> ℹ Validating input parameters── Starting 'Omics QC Process ──────────────────────────────────────────────────
-#> ℹ Validating input parameters✔ Validating input parameters [17ms]
+#> ℹ Validating input parameters✔ Validating input parameters [18ms]
 #> 
 #> ℹ Validating input parameters
-#> ✔ Validating input parameters [13ms]
+#> ✔ Validating input parameters [14ms]
 #> 
 #> ℹ Excluding 0 features from sample summary analysis but keeping in output data
 #> ✔ Excluding 3 features from sample summary analysis but keeping in output data …
 #> 
 #> ℹ Sample & Feature Summary Statistics for raw data
 #> AF =  2
-#> ✔ Sample & Feature Summary Statistics for raw data [526ms]
+#> ✔ Sample & Feature Summary Statistics for raw data [531ms]
 #> 
 #> ℹ Copying input data to new 'qc' data layer
 #> ✔ Copying input data to new 'qc' data layer [34ms]
@@ -65,7 +65,7 @@ mydata <- mydata |>
 #> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [21ms]
 #> 
 #> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)
-#> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [16m…
+#> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [17m…
 #> 
 #> ℹ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
 #> ✔ Assessing for sample missingness at specified level of >=20% - excluding 2 sa…
@@ -73,8 +73,8 @@ mydata <- mydata |>
 #> ℹ Assessing for feature missingness at specified level of >=20% - excluding 0 f…
 #> ✔ Assessing for feature missingness at specified level of >=20% - excluding 0 f…
 #> 
-#> ℹ Calculating total peak abundance outliers at +/- 5 Sdev - excluding 0 sample(…
-#> ✔ Calculating total peak abundance outliers at +/- 5 Sdev - excluding 0 sample(…
+#> ℹ Calculating total sum abundance outliers at +/- 5 Sdev - excluding 0 sample(s)
+#> ✔ Calculating total sum abundance outliers at +/- 5 Sdev - excluding 0 sample(s…
 #> 
 #> ℹ Running sample data PCA outlier analysis at +/- 5 Sdev
 #> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [17ms]
@@ -92,19 +92,19 @@ mydata <- mydata |>
 #> ℹ Creating final QC dataset...
 #>                         step seconds   pct
 #>                   validation    0.02   1.1
-#>                summarise_raw    0.51  27.1
+#>                summarise_raw    0.52  27.4
 #>                   copy_layer    0.00   0.0
 #>   extreme_sample_missingness    0.00   0.0
 #>  extreme_feature_missingness    0.00   0.0
 #>           sample_missingness    0.00   0.0
-#>              total_peak_area    0.00   0.0
-#>                summarise_pca    0.59  31.4
-#>              summarise_final    0.50  26.6
-#>                        total    1.88 100.0
-#> ✔ Creating final QC dataset... [554ms]
+#>          total_sum_abundance    0.00   0.0
+#>                summarise_pca    0.60  31.6
+#>              summarise_final    0.50  26.4
+#>                        total    1.90 100.2
+#> ✔ Creating final QC dataset... [549ms]
 #> 
 #> ℹ 'Omics QC Process Completed
-#> ✔ 'Omics QC Process Completed [26ms]
+#> ✔ 'Omics QC Process Completed [27ms]
 ```
 
 ## Generate the Omiprep report
@@ -126,7 +126,7 @@ generate_report(mydata,
 #> Warning in call_block(x): The chunk 'unnamed-chunk-3' has the 'child' option,
 #> and this code chunk must be empty. Its code will be ignored.
 #> output file: /home/runner/work/omiprep/omiprep/vignettes/skeleton.knit.md
-#> /opt/hostedtoolcache/pandoc/3.8.3/x64/pandoc +RTS -K512m -RTS /home/runner/work/omiprep/omiprep/vignettes/skeleton.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output /home/runner/work/omiprep/omiprep/vignettes/myproject_omiprep_qc_report.html --lua-filter /home/runner/work/_temp/Library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /home/runner/work/_temp/Library/rmarkdown/rmarkdown/lua/latex-div.lua --lua-filter /home/runner/work/_temp/Library/rmarkdown/rmarkdown/lua/table-classes.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 2 --template /home/runner/work/_temp/Library/rmarkdown/rmd/h/default.html --syntax-highlighting none --variable highlightjs=1 --number-sections --variable theme=bootstrap --css styles.css --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /tmp/RtmpkVMlMj/rmarkdown-str1d93696c398d.html
+#> /opt/hostedtoolcache/pandoc/3.8.3/x64/pandoc +RTS -K512m -RTS /home/runner/work/omiprep/omiprep/vignettes/skeleton.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output /home/runner/work/omiprep/omiprep/vignettes/myproject_omiprep_qc_report.html --lua-filter /home/runner/work/_temp/Library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /home/runner/work/_temp/Library/rmarkdown/rmarkdown/lua/latex-div.lua --lua-filter /home/runner/work/_temp/Library/rmarkdown/rmarkdown/lua/table-classes.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 2 --template /home/runner/work/_temp/Library/rmarkdown/rmd/h/default.html --syntax-highlighting none --variable highlightjs=1 --number-sections --variable theme=bootstrap --css styles.css --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /tmp/Rtmp5eDkKY/rmarkdown-str1d9a7d1613b.html
 #> 
 #> Output created: myproject_omiprep_qc_report.html
 ```

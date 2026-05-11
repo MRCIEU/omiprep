@@ -6,6 +6,9 @@ Export Data to \`COMETS\` format
 
 ``` r
 export_comets(omiprep, directory, layer = NULL)
+
+## S7 method for classes <omiprep::Omiprep>, <character>
+export_comets(omiprep, directory, layer = NULL)
 ```
 
 ## Arguments

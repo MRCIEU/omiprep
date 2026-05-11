@@ -18,6 +18,21 @@ summarise(
   cores = NULL,
   fast = FALSE
 )
+
+## S7 method for class <omiprep::Omiprep>
+summarise(
+  omiprep,
+  source_layer = "input",
+  outlier_udist = 5,
+  tree_cut_height = 0.5,
+  feature_selection = "max_var_exp",
+  sample_ids = NULL,
+  feature_ids = NULL,
+  features_exclude = NULL,
+  output = "data.frame",
+  cores = NULL,
+  fast = FALSE
+)
 ```
 
 ## Arguments

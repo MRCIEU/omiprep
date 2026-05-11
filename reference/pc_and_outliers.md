@@ -17,6 +17,14 @@ pc_and_outliers(
   sample_ids = NULL,
   feature_ids = NULL
 )
+
+## S7 method for class <omiprep::Omiprep>
+pc_and_outliers(
+  omiprep,
+  source_layer = "input",
+  sample_ids = NULL,
+  feature_ids = NULL
+)
 ```
 
 ## Arguments

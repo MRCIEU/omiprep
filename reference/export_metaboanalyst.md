@@ -6,6 +6,9 @@ Export Data to \`MetaboAnalyst\` format
 
 ``` r
 export_metaboanalyst(omiprep, directory, layer = NULL, group_col = NULL)
+
+## S7 method for classes <omiprep::Omiprep>, <character>
+export_metaboanalyst(omiprep, directory, layer = NULL, group_col = NULL)
 ```
 
 ## Arguments

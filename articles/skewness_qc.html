@@ -329,7 +329,7 @@ we apply the same feature-level rule directly:</p>
 <span>  feature_missingness <span class="op">=</span> <span class="fl">0.2</span>,</span>
 <span>  feature_skewness_threshold <span class="op">=</span> <span class="fl">1.25</span>,</span>
 <span>  feature_skewness_direction <span class="op">=</span> <span class="st">"left"</span>,</span>
-<span>  total_peak_area_sd <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  total_sum_abundance_sd <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  outlier_udist <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>  pc_outlier_sd <span class="op">=</span> <span class="cn">NA</span>, </span>
 <span>  cores <span class="op">=</span> <span class="fl">2</span>, </span>
@@ -340,20 +340,20 @@ we apply the same feature-level rule directly:</p>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Validating input parameters</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Validating input parameters<span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Starting 'Omics QC Process</span> <span style="color: #00BBBB;">──────────────────────────────────────────────────</span></span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Validating input parameters<span style="color: #00BB00;">✔</span> Validating input parameters <span style="color: #B2B2B2;">[24ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Validating input parameters<span style="color: #00BB00;">✔</span> Validating input parameters <span style="color: #B2B2B2;">[23ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Validating input parameters</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Validating input parameters <span style="color: #B2B2B2;">[18ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Validating input parameters <span style="color: #B2B2B2;">[17ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample &amp; Feature Summary Statistics for raw data</span></span>
 <span><span class="co">#&gt; AF =  3</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Sample &amp; Feature Summary Statistics for raw data <span style="color: #B2B2B2;">[37.9s]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Sample &amp; Feature Summary Statistics for raw data <span style="color: #B2B2B2;">[40.3s]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Copying input data to new 'qc' data layer</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Copying input data to new 'qc' data layer <span style="color: #B2B2B2;">[40ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Assessing for extreme sample missingness &gt;=80% - excluding 0 sample(s)</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for extreme sample missingness &gt;=80% - excluding 0 sample(s) <span style="color: #B2B2B2;">[31ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for extreme sample missingness &gt;=80% - excluding 0 sample(s) <span style="color: #B2B2B2;">[35ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Assessing for extreme feature missingness &gt;=80% - excluding 0 feature(s)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for extreme feature missingness &gt;=80% - excluding 0 feature(s) <span style="color: #B2B2B2;">[32m</span>…</span></span>
@@ -368,7 +368,7 @@ we apply the same feature-level rule directly:</p>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for feature skewness at threshold &lt;= -1.25 - excluding 80 feature(s…</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Running sample data PCA outlier analysis at +/- 5 Sdev</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Running sample data PCA outlier analysis at +/- 5 Sdev <span style="color: #B2B2B2;">[31ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Running sample data PCA outlier analysis at +/- 5 Sdev <span style="color: #B2B2B2;">[29ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Creating final QC dataset...</span></span>
 <span><span class="co">#&gt; AF =  6</span></span>
@@ -378,15 +378,15 @@ we apply the same feature-level rule directly:</p>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Creating final QC dataset...</span></span>
 <span><span class="co">#&gt;                         step seconds   pct</span></span>
 <span><span class="co">#&gt;                   validation    0.03   0.0</span></span>
-<span><span class="co">#&gt;                summarise_raw   37.83  58.0</span></span>
+<span><span class="co">#&gt;                summarise_raw   40.32  57.7</span></span>
 <span><span class="co">#&gt;                   copy_layer    0.02   0.0</span></span>
 <span><span class="co">#&gt;   extreme_sample_missingness    0.01   0.0</span></span>
 <span><span class="co">#&gt;  extreme_feature_missingness    0.02   0.0</span></span>
 <span><span class="co">#&gt;           sample_missingness    0.01   0.0</span></span>
-<span><span class="co">#&gt;          feature_missingness    0.27   0.4</span></span>
-<span><span class="co">#&gt;              summarise_final   26.85  41.1</span></span>
-<span><span class="co">#&gt;                        total   65.25 100.0</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Creating final QC dataset... <span style="color: #B2B2B2;">[26.9s]</span></span></span>
+<span><span class="co">#&gt;          feature_missingness    0.26   0.4</span></span>
+<span><span class="co">#&gt;              summarise_final   29.03  41.5</span></span>
+<span><span class="co">#&gt;                        total   69.91 100.0</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Creating final QC dataset... <span style="color: #B2B2B2;">[29.1s]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> 'Omics QC Process Completed</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> 'Omics QC Process Completed <span style="color: #B2B2B2;">[13ms]</span></span></span></code></pre></div>

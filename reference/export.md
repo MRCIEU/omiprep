@@ -13,6 +13,9 @@ parameters.
 
 ``` r
 export(omiprep, directory, format = "omiprep", ...)
+
+## S7 method for classes <omiprep::Omiprep>, <character>
+export(omiprep, directory, format = "omiprep", ...)
 ```
 
 ## Arguments

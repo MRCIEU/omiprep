@@ -6,6 +6,9 @@ Launch a Shiny app to explore the Omiprep object
 
 ``` r
 shiny_app(omiprep)
+
+## S7 method for class <omiprep::Omiprep>
+shiny_app(omiprep)
 ```
 
 ## Arguments

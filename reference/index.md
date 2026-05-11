@@ -7,7 +7,7 @@ functions. A container for measurement, sample, and feature data.
 
 - [`Omiprep()`](https://mrcieu.github.io/omiprep/reference/class_omiprep.md)
   : Omiprep Object
-- [`summary.Omiprep`](https://mrcieu.github.io/omiprep/reference/summary.Omiprep.md)
+- [`summary()`](https://mrcieu.github.io/omiprep/reference/summary.Omiprep.md)
   : Summary Method for Omiprep Object
 - [`add_layer()`](https://mrcieu.github.io/omiprep/reference/add_layer.md)
   : Add a Layer of Data (internal use)
@@ -86,8 +86,8 @@ Helper functions, mainly used internally.
   : Identify indexes of outliers in data
 - [`outliers()`](https://mrcieu.github.io/omiprep/reference/outliers.md)
   : Identify Outliers
-- [`total_peak_area()`](https://mrcieu.github.io/omiprep/reference/total_peak_area.md)
-  : Estimates total peak abundance
+- [`total_sum_abundance()`](https://mrcieu.github.io/omiprep/reference/total_sum_abundance.md)
+  : Estimates total sum abundance
 - [`continuous_power_plot()`](https://mrcieu.github.io/omiprep/reference/continuous_power_plot.md)
   : continuous trait power analysis plot
 - [`multivariate_anova()`](https://mrcieu.github.io/omiprep/reference/multivariate_anova.md)

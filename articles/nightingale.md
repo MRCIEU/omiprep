@@ -99,7 +99,7 @@ mydata <- mydata |>
   quality_control(source_layer        = "input", 
                   sample_missingness  = 0.2, 
                   feature_missingness = 0.2, 
-                  total_peak_area_sd  = 5, 
+                  total_sum_abundance_sd  = 5, 
                   outlier_udist       = 5, 
                   outlier_treatment   = "leave_be", 
                   winsorize_quantile  = 1.0, 
@@ -117,17 +117,17 @@ mydata <- mydata |>
 #> ℹ Validating input parameters✔ Validating input parameters [18ms]
 #> 
 #> ℹ Validating input parameters
-#> ✔ Validating input parameters [13ms]
+#> ✔ Validating input parameters [14ms]
 #> 
 #> ℹ Sample & Feature Summary Statistics for raw data
 #> AF =  2
-#> ✔ Sample & Feature Summary Statistics for raw data [75ms]
+#> ✔ Sample & Feature Summary Statistics for raw data [78ms]
 #> 
 #> ℹ Copying input data to new 'qc' data layer
-#> ✔ Copying input data to new 'qc' data layer [15ms]
+#> ✔ Copying input data to new 'qc' data layer [16ms]
 #> 
 #> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)
-#> ✔ Assessing for extreme sample missingness >=80% - excluding 2 sample(s) [16ms]
+#> ✔ Assessing for extreme sample missingness >=80% - excluding 2 sample(s) [17ms]
 #> 
 #> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)
 #> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [24m…
@@ -138,11 +138,11 @@ mydata <- mydata |>
 #> ℹ Assessing for feature missingness at specified level of >=20% - excluding 0 f…
 #> ✔ Assessing for feature missingness at specified level of >=20% - excluding 0 f…
 #> 
-#> ℹ Calculating total peak abundance outliers at +/- 5 Sdev - excluding 0 sample(…
-#> ✔ Calculating total peak abundance outliers at +/- 5 Sdev - excluding 0 sample(…
+#> ℹ Calculating total sum abundance outliers at +/- 5 Sdev - excluding 0 sample(s)
+#> ✔ Calculating total sum abundance outliers at +/- 5 Sdev - excluding 0 sample(s…
 #> 
 #> ℹ Running sample data PCA outlier analysis at +/- 5 Sdev
-#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [16ms]
+#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [17ms]
 #> 
 #> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
 #> AF =  1
@@ -156,17 +156,17 @@ mydata <- mydata |>
 #> ℹ Creating final QC dataset...
 #> ℹ Creating final QC dataset...
 #>                         step seconds   pct
-#>                   validation    0.02   4.6
-#>                summarise_raw    0.06  13.8
+#>                   validation    0.02   4.4
+#>                summarise_raw    0.06  13.3
 #>                   copy_layer    0.00   0.0
 #>   extreme_sample_missingness    0.00   0.0
 #>  extreme_feature_missingness    0.00   0.0
 #>           sample_missingness    0.00   0.0
-#>              total_peak_area    0.00   0.0
-#>                summarise_pca    0.14  32.2
-#>              summarise_final    0.03   6.9
-#>                        total    0.44 101.1
-#> ✔ Creating final QC dataset... [60ms]
+#>          total_sum_abundance    0.00   0.0
+#>                summarise_pca    0.14  31.1
+#>              summarise_final    0.03   6.7
+#>                        total    0.45 100.0
+#> ✔ Creating final QC dataset... [61ms]
 #> 
 #> ℹ 'Omics QC Process Completed
 #> ✔ 'Omics QC Process Completed [13ms]
