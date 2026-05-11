@@ -38,23 +38,23 @@ mydata         <- suppressWarnings( quality_control(mydata, cores = 1) )
 #> ℹ Validating input parameters
 #> 
 #> ℹ Validating input parameters── Starting 'Omics QC Process ──────────────────────────────────────────────────
-#> ℹ Validating input parameters✔ Validating input parameters [14ms]
+#> ℹ Validating input parameters✔ Validating input parameters [17ms]
 #> 
 #> ℹ Validating input parameters
-#> ✔ Validating input parameters [11ms]
+#> ✔ Validating input parameters [13ms]
 #> 
 #> ℹ Sample & Feature Summary Statistics for raw data
 #> AF =  2
-#> ✔ Sample & Feature Summary Statistics for raw data [449ms]
+#> ✔ Sample & Feature Summary Statistics for raw data [552ms]
 #> 
 #> ℹ Copying input data to new 'qc' data layer
-#> ✔ Copying input data to new 'qc' data layer [18ms]
+#> ✔ Copying input data to new 'qc' data layer [23ms]
 #> 
 #> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)
-#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [19ms]
+#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [25ms]
 #> 
 #> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)
-#> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [19m…
+#> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [18m…
 #> 
 #> ℹ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
 #> ✔ Assessing for sample missingness at specified level of >=20% - excluding 2 sa…
@@ -66,7 +66,7 @@ mydata         <- suppressWarnings( quality_control(mydata, cores = 1) )
 #> ✔ Calculating total peak abundance outliers at +/- 5 Sdev - excluding 0 sample(…
 #> 
 #> ℹ Running sample data PCA outlier analysis at +/- 5 Sdev
-#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [22ms]
+#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [26ms]
 #> 
 #> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
 #> AF =  2
@@ -79,21 +79,21 @@ mydata         <- suppressWarnings( quality_control(mydata, cores = 1) )
 #> ℹ Creating final QC dataset...── Step timings ──
 #> ℹ Creating final QC dataset...
 #> ℹ Creating final QC dataset...
-#>                         step seconds  pct
-#>                   validation    0.02  1.3
-#>                summarise_raw    0.43 27.5
-#>                   copy_layer    0.00  0.0
-#>   extreme_sample_missingness    0.00  0.0
-#>  extreme_feature_missingness    0.00  0.0
-#>           sample_missingness    0.00  0.0
-#>              total_peak_area    0.00  0.0
-#>                summarise_pca    0.49 31.4
-#>              summarise_final    0.43 27.5
-#>                        total    1.56 99.9
-#> ✔ Creating final QC dataset... [464ms]
+#>                         step seconds   pct
+#>                   validation    0.02   1.0
+#>                summarise_raw    0.53  27.8
+#>                   copy_layer    0.00   0.0
+#>   extreme_sample_missingness    0.00   0.0
+#>  extreme_feature_missingness    0.00   0.0
+#>           sample_missingness    0.00   0.0
+#>              total_peak_area    0.01   0.5
+#>                summarise_pca    0.61  32.0
+#>              summarise_final    0.52  27.3
+#>                        total    1.91 100.1
+#> ✔ Creating final QC dataset... [562ms]
 #> 
 #> ℹ 'Omics QC Process Completed
-#> ✔ 'Omics QC Process Completed [33ms]
+#> ✔ 'Omics QC Process Completed [35ms]
 ```
 
 ## Export Omiprep
