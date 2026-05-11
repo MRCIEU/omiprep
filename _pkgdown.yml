@@ -97,7 +97,7 @@ reference:
     - missingness
     - outlier_detection
     - outliers
-    - total_peak_area
+    - total_sum_abundance
     - continuous_power_plot
     - multivariate_anova
     - cramerV
