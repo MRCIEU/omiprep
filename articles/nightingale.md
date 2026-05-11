@@ -7,6 +7,7 @@ function. Here we will read in the example data provided with the
 package, and convert it directly into a Omiprep S7 object.
 
 ``` r
+
 library(omiprep)
 
 # example file
@@ -19,6 +20,7 @@ mydata <- read_nightingale(filepath, return_Omiprep = TRUE)
 ## Quick look at data structure of the imported data
 
 ``` r
+
 str(mydata)
 #> <omiprep::Omiprep>
 #>  @ data           : num [1:50, 1:12, 1] 3.85 NA 5.2 3.01 2.68 ...
@@ -92,6 +94,7 @@ str(mydata)
 Perform the QC steps using the `quality_control` function.
 
 ``` r
+
 mydata <- mydata |>
   quality_control(source_layer        = "input", 
                   sample_missingness  = 0.2, 
@@ -111,23 +114,23 @@ mydata <- mydata |>
 #> ℹ Validating input parameters
 #> 
 #> ℹ Validating input parameters── Starting 'Omics QC Process ──────────────────────────────────────────────────
-#> ℹ Validating input parameters✔ Validating input parameters [17ms]
+#> ℹ Validating input parameters✔ Validating input parameters [14ms]
 #> 
 #> ℹ Validating input parameters
-#> ✔ Validating input parameters [14ms]
+#> ✔ Validating input parameters [11ms]
 #> 
 #> ℹ Sample & Feature Summary Statistics for raw data
 #> AF =  2
-#> ✔ Sample & Feature Summary Statistics for raw data [73ms]
+#> ✔ Sample & Feature Summary Statistics for raw data [59ms]
 #> 
 #> ℹ Copying input data to new 'qc' data layer
-#> ✔ Copying input data to new 'qc' data layer [15ms]
+#> ✔ Copying input data to new 'qc' data layer [12ms]
 #> 
 #> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)
-#> ✔ Assessing for extreme sample missingness >=80% - excluding 2 sample(s) [16ms]
+#> ✔ Assessing for extreme sample missingness >=80% - excluding 2 sample(s) [12ms]
 #> 
 #> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)
-#> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [23m…
+#> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [19m…
 #> 
 #> ℹ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
 #> ✔ Assessing for sample missingness at specified level of >=20% - excluding 1 sa…
@@ -139,10 +142,11 @@ mydata <- mydata |>
 #> ✔ Calculating total peak abundance outliers at +/- 5 Sdev - excluding 0 sample(…
 #> 
 #> ℹ Running sample data PCA outlier analysis at +/- 5 Sdev
-#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [16ms]
+#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [13ms]
 #> 
 #> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
 #> AF =  1
+#> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
 #> ! The stated max PCs [max_num_pcs=10] to use in PCA outlier assessment is greater than the number of available informative PCs [2]
 #> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…✔ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
 #> 
@@ -152,26 +156,27 @@ mydata <- mydata |>
 #> ℹ Creating final QC dataset...── Step timings ──
 #> ℹ Creating final QC dataset...
 #> ℹ Creating final QC dataset...
-#>                         step seconds  pct
-#>                   validation    0.02  4.7
-#>                summarise_raw    0.05 11.8
-#>                   copy_layer    0.00  0.0
-#>   extreme_sample_missingness    0.00  0.0
-#>  extreme_feature_missingness    0.00  0.0
-#>           sample_missingness    0.00  0.0
-#>              total_peak_area    0.00  0.0
-#>                summarise_pca    0.13 30.7
-#>              summarise_final    0.03  7.1
-#>                        total    0.42 99.1
-#> ✔ Creating final QC dataset... [57ms]
+#>                         step seconds   pct
+#>                   validation    0.02   5.8
+#>                summarise_raw    0.04  11.6
+#>                   copy_layer    0.00   0.0
+#>   extreme_sample_missingness    0.00   0.0
+#>  extreme_feature_missingness    0.00   0.0
+#>           sample_missingness    0.00   0.0
+#>              total_peak_area    0.00   0.0
+#>                summarise_pca    0.11  31.9
+#>              summarise_final    0.02   5.8
+#>                        total    0.35 101.4
+#> ✔ Creating final QC dataset... [46ms]
 #> 
 #> ℹ 'Omics QC Process Completed
-#> ✔ 'Omics QC Process Completed [13ms]
+#> ✔ 'Omics QC Process Completed [10ms]
 ```
 
 ## Quick summary of the Omiprep object following QC
 
 ``` r
+
 summary(mydata)
 #> Omiprep Object Summary
 #> --------------------------

@@ -22,6 +22,7 @@ targeted omics data:
 ## Installation
 
 ``` r
+
 # install.packages("pak")
 pak::pak("MRCIEU/omiprep")
 ```
@@ -29,6 +30,7 @@ pak::pak("MRCIEU/omiprep")
 ## Quick start
 
 ``` r
+
 library(omiprep)
 
 # 1. Read data

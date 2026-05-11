@@ -1,4 +1,4 @@
-pandoc: 3.1.11
+pandoc: 3.8.3
 pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
@@ -13,7 +13,7 @@ articles:
   sample_summary: sample_summary.html
   skewness_qc: skewness_qc.html
   somalogic: somalogic.html
-last_built: 2026-04-28T12:37Z
+last_built: 2026-05-11T18:07Z
 urls:
   reference: https://mrcieu.github.io/omiprep/reference
   article: https://mrcieu.github.io/omiprep/articles

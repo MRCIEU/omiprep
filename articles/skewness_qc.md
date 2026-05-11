@@ -13,6 +13,7 @@ result in skewed data with ceiling effects. In this vignette we:
 5.  and visualize pre/post filtering impact.
 
 ``` r
+
 library(omiprep)
 library(ggplot2)
 
@@ -29,6 +30,7 @@ We create 3 feature groups:
 - `right_skew`: positively skewed features.
 
 ``` r
+
 n_samples <- 1000
 n_normal <- 380
 n_left_skew <- 80
@@ -81,6 +83,7 @@ features <- data.frame(
 Representative distributions for one feature from each group:
 
 ``` r
+
 inspect_features <- c("normal_001", "left_skew_001", "right_skew_001")
 plot_df <- data.frame(
   feature = rep(inspect_features, each = n_samples),
@@ -112,10 +115,12 @@ feature `001` changes based on the simulation; we will focus on the
 takes the `skew` column (default `type = 3` in
 [`psych::skew`](https://rdrr.io/pkg/psych/man/skew.html)):
 
-$${skew} = \frac{\sum\limits_{i = 1}^{n}\left( x_{i} - \bar{x} \right)^{3}}{n \cdot s^{3}}$$
+``` math
+\mathrm{skew} = \frac{\sum_{i=1}^{n} (x_i-\bar{x})^3}{n \cdot s^3}
+```
 
-where $x_{i}$ are sample values for one feature, $\bar{x}$ is the
-feature mean, $s$ is the feature SD, and $n$ is the number of
+where $`x_i`$ are sample values for one feature, $`\bar{x}`$ is the
+feature mean, $`s`$ is the feature SD, and $`n`$ is the number of
 non-missing sample values.
 
 Plain-language interpretation:
@@ -145,6 +150,7 @@ The helper
 returns one row per feature:
 
 ``` r
+
 skew_df <- feature_skewness(
   data = data,
   threshold = 1.25,
@@ -172,6 +178,7 @@ features have negative skewness values (many below `-1.25`), and the
 right-skewed features have positive skewness values.
 
 ``` r
+
 ggplot(skew_df, aes(x = simulated_group, y = skew, fill = simulated_group)) +
   geom_boxplot(outlier.alpha = 0.25) +
   theme_classic() +
@@ -197,6 +204,7 @@ same feature-level rule directly:
 
 ``` r
 
+
 skew_rule <- feature_skewness(
   data = data,
   threshold = 1.25,
@@ -209,6 +217,7 @@ excluded_skew <- skew_rule$feature_id[skew_rule$exclude_by_skewness %in% TRUE]
 How many features are excluded by skewness?
 
 ``` r
+
 length(excluded_skew)
 #> [1] 80
 head(excluded_skew, 20)
@@ -222,6 +231,7 @@ head(excluded_skew, 20)
 Exclusions by simulated feature type:
 
 ``` r
+
 excluded_tbl <- data.frame(feature_id = excluded_skew)
 excluded_tbl$simulated_group <- features$simulated_group[match(excluded_tbl$feature_id, features$feature_id)]
 table(excluded_tbl$simulated_group, useNA = "ifany")
@@ -231,6 +241,7 @@ table(excluded_tbl$simulated_group, useNA = "ifany")
 ```
 
 ``` r
+
 m <- Omiprep(data = data, samples = samples, features = features)
 
 m_qc <- quality_control(
@@ -251,23 +262,23 @@ m_qc <- quality_control(
 #> ℹ Validating input parameters
 #> 
 #> ℹ Validating input parameters── Starting 'Omics QC Process ──────────────────────────────────────────────────
-#> ℹ Validating input parameters✔ Validating input parameters [21ms]
+#> ℹ Validating input parameters✔ Validating input parameters [18ms]
 #> 
 #> ℹ Validating input parameters
-#> ✔ Validating input parameters [17ms]
+#> ✔ Validating input parameters [13ms]
 #> 
 #> ℹ Sample & Feature Summary Statistics for raw data
 #> AF =  3
-#> ✔ Sample & Feature Summary Statistics for raw data [38.9s]
+#> ✔ Sample & Feature Summary Statistics for raw data [30.1s]
 #> 
 #> ℹ Copying input data to new 'qc' data layer
-#> ✔ Copying input data to new 'qc' data layer [42ms]
+#> ✔ Copying input data to new 'qc' data layer [34ms]
 #> 
 #> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)
-#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [29ms]
+#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [33ms]
 #> 
 #> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)
-#> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [31m…
+#> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [27m…
 #> 
 #> ℹ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
 #> ✔ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
@@ -279,7 +290,7 @@ m_qc <- quality_control(
 #> ✔ Assessing for feature skewness at threshold <= -1.25 - excluding 80 feature(s…
 #> 
 #> ℹ Running sample data PCA outlier analysis at +/- 5 Sdev
-#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [26ms]
+#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [24ms]
 #> 
 #> ℹ Creating final QC dataset...
 #> AF =  6
@@ -288,19 +299,19 @@ m_qc <- quality_control(
 #> ℹ Creating final QC dataset...
 #> ℹ Creating final QC dataset...
 #>                         step seconds   pct
-#>                   validation    0.03   0.0
-#>                summarise_raw   38.92  57.6
+#>                   validation    0.02   0.0
+#>                summarise_raw   30.09  57.8
 #>                   copy_layer    0.02   0.0
-#>   extreme_sample_missingness    0.01   0.0
-#>  extreme_feature_missingness    0.02   0.0
+#>   extreme_sample_missingness    0.02   0.0
+#>  extreme_feature_missingness    0.01   0.0
 #>           sample_missingness    0.01   0.0
-#>          feature_missingness    0.24   0.4
-#>              summarise_final   28.09  41.6
-#>                        total   67.54 100.0
-#> ✔ Creating final QC dataset... [28.2s]
+#>          feature_missingness    0.22   0.4
+#>              summarise_final   21.52  41.3
+#>                        total   52.08 100.0
+#> ✔ Creating final QC dataset... [21.6s]
 #> 
 #> ℹ 'Omics QC Process Completed
-#> ✔ 'Omics QC Process Completed [13ms]
+#> ✔ 'Omics QC Process Completed [10ms]
 ```
 
 ## 4) Post-filtering impact on distributions
@@ -309,6 +320,7 @@ All plots below are feature-level summaries (counting features), except
 where explicitly stated.
 
 ``` r
+
 included_features <- setdiff(colnames(data), excluded_skew)
 
 pre_skew <- feature_skewness(data, threshold = NULL)
@@ -327,6 +339,7 @@ skew_compare <- rbind(
 ### 4a) Feature-skewness distribution before vs after filtering
 
 ``` r
+
 params_used <- attributes(m_qc@data)
 skewness_threshold <- ifelse(params_used$qc_feature_skewness_direction=="left", 
                              -1 * params_used$qc_feature_skewness_threshold, 
@@ -353,6 +366,7 @@ ggplot(skew_compare, aes(x = skew, fill = stage)) +
 ### 4b) Feature retention by simulated type
 
 ``` r
+
 pre_counts <- as.data.frame(table(features$simulated_group), stringsAsFactors = FALSE)
 names(pre_counts) <- c("simulated_group", "n")
 pre_counts$stage <- factor("Pre-filter",  levels = c("Pre-filter", "Post-filter"))
@@ -381,6 +395,7 @@ ggplot(counts_df, aes(x = simulated_group, y = n, fill = stage)) +
 ### 4c) Skewness profiles by feature type (pre vs post)
 
 ``` r
+
 pre_plot <- merge(pre_skew, features, by = "feature_id", all.x = TRUE)
 post_plot <- merge(post_skew, features, by = "feature_id", all.x = TRUE)
 box_df <- rbind(
