@@ -12,6 +12,16 @@ generate_report(
   format = "pdf",
   template = "qc_report"
 )
+
+## S7 method for class <omiprep::Omiprep>
+generate_report(
+  omiprep,
+  output_dir,
+  output_filename = NULL,
+  project = "Project",
+  format = "pdf",
+  template = "qc_report"
+)
 }
 \arguments{
 \item{omiprep}{an object of class Omiprep}

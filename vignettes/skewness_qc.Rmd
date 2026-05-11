@@ -217,7 +217,7 @@ m_qc <- quality_control(
   feature_missingness = 0.2,
   feature_skewness_threshold = 1.25,
   feature_skewness_direction = "left",
-  total_peak_area_sd = NA,
+  total_sum_abundance_sd = NA,
   outlier_udist = 5,
   pc_outlier_sd = NA, 
   cores = 2, 

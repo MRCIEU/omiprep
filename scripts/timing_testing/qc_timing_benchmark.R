@@ -120,7 +120,7 @@ for (i in seq_len(nrow(grid))) {
           source_layer        = "input",
           sample_missingness  = 0.2,
           feature_missingness = 0.2,
-          total_peak_area_sd  = 5,
+          total_sum_abundance_sd  = 5,
           outlier_udist       = 5,
           outlier_treatment   = "leave_be",
           winsorize_quantile  = 1.0,
@@ -491,7 +491,7 @@ if (mp1_ok) {
       params[["Nightingale_OR_Metabolon"]] <- nom
       params[["feature_missingness"]]      <- "0.2"
       params[["sample_missingness"]]       <- "0.2"
-      params[["total_peak_area_SD"]]       <- "5"
+      params[["total_sum_abundance_SD"]]       <- "5"
       params[["outlier_udist"]]            <- "5"
       params[["outlier_treatment"]]        <- "leave_be"
       params[["tree_cut_height"]]          <- "0.5"

@@ -69,7 +69,7 @@ mydata <- mydata |> quality_control( source_layer = "input",
                                      feature_missingness = 0.2, 
                                      feature_skewness_threshold = NULL,
                                      feature_skewness_direction = "left",
-                                     total_peak_area_sd  = 5, 
+                                     total_sum_abundance_sd  = 5, 
                                      outlier_udist       = 5, 
                                      outlier_treatment   = "leave_be", 
                                      winsorize_quantile  = 1.0, 
@@ -110,7 +110,7 @@ mydata <- mydata |> quality_control( source_layer = "input",
 #>   extreme_sample_missingness    0.00   0.0
 #>  extreme_feature_missingness    0.00   0.0
 #>           sample_missingness    0.00   0.0
-#>              total_peak_area    0.00   0.0
+#>          total_sum_abundance    0.00   0.0
 #>                summarise_pca    0.26  31.0
 #>              summarise_final    0.20  23.9
 #>                        total    0.84 100.2

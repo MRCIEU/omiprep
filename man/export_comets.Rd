@@ -5,6 +5,9 @@
 \title{Export Data to `COMETS` format}
 \usage{
 export_comets(omiprep, directory, layer = NULL)
+
+## S7 method for classes <omiprep::Omiprep>, <character>
+export_comets(omiprep, directory, layer = NULL)
 }
 \arguments{
 \item{omiprep}{A `Omiprep` object containing the data to be exported.}

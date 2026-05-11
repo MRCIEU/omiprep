@@ -62,7 +62,7 @@ reason_note <- function(reason, kind = c("features", "samples")) {
       "Samples exclusions based on user defined threshold of *>={sprintf('%.0f%%', attr(omiprep@data, 'qc_sample_missingness') * 100)}."
     ),
     "user_defined_sample_totalpeakarea" = glue::glue(
-      "Samples with a total-peak-area or total-sum-abundance that is *>={attr(omiprep@data, 'qc_total_peak_area_sd')} SD from the mean."
+      "Samples with a total-sum-abundance that is *>={attr(omiprep@data, 'qc_total_sum_abundance_sd')} SD from the mean."
     ),
     "user_defined_sample_pca_outlier" = {
       npcs <- attr(omiprep@sample_summary, "qc_num_pcs_scree")

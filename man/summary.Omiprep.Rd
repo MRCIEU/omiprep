@@ -2,7 +2,12 @@
 % Please edit documentation in R/summary_omiprep.R
 \name{summary.Omiprep}
 \alias{summary.Omiprep}
+\alias{summary}
 \title{Summary Method for Omiprep Object}
+\usage{
+## S7 method for class <omiprep::Omiprep>
+summary(object, ...)
+}
 \arguments{
 \item{object}{A `Omiprep` object.}
 

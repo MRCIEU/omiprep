@@ -33,8 +33,8 @@ method(sample_summary, Omiprep) <- function(omiprep, source_layer="input", outli
   missing <- missingness(dat, by="row")
 
   
-  # total peak area
-  tpa <- total_peak_area(dat)
+  # total sum abundance
+  tsa <- total_sum_abundance(dat)
 
   
   # count sample outliers
@@ -46,7 +46,7 @@ method(sample_summary, Omiprep) <- function(omiprep, source_layer="input", outli
   
   # combine
   ids     <- data.frame("sample_id" = rownames(omiprep@data))
-  df_list <- list(ids, missing, tpa, outliers)
+  df_list <- list(ids, missing, tsa, outliers)
   out     <- Reduce(function(x, y) merge(x, y, by = "sample_id", all = TRUE), df_list)
 
   

@@ -5,6 +5,9 @@
 \title{Omiprep Shiny App}
 \usage{
 shiny_app(omiprep)
+
+## S7 method for class <omiprep::Omiprep>
+shiny_app(omiprep)
 }
 \arguments{
 \item{omiprep}{an object of class Omiprep}

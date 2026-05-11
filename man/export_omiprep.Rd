@@ -5,6 +5,9 @@
 \title{Export Data to `Omiprep` format}
 \usage{
 export_omiprep(omiprep, directory, ...)
+
+## S7 method for classes <omiprep::Omiprep>, <character>
+export_omiprep(omiprep, directory, ...)
 }
 \arguments{
 \item{omiprep}{A `Omiprep` object containing the data to be exported.}

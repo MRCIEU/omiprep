@@ -55,7 +55,7 @@ test_that("omiprep output same as metaboprep1", {
   params[["Nightingale_OR_Metabolon"]] <- "Metabolon"
   params[["feature_missingness"]] <- "0.05"
   params[["sample_missingness"]] <- "0.2"
-  params[["total_peak_area_SD"]] <- "3"
+  params[["total_sum_abundance_SD"]] <- "3"
   params[["outlier_udist"]] <- "3"
   params[["outlier_treatment"]] <- "leave_be"
   params[["tree_cut_height"]] <- "0.5"
@@ -137,7 +137,7 @@ test_that("omiprep output same as metaboprep1", {
                        source_layer = "batch_normalised",
                        sample_missingness  = as.numeric(params$sample_missingness), 
                        feature_missingness = as.numeric(params$feature_missingness), 
-                       total_peak_area_sd  = as.numeric(params$total_peak_area_SD), 
+                       total_sum_abundance_sd  = as.numeric(params$total_sum_abundance_SD), 
                        outlier_udist       = as.numeric(params$outlier_udist), 
                        outlier_treatment   = params$outlier_treatment, 
                        tree_cut_height     = as.numeric(params$tree_cut_height),

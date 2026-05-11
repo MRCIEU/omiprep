@@ -12,6 +12,16 @@ sample_summary(
   feature_ids = NULL,
   output = "data.frame"
 )
+
+## S7 method for class <omiprep::Omiprep>
+sample_summary(
+  omiprep,
+  source_layer = "input",
+  outlier_udist = 5,
+  sample_ids = NULL,
+  feature_ids = NULL,
+  output = "data.frame"
+)
 }
 \arguments{
 \item{omiprep}{an object of class Omiprep}

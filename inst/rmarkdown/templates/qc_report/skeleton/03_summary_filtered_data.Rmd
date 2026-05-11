@@ -35,8 +35,8 @@ missing <- rbind(
              "value_type" = "missingness",
              "value"      = apply(qc_data, 2, function(x){ sum(is.na(x))/length(x)  })),
   data.frame("type"       = "Total abundance",
-             "value_type" = "tpa_at_complete_features",
-             "value"      = stats::na.omit(qc_sampsum[, "tpa_complete_features"]))
+             "value_type" = "tsa_at_complete_features",
+             "value"      = stats::na.omit(qc_sampsum[, "tsa_complete_features"]))
 )
 missing$type <- factor(missing$type, levels=unique(missing$type))
 
@@ -586,11 +586,11 @@ excluded_samps <- unlist(omiprep@exclusions$samples)
 qc_samples     <- qc_samples[!qc_samples$sample_id %in% excluded_samps, ]
 qc_sample_sum  <- omiprep@sample_summary[,,"qc"] |> as.data.frame()
 qc_sample_sum$sample_id <- rownames(qc_sample_sum)
-qc_samples    <- merge(qc_samples, qc_sample_sum[, c("sample_id", "missingness", "tpa_complete_features")], on="sample_id", all = TRUE)
+qc_samples    <- merge(qc_samples, qc_sample_sum[, c("sample_id", "missingness", "tsa_complete_features")], on="sample_id", all = TRUE)
 
 
 # what are all of the variables that could be used to evaluate feature effects?
-possible_vars <- setdiff(names(qc_samples), c("sample_id", "missingness", "tpa_complete_features", "reason_excluded", "excluded"))
+possible_vars <- setdiff(names(qc_samples), c("sample_id", "missingness", "tsa_complete_features", "reason_excluded", "excluded"))
 
 
 # number of unique units for each possible variable?
@@ -734,15 +734,15 @@ The total peak or abundance area (TA) is simply the sum of the abundances measur
 
 ## Relationship with missingness
 
-Correlation between total abundance (TA; at complete features) and missingness. Relationship between total peak area at complete features (x-axis) and sample missingness (y-axis).
+Correlation between total abundance (TA; at complete features) and missingness. Relationship between total sum abundance at complete features (x-axis) and sample missingness (y-axis).
 
-```{r TPA_missingness, message=FALSE, warning=FALSE}
+```{r TSA_missingness, message=FALSE, warning=FALSE}
 # get data
 qc_sample_sum <- omiprep@sample_summary[,,"qc"]
-a = cor.test( qc_sample_sum[,"missingness"], qc_sample_sum[,"tpa_complete_features"])
+a = cor.test( qc_sample_sum[,"missingness"], qc_sample_sum[,"tsa_complete_features"])
 
 # plot
-ggplot(qc_sample_sum, aes(x = tpa_complete_features, y = missingness)) +
+ggplot(qc_sample_sum, aes(x = tsa_complete_features, y = missingness)) +
   geom_point( fill = "grey", alpha = 0.8, size = 1.5) +
   geom_smooth(method = "loess", color = "red", size = 2)  +
   geom_smooth(method = "lm", color = "blue", size = 2)  +
@@ -765,7 +765,7 @@ if(length(batch_variables)==0) {
 
   for (x in batch_variables) {
 
-    out <- variable_by_factor( dep         = qc_samples[["tpa_complete_features"]],
+    out <- variable_by_factor( dep         = qc_samples[["tsa_complete_features"]],
                                indep       = qc_samples[[x]],
                                dep_name    = "Total peak area",
                                indep_name  = x,
@@ -785,9 +785,9 @@ if(length(batch_variables)==0) {
 
 TypeII ANOVA: the eta-squared (eta-sq) estimates are an estimation on the percent of variation explained by each independent variable, after accounting for all other variables, as derived from the sum of squares. This is a multivariate evaluation of batch variables on *total peak|abundance area* at complete features.
 
-```{r sample_tpa_multivatiave_anova2}
+```{r sample_tsa_multivatiave_anova2}
 if( length(batch_variables)>0 ) {
-  multivariate_anova(dep      = qc_samples[["tpa_complete_features"]],
+  multivariate_anova(dep      = qc_samples[["tsa_complete_features"]],
                      indep_df = as.data.frame(lapply(qc_samples[batch_variables], as.factor)))
 }else {
   paste0(" -- No sample level batch variables were provided or all were invariable -- ")

@@ -5,6 +5,9 @@
 \title{Export Data to `MetaboAnalyst` format}
 \usage{
 export_metaboanalyst(omiprep, directory, layer = NULL, group_col = NULL)
+
+## S7 method for classes <omiprep::Omiprep>, <character>
+export_metaboanalyst(omiprep, directory, layer = NULL, group_col = NULL)
 }
 \arguments{
 \item{omiprep}{A `Omiprep` object containing the data to be exported.}

@@ -5,6 +5,9 @@
 \title{Export Data from a Omiprep Object}
 \usage{
 export(omiprep, directory, format = "omiprep", ...)
+
+## S7 method for classes <omiprep::Omiprep>, <character>
+export(omiprep, directory, format = "omiprep", ...)
 }
 \arguments{
 \item{omiprep}{A `Omiprep` object containing the data to be exported.}
@@ -14,7 +17,7 @@ export(omiprep, directory, format = "omiprep", ...)
 \item{format}{character, string specifying the format of the exported data - one of "omiprep", "comets", or "metaboanalyst".}
 
 \item{...}{
-  Arguments passed on to \code{\link[=export_comets]{export_comets}}, \code{\link[=export_metaboanalyst]{export_metaboanalyst}}
+  Arguments passed on to \code{\link{export_comets}}, \code{\link{export_metaboanalyst}}
   \describe{
     \item{\code{layer}}{character, the name of the `omiprep@data` layer (3rd array dimension) to write out}
     \item{\code{group_col}}{character, the column name in the `omiprep@samples` data identifying the group for one-factor analysis}

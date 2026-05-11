@@ -78,7 +78,7 @@ method(export_omiprep, list(Omiprep, class_character)) <- function(omiprep, dire
                    feature_missingness       = attr(omiprep@data, paste0(layer, "_feature_missingness")), 
                    feature_skewness_threshold = attr(omiprep@data, paste0(layer, "_feature_skewness_threshold")),
                    feature_skewness_direction = attr(omiprep@data, paste0(layer, "_feature_skewness_direction")),
-                   total_peak_area_sd        = attr(omiprep@data, paste0(layer, "_total_peak_area_sd")), 
+                   total_sum_abundance_sd    = attr(omiprep@data, paste0(layer, "_total_sum_abundance_sd")),
                    outlier_udist             = attr(omiprep@data, paste0(layer, "_outlier_udist")), 
                    outlier_treatment         = attr(omiprep@data, paste0(layer, "_outlier_treatment")), 
                    winsorize_quantile        = attr(omiprep@data, paste0(layer, "_winsorize_quantile")), 

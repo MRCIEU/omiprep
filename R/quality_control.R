@@ -15,7 +15,7 @@
 #' @param feature_missingness numeric 0-1, percentage of data missingness which should prompt exclusion of a feature
 #' @param feature_skewness_threshold numeric, optional skewness threshold to exclude features with skewed distributions. Set to `NULL` to disable.
 #' @param feature_skewness_direction character, direction of skewness to apply when `feature_skewness_threshold` is set. One of `"left"`, `"right"`, or `"both"`.
-#' @param total_peak_area_sd numeric, number of TPA SD after which a sample would be excluded
+#' @param total_sum_abundance_sd numeric, number of TSA SD after which a sample would be excluded
 #' @param outlier_treatment character, how to handle outlier data values - options 'leave_be', 'turn_NA', or 'winsorize'
 #' @param winsorize_quantile numeric, quantile to winsorize to, only relevant if 'outlier_treatment'='winsorize'
 #' @param pc_outlier_sd numeric, number of PCA SD after which a sample would be excluded
@@ -35,18 +35,18 @@ quality_control <- new_generic("quality_control", c("omiprep"), function(omiprep
                                                                             feature_missingness = 0.2, 
                                                                             feature_skewness_threshold = NULL,
                                                                             feature_skewness_direction = "left",
-                                                                            total_peak_area_sd = 5, 
-                                                                            outlier_udist = 5, 
-                                                                            outlier_treatment ="leave_be", 
-                                                                            winsorize_quantile = 1.0, 
-                                                                            tree_cut_height = 0.5, 
-                                                                            feature_selection = "max_var_exp", 
-                                                                            pc_outlier_sd = 5, 
-                                                                            max_num_pcs = 10, 
-                                                                            sample_ids = NULL, 
-                                                                            feature_ids = NULL, 
-                                                                            features_exclude_but_keep = NULL, 
-                                                                            cores = NULL, 
+                                                                            total_sum_abundance_sd = 5,
+                                                                            outlier_udist = 5,
+                                                                            outlier_treatment ="leave_be",
+                                                                            winsorize_quantile = 1.0,
+                                                                            tree_cut_height = 0.5,
+                                                                            feature_selection = "max_var_exp",
+                                                                            pc_outlier_sd = 5,
+                                                                            max_num_pcs = 10,
+                                                                            sample_ids = NULL,
+                                                                            feature_ids = NULL,
+                                                                            features_exclude_but_keep = NULL,
+                                                                            cores = NULL,
                                                                             fast = FALSE) { S7_dispatch() })
 #' @name quality_control
 method(quality_control, Omiprep) <- function(omiprep, 
@@ -55,18 +55,18 @@ method(quality_control, Omiprep) <- function(omiprep,
                                                 feature_missingness = 0.2, 
                                                 feature_skewness_threshold = NULL,
                                                 feature_skewness_direction = "left",
-                                                total_peak_area_sd = 5, 
-                                                outlier_udist = 5, 
-                                                outlier_treatment ="leave_be", 
-                                                winsorize_quantile = 1.0, 
-                                                tree_cut_height = 0.5, 
-                                                feature_selection = "max_var_exp", 
-                                                pc_outlier_sd = 5, 
-                                                max_num_pcs = 10, 
-                                                sample_ids = NULL, 
-                                                feature_ids = NULL, 
-                                                features_exclude_but_keep = NULL, 
-                                                cores = NULL, 
+                                                total_sum_abundance_sd = 5,
+                                                outlier_udist = 5,
+                                                outlier_treatment ="leave_be",
+                                                winsorize_quantile = 1.0,
+                                                tree_cut_height = 0.5,
+                                                feature_selection = "max_var_exp",
+                                                pc_outlier_sd = 5,
+                                                max_num_pcs = 10,
+                                                sample_ids = NULL,
+                                                feature_ids = NULL,
+                                                features_exclude_but_keep = NULL,
+                                                cores = NULL,
                                                 fast  = FALSE){
 
   cli::cli_h1("Starting Omics QC Process")
@@ -256,26 +256,26 @@ method(quality_control, Omiprep) <- function(omiprep,
   }
 
 
-  # total peak area
-  if (!is.null(total_peak_area_sd) && !is.na(total_peak_area_sd)) {
+  # total sum abundance
+  if (!is.null(total_sum_abundance_sd) && !is.na(total_sum_abundance_sd)) {
     excl_samps <- c()
-    cli::cli_progress_step("Calculating total peak abundance outliers at +/- {total_peak_area_sd} Sdev - excluding {length(excl_samps)} sample(s)")
+    cli::cli_progress_step("Calculating total sum abundance outliers at +/- {total_sum_abundance_sd} Sdev - excluding {length(excl_samps)} sample(s)")
     t_step        <- proc.time()
     est_samps     <- sample_ids
     est_feats     <- setdiff(feature_ids, exclude_but_keep_feats)
     stopifnot("No remaining features" = length(est_feats) > 0)
     stopifnot("No remaining samples" = length(est_samps) > 0)
     dat           <- omiprep@data[est_samps, est_feats, "qc"]
-    tpa           <- total_peak_area(dat)
-    tpa[["sdev"]] <- sd(tpa$tpa_total, na.rm = TRUE)
-    tpa[["mean"]] <- mean(tpa$tpa_total, na.rm = TRUE)
-    tpa[["UL"]]   <- tpa$mean + tpa$sdev * total_peak_area_sd
-    tpa[["LL"]]   <- tpa$mean - tpa$sdev * total_peak_area_sd
-    excl_samps    <- tpa$sample_id[!(tpa$tpa_total >= tpa$LL & tpa$tpa_total <= tpa$UL)]
+    tsa           <- total_sum_abundance(dat)
+    tsa[["sdev"]] <- sd(tsa$tsa_total, na.rm = TRUE)
+    tsa[["mean"]] <- mean(tsa$tsa_total, na.rm = TRUE)
+    tsa[["UL"]]   <- tsa$mean + tsa$sdev * total_sum_abundance_sd
+    tsa[["LL"]]   <- tsa$mean - tsa$sdev * total_sum_abundance_sd
+    excl_samps    <- tsa$sample_id[!(tsa$tsa_total >= tsa$LL & tsa$tsa_total <= tsa$UL)]
     cli::cli_progress_update()
     omiprep@exclusions$samples$user_defined_sample_totalpeakarea <- excl_samps
     sample_ids    <- setdiff(sample_ids, excl_samps)
-    .qc_timings[["total_peak_area"]] <- (proc.time() - t_step)["elapsed"]
+    .qc_timings[["total_sum_abundance"]] <- (proc.time() - t_step)["elapsed"]
   }
 
 
@@ -377,7 +377,7 @@ method(quality_control, Omiprep) <- function(omiprep,
   attr(omiprep@data, "qc_feature_missingness")       <- feature_missingness
   attr(omiprep@data, "qc_feature_skewness_threshold")<- feature_skewness_threshold
   attr(omiprep@data, "qc_feature_skewness_direction")<- feature_skewness_direction
-  attr(omiprep@data, "qc_total_peak_area_sd")        <- total_peak_area_sd
+  attr(omiprep@data, "qc_total_sum_abundance_sd")     <- total_sum_abundance_sd
   attr(omiprep@data, "qc_outlier_udist")             <- outlier_udist
   attr(omiprep@data, "qc_outlier_treatment")         <- outlier_treatment
   attr(omiprep@data, "qc_winsorize_quantile")        <- winsorize_quantile

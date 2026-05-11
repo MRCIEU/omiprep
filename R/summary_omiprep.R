@@ -11,6 +11,7 @@
 #'
 #'
 #' @seealso \code{\link{class_omiprep}}
+#' @aliases summary
 #' @importFrom S7 method S7_inherits
 #' @name summary.Omiprep
 method(summary, Omiprep) <- function(object, ...) {

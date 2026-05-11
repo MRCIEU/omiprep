@@ -11,7 +11,30 @@ quality_control(
   feature_missingness = 0.2,
   feature_skewness_threshold = NULL,
   feature_skewness_direction = "left",
-  total_peak_area_sd = 5,
+  total_sum_abundance_sd = 5,
+  outlier_udist = 5,
+  outlier_treatment = "leave_be",
+  winsorize_quantile = 1,
+  tree_cut_height = 0.5,
+  feature_selection = "max_var_exp",
+  pc_outlier_sd = 5,
+  max_num_pcs = 10,
+  sample_ids = NULL,
+  feature_ids = NULL,
+  features_exclude_but_keep = NULL,
+  cores = NULL,
+  fast = FALSE
+)
+
+## S7 method for class <omiprep::Omiprep>
+quality_control(
+  omiprep,
+  source_layer = "input",
+  sample_missingness = 0.2,
+  feature_missingness = 0.2,
+  feature_skewness_threshold = NULL,
+  feature_skewness_direction = "left",
+  total_sum_abundance_sd = 5,
   outlier_udist = 5,
   outlier_treatment = "leave_be",
   winsorize_quantile = 1,
@@ -39,7 +62,7 @@ quality_control(
 
 \item{feature_skewness_direction}{character, direction of skewness to apply when `feature_skewness_threshold` is set. One of `"left"`, `"right"`, or `"both"`.}
 
-\item{total_peak_area_sd}{numeric, number of TPA SD after which a sample would be excluded}
+\item{total_sum_abundance_sd}{numeric, number of TSA SD after which a sample would be excluded}
 
 \item{outlier_udist}{the unit distance in SD or IQR from the mean or median estimate, respectively outliers are identified at. Default value is 5.}
 
