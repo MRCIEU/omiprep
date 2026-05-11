@@ -11,3 +11,4 @@ scripts
 ^\.idea$
 ^index\.md$
 ^vignettes/output$
+^\.positai$
