@@ -28,6 +28,10 @@ method(generate_report, Omiprep) <- function(omiprep, output_dir, output_filenam
   template <- match.arg(template, choices = available_report_templates())
   stopifnot("\n'qc' data layer not found, have you run the quality_control() function on your Omiprep object? \n Run `dimnames(omiprep@data)[[3]]` to see current data layers" = "qc" %in% dimnames(omiprep@data)[[3]])
 
+  # ensure dir exists and normalise
+  output_dir <- normalizePath(output_dir, mustWork = TRUE)
+  dir.create(output_dir, showWarnings = FALSE, recursive = TRUE)
+  
   # name the report
   if (is.null(output_filename)) {
     outpath <- file.path(output_dir, clean_names(paste0(project, "_omiprep_", template)))
