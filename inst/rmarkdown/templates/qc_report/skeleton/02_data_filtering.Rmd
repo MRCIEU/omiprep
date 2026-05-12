@@ -27,59 +27,131 @@ general_note <- glue::glue(
   "User-defined thresholds are indicated with an asterisk."
 )
 
+get_attr_scalar <- function(x, name, default = NA_character_) {
+  value <- attr(x, name, exact = TRUE)
+  if (is.null(value) || length(value) == 0 || all(is.na(value))) {
+    return(default)
+  }
+  value[[1]]
+}
+
+format_pct <- function(x) {
+  if (is.na(x)) {
+    return("unknown")
+  }
+  sprintf("%.0f%%", as.numeric(x) * 100)
+}
+
+format_value <- function(x) {
+  if (is.na(x)) {
+    return("unknown")
+  }
+  as.character(x)
+}
+
 reason_note <- function(reason, kind = c("features", "samples")) {
   kind <- match.arg(kind)
   if (kind == "features") {
+    feature_missingness <- get_attr_scalar(
+      omiprep@data,
+      "qc_feature_missingness"
+    )
+    feature_skewness_threshold <- get_attr_scalar(
+      omiprep@data,
+      "qc_feature_skewness_threshold"
+    )
+    feature_skewness_direction <- get_attr_scalar(
+      omiprep@data,
+      "qc_feature_skewness_direction"
+    )
     return(switch(
       reason,
       "user_excluded" = "Features manually excluded.",
       "extreme_feature_missingness" = "Features with missingness >=80%.",
-      "user_defined_feature_missingness" = glue::glue(
-        "Features exclusions based on the user defined threshold of *>={sprintf('%.0f%%', attr(omiprep@data, 'qc_feature_missingness') * 100)}."
+      "user_defined_feature_missingness" = paste0(
+        "Features exclusions based on the user defined threshold of *>=",
+        format_pct(feature_missingness),
+        "."
       ),
       "user_defined_feature_skewness" = {
-        skew_thresh <- attr(omiprep@data, "qc_feature_skewness_threshold")
-        skew_dir <- attr(omiprep@data, "qc_feature_skewness_direction")
-        if (is.null(skew_thresh) || is.na(skew_thresh)) {
+        if (is.na(feature_skewness_threshold)) {
           "Skewness-based feature exclusions were disabled."
-        } else if (identical(skew_dir, "left")) {
-          glue::glue("Feature exclusions based on user defined skewness threshold of *skew <= {-skew_thresh}*.")
-        } else if (identical(skew_dir, "right")) {
-          glue::glue("Feature exclusions based on user defined skewness threshold of *skew >= {skew_thresh}*.")
+        } else if (identical(feature_skewness_direction, "left")) {
+          paste0(
+            "Feature exclusions based on user defined skewness threshold of *skew <= ",
+            -feature_skewness_threshold,
+            "*."
+          )
+        } else if (identical(feature_skewness_direction, "right")) {
+          paste0(
+            "Feature exclusions based on user defined skewness threshold of *skew >= ",
+            feature_skewness_threshold,
+            "*."
+          )
         } else {
-          glue::glue("Feature exclusions based on user defined skewness threshold of *|skew| >= {skew_thresh}*.")
+          paste0(
+            "Feature exclusions based on user defined skewness threshold of *|skew| >= ",
+            feature_skewness_threshold,
+            "*."
+          )
         }
       },
       paste0(gsub("_", " ", reason), ".")
     ))
   }
-
+  sample_missingness <- get_attr_scalar(
+    omiprep@data,
+    "qc_sample_missingness"
+  )
+  total_sum_abundance_sd <- get_attr_scalar(
+    omiprep@data,
+    "qc_total_sum_abundance_sd"
+  )
+  npcs <- get_attr_scalar(
+    omiprep@sample_summary,
+    "qc_num_pcs_scree",
+    default = "available informative"
+  )
+  pc_outlier_sd <- get_attr_scalar(
+    omiprep@sample_summary,
+    "qc_outlier_udist"
+  )
   switch(
     reason,
     "user_excluded" = "Samples manually excluded.",
     "extreme_sample_missingness" = "Samples with missingness >=80%.",
-    "user_defined_sample_missingness" = glue::glue(
-      "Samples exclusions based on user defined threshold of *>={sprintf('%.0f%%', attr(omiprep@data, 'qc_sample_missingness') * 100)}."
+    "user_defined_sample_missingness" = paste0(
+      "Samples exclusions based on user defined threshold of *>=",
+      format_pct(sample_missingness),
+      "."
     ),
-    "user_defined_sample_totalpeakarea" = glue::glue(
-      "Samples with a total-sum-abundance that is *>={attr(omiprep@data, 'qc_total_sum_abundance_sd')} SD from the mean."
+    "user_defined_sample_totalpeakarea" = paste0(
+      "Samples with a total-sum-abundance that is *>=",
+      format_value(total_sum_abundance_sd),
+      " SD from the mean."
     ),
-    "user_defined_sample_pca_outlier" = {
-      npcs <- attr(omiprep@sample_summary, "qc_num_pcs_scree")
-      if (is.null(npcs) || is.na(npcs)) {
-        npcs <- "available informative"
-      }
-      glue::glue(
-        "Samples that are *>={attr(omiprep@data, 'qc_pc_outlier_sd')} SD from the mean on principal components 1-to-{npcs}."
-      )
-    },
+    "user_defined_sample_pca_outlier" = paste0(
+      "Samples that are *>=",
+      format_value(pc_outlier_sd),
+      " SD from the mean on principal components 1-to-",
+      format_value(npcs),
+      "."
+    ),
     paste0(gsub("_", " ", reason), ".")
   )
 }
 
 sub_notes <- c(
-  vapply(names(excl$features), reason_note, character(1), kind = "features"),
-  vapply(names(excl$samples), reason_note, character(1), kind = "samples")
+  vapply(
+    names(excl$features),
+    \(x) as.character(reason_note(x, kind = "features")),
+    character(1)
+  ),
+  vapply(
+    names(excl$samples),
+    \(x) as.character(reason_note(x, kind = "samples")),
+    character(1)
+  )
 )
 
 # table
@@ -107,7 +179,7 @@ excl_tbl |>
     footnote_as_chunk = knitr::is_html_output(),
     threeparttable   = !knitr::is_html_output(),
     fixed_small_size = TRUE,
-    escape           = FALSE
+    escape           = T
   )
 ```
 
