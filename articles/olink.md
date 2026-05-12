@@ -117,13 +117,13 @@ mydata <- mydata |>
 #> 
 #> ℹ Sample & Feature Summary Statistics for raw data
 #> AF =  17
-#> ✔ Sample & Feature Summary Statistics for raw data [586ms]
+#> ✔ Sample & Feature Summary Statistics for raw data [576ms]
 #> 
 #> ℹ Copying input data to new 'qc' data layer
 #> ✔ Copying input data to new 'qc' data layer [26ms]
 #> 
 #> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)
-#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [20ms]
+#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [19ms]
 #> 
 #> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)
 #> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [19m…
@@ -152,16 +152,16 @@ mydata <- mydata |>
 #> ℹ Creating final QC dataset...
 #>                         step seconds   pct
 #>                   validation    0.02   1.0
-#>                summarise_raw    0.56  27.9
+#>                summarise_raw    0.55  27.8
 #>                   copy_layer    0.00   0.0
 #>   extreme_sample_missingness    0.00   0.0
 #>  extreme_feature_missingness    0.00   0.0
 #>           sample_missingness    0.00   0.0
 #>          total_sum_abundance    0.00   0.0
-#>                summarise_pca    0.64  31.8
-#>              summarise_final    0.55  27.4
-#>                        total    2.01 100.0
-#> ✔ Creating final QC dataset... [602ms]
+#>                summarise_pca    0.63  31.8
+#>              summarise_final    0.55  27.8
+#>                        total    1.98 100.1
+#> ✔ Creating final QC dataset... [598ms]
 #> 
 #> ℹ 'Omics QC Process Completed
 #> ✔ 'Omics QC Process Completed [14ms]

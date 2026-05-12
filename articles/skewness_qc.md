@@ -262,20 +262,20 @@ m_qc <- quality_control(
 #> ℹ Validating input parameters
 #> 
 #> ℹ Validating input parameters── Starting 'Omics QC Process ──────────────────────────────────────────────────
-#> ℹ Validating input parameters✔ Validating input parameters [23ms]
+#> ℹ Validating input parameters✔ Validating input parameters [24ms]
 #> 
 #> ℹ Validating input parameters
-#> ✔ Validating input parameters [17ms]
+#> ✔ Validating input parameters [18ms]
 #> 
 #> ℹ Sample & Feature Summary Statistics for raw data
 #> AF =  3
-#> ✔ Sample & Feature Summary Statistics for raw data [40.3s]
+#> ✔ Sample & Feature Summary Statistics for raw data [40.1s]
 #> 
 #> ℹ Copying input data to new 'qc' data layer
-#> ✔ Copying input data to new 'qc' data layer [40ms]
+#> ✔ Copying input data to new 'qc' data layer [41ms]
 #> 
 #> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)
-#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [35ms]
+#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [33ms]
 #> 
 #> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)
 #> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [32m…
@@ -300,15 +300,15 @@ m_qc <- quality_control(
 #> ℹ Creating final QC dataset...
 #>                         step seconds   pct
 #>                   validation    0.03   0.0
-#>                summarise_raw   40.32  57.7
+#>                summarise_raw   40.03  57.6
 #>                   copy_layer    0.02   0.0
 #>   extreme_sample_missingness    0.01   0.0
 #>  extreme_feature_missingness    0.02   0.0
 #>           sample_missingness    0.01   0.0
 #>          feature_missingness    0.26   0.4
-#>              summarise_final   29.03  41.5
-#>                        total   69.91 100.0
-#> ✔ Creating final QC dataset... [29.1s]
+#>              summarise_final   28.92  41.6
+#>                        total   69.50 100.0
+#> ✔ Creating final QC dataset... [29s]
 #> 
 #> ℹ 'Omics QC Process Completed
 #> ✔ 'Omics QC Process Completed [13ms]
