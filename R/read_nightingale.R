@@ -1,6 +1,6 @@
 #' @title Read Nightingale Data (format 1)
 #' @param filepath character, commercial Nightingale excel sheet with extension .xls or .xlsx
-#' @param return_Omiprep logical, if TRUE (default) return a Omiprep object, if FALSE return a list.
+#' @param return_Omiprep logical, if TRUE  return a Omiprep object, if FALSE (default) return a list.
 #' @returns list or Omiprep object, list(data = matrix, samples = samples data.frame, features = features data.frame)
 #'
 #' @examples
@@ -14,7 +14,7 @@
 #'
 #' @importFrom readxl excel_sheets read_xlsx
 #' @export
-read_nightingale <- function(filepath, return_Omiprep = TRUE) {
+read_nightingale <- function(filepath, return_Omiprep = FALSE) {
 
   # testing ====
   if (FALSE) {
