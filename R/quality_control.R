@@ -75,17 +75,6 @@ method(quality_control, Omiprep) <- function(omiprep,
 
   # input validation
   cli::cli_progress_step("Validating input parameters")
-  t_step <- proc.time()
-  source_layer <- match.arg(source_layer, choices = dimnames(omiprep@data)[[3]])
-  outlier_treatment <- match.arg(outlier_treatment, choices = c("leave_be", "turn_NA", "winsorize"))
-  stopifnot("sample_ids must all be found in the data" = is.null(sample_ids) || all(sample_ids %in% omiprep@samples[["sample_id"]]))
-  stopifnot("feature_ids must all be found in the data" = is.null(feature_ids) || all(feature_ids %in% omiprep@features[["feature_id"]]))
-  stopifnot("`features_exclude_but_keep` must be a logical column in the features data or a vector of feature ids all present in the data" = is.null(features_exclude_but_keep) || (all(features_exclude_but_keep %in% names(omiprep@features)) && all(is.logical(omiprep@features[[features_exclude_but_keep]]))) || all(features_exclude_but_keep %in% omiprep@features[["feature_id"]]) )
-  cli::cli_h1("Starting 'Omics QC Process")
-  
-
-  # input validation
-  cli::cli_progress_step("Validating input parameters")
   source_layer <- match.arg(source_layer, choices = dimnames(omiprep@data)[[3]])
   outlier_treatment <- match.arg(outlier_treatment, choices = c("leave_be", "turn_NA", "winsorize"))
   feature_skewness_direction <- match.arg(feature_skewness_direction, choices = c("left", "right", "both"))
@@ -93,6 +82,7 @@ method(quality_control, Omiprep) <- function(omiprep,
   stopifnot("feature_ids must all be found in the data" = is.null(feature_ids) || all(feature_ids %in% omiprep@features[["feature_id"]]))  
   stopifnot("feature_skewness_threshold must be NULL or a non-negative numeric scalar" = is.null(feature_skewness_threshold) || (is.numeric(feature_skewness_threshold) && length(feature_skewness_threshold) == 1 && !is.na(feature_skewness_threshold) && feature_skewness_threshold >= 0))
   stopifnot("`features_exclude_but_keep` must be a logical column in the features data or a vector of feature ids all present in the data" = is.null(features_exclude_but_keep) || (all(features_exclude_but_keep %in% names(omiprep@features)) && all(is.logical(omiprep@features[[features_exclude_but_keep]]))) || all(features_exclude_but_keep %in% omiprep@features[["feature_id"]]) )
+  cli::cli_h1("Starting 'Omics QC Process")
   cli_progress_update()
   .qc_timings[["validation"]] <- (proc.time() - t_step)["elapsed"]
   
