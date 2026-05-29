@@ -17,7 +17,7 @@
 #' @param feature_skewness_direction character, direction of skewness to apply when `feature_skewness_threshold` is set. One of `"left"`, `"right"`, or `"both"`.
 #' @param total_sum_abundance_sd numeric, number of TSA SD after which a sample would be excluded
 #' @param outlier_treatment character, how to handle outlier data values - options 'leave_be', 'turn_NA', or 'winsorize'
-#' @param winsorize_quantile numeric, must be between 0.5 and 1 inclusive. Defaulted to 0.975. Upper-tail quantile for two-sided symmetric winsorization. Right-tail outliers are clamped to this quantile and left-tail outliers to (1 - winsorize_quantile), with both estimated per feature from samples not flagged as outliers in that feature. Only relevant if 'outlier_treatment'='winsorize'.
+#' @param winsorize_quantile numeric, must be between 0.5 and 1 inclusive. Defaulted to 1.0. Upper-tail quantile for two-sided symmetric winsorization. Right-tail outliers are clamped to this quantile and left-tail outliers to (1 - winsorize_quantile), with both estimated per feature from samples not flagged as outliers in that feature. Only relevant if 'outlier_treatment'='winsorize'.
 #' @param pc_outlier_sd numeric, number of PCA SD after which a sample would be excluded
 #' @param max_num_pcs numeric, the maximum number of PCs to use (look in) when filtering samples on PC outlier SD, default=10, set to NULL to use all informative PCs from the Scree analysis
 #' @param sample_ids character, vector of sample ids to retain and work with, all others samples will be excluded
@@ -38,7 +38,7 @@ quality_control <- new_generic("quality_control", c("omiprep"), function(omiprep
                                                                             total_sum_abundance_sd = 5,
                                                                             outlier_udist = 5,
                                                                             outlier_treatment ="leave_be",
-                                                                            winsorize_quantile = 0.975,
+                                                                            winsorize_quantile = 1.0,
                                                                             tree_cut_height = 0.5,
                                                                             feature_selection = "max_var_exp",
                                                                             pc_outlier_sd = 5,
@@ -58,7 +58,7 @@ method(quality_control, Omiprep) <- function(omiprep,
                                                 total_sum_abundance_sd = 5,
                                                 outlier_udist = 5,
                                                 outlier_treatment ="leave_be",
-                                                winsorize_quantile = 0.975,
+                                                winsorize_quantile = 1.0,
                                                 tree_cut_height = 0.5,
                                                 feature_selection = "max_var_exp",
                                                 pc_outlier_sd = 5,
