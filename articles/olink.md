@@ -108,20 +108,20 @@ mydata <- mydata |>
 #> 
 #> ── Starting Omics QC Process ───────────────────────────────────────────────────
 #> ℹ Validating input parameters
-#> ✔ Validating input parameters [7ms]
+#> ✔ Validating input parameters [8ms]
 #> 
 #> ℹ Sample & Feature Summary Statistics for raw data
-#> AF =  17
-#> ✔ Sample & Feature Summary Statistics for raw data [477ms]
+#> ℹ Number of informative PCs (Scree acceleration factor): 17
+#> ℹ Sample & Feature Summary Statistics for raw data✔ Sample & Feature Summary Statistics for raw data [610ms]
 #> 
 #> ℹ Copying input data to new 'qc' data layer
 #> ✔ Copying input data to new 'qc' data layer [30ms]
 #> 
 #> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)
-#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [19ms]
+#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [21ms]
 #> 
 #> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)
-#> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [14m…
+#> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [24m…
 #> 
 #> ℹ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
 #> ✔ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
@@ -133,33 +133,33 @@ mydata <- mydata |>
 #> ✔ Calculating total sum abundance outliers at +/- 5 Sdev - excluding 0 sample(s…
 #> 
 #> ℹ Running sample data PCA outlier analysis at +/- 5 Sdev
-#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [13ms]
+#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [18ms]
 #> 
 #> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
-#> AF =  17
-#> ✔ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
+#> ℹ Number of informative PCs (Scree acceleration factor): 17
+#> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…✔ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
 #> 
 #> ℹ Creating final QC dataset...
-#> AF =  17
-#> 
+#> ℹ Number of informative PCs (Scree acceleration factor): 17
+#> ℹ Creating final QC dataset...
 #> ℹ Creating final QC dataset...── Step timings ──
 #> ℹ Creating final QC dataset...
 #> ℹ Creating final QC dataset...
-#>                         step seconds  pct
-#>                   validation    0.00  0.0
-#>                summarise_raw    0.47 25.1
-#>                   copy_layer    0.00  0.0
-#>   extreme_sample_missingness    0.00  0.0
-#>  extreme_feature_missingness    0.00  0.0
-#>           sample_missingness    0.00  0.0
-#>          total_sum_abundance    0.00  0.0
-#>                summarise_pca    0.51 27.3
-#>              summarise_final    0.72 38.5
-#>                        total    1.87 99.9
-#> ✔ Creating final QC dataset... [754ms]
+#>                         step seconds   pct
+#>                   validation    0.00   0.0
+#>                summarise_raw    0.60  26.3
+#>                   copy_layer    0.00   0.0
+#>   extreme_sample_missingness    0.00   0.0
+#>  extreme_feature_missingness    0.00   0.0
+#>           sample_missingness    0.00   0.0
+#>          total_sum_abundance    0.00   0.0
+#>                summarise_pca    0.65  28.5
+#>              summarise_final    0.81  35.5
+#>                        total    2.28 100.0
+#> ✔ Creating final QC dataset... [853ms]
 #> 
 #> ℹ 'Omics QC Process Completed
-#> ✔ 'Omics QC Process Completed [14ms]
+#> ✔ 'Omics QC Process Completed [17ms]
 ```
 
 ## Quick summary of the Omiprep object following QC

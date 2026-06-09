@@ -175,7 +175,7 @@ sam_n_feat_sum <- summarise(omiprep         = mydata,
                             feature_ids     = fids,
                             output          = "data.frame", 
                             cores           = 1)
-#> AF =  1
+#> ℹ Number of informative PCs (Scree acceleration factor): 2
 ```
 
 ## Table of feature summary for subset

@@ -139,7 +139,7 @@ pc_analysis <- pc_and_outliers(omiprep      = mydata,
                                sample_ids   = sids, ## It is also possible to run on a subset of samples and/or features
                                feature_ids  = NULL
                                )
-#> AF =  3
+#> ℹ Number of informative PCs (Scree acceleration factor): 3
 ```
 
 ## Table of PCA analysis results
@@ -215,7 +215,7 @@ sf_sum <- summarise(omiprep         = mydata,
                     feature_ids     = NULL,
                     output          = "data.frame", 
                     cores           = 1)
-#> AF =  3
+#> ℹ Number of informative PCs (Scree acceleration factor): 3
 
 ## two data frames are returned as a list object
 names(sf_sum)
