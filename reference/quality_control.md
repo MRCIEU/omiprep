@@ -105,8 +105,12 @@ quality_control(
 
 - winsorize_quantile:
 
-  numeric, quantile to winsorize to, only relevant if
-  'outlier_treatment'='winsorize'
+  numeric, must be between 0.5 and 1 inclusive. Defaulted to 1.0.
+  Upper-tail quantile for two-sided symmetric winsorization. Right-tail
+  outliers are clamped to this quantile and left-tail outliers to (1 -
+  winsorize_quantile), with both estimated per feature from samples not
+  flagged as outliers in that feature. Only relevant if
+  'outlier_treatment'='winsorize'.
 
 - tree_cut_height:
 

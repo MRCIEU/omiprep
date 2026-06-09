@@ -5,7 +5,7 @@ Read Nightingale Data (format 1)
 ## Usage
 
 ``` r
-read_nightingale(filepath, return_Omiprep = TRUE)
+read_nightingale(filepath, return_Omiprep = FALSE)
 ```
 
 ## Arguments
@@ -17,7 +17,7 @@ read_nightingale(filepath, return_Omiprep = TRUE)
 
 - return_Omiprep:
 
-  logical, if TRUE (default) return a Omiprep object, if FALSE return a
+  logical, if TRUE return a Omiprep object, if FALSE (default) return a
   list.
 
 ## Value

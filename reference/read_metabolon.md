@@ -12,7 +12,7 @@ read_metabolon(
   feature_id_col = NULL,
   sample_sheet = NULL,
   sample_id_col = NULL,
-  return_Omiprep = TRUE
+  return_Omiprep = FALSE
 )
 ```
 
@@ -50,7 +50,7 @@ read_metabolon(
 
 - return_Omiprep:
 
-  logical, if TRUE (default) return a Omiprep object, if FALSE return a
+  logical, if TRUE return a Omiprep object, if FALSE (default) return a
   list.
 
 ## Value
