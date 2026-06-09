@@ -5,7 +5,7 @@
 #' @param feature_id_col character, the excel column containing the feature_id mapping to the data. 
 #' @param sample_sheet character or integer, the excel sheet name (or index) from which to read the sample data. 
 #' @param sample_id_col character, the excel column containing the sample_id mapping to the data. 
-#' @param return_Omiprep logical, if TRUE (default) return a Omiprep object, if FALSE return a list.
+#' @param return_Omiprep logical, if TRUE return a Omiprep object, if FALSE (default)  return a list.
 #' @returns list or Omiprep object, list(data = matrix, samples = samples data.frame, features = features data.frame)
 #'
 #' @examples
@@ -29,7 +29,7 @@
 #'
 #' @importFrom readxl excel_sheets read_xlsx
 #' @export
-read_metabolon <- function(filepath, sheet = NULL, feature_sheet = NULL, feature_id_col = NULL, sample_sheet = NULL, sample_id_col = NULL, return_Omiprep = TRUE) {
+read_metabolon <- function(filepath, sheet = NULL, feature_sheet = NULL, feature_id_col = NULL, sample_sheet = NULL, sample_id_col = NULL, return_Omiprep = FALSE) {
 
   # testing ====
   if (FALSE) {

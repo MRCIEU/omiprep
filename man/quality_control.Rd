@@ -68,7 +68,7 @@ quality_control(
 
 \item{outlier_treatment}{character, how to handle outlier data values - options 'leave_be', 'turn_NA', or 'winsorize'}
 
-\item{winsorize_quantile}{numeric, quantile to winsorize to, only relevant if 'outlier_treatment'='winsorize'}
+\item{winsorize_quantile}{numeric, must be between 0.5 and 1 inclusive. Defaulted to 1.0. Upper-tail quantile for two-sided symmetric winsorization. Right-tail outliers are clamped to this quantile and left-tail outliers to (1 - winsorize_quantile), with both estimated per feature from samples not flagged as outliers in that feature. Only relevant if 'outlier_treatment'='winsorize'.}
 
 \item{tree_cut_height}{numeric, the threshold for feature independence in hierarchical clustering. Default is 0.5.}
 

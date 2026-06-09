@@ -4,12 +4,12 @@
 \alias{read_nightingale}
 \title{Read Nightingale Data (format 1)}
 \usage{
-read_nightingale(filepath, return_Omiprep = TRUE)
+read_nightingale(filepath, return_Omiprep = FALSE)
 }
 \arguments{
 \item{filepath}{character, commercial Nightingale excel sheet with extension .xls or .xlsx}
 
-\item{return_Omiprep}{logical, if TRUE (default) return a Omiprep object, if FALSE return a list.}
+\item{return_Omiprep}{logical, if TRUE  return a Omiprep object, if FALSE (default) return a list.}
 }
 \value{
 list or Omiprep object, list(data = matrix, samples = samples data.frame, features = features data.frame)
