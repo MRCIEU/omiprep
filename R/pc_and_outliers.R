@@ -71,8 +71,8 @@ method(pc_and_outliers, Omiprep) <- function(omiprep, source_layer="input", samp
   ns             <- nFactors::nScree(x=ev)
   nsig_parrallel <- NA_real_
   af <- as.numeric( ns[[1]][["naf"]] )
-  cat("AF = ",af,"\n")
   if(af < 2) { af = 2 }
+  cli::cli_alert_info("Number of informative PCs (Scree acceleration factor): {af}")
 
   # identify outliers - 3SD
   o_mat3           <- outlier_detection(mypca$x[, 1:af], nsd = 3, by = "column")
