@@ -93,9 +93,9 @@ tree_and_independent_features = function(data, tree_cut_height = 0.5, features_e
   
   # if fast then impute and rank once so we can avoid "pairwise.complete.obs" overhead
   if (fast) {
-    col_medians  <- apply(data, 2, min, na.rm = TRUE)
+    col_mins  <- apply(data, 2, min, na.rm = TRUE)
     na_idx       <- which(is.na(data), arr.ind = TRUE)
-    data[na_idx] <- col_medians[na_idx[, 2]]
+    data[na_idx] <- col_mins[na_idx[, 2]]
     
     ranked <- apply(data, 2, rank, ties.method = "average")
     
