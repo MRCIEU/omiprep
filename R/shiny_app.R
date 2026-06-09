@@ -397,7 +397,7 @@ method(shiny_app, Omiprep) <- function(omiprep) {
     output$overview_table <- DT::renderDT({
       req(input$layer_t)
       
-      df <- omiprep@data[ , , input$layer, drop = TRUE]
+      df <- omiprep@data[ , , input$layer_t, drop = TRUE]
       
       if (!is.null(input$select_rows)) {
         df <- df[input$select_rows, , drop = FALSE]
@@ -414,5 +414,5 @@ method(shiny_app, Omiprep) <- function(omiprep) {
     
   }
   
-  shinyApp(ui, server)
+  shiny::shinyApp(ui, server)
 }

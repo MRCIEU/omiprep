@@ -410,7 +410,7 @@ method(export_metaboanalyst, list(Omiprep, class_character)) <- function(omiprep
   
   
   # extract data ====
-  ddata <- omiprep@data[, , layer] |> as.data.frame()
+  data <- omiprep@data[, , layer] |> as.data.frame()
   data <- cbind(`PatientID` = rownames(data), data)
   
   
