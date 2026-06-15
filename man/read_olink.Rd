@@ -9,13 +9,13 @@ read_olink(filepath, return_Omiprep = FALSE)
 \arguments{
 \item{filepath}{A string specifying the path to the Olink NPX file.}
 
-\item{return_Omiprep}{logical, if TRUE (default) return a Omiprep object, if FALSE return a list.}
+\item{return_Omiprep}{logical, if TRUE return a Omiprep object, if FALSE (default) return a list.}
 }
 \value{
 Omiprep object or a named list with the following elements:
 \describe{
   \item{data}{A matrix of NPX values with `SampleID` as rows and `OlinkID` as columns, containing only sample data.}
-  \item{samples}{A `data.frame` containing metadata for samples.}
+  \item{samples}{A `data.frame` of sample metadata, one row per sample. Columns that are constant within a sample are retained; the per-assay `QC_Warning` flag is summarised into `qc_n_warnings` (count of flagged assays) and `qc_any_warning` (logical).}
   \item{features}{A `data.frame` containing feature-level metadata for samples.}
   \item{controls}{A matrix of NPX values for control samples.}
   \item{control_metadata}{A `data.frame` containing metadata for control samples.}

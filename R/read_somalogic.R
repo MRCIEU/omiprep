@@ -6,7 +6,7 @@
 #' a structured list suitable for further analysis.
 #'
 #' @param filepath A string specifying the path to the SomaLogic `.adat` file.
-#' @param return_Omiprep logical, if TRUE (default) return a Omiprep object, if FALSE return a list.
+#' @param return_Omiprep logical, if TRUE return a Omiprep object, if FALSE (default) return a list.
 #' 
 #' @return A omiprep object or a named list with the following elements:
 #' \describe{

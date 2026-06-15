@@ -3,12 +3,12 @@
 #'  This function reads and processes an Olink NPX file in long format. It supports `.csv`, `.xls`, `.xlsx`, `.txt`, `.zip`, and `.parquet` formats, using Olink's own OlinkAnalyze::read_NPX() function, and returns a omiprep object or a list of matrices and metadata frames for further analysis.
 #'
 #' @param filepath A string specifying the path to the Olink NPX file.
-#' @param return_Omiprep logical, if TRUE (default) return a Omiprep object, if FALSE return a list.
+#' @param return_Omiprep logical, if TRUE return a Omiprep object, if FALSE (default) return a list.
 #' 
 #' @returns Omiprep object or a named list with the following elements:
 #' \describe{
 #'   \item{data}{A matrix of NPX values with `SampleID` as rows and `OlinkID` as columns, containing only sample data.}
-#'   \item{samples}{A `data.frame` containing metadata for samples.}
+#'   \item{samples}{A `data.frame` of sample metadata, one row per sample. Columns that are constant within a sample are retained; the per-assay `QC_Warning` flag is summarised into `qc_n_warnings` (count of flagged assays) and `qc_any_warning` (logical).}
 #'   \item{features}{A `data.frame` containing feature-level metadata for samples.}
 #'   \item{controls}{A matrix of NPX values for control samples.}
 #'   \item{control_metadata}{A `data.frame` containing metadata for control samples.}
@@ -123,28 +123,29 @@ read_olink <- function(filepath, return_Omiprep = FALSE) {
   features <- unique(features)
   names(features)[names(features) == "OlinkID"] <- "feature_id"
   
-  control_feature_meta <- df_features_controls[
-    , setdiff(colnames(df_features_controls), c("SampleID", "NPX", "QC_Warning", "Index", "PlateID")), 
-    drop = FALSE
-  ]
-  control_feature_meta <- unique(control_feature_meta)
-  names(control_feature_meta)[names(control_feature_meta) == "OlinkID"] <- "feature_id"
+  ### control_feature_meta is not returned.
+  # control_feature_meta <- df_features_controls[
+  #   , setdiff(colnames(df_features_controls), c("SampleID", "NPX", "QC_Warning", "Index", "PlateID")), 
+  #   drop = FALSE
+  # ]
+  # control_feature_meta <- unique(control_feature_meta)
+  # names(control_feature_meta)[names(control_feature_meta) == "OlinkID"] <- "feature_id"
   
   
   # sample meta-data ====
-  samples <- df_features_samples[
-    , setdiff(colnames(df_features_samples), c("Index", "OlinkID", "UniProt", "Assay", "Assay_Warning", "MissingFreq", "LOD", "NPX", "Panel", "Panel_Version", "Normalization")),
-    drop = FALSE
-  ]
-  samples <- unique(samples)
-  names(samples)[names(samples) == "SampleID"] <- "sample_id"
-  
-  control_sample_meta <- df_features_controls[
-    , setdiff(colnames(df_features_controls), c("Index", "OlinkID", "UniProt", "Assay", "Assay_Warning", "MissingFreq", "LOD", "NPX", "Panel", "Panel_Version", "Normalization")),
-    drop = FALSE
-  ]
-  control_sample_meta <- unique(control_sample_meta)
-  names(control_sample_meta)[names(control_sample_meta) == "SampleID"] <- "sample_id"
+  # Olink data is long (one row per sample x assay). 
+  # Drop the per-assay columns, then collapse to one row per sample. 
+  # The per-assay QC_Warning flag is summarised into qc_n_warnings / qc_any_warning
+  # see collapse_olink_samples()
+  per_assay_cols <- c("Index", "OlinkID", "UniProt", "Assay", "Assay_Warning",
+                      "MissingFreq", "LOD", "NPX", "Panel", "Panel_Version",
+                      "Normalization")
+  samples <- collapse_olink_samples(
+    df_features_samples[, setdiff(colnames(df_features_samples), per_assay_cols), drop = FALSE]
+  )
+  control_sample_meta <- collapse_olink_samples(
+    df_features_controls[, setdiff(colnames(df_features_controls), per_assay_cols), drop = FALSE]
+  )
   
   
   # return ====
@@ -153,11 +154,64 @@ read_olink <- function(filepath, return_Omiprep = FALSE) {
                       samples = samples, 
                       features = features))
   } else {
-    return(list(data = data, 
-                samples = samples, 
-                features = features, 
-                controls = controls,
+    return(list(data = data,
+                samples = samples,
+                features = features,
+                controls = controls_matrix,
                 control_metadata = control_sample_meta))
   }
-  
+
+}
+
+
+#' Collapse an Olink long-format metadata table to one row per sample
+#'
+#' Olink NPX data has one row per sample x assay. After the per-assay feature
+#' columns are removed, this collapses the remaining rows to one row per
+#' `SampleID`: columns that are constant within a sample are retained as-is,
+#' the per-assay `QC_Warning` flag (if present) is summarised into
+#' `qc_n_warnings` (count of assays flagged) and `qc_any_warning` (logical),
+#' and any other column that still varies within a sample is dropped with a
+#' warning because it cannot be represented at the sample level.
+#'
+#' @param df data.frame with a `SampleID` column and the per-assay feature
+#'   columns already removed.
+#' @param id_col character, the sample identifier column. Default `"SampleID"`.
+#' @returns data.frame with one row per sample and a leading `sample_id` column.
+#' @noRd
+collapse_olink_samples <- function(df, id_col = "SampleID") {
+
+  ids       <- as.character(df[[id_col]])
+  uid       <- unique(ids)
+  idx_by_id <- split(seq_len(nrow(df)), factor(ids, levels = uid))
+  first_idx <- vapply(idx_by_id, function(i) i[1], integer(1))
+
+  out <- data.frame(sample_id = uid, stringsAsFactors = FALSE)
+
+  other_cols <- setdiff(colnames(df), id_col)
+
+  # summarise the per-assay QC flag to the sample level, if present
+  if ("QC_Warning" %in% other_cols) {
+    is_warn <- !is.na(df[["QC_Warning"]]) &
+      toupper(trimws(as.character(df[["QC_Warning"]]))) != "PASS"
+    out[["qc_n_warnings"]]  <- vapply(idx_by_id, function(i) sum(is_warn[i]), integer(1))
+    out[["qc_any_warning"]] <- out[["qc_n_warnings"]] > 0L
+    other_cols <- setdiff(other_cols, "QC_Warning")
+  }
+
+  # keep columns constant within a sample; drop (with a warning) any that vary
+  for (cc in other_cols) {
+    vals       <- df[[cc]]
+    n_distinct <- vapply(idx_by_id, function(i) length(unique(vals[i])), integer(1))
+    if (all(n_distinct <= 1L)) {
+      out[[cc]] <- unname(vals[first_idx])
+    } else {
+      warning(sprintf(
+        "Olink column '%s' varies within a sample and was dropped from sample metadata.",
+        cc), call. = FALSE)
+    }
+  }
+
+  rownames(out) <- NULL
+  out
 }
