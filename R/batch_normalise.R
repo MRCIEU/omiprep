@@ -15,12 +15,13 @@ method(batch_normalise, Omiprep) <- function(omiprep, run_mode_col, run_mode_col
 
   # checks
   run_mode_col <- match.arg(run_mode_col, choices = names(omiprep@features))
+  source_layer <- match.arg(source_layer, choices = dimnames(omiprep@data)[[3]])
   stopifnot("`run_mode_colmap` names must match unique `run_mode_col` entries" = length(setdiff(omiprep@features[[run_mode_col]], names(run_mode_colmap)))==0)
   stopifnot("`run_mode_colmap` values must be columns in sample data" = all(unname(run_mode_colmap) %in% names(omiprep@samples)))
   
   # add a copy of the raw data to the back of the matrix stack
   omiprep@data <- array(
-    c(omiprep@data, omiprep@data[, , "input"]),
+    c(omiprep@data, omiprep@data[, , source_layer]),
     dim = c(dim(omiprep@data)[1], dim(omiprep@data)[2], dim(omiprep@data)[3] + 1),
     dimnames = list(
       dimnames(omiprep@data)[[1]],
