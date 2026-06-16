@@ -188,8 +188,13 @@ read_metabolon <- function(filepath, sheet = NULL, feature_sheet = NULL, feature
   # checks
   stopifnot("Sample ids do not exactly match row names of data" = identical(samples$sample_id, rownames(data)))
   stopifnot("Feature ids do not exactly match row names of data" = identical(features$feature_id, colnames(data)))
-  
-  
+
+
+  # carry the ids as rownames on the metadata frames
+  rownames(samples)  <- samples$sample_id
+  rownames(features) <- features$feature_id
+
+
   # return ====
   if (return_Omiprep) {
     return(Omiprep(data = data, samples = samples, features = features))
