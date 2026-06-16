@@ -115,6 +115,20 @@ test_that("read_metabolon rejects a non-excel extension", {
                "\\.xls|excel")
 })
 
+test_that("read_metabolon carries ids as rownames on samples and features", {
+  fp <- ex_path("metabolon_v1.1_example.xlsx")
+  skip_if(fp == "", "example file not bundled")
+
+  r <- suppressWarnings(read_metabolon(fp, sheet = 2))
+  expect_identical(rownames(r$samples), r$samples$sample_id)
+  expect_identical(rownames(r$features), r$features$feature_id)
+
+  # and the ids survive as rownames through Omiprep construction
+  o <- suppressWarnings(read_metabolon(fp, sheet = 2, return_Omiprep = TRUE))
+  expect_identical(rownames(o@samples), o@samples$sample_id)
+  expect_identical(rownames(o@features), o@features$feature_id)
+})
+
 # ---- Nightingale (single-sheet and multi-sheet formats) ---------------------
 
 test_that("read_nightingale parses the v1 example", {
