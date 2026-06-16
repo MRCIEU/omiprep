@@ -123,13 +123,13 @@ read_olink <- function(filepath, return_Omiprep = FALSE) {
   features <- unique(features)
   names(features)[names(features) == "OlinkID"] <- "feature_id"
   
-  ### control_feature_meta is not returned.
-  # control_feature_meta <- df_features_controls[
-  #   , setdiff(colnames(df_features_controls), c("SampleID", "NPX", "QC_Warning", "Index", "PlateID")), 
-  #   drop = FALSE
-  # ]
-  # control_feature_meta <- unique(control_feature_meta)
-  # names(control_feature_meta)[names(control_feature_meta) == "OlinkID"] <- "feature_id"
+  ### control_feature_meta
+  control_feature_meta <- df_features_controls[
+    , setdiff(colnames(df_features_controls), c("SampleID", "NPX", "QC_Warning", "Index", "PlateID")),
+    drop = FALSE
+  ]
+  control_feature_meta <- unique(control_feature_meta)
+  names(control_feature_meta)[names(control_feature_meta) == "OlinkID"] <- "feature_id"
   
   
   # sample meta-data ====
@@ -158,7 +158,8 @@ read_olink <- function(filepath, return_Omiprep = FALSE) {
                 samples = samples,
                 features = features,
                 controls = controls_matrix,
-                control_metadata = control_sample_meta))
+                control_sample_meta = control_sample_meta,
+                control_feature_meta = control_feature_meta))
   }
 
 }
