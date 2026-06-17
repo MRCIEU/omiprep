@@ -45,3 +45,18 @@ clean_names <- function(names) {
   tolower(n)                    # Convert to lowercase
 }
 
+
+#' @title Coerce a metadata table to a data.frame.
+#' @description
+#' Ensures sample/feature metadata is a base `data.frame` and sets its 
+#' rownames to the id column
+#'
+#' @param df a data.frame or tibble of metadata.
+#' @param id_col character, the id column to key on ("sample_id" or "feature_id").
+#' @returns a base data.frame with `id_col` values as rownames.
+#' @noRd
+as_meta_df <- function(df, id_col) {
+  df <- as.data.frame(df, stringsAsFactors = FALSE, check.names = FALSE)
+  rownames(df) <- df[[id_col]]
+  df
+}

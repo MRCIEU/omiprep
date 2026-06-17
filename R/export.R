@@ -396,7 +396,7 @@ method(export_metaboanalyst, list(Omiprep, class_character)) <- function(omiprep
       stop(sprintf("Specified layer '%s' not found in omiprep@data.", layer))
     }
   }
-  message(paste0("Exporting data layer `", layer, "` in comets format to ", fp))
+  message(paste0("Exporting data layer `", layer, "` in metaboanalyst format to ", fp))
   
   
   # grouping column 
