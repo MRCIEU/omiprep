@@ -15,3 +15,5 @@ inst/doc
 # github pages 
 index.md
 .positai
+
+vignettes/output/
