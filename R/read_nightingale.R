@@ -165,6 +165,10 @@ read_nightingale <- function(filepath, return_Omiprep = FALSE) {
     
   }
   
+  # ensure we return data.frames with row names as ids
+  samples  <- as_meta_df(samples,  "sample_id")
+  features <- as_meta_df(features, "feature_id")
+  
   
   # return ====
   if (return_Omiprep) {

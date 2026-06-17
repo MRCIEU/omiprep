@@ -173,6 +173,13 @@ read_somalogic <- function(filepath, return_Omiprep = FALSE) {
     control_sample_meta$SampleType == "Calibrator",
   ]
   
+  
+  # ensure data.frames are returned with row names set with IDs
+  samples              <- as_meta_df(samples,              "sample_id")
+  features             <- as_meta_df(features,             "feature_id")
+  control_sample_meta  <- as_meta_df(control_sample_meta,  "sample_id")
+  
+  
   # return ====
   if (return_Omiprep) {
     return(

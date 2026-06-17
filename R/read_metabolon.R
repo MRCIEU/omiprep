@@ -190,9 +190,9 @@ read_metabolon <- function(filepath, sheet = NULL, feature_sheet = NULL, feature
   stopifnot("Feature ids do not exactly match row names of data" = identical(features$feature_id, colnames(data)))
 
 
-  # carry the ids as rownames on the metadata frames
-  rownames(samples)  <- samples$sample_id
-  rownames(features) <- features$feature_id
+  # ensure we return data.frames with row names as ids
+  samples  <- as_meta_df(samples,  "sample_id")
+  features <- as_meta_df(features, "feature_id")
 
 
   # return ====

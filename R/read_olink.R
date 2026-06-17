@@ -123,13 +123,13 @@ read_olink <- function(filepath, return_Omiprep = FALSE) {
   features <- unique(features)
   names(features)[names(features) == "OlinkID"] <- "feature_id"
   
-  ### control_feature_meta
-  control_feature_meta <- df_features_controls[
-    , setdiff(colnames(df_features_controls), c("SampleID", "NPX", "QC_Warning", "Index", "PlateID")),
-    drop = FALSE
-  ]
-  control_feature_meta <- unique(control_feature_meta)
-  names(control_feature_meta)[names(control_feature_meta) == "OlinkID"] <- "feature_id"
+  ### control_feature_meta (note: this is the same feature data as above. Thus it is redundant)
+  # control_feature_meta <- df_features_controls[
+  #   , setdiff(colnames(df_features_controls), c("SampleID", "NPX", "QC_Warning", "Index", "PlateID")),
+  #   drop = FALSE
+  # ]
+  # control_feature_meta <- unique(control_feature_meta)
+  # names(control_feature_meta)[names(control_feature_meta) == "OlinkID"] <- "feature_id"
   
   
   # sample meta-data ====
@@ -147,6 +147,10 @@ read_olink <- function(filepath, return_Omiprep = FALSE) {
     df_features_controls[, setdiff(colnames(df_features_controls), per_assay_cols), drop = FALSE]
   )
   
+  # ensure data.frames are returned with row names set with IDs (note: read_NPX hands back tibbles)
+  samples              <- as_meta_df(samples,              "sample_id")
+  features             <- as_meta_df(features,             "feature_id")
+  control_sample_meta  <- as_meta_df(control_sample_meta,  "sample_id")
   
   # return ====
   if (return_Omiprep) {
@@ -158,8 +162,7 @@ read_olink <- function(filepath, return_Omiprep = FALSE) {
                 samples = samples,
                 features = features,
                 controls = controls_matrix,
-                control_sample_meta = control_sample_meta,
-                control_feature_meta = control_feature_meta))
+                control_metadata = control_sample_meta))
   }
 
 }

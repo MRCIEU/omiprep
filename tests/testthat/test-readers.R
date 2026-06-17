@@ -29,6 +29,13 @@ expect_reader_contract <- function(r) {
   expect_true("sample_id"  %in% names(r$samples))
   expect_true("feature_id" %in% names(r$features))
 
+  # metadata are base data.frames (not tibbles, which silently drop rownames)...
+  expect_false(inherits(r$samples,  "tbl_df"))
+  expect_false(inherits(r$features, "tbl_df"))
+  # ...keyed by their ids as rownames
+  expect_identical(rownames(r$samples),  as.character(r$samples$sample_id))
+  expect_identical(rownames(r$features), as.character(r$features$feature_id))
+
   # every data axis label is described in the metadata tables
   expect_true(all(colnames(r$data) %in% r$features$feature_id))
   expect_true(all(rownames(r$data) %in% r$samples$sample_id))
@@ -41,6 +48,9 @@ expect_builds_omiprep <- function(r) {
   expect_identical(dim(o@data)[1:2], dim(r$data))
   expect_identical(dimnames(o@data)[[3]], "input")
   expect_equal(o@data[, , "input"], r$data)
+  # id rownames set by the reader survive construction (constructor untouched)
+  expect_identical(rownames(o@samples),  as.character(o@samples$sample_id))
+  expect_identical(rownames(o@features), as.character(o@features$feature_id))
 }
 
 # ---- Metabolon (three on-disk format variants) ------------------------------
@@ -115,19 +125,8 @@ test_that("read_metabolon rejects a non-excel extension", {
                "\\.xls|excel")
 })
 
-test_that("read_metabolon carries ids as rownames on samples and features", {
-  fp <- ex_path("metabolon_v1.1_example.xlsx")
-  skip_if(fp == "", "example file not bundled")
-
-  r <- suppressWarnings(read_metabolon(fp, sheet = 2))
-  expect_identical(rownames(r$samples), r$samples$sample_id)
-  expect_identical(rownames(r$features), r$features$feature_id)
-
-  # and the ids survive as rownames through Omiprep construction
-  o <- suppressWarnings(read_metabolon(fp, sheet = 2, return_Omiprep = TRUE))
-  expect_identical(rownames(o@samples), o@samples$sample_id)
-  expect_identical(rownames(o@features), o@features$feature_id)
-})
+# (data.frame-type + id-rownames are now asserted for every reader via
+# expect_reader_contract() / expect_builds_omiprep().)
 
 # ---- Nightingale (single-sheet and multi-sheet formats) ---------------------
 
