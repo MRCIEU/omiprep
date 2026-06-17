@@ -20,7 +20,7 @@ read_somalogic(filepath, return_Omiprep = FALSE)
 
 - return_Omiprep:
 
-  logical, if TRUE (default) return a Omiprep object, if FALSE return a
+  logical, if TRUE return a Omiprep object, if FALSE (default) return a
   list.
 
 ## Value

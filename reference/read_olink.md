@@ -20,7 +20,7 @@ read_olink(filepath, return_Omiprep = FALSE)
 
 - return_Omiprep:
 
-  logical, if TRUE (default) return a Omiprep object, if FALSE return a
+  logical, if TRUE return a Omiprep object, if FALSE (default) return a
   list.
 
 ## Value
@@ -34,7 +34,10 @@ Omiprep object or a named list with the following elements:
 
 - samples:
 
-  A \`data.frame\` containing metadata for samples.
+  A \`data.frame\` of sample metadata, one row per sample. Columns that
+  are constant within a sample are retained; the per-assay
+  \`QC_Warning\` flag is summarised into \`qc_n_warnings\` (count of
+  flagged assays) and \`qc_any_warning\` (logical).
 
 - features:
 
