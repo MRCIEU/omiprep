@@ -45,7 +45,6 @@ Suggests:
     testthat (>= 3.0.0),
     withr
 Remotes:
-    hredestig/pcaMethods
 URL: https://mrcieu.github.io/omiprep/
 Collate: 
     'class_omiprep.R'
