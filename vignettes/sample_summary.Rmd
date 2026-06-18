@@ -37,7 +37,7 @@ summary(mydata)
 
 ## Run standard quality control
 
-```{r qc}
+```{r run_qc}
 mydata = quality_control(mydata)
 ```
 
@@ -72,7 +72,7 @@ sample_sum1 <- sample_summary(omiprep         = mydata,
 
 #### Table of sample summary
 
-```{r sample_sum1_table, echo=FALSE}
+```{r sample_sum1_table, echo=TRUE}
 sample_sum1 |> 
   head(n = 10) |> 
   knitr::kable( digits = 3, row.names = FALSE, align = "c") |>
@@ -103,7 +103,7 @@ sample_sum_subset <- sample_summary(omiprep       = mydata,
 
 #### Table of sample summary on subset
 
-```{r sample_sum_subset_table, echo=FALSE}
+```{r sample_sum_subset_table, echo=TRUE}
 sample_sum_subset |> 
   na.omit() |>
   head(n = 10) |> 
@@ -118,7 +118,7 @@ sample_sum_subset |>
 
 PCs and outliers are available as a part of the `quality_countrol()` function pipeline.
 
-```{r qc_sample_sum_table, echo=TRUE}
+```{r qc_PCs_table, echo=TRUE}
 # Note: the quality_control() ultimately returns the sample_summary attribute as a matrix.
 df <- as.data.frame(mydata@sample_summary[1:3, -c(1:6), "input"])
 df <- cbind(sample_id = rownames(df), df)
@@ -146,7 +146,7 @@ pc_analysis <- pc_and_outliers(omiprep      = mydata,
 
 Returned are the PC eigenvectors for the top 10 PCs, and outlier counts at 3, 4, and 5 standard deviations from the mean for the top two PCs
 
-```{r PC_table, echo=FALSE}
+```{r PC_table, echo=TRUE}
 pc_analysis |> 
   head(n = 10) |> 
   knitr::kable( digits = 3, row.names = FALSE, align = "c") |>
