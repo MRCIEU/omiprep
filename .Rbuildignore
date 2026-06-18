@@ -12,3 +12,7 @@ scripts
 ^index\.md$
 ^vignettes/output$
 ^\.positai$
+
+^doc$
+^Meta$
+^\.remember$
