@@ -151,20 +151,501 @@
 <span><span class="co">#&gt; user_defined_feature_skewness    | 0</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="run-feature-summary">Run feature summary<a class="anchor" aria-label="anchor" href="#run-feature-summary"></a>
+<h2 id="run-standard-quality-control">Run standard quality control<a class="anchor" aria-label="anchor" href="#run-standard-quality-control"></a>
 </h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># note that for illustrative purposes we are using a log outlier unit distance of 1.0 here, in practice we tend to favor a value of 5.0.</span></span>
+<code class="sourceCode R"><span><span class="va">mydata</span> <span class="op">=</span> <span class="fu"><a href="../reference/quality_control.html">quality_control</a></span><span class="op">(</span><span class="va">mydata</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Starting Omics QC Process</span> <span style="color: #00BBBB;">───────────────────────────────────────────────────</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Validating input parameters</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Validating input parameters <span style="color: #B2B2B2;">[8ms]</span></span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample &amp; Feature Summary Statistics for raw data</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Number of informative PCs (Scree acceleration factor): 3</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample &amp; Feature Summary Statistics for raw data<span style="color: #00BB00;">✔</span> Sample &amp; Feature Summary Statistics for raw data <span style="color: #B2B2B2;">[406ms]</span></span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Copying input data to new 'qc' data layer</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Copying input data to new 'qc' data layer <span style="color: #B2B2B2;">[24ms]</span></span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Assessing for extreme sample missingness &gt;=80% - excluding 0 sample(s)</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for extreme sample missingness &gt;=80% - excluding 0 sample(s) <span style="color: #B2B2B2;">[17ms]</span></span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Assessing for extreme feature missingness &gt;=80% - excluding 0 feature(s)</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for extreme feature missingness &gt;=80% - excluding 0 feature(s) <span style="color: #B2B2B2;">[17m</span>…</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Assessing for sample missingness at specified level of &gt;=20% - excluding 0 sa…</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for sample missingness at specified level of &gt;=20% - excluding 0 sa…</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Assessing for feature missingness at specified level of &gt;=20% - excluding 0 f…</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for feature missingness at specified level of &gt;=20% - excluding 0 f…</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Calculating total sum abundance outliers at +/- 5 Sdev - excluding 0 sample(s)</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Calculating total sum abundance outliers at +/- 5 Sdev - excluding 0 sample(s…</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Running sample data PCA outlier analysis at +/- 5 Sdev</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Running sample data PCA outlier analysis at +/- 5 Sdev <span style="color: #B2B2B2;">[23ms]</span></span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample PCA outlier analysis - re-identify feature independence and PC outlier…</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Number of informative PCs (Scree acceleration factor): 3</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample PCA outlier analysis - re-identify feature independence and PC outlier…<span style="color: #BBBB00;">!</span> The stated max PCs [max_num_pcs=10] to use in PCA outlier assessment is greater than the number of available informative PCs [3]</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample PCA outlier analysis - re-identify feature independence and PC outlier…<span style="color: #00BB00;">✔</span> Sample PCA outlier analysis - re-identify feature independence and PC outlier…</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Creating final QC dataset...</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Number of informative PCs (Scree acceleration factor): 3</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Creating final QC dataset...</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Creating final QC dataset...── <span style="font-weight: bold;">Step timings</span> ──</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Creating final QC dataset...</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Creating final QC dataset...</span></span>
+<span><span class="co">#&gt;                         step seconds   pct</span></span>
+<span><span class="co">#&gt;                   validation    0.00   0.0</span></span>
+<span><span class="co">#&gt;                summarise_raw    0.39  42.1</span></span>
+<span><span class="co">#&gt;                   copy_layer    0.00   0.0</span></span>
+<span><span class="co">#&gt;   extreme_sample_missingness    0.00   0.0</span></span>
+<span><span class="co">#&gt;  extreme_feature_missingness    0.00   0.0</span></span>
+<span><span class="co">#&gt;           sample_missingness    0.00   0.0</span></span>
+<span><span class="co">#&gt;          total_sum_abundance    0.00   0.0</span></span>
+<span><span class="co">#&gt;                summarise_pca    0.22  23.7</span></span>
+<span><span class="co">#&gt;              summarise_final    0.11  11.9</span></span>
+<span><span class="co">#&gt;                        total    0.93 100.3</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Creating final QC dataset... <span style="color: #B2B2B2;">[142ms]</span></span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> 'Omics QC Process Completed</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> 'Omics QC Process Completed <span style="color: #B2B2B2;">[17ms]</span></span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="feature-summary">Feature Summary<a class="anchor" aria-label="anchor" href="#feature-summary"></a>
+</h2>
+<div class="section level3">
+<h3 id="view-feature-summary-from-the-qc-pipeline">View feature summary from the QC pipeline<a class="anchor" aria-label="anchor" href="#view-feature-summary-from-the-qc-pipeline"></a>
+</h3>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Note: the quality_control() ultimately returns the feature_summary attribute as a matrix.</span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">mydata</span><span class="op">@</span><span class="va">feature_summary</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="st">"input"</span><span class="op">]</span><span class="op">)</span> <span class="op">)</span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span> <span class="va">df</span> , <span class="fl">3</span><span class="op">)</span> <span class="op">)</span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span>feature_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span>, <span class="va">df</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">df</span> <span class="op">|&gt;</span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span> digits <span class="op">=</span> <span class="fl">3</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span>, align <span class="op">=</span> <span class="st">"c"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">kableExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kable_styling.html" class="external-link">kable_styling</a></span><span class="op">(</span>full_width <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> </span></code></pre></div>
+<table class="table table" style="margin-left: auto; margin-right: auto;">
+<thead><tr>
+<th style="text-align:center;">
+feature_id
+</th>
+<th style="text-align:center;">
+missingness
+</th>
+<th style="text-align:center;">
+outlier_count
+</th>
+<th style="text-align:center;">
+n
+</th>
+<th style="text-align:center;">
+mean
+</th>
+<th style="text-align:center;">
+sd
+</th>
+<th style="text-align:center;">
+median
+</th>
+<th style="text-align:center;">
+min
+</th>
+<th style="text-align:center;">
+max
+</th>
+<th style="text-align:center;">
+range
+</th>
+<th style="text-align:center;">
+skew
+</th>
+<th style="text-align:center;">
+kurtosis
+</th>
+<th style="text-align:center;">
+se
+</th>
+<th style="text-align:center;">
+missing
+</th>
+<th style="text-align:center;">
+var
+</th>
+<th style="text-align:center;">
+disp_index
+</th>
+<th style="text-align:center;">
+coef_variance
+</th>
+<th style="text-align:center;">
+W
+</th>
+<th style="text-align:center;">
+log10_W
+</th>
+<th style="text-align:center;">
+k
+</th>
+<th style="text-align:center;">
+independent_features
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+metab_id_1
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+100
+</td>
+<td style="text-align:center;">
+0.511
+</td>
+<td style="text-align:center;">
+0.293
+</td>
+<td style="text-align:center;">
+0.530
+</td>
+<td style="text-align:center;">
+0.000
+</td>
+<td style="text-align:center;">
+0.993
+</td>
+<td style="text-align:center;">
+0.992
+</td>
+<td style="text-align:center;">
+-0.123
+</td>
+<td style="text-align:center;">
+-1.231
+</td>
+<td style="text-align:center;">
+0.029
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0.086
+</td>
+<td style="text-align:center;">
+0.168
+</td>
+<td style="text-align:center;">
+0.574
+</td>
+<td style="text-align:center;">
+0.949
+</td>
+<td style="text-align:center;">
+0.744
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+metab_id_2
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+100
+</td>
+<td style="text-align:center;">
+0.521
+</td>
+<td style="text-align:center;">
+0.310
+</td>
+<td style="text-align:center;">
+0.547
+</td>
+<td style="text-align:center;">
+0.018
+</td>
+<td style="text-align:center;">
+0.993
+</td>
+<td style="text-align:center;">
+0.975
+</td>
+<td style="text-align:center;">
+-0.150
+</td>
+<td style="text-align:center;">
+-1.404
+</td>
+<td style="text-align:center;">
+0.031
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0.096
+</td>
+<td style="text-align:center;">
+0.184
+</td>
+<td style="text-align:center;">
+0.594
+</td>
+<td style="text-align:center;">
+0.924
+</td>
+<td style="text-align:center;">
+0.834
+</td>
+<td style="text-align:center;">
+2
+</td>
+<td style="text-align:center;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+metab_id_3
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+100
+</td>
+<td style="text-align:center;">
+0.488
+</td>
+<td style="text-align:center;">
+0.283
+</td>
+<td style="text-align:center;">
+0.504
+</td>
+<td style="text-align:center;">
+0.001
+</td>
+<td style="text-align:center;">
+0.995
+</td>
+<td style="text-align:center;">
+0.994
+</td>
+<td style="text-align:center;">
+-0.036
+</td>
+<td style="text-align:center;">
+-1.109
+</td>
+<td style="text-align:center;">
+0.028
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0.080
+</td>
+<td style="text-align:center;">
+0.165
+</td>
+<td style="text-align:center;">
+0.580
+</td>
+<td style="text-align:center;">
+0.963
+</td>
+<td style="text-align:center;">
+0.749
+</td>
+<td style="text-align:center;">
+3
+</td>
+<td style="text-align:center;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+metab_id_4
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+100
+</td>
+<td style="text-align:center;">
+0.464
+</td>
+<td style="text-align:center;">
+0.286
+</td>
+<td style="text-align:center;">
+0.466
+</td>
+<td style="text-align:center;">
+0.004
+</td>
+<td style="text-align:center;">
+0.992
+</td>
+<td style="text-align:center;">
+0.988
+</td>
+<td style="text-align:center;">
+0.092
+</td>
+<td style="text-align:center;">
+-1.199
+</td>
+<td style="text-align:center;">
+0.029
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0.082
+</td>
+<td style="text-align:center;">
+0.177
+</td>
+<td style="text-align:center;">
+0.617
+</td>
+<td style="text-align:center;">
+0.954
+</td>
+<td style="text-align:center;">
+0.833
+</td>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+metab_id_5
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+100
+</td>
+<td style="text-align:center;">
+0.521
+</td>
+<td style="text-align:center;">
+0.293
+</td>
+<td style="text-align:center;">
+0.547
+</td>
+<td style="text-align:center;">
+0.004
+</td>
+<td style="text-align:center;">
+0.976
+</td>
+<td style="text-align:center;">
+0.972
+</td>
+<td style="text-align:center;">
+-0.219
+</td>
+<td style="text-align:center;">
+-1.161
+</td>
+<td style="text-align:center;">
+0.029
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0.086
+</td>
+<td style="text-align:center;">
+0.164
+</td>
+<td style="text-align:center;">
+0.561
+</td>
+<td style="text-align:center;">
+0.945
+</td>
+<td style="text-align:center;">
+0.782
+</td>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+1
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level3">
+<h3 id="manually-run-feature-summary">Manually run feature summary<a class="anchor" aria-label="anchor" href="#manually-run-feature-summary"></a>
+</h3>
+<p>While feature summary is run as a part of the quality_control()
+function pipeline you can run the function yourself, on any layer you
+wish.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># NOTE:</span></span>
+<span><span class="co"># outlier_udist = number of IQRs from the median at which a value is flagged.</span></span>
+<span><span class="co"># 1.0 here is illustrative; in practice we favour 5.0, which is the default value</span></span>
+<span><span class="co"># for the quality_control() function.</span></span>
 <span><span class="va">feature_sum1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/feature_summary.html">feature_summary</a></span><span class="op">(</span>omiprep         <span class="op">=</span> <span class="va">mydata</span>, </span>
 <span>                                source_layer    <span class="op">=</span> <span class="st">"input"</span>, </span>
 <span>                                outlier_udist   <span class="op">=</span> <span class="fl">1.0</span>,</span>
 <span>                                tree_cut_height <span class="op">=</span> <span class="fl">0.5</span>,</span>
 <span>                                output          <span class="op">=</span> <span class="st">"data.frame"</span>, </span>
 <span>                                cores           <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="table-of-feature-summary">Table of feature summary<a class="anchor" aria-label="anchor" href="#table-of-feature-summary"></a>
-</h2>
+<div class="section level4">
+<h4 id="table-of-feature-summary">Table of feature summary<a class="anchor" aria-label="anchor" href="#table-of-feature-summary"></a>
+</h4>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">feature_sum1</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span> digits <span class="op">=</span> <span class="fl">3</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span>, align <span class="op">=</span> <span class="st">"c"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">kableExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kable_styling.html" class="external-link">kable_styling</a></span><span class="op">(</span>full_width <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> </span></code></pre></div>
 <table class="table table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead><tr>
 <th style="text-align:center;">
@@ -885,54 +1366,25 @@ TRUE
 </tbody>
 </table>
 </div>
-<div class="section level2">
-<h2 id="feature-summary-attributes">Feature summary attributes<a class="anchor" aria-label="anchor" href="#feature-summary-attributes"></a>
-</h2>
-<p>In addition to the summary data, the hierarchical cluster dendrogram
-is appended to the returned <code>data.frame</code> as and
-<code>attribute</code>. This can be accessed with the attribute name:
-<code>[source_layer]_tree</code>, in this case we summarised the
-<code>input</code> data, therefore the attribute name is
-<code>input_tree</code>.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://talgalili.github.io/dendextend/" class="external-link">dendextend</a></span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># extract tree from attributes</span></span>
-<span><span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">feature_sum1</span>, <span class="st">'input_tree'</span><span class="op">)</span></span>
-<span><span class="va">dend</span> <span class="op">&lt;-</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/dendrogram.html" class="external-link">as.dendrogram</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># color the independent features blue</span></span>
-<span><span class="va">metab_color</span>       <span class="op">&lt;-</span> <span class="va">feature_sum1</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"feature_id"</span>, <span class="st">"independent_features"</span><span class="op">)</span><span class="op">]</span></span>
-<span><span class="va">metab_color</span>       <span class="op">&lt;-</span> <span class="va">metab_color</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/match.html" class="external-link">match</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/labels.html" class="external-link">labels</a></span><span class="op">(</span><span class="va">dend</span><span class="op">)</span>, <span class="va">metab_color</span><span class="op">$</span><span class="va">feature_id</span><span class="op">)</span>, <span class="op">]</span></span>
-<span><span class="va">metab_color</span><span class="op">$</span><span class="va">color</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">metab_color</span><span class="op">$</span><span class="va">independent_features</span><span class="op">==</span><span class="cn">TRUE</span>, <span class="st">"#477EB8"</span>, <span class="st">"grey"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># format dendrogram for ploting</span></span>
-<span><span class="va">dend</span> <span class="op">&lt;-</span> <span class="va">dend</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dendextend</span><span class="fu">::</span><span class="fu"><a href="https://talgalili.github.io/dendextend/reference/set.html" class="external-link">set</a></span><span class="op">(</span><span class="st">"labels_cex"</span>, <span class="fl">0.75</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dendextend</span><span class="fu">::</span><span class="fu"><a href="https://talgalili.github.io/dendextend/reference/set.html" class="external-link">set</a></span><span class="op">(</span><span class="st">"labels_col"</span>, <span class="va">metab_color</span><span class="op">$</span><span class="va">color</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dendextend</span><span class="fu">::</span><span class="fu"><a href="https://talgalili.github.io/dendextend/reference/set.html" class="external-link">set</a></span><span class="op">(</span><span class="st">"branches_lwd"</span>, <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">dendextend</span><span class="fu">::</span><span class="fu"><a href="https://talgalili.github.io/dendextend/reference/set.html" class="external-link">set</a></span><span class="op">(</span><span class="st">"branches_k_color"</span>,  value <span class="op">=</span> <span class="va">metab_color</span><span class="op">$</span><span class="va">color</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co">## plot the dendrogram</span></span>
-<span><span class="va">dend</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span>main <span class="op">=</span> <span class="st">"Feature clustering dendrogram"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>h <span class="op">=</span> <span class="fl">0.5</span>, col <span class="op">=</span> <span class="st">"#E41A1C"</span>, lwd <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span></span></code></pre></div>
-<p><img src="feature_summary_files/figure-html/tree-1.png" class="r-plt" alt="Decision tree showing feature importance in dataset" width="100%" style="display: block; margin: auto;"></p>
 </div>
-<div class="section level2">
-<h2 id="run-feature-summary-on-subset">Run feature summary on subset<a class="anchor" aria-label="anchor" href="#run-feature-summary-on-subset"></a>
-</h2>
+<div class="section level3">
+<h3 id="run-feature-summary-on-subset">Run feature summary on subset<a class="anchor" aria-label="anchor" href="#run-feature-summary-on-subset"></a>
+</h3>
 <p>Using the <code>sample_ids</code> and <code>feature_ids</code>
 arguments you can run the summary for a subset of the data. Note: all
 rows will be return, however summary data will only be returned for the
 specified ids.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## define a vector of sample IDs</span></span>
 <span><span class="va">sids</span> <span class="op">&lt;-</span> <span class="va">mydata</span><span class="op">@</span><span class="va">samples</span><span class="op">[</span><span class="va">mydata</span><span class="op">@</span><span class="va">samples</span><span class="op">$</span><span class="va">sex</span> <span class="op">==</span> <span class="st">"female"</span>, <span class="st">"sample_id"</span><span class="op">]</span> </span>
 <span></span>
 <span><span class="co">## define a vector of feature IDs</span></span>
 <span><span class="va">fids</span> <span class="op">&lt;-</span> <span class="va">mydata</span><span class="op">@</span><span class="va">features</span><span class="op">[</span>, <span class="st">"feature_id"</span><span class="op">]</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># note that for illustrative purposes we are using a log outlier unit distance of 1.0 here, in practice we tend to favor a value of 5.0.</span></span>
+<span><span class="co"># NOTE:</span></span>
+<span><span class="co"># outlier_udist = number of IQRs from the median at which a value is flagged.</span></span>
+<span><span class="co"># 1.0 here is illustrative; in practice we favour 5.0, which is the default value</span></span>
+<span><span class="co"># for the quality_control() function.</span></span>
 <span><span class="va">feature_sum_subset</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/feature_summary.html">feature_summary</a></span><span class="op">(</span>omiprep         <span class="op">=</span> <span class="va">mydata</span>, </span>
 <span>                                      source_layer    <span class="op">=</span> <span class="st">"input"</span>, </span>
 <span>                                      outlier_udist   <span class="op">=</span> <span class="fl">1.0</span>,</span>
@@ -941,10 +1393,15 @@ specified ids.</p>
 <span>                                      feature_ids     <span class="op">=</span> <span class="va">fids</span>,</span>
 <span>                                      output          <span class="op">=</span> <span class="st">"data.frame"</span>,</span>
 <span>                                      cores           <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="table-of-feature-summary-for-subset">Table of feature summary for subset<a class="anchor" aria-label="anchor" href="#table-of-feature-summary-for-subset"></a>
-</h2>
+<div class="section level4">
+<h4 id="table-of-feature-summary-for-subset">Table of feature summary for subset<a class="anchor" aria-label="anchor" href="#table-of-feature-summary-for-subset"></a>
+</h4>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">feature_sum_subset</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html" class="external-link">na.omit</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span> digits <span class="op">=</span> <span class="fl">3</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span>, align <span class="op">=</span> <span class="st">"c"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">kableExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kable_styling.html" class="external-link">kable_styling</a></span><span class="op">(</span>full_width <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">kableExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/scroll_box.html" class="external-link">scroll_box</a></span><span class="op">(</span>width <span class="op">=</span> <span class="st">"100%"</span>, height <span class="op">=</span> <span class="st">"500px"</span><span class="op">)</span></span></code></pre></div>
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:500px; overflow-x: scroll; width:100%; ">
 <table class="table table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead><tr>
@@ -1667,24 +2124,79 @@ TRUE
 </table>
 </div>
 </div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="additional-feature_summary-attributes">Additional feature_summary() attributes<a class="anchor" aria-label="anchor" href="#additional-feature_summary-attributes"></a>
+</h2>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">## The attributes include column names, row names, and class for the feature summary table</span></span>
+<span><span class="co">## as well as a hierarchical cluster dendrogram or `input_tree` and the parameter values for </span></span>
+<span><span class="co">## outlier_udist and input_tree_cut_height passed to the function. </span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span> <span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">feature_sum1</span><span class="op">)</span> <span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "names"                 "row.names"             "class"                </span></span>
+<span><span class="co">#&gt; [4] "input_tree"            "input_outlier_udist"   "input_tree_cut_height"</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="hierarchical-cluster-dendrogram">hierarchical cluster dendrogram<a class="anchor" aria-label="anchor" href="#hierarchical-cluster-dendrogram"></a>
+</h3>
+<p>In addition to the summary data, the hierarchical cluster dendrogram
+is appended to the returned <code>data.frame</code> as and
+<code>attribute</code>. This can be accessed with the attribute name:
+<code>[source_layer]_tree</code>, in this case we summarised the
+<code>input</code> data, therefore the attribute name is
+<code>input_tree</code>.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://talgalili.github.io/dendextend/" class="external-link">dendextend</a></span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># extract tree from attributes</span></span>
+<span><span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">feature_sum1</span>, <span class="st">'input_tree'</span><span class="op">)</span></span>
+<span><span class="va">dend</span> <span class="op">&lt;-</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/dendrogram.html" class="external-link">as.dendrogram</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># color the independent features blue</span></span>
+<span><span class="va">metab_color</span>       <span class="op">&lt;-</span> <span class="va">feature_sum1</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"feature_id"</span>, <span class="st">"independent_features"</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="va">metab_color</span>       <span class="op">&lt;-</span> <span class="va">metab_color</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/match.html" class="external-link">match</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/labels.html" class="external-link">labels</a></span><span class="op">(</span><span class="va">dend</span><span class="op">)</span>, <span class="va">metab_color</span><span class="op">$</span><span class="va">feature_id</span><span class="op">)</span>, <span class="op">]</span></span>
+<span><span class="va">metab_color</span><span class="op">$</span><span class="va">color</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">metab_color</span><span class="op">$</span><span class="va">independent_features</span><span class="op">==</span><span class="cn">TRUE</span>, <span class="st">"#477EB8"</span>, <span class="st">"grey"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># format dendrogram for ploting</span></span>
+<span><span class="va">dend</span> <span class="op">&lt;-</span> <span class="va">dend</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dendextend</span><span class="fu">::</span><span class="fu"><a href="https://talgalili.github.io/dendextend/reference/set.html" class="external-link">set</a></span><span class="op">(</span><span class="st">"labels_cex"</span>, <span class="fl">0.75</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dendextend</span><span class="fu">::</span><span class="fu"><a href="https://talgalili.github.io/dendextend/reference/set.html" class="external-link">set</a></span><span class="op">(</span><span class="st">"labels_col"</span>, <span class="va">metab_color</span><span class="op">$</span><span class="va">color</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dendextend</span><span class="fu">::</span><span class="fu"><a href="https://talgalili.github.io/dendextend/reference/set.html" class="external-link">set</a></span><span class="op">(</span><span class="st">"branches_lwd"</span>, <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dendextend</span><span class="fu">::</span><span class="fu"><a href="https://talgalili.github.io/dendextend/reference/set.html" class="external-link">set</a></span><span class="op">(</span><span class="st">"branches_k_color"</span>,  value <span class="op">=</span> <span class="va">metab_color</span><span class="op">$</span><span class="va">color</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## plot the dendrogram</span></span>
+<span><span class="va">dend</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span>main <span class="op">=</span> <span class="st">"Feature clustering dendrogram"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>h <span class="op">=</span> <span class="fl">0.5</span>, col <span class="op">=</span> <span class="st">"#E41A1C"</span>, lwd <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span></span></code></pre></div>
+<p><img src="feature_summary_files/figure-html/tree-1.png" class="r-plt" alt="Decision tree showing feature importance in dataset" width="100%" style="display: block; margin: auto;"></p>
+</div>
+</div>
 <div class="section level2">
 <h2 id="run-sample-feature-summaries-together">Run sample &amp; feature summaries together<a class="anchor" aria-label="anchor" href="#run-sample-feature-summaries-together"></a>
 </h2>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># note that for illustrative purposes we are using a log outlier unit distance of 1.0 here, in practice we tend to favor a value of 5.0.</span></span>
-<span><span class="va">sam_n_feat_sum</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>omiprep         <span class="op">=</span> <span class="va">mydata</span>, </span>
-<span>                            source_layer    <span class="op">=</span> <span class="st">"input"</span>, </span>
-<span>                            outlier_udist   <span class="op">=</span> <span class="fl">1.0</span>,</span>
-<span>                            tree_cut_height <span class="op">=</span> <span class="fl">0.5</span>,</span>
-<span>                            sample_ids      <span class="op">=</span> <span class="va">sids</span>, </span>
-<span>                            feature_ids     <span class="op">=</span> <span class="va">fids</span>,</span>
-<span>                            output          <span class="op">=</span> <span class="st">"data.frame"</span>, </span>
-<span>                            cores           <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># NOTE:</span></span>
+<span><span class="co"># outlier_udist = number of IQRs from the median at which a value is flagged.</span></span>
+<span><span class="co"># 1.0 here is illustrative; in practice we favour 5.0, which is the default value</span></span>
+<span><span class="co"># for the quality_control() function.</span></span>
+<span><span class="va">sf_sum</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>omiprep         <span class="op">=</span> <span class="va">mydata</span>, </span>
+<span>                    source_layer    <span class="op">=</span> <span class="st">"input"</span>, </span>
+<span>                    outlier_udist   <span class="op">=</span> <span class="fl">1.0</span>,</span>
+<span>                    tree_cut_height <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>                    sample_ids      <span class="op">=</span> <span class="va">sids</span>, <span class="co">## It is also possible to run on a subset of samples and/or features</span></span>
+<span>                    feature_ids     <span class="op">=</span> <span class="va">fids</span>,</span>
+<span>                    output          <span class="op">=</span> <span class="st">"data.frame"</span>, </span>
+<span>                    cores           <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Number of informative PCs (Scree acceleration factor): 2</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="table-of-feature-summary-for-subset-1">Table of feature summary for subset<a class="anchor" aria-label="anchor" href="#table-of-feature-summary-for-subset-1"></a>
+<h2 id="table-of-feature-summary-from-summarise-function">Table of feature summary from summarise() function<a class="anchor" aria-label="anchor" href="#table-of-feature-summary-from-summarise-function"></a>
 </h2>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sf_sum</span><span class="op">$</span><span class="va">feature_summary</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html" class="external-link">na.omit</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span> digits <span class="op">=</span> <span class="fl">3</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span>, align <span class="op">=</span> <span class="st">"c"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">kableExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kable_styling.html" class="external-link">kable_styling</a></span><span class="op">(</span>full_width <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">kableExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/scroll_box.html" class="external-link">scroll_box</a></span><span class="op">(</span>width <span class="op">=</span> <span class="st">"100%"</span>, height <span class="op">=</span> <span class="st">"500px"</span><span class="op">)</span></span></code></pre></div>
 <div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:500px; overflow-x: scroll; width:100%; ">
 <table class="table table" style="margin-left: auto; margin-right: auto;">
 <thead><tr>

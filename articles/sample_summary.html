@@ -151,18 +151,80 @@
 <span><span class="co">#&gt; user_defined_feature_skewness    | 0</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="run-sample-summary">Run sample summary<a class="anchor" aria-label="anchor" href="#run-sample-summary"></a>
+<h2 id="run-standard-quality-control">Run standard quality control<a class="anchor" aria-label="anchor" href="#run-standard-quality-control"></a>
 </h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># note that for illustrative purposes we are using a log outlier unit distance of 1.0 here, in practice we tend to favor a value of 5.0.</span></span>
-<span><span class="va">sample_sum1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sample_summary.html">sample_summary</a></span><span class="op">(</span>omiprep         <span class="op">=</span> <span class="va">mydata</span>, </span>
-<span>                              source_layer    <span class="op">=</span> <span class="st">"input"</span>, </span>
-<span>                              outlier_udist   <span class="op">=</span> <span class="fl">1.0</span>,</span>
-<span>                              output          <span class="op">=</span> <span class="st">"data.frame"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">mydata</span> <span class="op">=</span> <span class="fu"><a href="../reference/quality_control.html">quality_control</a></span><span class="op">(</span><span class="va">mydata</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Starting Omics QC Process</span> <span style="color: #00BBBB;">───────────────────────────────────────────────────</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Validating input parameters</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Validating input parameters <span style="color: #B2B2B2;">[8ms]</span></span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample &amp; Feature Summary Statistics for raw data</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Number of informative PCs (Scree acceleration factor): 3</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample &amp; Feature Summary Statistics for raw data<span style="color: #00BB00;">✔</span> Sample &amp; Feature Summary Statistics for raw data <span style="color: #B2B2B2;">[231ms]</span></span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Copying input data to new 'qc' data layer</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Copying input data to new 'qc' data layer <span style="color: #B2B2B2;">[28ms]</span></span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Assessing for extreme sample missingness &gt;=80% - excluding 0 sample(s)</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for extreme sample missingness &gt;=80% - excluding 0 sample(s) <span style="color: #B2B2B2;">[21ms]</span></span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Assessing for extreme feature missingness &gt;=80% - excluding 0 feature(s)</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for extreme feature missingness &gt;=80% - excluding 0 feature(s) <span style="color: #B2B2B2;">[20m</span>…</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Assessing for sample missingness at specified level of &gt;=20% - excluding 0 sa…</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for sample missingness at specified level of &gt;=20% - excluding 0 sa…</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Assessing for feature missingness at specified level of &gt;=20% - excluding 0 f…</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for feature missingness at specified level of &gt;=20% - excluding 0 f…</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Calculating total sum abundance outliers at +/- 5 Sdev - excluding 0 sample(s)</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Calculating total sum abundance outliers at +/- 5 Sdev - excluding 0 sample(s…</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Running sample data PCA outlier analysis at +/- 5 Sdev</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Running sample data PCA outlier analysis at +/- 5 Sdev <span style="color: #B2B2B2;">[19ms]</span></span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample PCA outlier analysis - re-identify feature independence and PC outlier…</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Number of informative PCs (Scree acceleration factor): 3</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample PCA outlier analysis - re-identify feature independence and PC outlier…<span style="color: #BBBB00;">!</span> The stated max PCs [max_num_pcs=10] to use in PCA outlier assessment is greater than the number of available informative PCs [3]</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample PCA outlier analysis - re-identify feature independence and PC outlier…<span style="color: #00BB00;">✔</span> Sample PCA outlier analysis - re-identify feature independence and PC outlier…</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Creating final QC dataset...</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Number of informative PCs (Scree acceleration factor): 3</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Creating final QC dataset...</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Creating final QC dataset...── <span style="font-weight: bold;">Step timings</span> ──</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Creating final QC dataset...</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Creating final QC dataset...</span></span>
+<span><span class="co">#&gt;                         step seconds   pct</span></span>
+<span><span class="co">#&gt;                   validation    0.00   0.0</span></span>
+<span><span class="co">#&gt;                summarise_raw    0.22  28.3</span></span>
+<span><span class="co">#&gt;                   copy_layer    0.00   0.0</span></span>
+<span><span class="co">#&gt;   extreme_sample_missingness    0.00   0.0</span></span>
+<span><span class="co">#&gt;  extreme_feature_missingness    0.00   0.0</span></span>
+<span><span class="co">#&gt;           sample_missingness    0.00   0.0</span></span>
+<span><span class="co">#&gt;          total_sum_abundance    0.00   0.0</span></span>
+<span><span class="co">#&gt;                summarise_pca    0.23  29.6</span></span>
+<span><span class="co">#&gt;              summarise_final    0.11  14.1</span></span>
+<span><span class="co">#&gt;                        total    0.78 100.3</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Creating final QC dataset... <span style="color: #B2B2B2;">[141ms]</span></span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> 'Omics QC Process Completed</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> 'Omics QC Process Completed <span style="color: #B2B2B2;">[17ms]</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="table-of-sample-summary">Table of sample summary<a class="anchor" aria-label="anchor" href="#table-of-sample-summary"></a>
+<h2 id="sample-summary">Sample Summary<a class="anchor" aria-label="anchor" href="#sample-summary"></a>
 </h2>
+<div class="section level3">
+<h3 id="view-sample-summary-from-the-qc-pipeline">View sample summary from the QC pipeline<a class="anchor" aria-label="anchor" href="#view-sample-summary-from-the-qc-pipeline"></a>
+</h3>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Note: the quality_control() ultimately returns the sample_summary attribute as a matrix.</span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">mydata</span><span class="op">@</span><span class="va">sample_summary</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">6</span>, <span class="st">"input"</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span>sample_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span>, <span class="va">df</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">df</span> <span class="op">|&gt;</span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span> digits <span class="op">=</span> <span class="fl">3</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span>, align <span class="op">=</span> <span class="st">"c"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">kableExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kable_styling.html" class="external-link">kable_styling</a></span><span class="op">(</span>full_width <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> </span></code></pre></div>
 <table class="table table" style="margin-left: auto; margin-right: auto;">
 <thead><tr>
 <th style="text-align:center;">
@@ -172,10 +234,16 @@ sample_id
 missingness
 </th>
 <th style="text-align:center;">
+non_na_feature_count
+</th>
+<th style="text-align:center;">
 tsa_total
 </th>
 <th style="text-align:center;">
 tsa_complete_features
+</th>
+<th style="text-align:center;">
+complete_feature_count
 </th>
 <th style="text-align:center;">
 outlier_count
@@ -190,10 +258,16 @@ id_100
 0
 </td>
 <td style="text-align:center;">
+20
+</td>
+<td style="text-align:center;">
 38.699
 </td>
 <td style="text-align:center;">
 38.699
+</td>
+<td style="text-align:center;">
+20
 </td>
 <td style="text-align:center;">
 0
@@ -207,10 +281,16 @@ id_99
 0
 </td>
 <td style="text-align:center;">
+20
+</td>
+<td style="text-align:center;">
 39.451
 </td>
 <td style="text-align:center;">
 39.451
+</td>
+<td style="text-align:center;">
+20
 </td>
 <td style="text-align:center;">
 0
@@ -224,10 +304,136 @@ id_98
 0
 </td>
 <td style="text-align:center;">
+20
+</td>
+<td style="text-align:center;">
 45.135
 </td>
 <td style="text-align:center;">
 45.135
+</td>
+<td style="text-align:center;">
+20
+</td>
+<td style="text-align:center;">
+0
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level3">
+<h3 id="manually-run-sample-summary">Manually run sample summary<a class="anchor" aria-label="anchor" href="#manually-run-sample-summary"></a>
+</h3>
+<p>While sample summary is run as a part of the quality_control()
+function pipeline you can run the function yourself, on any layer you
+wish.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># NOTE:</span></span>
+<span><span class="co"># outlier_udist = number of IQRs from the median at which a value is flagged.</span></span>
+<span><span class="co"># 1.0 here is illustrative; in practice we favour 5.0, which is the default value</span></span>
+<span><span class="co"># for the quality_control() function.</span></span>
+<span><span class="va">sample_sum1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sample_summary.html">sample_summary</a></span><span class="op">(</span>omiprep         <span class="op">=</span> <span class="va">mydata</span>, </span>
+<span>                              source_layer    <span class="op">=</span> <span class="st">"input"</span>, </span>
+<span>                              outlier_udist   <span class="op">=</span> <span class="fl">1.0</span>,</span>
+<span>                              output          <span class="op">=</span> <span class="st">"data.frame"</span><span class="op">)</span></span></code></pre></div>
+<div class="section level4">
+<h4 id="table-of-sample-summary">Table of sample summary<a class="anchor" aria-label="anchor" href="#table-of-sample-summary"></a>
+</h4>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sample_sum1</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span> digits <span class="op">=</span> <span class="fl">3</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span>, align <span class="op">=</span> <span class="st">"c"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">kableExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kable_styling.html" class="external-link">kable_styling</a></span><span class="op">(</span>full_width <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> </span></code></pre></div>
+<table class="table table" style="margin-left: auto; margin-right: auto;">
+<thead><tr>
+<th style="text-align:center;">
+sample_id
+</th>
+<th style="text-align:center;">
+missingness
+</th>
+<th style="text-align:center;">
+non_na_feature_count
+</th>
+<th style="text-align:center;">
+tsa_total
+</th>
+<th style="text-align:center;">
+tsa_complete_features
+</th>
+<th style="text-align:center;">
+complete_feature_count
+</th>
+<th style="text-align:center;">
+outlier_count
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+id_100
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+20
+</td>
+<td style="text-align:center;">
+38.699
+</td>
+<td style="text-align:center;">
+38.699
+</td>
+<td style="text-align:center;">
+20
+</td>
+<td style="text-align:center;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+id_99
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+20
+</td>
+<td style="text-align:center;">
+39.451
+</td>
+<td style="text-align:center;">
+39.451
+</td>
+<td style="text-align:center;">
+20
+</td>
+<td style="text-align:center;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+id_98
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+20
+</td>
+<td style="text-align:center;">
+45.135
+</td>
+<td style="text-align:center;">
+45.135
+</td>
+<td style="text-align:center;">
+20
 </td>
 <td style="text-align:center;">
 1
@@ -241,10 +447,16 @@ id_97
 0
 </td>
 <td style="text-align:center;">
+20
+</td>
+<td style="text-align:center;">
 37.289
 </td>
 <td style="text-align:center;">
 37.289
+</td>
+<td style="text-align:center;">
+20
 </td>
 <td style="text-align:center;">
 2
@@ -258,10 +470,16 @@ id_96
 0
 </td>
 <td style="text-align:center;">
+20
+</td>
+<td style="text-align:center;">
 31.545
 </td>
 <td style="text-align:center;">
 31.545
+</td>
+<td style="text-align:center;">
+20
 </td>
 <td style="text-align:center;">
 3
@@ -275,10 +493,16 @@ id_95
 0
 </td>
 <td style="text-align:center;">
+20
+</td>
+<td style="text-align:center;">
 36.751
 </td>
 <td style="text-align:center;">
 36.751
+</td>
+<td style="text-align:center;">
+20
 </td>
 <td style="text-align:center;">
 2
@@ -292,10 +516,16 @@ id_94
 0
 </td>
 <td style="text-align:center;">
+20
+</td>
+<td style="text-align:center;">
 37.384
 </td>
 <td style="text-align:center;">
 37.384
+</td>
+<td style="text-align:center;">
+20
 </td>
 <td style="text-align:center;">
 0
@@ -309,10 +539,16 @@ id_93
 0
 </td>
 <td style="text-align:center;">
+20
+</td>
+<td style="text-align:center;">
 34.069
 </td>
 <td style="text-align:center;">
 34.069
+</td>
+<td style="text-align:center;">
+20
 </td>
 <td style="text-align:center;">
 0
@@ -326,10 +562,16 @@ id_92
 0
 </td>
 <td style="text-align:center;">
+20
+</td>
+<td style="text-align:center;">
 38.942
 </td>
 <td style="text-align:center;">
 38.942
+</td>
+<td style="text-align:center;">
+20
 </td>
 <td style="text-align:center;">
 0
@@ -343,10 +585,16 @@ id_91
 0
 </td>
 <td style="text-align:center;">
+20
+</td>
+<td style="text-align:center;">
 42.743
 </td>
 <td style="text-align:center;">
 42.743
+</td>
+<td style="text-align:center;">
+20
 </td>
 <td style="text-align:center;">
 2
@@ -355,19 +603,21 @@ id_91
 </tbody>
 </table>
 </div>
-<div class="section level2">
-<h2 id="run-sample-summary-on-subset">Run sample summary on subset<a class="anchor" aria-label="anchor" href="#run-sample-summary-on-subset"></a>
-</h2>
+</div>
+<div class="section level3">
+<h3 id="run-sample-summary-on-subset">Run sample summary on subset<a class="anchor" aria-label="anchor" href="#run-sample-summary-on-subset"></a>
+</h3>
 <p>Using the <code>sample_ids</code> and <code>feature_ids</code>
 arguments you can run the summary for a subset of the data. Note: all
 rows will be return, however summary data will only be returned for the
 specified ids.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## define a vector of sample IDs</span></span>
 <span><span class="va">sids</span> <span class="op">&lt;-</span> <span class="va">mydata</span><span class="op">@</span><span class="va">samples</span><span class="op">[</span><span class="va">mydata</span><span class="op">@</span><span class="va">samples</span><span class="op">$</span><span class="va">sex</span> <span class="op">==</span> <span class="st">"female"</span>, <span class="st">"sample_id"</span><span class="op">]</span> </span>
 <span></span>
 <span><span class="co">## define a vector of feature IDs</span></span>
-<span><span class="va">fids</span> <span class="op">&lt;-</span> <span class="va">mydata</span><span class="op">@</span><span class="va">features</span><span class="op">[</span>, <span class="st">"feature_id"</span><span class="op">]</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span>
+<span><span class="co">## extract only those features run on `pos`itive ion mode. </span></span>
+<span><span class="va">fids</span> <span class="op">&lt;-</span> <span class="va">mydata</span><span class="op">@</span><span class="va">features</span><span class="op">[</span><span class="va">mydata</span><span class="op">@</span><span class="va">features</span><span class="op">$</span><span class="va">platform</span> <span class="op">==</span> <span class="st">"pos"</span>, <span class="st">"feature_id"</span><span class="op">]</span> </span>
 <span></span>
 <span><span class="co"># run sample summary on subset</span></span>
 <span><span class="va">sample_sum_subset</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/sample_summary.html">sample_summary</a></span><span class="op">(</span>omiprep       <span class="op">=</span> <span class="va">mydata</span>, </span>
@@ -376,10 +626,15 @@ specified ids.</p>
 <span>                                    sample_ids    <span class="op">=</span> <span class="va">sids</span>,</span>
 <span>                                    feature_ids   <span class="op">=</span> <span class="va">fids</span>,</span>
 <span>                                    output        <span class="op">=</span> <span class="st">"data.frame"</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="table-of-sample-summary-on-subset">Table of sample summary on subset<a class="anchor" aria-label="anchor" href="#table-of-sample-summary-on-subset"></a>
-</h2>
+<div class="section level4">
+<h4 id="table-of-sample-summary-on-subset">Table of sample summary on subset<a class="anchor" aria-label="anchor" href="#table-of-sample-summary-on-subset"></a>
+</h4>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">sample_sum_subset</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html" class="external-link">na.omit</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span> digits <span class="op">=</span> <span class="fl">3</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span>, align <span class="op">=</span> <span class="st">"c"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">kableExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kable_styling.html" class="external-link">kable_styling</a></span><span class="op">(</span>full_width <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> </span></code></pre></div>
 <table class="table table" style="margin-left: auto; margin-right: auto;">
 <thead><tr>
 <th style="text-align:center;">
@@ -389,10 +644,16 @@ sample_id
 missingness
 </th>
 <th style="text-align:center;">
+non_na_feature_count
+</th>
+<th style="text-align:center;">
 tsa_total
 </th>
 <th style="text-align:center;">
 tsa_complete_features
+</th>
+<th style="text-align:center;">
+complete_feature_count
 </th>
 <th style="text-align:center;">
 outlier_count
@@ -407,10 +668,16 @@ id_98
 0
 </td>
 <td style="text-align:center;">
-22.241
+4
 </td>
 <td style="text-align:center;">
-22.241
+6.590
+</td>
+<td style="text-align:center;">
+6.590
+</td>
+<td style="text-align:center;">
+4
 </td>
 <td style="text-align:center;">
 0
@@ -424,13 +691,19 @@ id_97
 0
 </td>
 <td style="text-align:center;">
-15.765
+4
 </td>
 <td style="text-align:center;">
-15.765
+4.484
 </td>
 <td style="text-align:center;">
-1
+4.484
+</td>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+0
 </td>
 </tr>
 <tr>
@@ -441,13 +714,19 @@ id_96
 0
 </td>
 <td style="text-align:center;">
-17.082
+4
 </td>
 <td style="text-align:center;">
-17.082
+7.318
 </td>
 <td style="text-align:center;">
-1
+7.318
+</td>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+0
 </td>
 </tr>
 <tr>
@@ -458,10 +737,16 @@ id_94
 0
 </td>
 <td style="text-align:center;">
-17.010
+4
 </td>
 <td style="text-align:center;">
-17.010
+7.641
+</td>
+<td style="text-align:center;">
+7.641
+</td>
+<td style="text-align:center;">
+4
 </td>
 <td style="text-align:center;">
 0
@@ -475,13 +760,19 @@ id_93
 0
 </td>
 <td style="text-align:center;">
-17.478
+4
 </td>
 <td style="text-align:center;">
-17.478
+7.053
 </td>
 <td style="text-align:center;">
-1
+7.053
+</td>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+0
 </td>
 </tr>
 <tr>
@@ -492,10 +783,16 @@ id_92
 0
 </td>
 <td style="text-align:center;">
-22.147
+4
 </td>
 <td style="text-align:center;">
-22.147
+8.123
+</td>
+<td style="text-align:center;">
+8.123
+</td>
+<td style="text-align:center;">
+4
 </td>
 <td style="text-align:center;">
 0
@@ -509,13 +806,19 @@ id_90
 0
 </td>
 <td style="text-align:center;">
-14.568
+4
 </td>
 <td style="text-align:center;">
-14.568
+4.924
 </td>
 <td style="text-align:center;">
-1
+4.924
+</td>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+0
 </td>
 </tr>
 <tr>
@@ -526,13 +829,19 @@ id_89
 0
 </td>
 <td style="text-align:center;">
-22.601
+4
 </td>
 <td style="text-align:center;">
-22.601
+9.921
 </td>
 <td style="text-align:center;">
-1
+9.921
+</td>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+0
 </td>
 </tr>
 <tr>
@@ -543,13 +852,19 @@ id_88
 0
 </td>
 <td style="text-align:center;">
-18.243
+4
 </td>
 <td style="text-align:center;">
-18.243
+6.454
 </td>
 <td style="text-align:center;">
-2
+6.454
+</td>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+1
 </td>
 </tr>
 <tr>
@@ -560,10 +875,16 @@ id_87
 0
 </td>
 <td style="text-align:center;">
-17.149
+4
 </td>
 <td style="text-align:center;">
-17.149
+7.254
+</td>
+<td style="text-align:center;">
+7.254
+</td>
+<td style="text-align:center;">
+4
 </td>
 <td style="text-align:center;">
 0
@@ -572,29 +893,305 @@ id_87
 </tbody>
 </table>
 </div>
+</div>
+</div>
 <div class="section level2">
-<h2 id="run-pca-analysis">Run PCA analysis<a class="anchor" aria-label="anchor" href="#run-pca-analysis"></a>
+<h2 id="principal-componet-analysis">Principal Componet Analysis<a class="anchor" aria-label="anchor" href="#principal-componet-analysis"></a>
 </h2>
+<div class="section level3">
+<h3 id="view-pcs-from-the-qc-pipeline">View PCs from the QC pipeline<a class="anchor" aria-label="anchor" href="#view-pcs-from-the-qc-pipeline"></a>
+</h3>
+<p>PCs and outliers are available as a part of the
+<code>quality_countrol()</code> function pipeline.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Note: the quality_control() ultimately returns the sample_summary attribute as a matrix.</span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">mydata</span><span class="op">@</span><span class="va">sample_summary</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span>, <span class="st">"input"</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span>sample_id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span>, <span class="va">df</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">df</span> <span class="op">|&gt;</span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span> digits <span class="op">=</span> <span class="fl">3</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span>, align <span class="op">=</span> <span class="st">"c"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">kableExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kable_styling.html" class="external-link">kable_styling</a></span><span class="op">(</span>full_width <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> </span></code></pre></div>
+<table class="table table" style="margin-left: auto; margin-right: auto;">
+<thead><tr>
+<th style="text-align:center;">
+sample_id
+</th>
+<th style="text-align:center;">
+pc1
+</th>
+<th style="text-align:center;">
+pc2
+</th>
+<th style="text-align:center;">
+pc3
+</th>
+<th style="text-align:center;">
+pc4
+</th>
+<th style="text-align:center;">
+pc5
+</th>
+<th style="text-align:center;">
+pc6
+</th>
+<th style="text-align:center;">
+pc7
+</th>
+<th style="text-align:center;">
+pc8
+</th>
+<th style="text-align:center;">
+pc9
+</th>
+<th style="text-align:center;">
+pc10
+</th>
+<th style="text-align:center;">
+pc1_3_sd_outlier
+</th>
+<th style="text-align:center;">
+pc2_3_sd_outlier
+</th>
+<th style="text-align:center;">
+pc3_3_sd_outlier
+</th>
+<th style="text-align:center;">
+pc1_4_sd_outlier
+</th>
+<th style="text-align:center;">
+pc2_4_sd_outlier
+</th>
+<th style="text-align:center;">
+pc3_4_sd_outlier
+</th>
+<th style="text-align:center;">
+pc1_5_sd_outlier
+</th>
+<th style="text-align:center;">
+pc2_5_sd_outlier
+</th>
+<th style="text-align:center;">
+pc3_5_sd_outlier
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:center;">
+id_100
+</td>
+<td style="text-align:center;">
+1.087
+</td>
+<td style="text-align:center;">
+0.321
+</td>
+<td style="text-align:center;">
+0.003
+</td>
+<td style="text-align:center;">
+0.477
+</td>
+<td style="text-align:center;">
+0.837
+</td>
+<td style="text-align:center;">
+0.256
+</td>
+<td style="text-align:center;">
+-0.162
+</td>
+<td style="text-align:center;">
+-0.276
+</td>
+<td style="text-align:center;">
+0.577
+</td>
+<td style="text-align:center;">
+-1.466
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+id_99
+</td>
+<td style="text-align:center;">
+0.418
+</td>
+<td style="text-align:center;">
+0.573
+</td>
+<td style="text-align:center;">
+1.581
+</td>
+<td style="text-align:center;">
+0.110
+</td>
+<td style="text-align:center;">
+-1.154
+</td>
+<td style="text-align:center;">
+-0.256
+</td>
+<td style="text-align:center;">
+-0.103
+</td>
+<td style="text-align:center;">
+0.115
+</td>
+<td style="text-align:center;">
+1.961
+</td>
+<td style="text-align:center;">
+-1.201
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+id_98
+</td>
+<td style="text-align:center;">
+-2.249
+</td>
+<td style="text-align:center;">
+0.131
+</td>
+<td style="text-align:center;">
+0.040
+</td>
+<td style="text-align:center;">
+-0.605
+</td>
+<td style="text-align:center;">
+-0.720
+</td>
+<td style="text-align:center;">
+0.763
+</td>
+<td style="text-align:center;">
+-0.614
+</td>
+<td style="text-align:center;">
+0.076
+</td>
+<td style="text-align:center;">
+-0.521
+</td>
+<td style="text-align:center;">
+-1.457
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level3">
+<h3 id="manually-run-pca-analysis">Manually run PCA analysis<a class="anchor" aria-label="anchor" href="#manually-run-pca-analysis"></a>
+</h3>
+<p>You can derive PCs and identify outlier independent of the
+<code><a href="../reference/quality_control.html">quality_control()</a></code> function, however.</p>
 <p><code><a href="../reference/pc_and_outliers.html">pc_and_outliers()</a></code> performs principal component analysis.
 Missing data is imputed to the median and used to identify the number of
 informative or ‘significant’ PCs by (1) an acceleration analysis, and
 (2) a parallel analysis. Finally the number of sample outliers are
 determined at 3, 4, and 5 standard deviations from the mean on the top
 PCs as determined by the acceleration factor analysis.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pc_analysis</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pc_and_outliers.html">pc_and_outliers</a></span><span class="op">(</span>omiprep      <span class="op">=</span> <span class="va">mydata</span>, </span>
 <span>                               source_layer <span class="op">=</span> <span class="st">"input"</span>,</span>
 <span>                               sample_ids   <span class="op">=</span> <span class="va">sids</span>, <span class="co">## It is also possible to run on a subset of samples and/or features</span></span>
 <span>                               feature_ids  <span class="op">=</span> <span class="cn">NULL</span></span>
 <span>                               <span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Number of informative PCs (Scree acceleration factor): 3</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="table-of-pca-analysis-results">Table of PCA analysis results<a class="anchor" aria-label="anchor" href="#table-of-pca-analysis-results"></a>
-</h2>
+<div class="section level4">
+<h4 id="table-of-pca-analysis-results">Table of PCA analysis results<a class="anchor" aria-label="anchor" href="#table-of-pca-analysis-results"></a>
+</h4>
 <p>Returned are the PC eigenvectors for the top 10 PCs, and outlier
 counts at 3, 4, and 5 standard deviations from the mean for the top two
 PCs</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">pc_analysis</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span> digits <span class="op">=</span> <span class="fl">3</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span>, align <span class="op">=</span> <span class="st">"c"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">kableExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/kableExtra/man/kable_styling.html" class="external-link">kable_styling</a></span><span class="op">(</span>full_width <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> </span></code></pre></div>
 <table class="table table" style="margin-left: auto; margin-right: auto;">
 <thead><tr>
 <th style="text-align:center;">
@@ -1282,9 +1879,27 @@ id_87
 </tbody>
 </table>
 </div>
-<div class="section level2">
-<h2 id="additional-attributes">Additional attributes<a class="anchor" aria-label="anchor" href="#additional-attributes"></a>
-</h2>
+<div class="section level4">
+<h4 id="pca-plot">PCA plot<a class="anchor" aria-label="anchor" href="#pca-plot"></a>
+</h4>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="co">## extract variance explained attribute</span></span>
+<span><span class="va">varexp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">pc_analysis</span>, <span class="st">'input_varexp'</span><span class="op">)</span></span>
+<span><span class="co">## extract PC data</span></span>
+<span><span class="va">pcs</span> <span class="op">=</span> <span class="va">pc_analysis</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pc1"</span>,<span class="st">"pc2"</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="co">## generate plot</span></span>
+<span><span class="va">pcs</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">pc1</span>, y <span class="op">=</span> <span class="va">pc2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">2</span>, col <span class="op">=</span> <span class="st">"#377EB8"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"PC1; VarExp =  "</span>, <span class="va">varexp</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">*</span><span class="fl">100</span>, <span class="st">"%"</span><span class="op">)</span>, </span>
+<span>       y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"PC2; VarExp =  "</span>, <span class="va">varexp</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">*</span><span class="fl">100</span>, <span class="st">"%"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><img src="sample_summary_files/figure-html/pca_plot-1.png" class="r-plt" alt="" width="700"></p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="additional-pc_and_outliers-attributes">Additional pc_and_outliers() attributes<a class="anchor" aria-label="anchor" href="#additional-pc_and_outliers-attributes"></a>
+</h3>
 <p>In addition, the variance explained vector is appended to the
 returned <code>data.frame</code> as and <code>attribute</code>. This can
 be accessed with the attribute name: <code>[source_layer]_varexp</code>,
@@ -1293,7 +1908,7 @@ attribute name is <code>input_varexp</code>. In a similar way, the
 results of the acceleration analysis (<code>input_num_pcs_scree</code>)
 and a parallel analysis (<code>input_num_pcs_parallel</code>) can also
 be extracted.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># extract varexp from attributes</span></span>
@@ -1324,10 +1939,11 @@ be extracted.</p>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"top"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="sample_summary_files/figure-html/ScreePlot-1.png" class="r-plt" alt="Variance explained" width="100%" style="display: block; margin: auto;"></p>
 </div>
+</div>
 <div class="section level2">
 <h2 id="run-sample-feature-summaries-together">Run sample &amp; feature summaries together<a class="anchor" aria-label="anchor" href="#run-sample-feature-summaries-together"></a>
 </h2>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sf_sum</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/summarise.html">summarise</a></span><span class="op">(</span>omiprep         <span class="op">=</span> <span class="va">mydata</span>, </span>
 <span>                    source_layer    <span class="op">=</span> <span class="st">"input"</span>, </span>
 <span>                    outlier_udist   <span class="op">=</span> <span class="fl">1.0</span>,</span>
@@ -1341,10 +1957,9 @@ be extracted.</p>
 <span><span class="co">## two data frames are returned as a list object</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">sf_sum</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "sample_summary"  "feature_summary"</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="table-of-sample-summary-on-subset-1">Table of sample summary on subset<a class="anchor" aria-label="anchor" href="#table-of-sample-summary-on-subset-1"></a>
-</h2>
+<div class="section level3">
+<h3 id="table-of-sample-summary-on-subset-1">Table of sample summary on subset<a class="anchor" aria-label="anchor" href="#table-of-sample-summary-on-subset-1"></a>
+</h3>
 <p>Note that when the summarise() function is used the sample summary
 now includes PCA derived summary data. This is not the case when the
 sample_summary() function is run alone, as seen above. The reason for
@@ -1363,10 +1978,16 @@ sample_id
 missingness
 </th>
 <th style="text-align:center;">
+non_na_feature_count
+</th>
+<th style="text-align:center;">
 tsa_total
 </th>
 <th style="text-align:center;">
 tsa_complete_features
+</th>
+<th style="text-align:center;">
+complete_feature_count
 </th>
 <th style="text-align:center;">
 outlier_count
@@ -1433,6 +2054,12 @@ pc3_5_sd_outlier
 <tr>
 <td style="text-align:center;">
 id_100
+</td>
+<td style="text-align:center;">
+NA
+</td>
+<td style="text-align:center;">
+NA
 </td>
 <td style="text-align:center;">
 NA
@@ -1577,6 +2204,12 @@ NA
 <td style="text-align:center;">
 NA
 </td>
+<td style="text-align:center;">
+NA
+</td>
+<td style="text-align:center;">
+NA
+</td>
 </tr>
 <tr>
 <td style="text-align:center;">
@@ -1586,10 +2219,16 @@ id_98
 0
 </td>
 <td style="text-align:center;">
+20
+</td>
+<td style="text-align:center;">
 45.392
 </td>
 <td style="text-align:center;">
 45.392
+</td>
+<td style="text-align:center;">
+20
 </td>
 <td style="text-align:center;">
 1
@@ -1660,10 +2299,16 @@ id_97
 0
 </td>
 <td style="text-align:center;">
+20
+</td>
+<td style="text-align:center;">
 37.473
 </td>
 <td style="text-align:center;">
 37.473
+</td>
+<td style="text-align:center;">
+20
 </td>
 <td style="text-align:center;">
 3
@@ -1734,10 +2379,16 @@ id_96
 0
 </td>
 <td style="text-align:center;">
+20
+</td>
+<td style="text-align:center;">
 32.042
 </td>
 <td style="text-align:center;">
 32.042
+</td>
+<td style="text-align:center;">
+20
 </td>
 <td style="text-align:center;">
 3
@@ -1873,6 +2524,12 @@ NA
 <td style="text-align:center;">
 NA
 </td>
+<td style="text-align:center;">
+NA
+</td>
+<td style="text-align:center;">
+NA
+</td>
 </tr>
 <tr>
 <td style="text-align:center;">
@@ -1882,10 +2539,16 @@ id_94
 0
 </td>
 <td style="text-align:center;">
+20
+</td>
+<td style="text-align:center;">
 37.615
 </td>
 <td style="text-align:center;">
 37.615
+</td>
+<td style="text-align:center;">
+20
 </td>
 <td style="text-align:center;">
 2
@@ -1956,10 +2619,16 @@ id_93
 0
 </td>
 <td style="text-align:center;">
+20
+</td>
+<td style="text-align:center;">
 34.238
 </td>
 <td style="text-align:center;">
 34.238
+</td>
+<td style="text-align:center;">
+20
 </td>
 <td style="text-align:center;">
 1
@@ -2030,10 +2699,16 @@ id_92
 0
 </td>
 <td style="text-align:center;">
+20
+</td>
+<td style="text-align:center;">
 39.200
 </td>
 <td style="text-align:center;">
 39.200
+</td>
+<td style="text-align:center;">
+20
 </td>
 <td style="text-align:center;">
 1
@@ -2169,9 +2844,16 @@ NA
 <td style="text-align:center;">
 NA
 </td>
+<td style="text-align:center;">
+NA
+</td>
+<td style="text-align:center;">
+NA
+</td>
 </tr>
 </tbody>
 </table>
+</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

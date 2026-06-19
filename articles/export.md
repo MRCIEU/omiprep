@@ -40,10 +40,10 @@ mydata         <- suppressWarnings( quality_control(mydata, cores = 1) )
 #> 
 #> ℹ Sample & Feature Summary Statistics for raw data
 #> ℹ Number of informative PCs (Scree acceleration factor): 2
-#> ℹ Sample & Feature Summary Statistics for raw data✔ Sample & Feature Summary Statistics for raw data [578ms]
+#> ℹ Sample & Feature Summary Statistics for raw data✔ Sample & Feature Summary Statistics for raw data [581ms]
 #> 
 #> ℹ Copying input data to new 'qc' data layer
-#> ✔ Copying input data to new 'qc' data layer [34ms]
+#> ✔ Copying input data to new 'qc' data layer [31ms]
 #> 
 #> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)
 #> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [22ms]
@@ -61,7 +61,7 @@ mydata         <- suppressWarnings( quality_control(mydata, cores = 1) )
 #> ✔ Calculating total sum abundance outliers at +/- 5 Sdev - excluding 0 sample(s…
 #> 
 #> ℹ Running sample data PCA outlier analysis at +/- 5 Sdev
-#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [24ms]
+#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [23ms]
 #> 
 #> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
 #> ℹ Number of informative PCs (Scree acceleration factor): 2
@@ -76,16 +76,16 @@ mydata         <- suppressWarnings( quality_control(mydata, cores = 1) )
 #> ℹ Creating final QC dataset...
 #>                         step seconds   pct
 #>                   validation    0.00   0.0
-#>                summarise_raw    0.56  27.8
+#>                summarise_raw    0.57  28.9
 #>                   copy_layer    0.00   0.0
 #>   extreme_sample_missingness    0.00   0.0
 #>  extreme_feature_missingness    0.00   0.0
 #>           sample_missingness    0.00   0.0
 #>          total_sum_abundance    0.00   0.0
-#>                summarise_pca    0.64  31.7
-#>              summarise_final    0.56  27.8
-#>                        total    2.02 100.1
-#> ✔ Creating final QC dataset... [614ms]
+#>                summarise_pca    0.62  31.4
+#>              summarise_final    0.56  28.4
+#>                        total    1.98 100.3
+#> ✔ Creating final QC dataset... [601ms]
 #> 
 #> ℹ 'Omics QC Process Completed
 #> ✔ 'Omics QC Process Completed [30ms]
@@ -93,15 +93,19 @@ mydata         <- suppressWarnings( quality_control(mydata, cores = 1) )
 
 ## Export Omiprep
 
+This will generate a folder containing an input and qc directory, each
+containing flat text versions of data, features, samples, feature
+summaries, and sample summaries.
+
 ``` r
 
 # where to put the files
-output_dir <- file.path(getwd(), "output")
+output_dir <- file.path(tempdir(), "output")
 
 # run export
 export(mydata, directory = output_dir, format = "omiprep")
 #> Exporting in omiprep format to: 
-#>      /home/runner/work/omiprep/omiprep/vignettes/output
+#>      /tmp/RtmpwkXp4t/output
 
 # view output directory files
 files <- list.files(output_dir, full.names = TRUE, recursive = TRUE)
@@ -109,32 +113,68 @@ unname(sapply(files, function(path) {
   parts <- strsplit(path, .Platform$file.sep)[[1]]
   paste(tail(parts, 4), collapse = .Platform$file.sep)
 }))
-#>  [1] "output/omiprep_export_2026_04_20/input/config.yml"         
-#>  [2] "output/omiprep_export_2026_04_20/input/data.tsv"           
-#>  [3] "output/omiprep_export_2026_04_20/input/feature_summary.tsv"
-#>  [4] "output/omiprep_export_2026_04_20/input/features.tsv"       
-#>  [5] "output/omiprep_export_2026_04_20/input/sample_summary.tsv" 
-#>  [6] "output/omiprep_export_2026_04_20/input/samples.tsv"        
-#>  [7] "output/omiprep_export_2026_04_20/qc/config.yml"            
-#>  [8] "output/omiprep_export_2026_04_20/qc/data.tsv"              
-#>  [9] "output/omiprep_export_2026_04_20/qc/feature_summary.tsv"   
-#> [10] "output/omiprep_export_2026_04_20/qc/feature_tree.RDS"      
-#> [11] "output/omiprep_export_2026_04_20/qc/features.tsv"          
-#> [12] "output/omiprep_export_2026_04_20/qc/sample_summary.tsv"    
-#> [13] "output/omiprep_export_2026_04_20/qc/samples.tsv"           
-#> [14] "output/omiprep_export_2026_04_20/qc/var_exp.tsv"           
-#> [15] "output/omiprep_export_2026_06_17/input/config.yml"         
-#> [16] "output/omiprep_export_2026_06_17/input/data.tsv"           
-#> [17] "output/omiprep_export_2026_06_17/input/feature_summary.tsv"
-#> [18] "output/omiprep_export_2026_06_17/input/features.tsv"       
-#> [19] "output/omiprep_export_2026_06_17/input/sample_summary.tsv" 
-#> [20] "output/omiprep_export_2026_06_17/input/samples.tsv"        
-#> [21] "output/omiprep_export_2026_06_17/qc/config.yml"            
-#> [22] "output/omiprep_export_2026_06_17/qc/data.tsv"              
-#> [23] "output/omiprep_export_2026_06_17/qc/feature_summary.tsv"   
-#> [24] "output/omiprep_export_2026_06_17/qc/feature_tree.RDS"      
-#> [25] "output/omiprep_export_2026_06_17/qc/features.tsv"          
-#> [26] "output/omiprep_export_2026_06_17/qc/sample_summary.tsv"    
-#> [27] "output/omiprep_export_2026_06_17/qc/samples.tsv"           
-#> [28] "output/omiprep_export_2026_06_17/qc/var_exp.tsv"
+#>  [1] "output/omiprep_export_2026_06_19/input/config.yml"         
+#>  [2] "output/omiprep_export_2026_06_19/input/data.tsv"           
+#>  [3] "output/omiprep_export_2026_06_19/input/feature_summary.tsv"
+#>  [4] "output/omiprep_export_2026_06_19/input/features.tsv"       
+#>  [5] "output/omiprep_export_2026_06_19/input/sample_summary.tsv" 
+#>  [6] "output/omiprep_export_2026_06_19/input/samples.tsv"        
+#>  [7] "output/omiprep_export_2026_06_19/qc/config.yml"            
+#>  [8] "output/omiprep_export_2026_06_19/qc/data.tsv"              
+#>  [9] "output/omiprep_export_2026_06_19/qc/feature_summary.tsv"   
+#> [10] "output/omiprep_export_2026_06_19/qc/feature_tree.RDS"      
+#> [11] "output/omiprep_export_2026_06_19/qc/features.tsv"          
+#> [12] "output/omiprep_export_2026_06_19/qc/sample_summary.tsv"    
+#> [13] "output/omiprep_export_2026_06_19/qc/samples.tsv"           
+#> [14] "output/omiprep_export_2026_06_19/qc/var_exp.tsv"
+```
+
+## Export to Comets format
+
+This will generate a Comets formated excel sheet
+
+``` r
+
+# where to put the files
+output_dir <- file.path(tempdir(), "output")
+
+# run export
+export(mydata, directory = output_dir, format = "comets")
+#> Exporting data layer `qc` in comets format to /tmp/RtmpwkXp4t/output/omiprep_comets_export_2026_06_19.xlsx
+#> Export complete.
+
+# view output directory files
+files <- list.files(output_dir, full.names = TRUE, recursive = TRUE)
+w = grep("comets", files)
+unname(sapply(files[w], function(path) {
+  parts <- strsplit(path, .Platform$file.sep)[[1]]
+  paste(tail(parts, 2), collapse = .Platform$file.sep)
+}))
+#> [1] "output/omiprep_comets_export_2026_06_19.xlsx"
+```
+
+## Export to Metaboanalyst format
+
+This will generate a csv file with your feature
+abundance/concentration/intensity data ready for upload to
+(MetaboAnalyst)\[<https://www.metaboanalyst.ca>\].
+
+``` r
+
+# where to put the files
+output_dir <- file.path(tempdir(), "output")
+
+# run export
+export(mydata, directory = output_dir, format = "metaboanalyst")
+#> Exporting in export_metaboanalyst format to /tmp/RtmpwkXp4t/output
+#> Exporting data layer `qc` in metaboanalyst format to /tmp/RtmpwkXp4t/output/omiprep_metaboanalyst_export_2026_06_19.csv
+
+# view output directory files
+files <- list.files(output_dir, full.names = TRUE, recursive = TRUE)
+w = grep("metaboanalyst", files)
+unname(sapply(files[w], function(path) {
+  parts <- strsplit(path, .Platform$file.sep)[[1]]
+  paste(tail(parts, 2), collapse = .Platform$file.sep)
+}))
+#> [1] "output/omiprep_metaboanalyst_export_2026_06_19.csv"
 ```
