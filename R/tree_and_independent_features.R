@@ -63,6 +63,8 @@ tree_and_independent_features = function(data, tree_cut_height = 0.5, features_e
   # find available cores for parallel processing
   if (is.null(cores)) {
     cores <- local({
+      # R CMD check / CRAN cap parallelism at 2 cores — honour that limit
+      if (nzchar(Sys.getenv("_R_CHECK_LIMIT_CORES_"))) return(2L)
       slurm <- as.integer(Sys.getenv("SLURM_CPUS_PER_TASK")) # guard against cluster specifying all node cores
       if (!is.na(slurm)) slurm else max(parallel::detectCores() - 1, 1)
     })

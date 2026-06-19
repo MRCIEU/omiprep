@@ -4,7 +4,7 @@
 #' @param data matrix, the 'omics data matrix. Samples in rows, features in columns
 #' @param ztransform logical, should the feature data be z-transformed and absolute value minimum, mean shifted prior to summing the feature values. TRUE or FALSE.
 #'
-#' @return a data frame of estimates for (1) total sum abundance and (2) total sum abundance at complete features for each samples
+#' @return a data frame of estimates for (1) total sum abundance and (2) total sum abundance at complete features for each samples. The function also returns the number of features that are not NA at each sample and the number of features with complete data, across all sampmles, used to estimate total sum abundance at complete features.
 #'
 #' @export
 #'
@@ -20,6 +20,9 @@ total_sum_abundance <- function(data, ztransform = TRUE){
     data = data + abs(min(data, na.rm = TRUE))
   }
 
+  # number of non-NA features
+  non_na_feature_count = apply(data, 1, function(x){ sum(!is.na(x)) })
+  
   # total sum abundance
   total_tsa = apply(data, 1, function(x){ sum(x, na.rm = TRUE) })
 
@@ -31,7 +34,11 @@ total_sum_abundance <- function(data, ztransform = TRUE){
   completeF_tsa = apply(data[, completefeatures], 1, function(x){ sum(x, na.rm = TRUE) })
 
   # output data.frame
-  out = data.frame("sample_id" = names(total_tsa), "tsa_total" = total_tsa, "tsa_complete_features" = completeF_tsa)
+  out = data.frame("sample_id" = names(total_tsa), 
+                   "non_na_feature_count" = non_na_feature_count, 
+                   "tsa_total" = total_tsa, 
+                   "tsa_complete_features" = completeF_tsa,
+                   "complete_feature_count" = length(completefeatures))
 
   # return result
   return(out)

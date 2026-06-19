@@ -49,9 +49,14 @@ mydata         <- suppressWarnings( quality_control(mydata, cores = 1) )
 
 
 ## Export Omiprep
+
+This will generate a folder containing an input and qc directory, 
+each containing flat text versions of data, features, samples, 
+feature summaries, and sample summaries.
+
 ```{r export_omiprep}
 # where to put the files
-output_dir <- file.path(getwd(), "output")
+output_dir <- file.path(tempdir(), "output")
 
 # run export
 export(mydata, directory = output_dir, format = "omiprep")
@@ -63,3 +68,49 @@ unname(sapply(files, function(path) {
   paste(tail(parts, 4), collapse = .Platform$file.sep)
 }))
 ```
+
+
+## Export to Comets format
+
+This will generate a Comets formated excel sheet
+
+```{r export_comets}
+# where to put the files
+output_dir <- file.path(tempdir(), "output")
+
+# run export
+export(mydata, directory = output_dir, format = "comets")
+
+# view output directory files
+files <- list.files(output_dir, full.names = TRUE, recursive = TRUE)
+w = grep("comets", files)
+unname(sapply(files[w], function(path) {
+  parts <- strsplit(path, .Platform$file.sep)[[1]]
+  paste(tail(parts, 2), collapse = .Platform$file.sep)
+}))
+```
+
+
+## Export to Metaboanalyst format
+
+This will generate a csv file with your feature abundance/concentration/intensity
+data ready for upload to (MetaboAnalyst)[https://www.metaboanalyst.ca].
+
+```{r export_metaboanalyst}
+# where to put the files
+output_dir <- file.path(tempdir(), "output")
+
+# run export
+export(mydata, directory = output_dir, format = "metaboanalyst")
+
+# view output directory files
+files <- list.files(output_dir, full.names = TRUE, recursive = TRUE)
+w = grep("metaboanalyst", files)
+unname(sapply(files[w], function(path) {
+  parts <- strsplit(path, .Platform$file.sep)[[1]]
+  paste(tail(parts, 2), collapse = .Platform$file.sep)
+}))
+```
+
+
+

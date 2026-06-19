@@ -15,11 +15,15 @@ test_that("total_sum_abundance (no z-transform) sums rows and complete features"
   out <- total_sum_abundance(M, ztransform = FALSE)
 
   expect_s3_class(out, "data.frame")
-  expect_identical(names(out), c("sample_id", "tsa_total", "tsa_complete_features"))
+  expect_identical(names(out), c("sample_id", "non_na_feature_count", "tsa_total",
+                                 "tsa_complete_features", "complete_feature_count"))
   expect_identical(out$sample_id, rownames(M))
   # tsa_total uses all features (NA dropped); tsa_complete uses only f1,f2
   expect_equal(out$tsa_total, c(6, 15, 15), ignore_attr = TRUE)
   expect_equal(out$tsa_complete_features, c(3, 9, 15), ignore_attr = TRUE)
+  # f3 is NA for s3; 2 of 3 features (f1,f2) are complete across all samples
+  expect_equal(out$non_na_feature_count, c(3, 3, 2), ignore_attr = TRUE)
+  expect_equal(out$complete_feature_count, rep(2, 3), ignore_attr = TRUE)
 })
 
 test_that("total_sum_abundance equals complete-feature TSA when no data missing", {

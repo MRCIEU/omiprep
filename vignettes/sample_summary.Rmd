@@ -35,19 +35,44 @@ mydata <- Omiprep(data = data, samples = samples, features = features)
 summary(mydata)
 ```
 
-## Run sample summary
+## Run standard quality control
+
+```{r run_qc}
+mydata = quality_control(mydata)
+```
+
+## Sample Summary
+
+### View sample summary from the QC pipeline
+
+```{r qc_sample_sum_table, echo=TRUE}
+# Note: the quality_control() ultimately returns the sample_summary attribute as a matrix.
+df <- as.data.frame(mydata@sample_summary[1:3, 1:6, "input"])
+df <- cbind(sample_id = rownames(df), df)
+
+df |> knitr::kable( digits = 3, row.names = FALSE, align = "c") |>
+  kableExtra::kable_styling(full_width = TRUE) 
+```
+
+
+### Manually run sample summary
+
+While sample summary is run as a part of the quality_control() function pipeline you can run the function yourself, on any layer you wish. 
 
 ```{r sample_summary1}
-# note that for illustrative purposes we are using a log outlier unit distance of 1.0 here, in practice we tend to favor a value of 5.0.
+# NOTE:
+# outlier_udist = number of IQRs from the median at which a value is flagged.
+# 1.0 here is illustrative; in practice we favour 5.0, which is the default value
+# for the quality_control() function.
 sample_sum1 <- sample_summary(omiprep         = mydata, 
                               source_layer    = "input", 
                               outlier_udist   = 1.0,
                               output          = "data.frame")
 ```
 
-## Table of sample summary
+#### Table of sample summary
 
-```{r sample_sum1_table, echo=FALSE}
+```{r sample_sum1_table, echo=TRUE}
 sample_sum1 |> 
   head(n = 10) |> 
   knitr::kable( digits = 3, row.names = FALSE, align = "c") |>
@@ -55,7 +80,7 @@ sample_sum1 |>
 ```
 
 
-## Run sample summary on subset
+### Run sample summary on subset
 
 Using the `sample_ids` and `feature_ids` arguments you can run the summary for a subset of the data. Note: all rows will be return, however summary data will only be returned for the specified ids.  
 
@@ -64,7 +89,8 @@ Using the `sample_ids` and `feature_ids` arguments you can run the summary for a
 sids <- mydata@samples[mydata@samples$sex == "female", "sample_id"] 
 
 ## define a vector of feature IDs
-fids <- mydata@features[, "feature_id"] |> sample(10)
+## extract only those features run on `pos`itive ion mode. 
+fids <- mydata@features[mydata@features$platform == "pos", "feature_id"] 
 
 # run sample summary on subset
 sample_sum_subset <- sample_summary(omiprep       = mydata, 
@@ -75,9 +101,9 @@ sample_sum_subset <- sample_summary(omiprep       = mydata,
                                     output        = "data.frame")
 ```
 
-## Table of sample summary on subset
+#### Table of sample summary on subset
 
-```{r sample_sum_subset_table, echo=FALSE}
+```{r sample_sum_subset_table, echo=TRUE}
 sample_sum_subset |> 
   na.omit() |>
   head(n = 10) |> 
@@ -86,7 +112,24 @@ sample_sum_subset |>
 ```
 
 
-## Run PCA analysis
+## Principal Componet Analysis
+
+### View PCs from the QC pipeline
+
+PCs and outliers are available as a part of the `quality_countrol()` function pipeline.
+
+```{r qc_PCs_table, echo=TRUE}
+# Note: the quality_control() ultimately returns the sample_summary attribute as a matrix.
+df <- as.data.frame(mydata@sample_summary[1:3, -c(1:6), "input"])
+df <- cbind(sample_id = rownames(df), df)
+
+df |> knitr::kable( digits = 3, row.names = FALSE, align = "c") |>
+  kableExtra::kable_styling(full_width = TRUE) 
+```
+
+### Manually run PCA analysis
+
+You can derive PCs and identify outlier independent of the `quality_control()` function, however.
 
 `pc_and_outliers()` performs principal component analysis. Missing data is imputed to the median and used to identify the number of informative or 'significant' PCs by (1) an acceleration analysis, and (2) a parallel analysis. Finally the number of sample outliers are determined at 3, 4, and 5 standard deviations from the mean on the top PCs as determined by the acceleration factor analysis.
 
@@ -99,19 +142,36 @@ pc_analysis <- pc_and_outliers(omiprep      = mydata,
 ```
 
 
-## Table of PCA analysis results
+#### Table of PCA analysis results
 
 Returned are the PC eigenvectors for the top 10 PCs, and outlier counts at 3, 4, and 5 standard deviations from the mean for the top two PCs
 
-```{r PC_table, echo=FALSE}
+```{r PC_table, echo=TRUE}
 pc_analysis |> 
   head(n = 10) |> 
   knitr::kable( digits = 3, row.names = FALSE, align = "c") |>
   kableExtra::kable_styling(full_width = TRUE) 
 ```
 
+#### PCA plot
 
-## Additional attributes
+```{r pca_plot}
+library(ggplot2)
+## extract variance explained attribute
+varexp <- attr(pc_analysis, 'input_varexp')
+## extract PC data
+pcs = pc_analysis[, c("pc1","pc2")]
+## generate plot
+pcs |> ggplot(aes(x = pc1, y = pc2)) +
+  geom_point(size = 2, col = "#377EB8") +
+  labs(x = paste0("PC1; VarExp =  ", varexp[1]*100, "%"), 
+       y = paste0("PC2; VarExp =  ", varexp[2]*100, "%")) +
+  theme_bw()
+```
+
+
+
+### Additional pc_and_outliers() attributes
 
 In addition, the variance explained vector is appended to the returned `data.frame` as and `attribute`. This can be accessed with the attribute name: `[source_layer]_varexp`, in this case we used the `input` data, therefore the attribute name is `input_varexp`. In a similar way, the results of the acceleration analysis (`input_num_pcs_scree`) and a parallel analysis (`input_num_pcs_parallel`) can also be extracted.
 
@@ -164,7 +224,7 @@ sf_sum <- summarise(omiprep         = mydata,
 names(sf_sum)
 ```
 
-## Table of sample summary on subset
+### Table of sample summary on subset
 
 Note that when the summarise() function is used the sample summary now includes PCA derived summary data. This is not the case when the sample_summary() function is run alone, as seen above. The reason for the difference is because the PCA data is dependent upon the feature_summary() analysis.
 
