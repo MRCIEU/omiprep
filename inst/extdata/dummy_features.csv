@@ -1,21 +1,254 @@
-"","feature_id","platform","pathway","derived_feature","xenobiotic_feature"
-"1","metab_id_1","neg",NA,TRUE,FALSE
-"2","metab_id_2","neg",NA,FALSE,FALSE
-"3","metab_id_3","neg",NA,FALSE,FALSE
-"4","metab_id_4","pos",NA,FALSE,FALSE
-"5","metab_id_5","neg",NA,FALSE,FALSE
-"6","metab_id_6","neg",NA,FALSE,FALSE
-"7","metab_id_7","neg",NA,FALSE,FALSE
-"8","metab_id_8","neg",NA,FALSE,TRUE
-"9","metab_id_9","neg",NA,FALSE,FALSE
-"10","metab_id_10","neg",NA,FALSE,FALSE
-"11","metab_id_11","neg",NA,FALSE,FALSE
-"12","metab_id_12","pos",NA,FALSE,FALSE
-"13","metab_id_13","neg",NA,FALSE,FALSE
-"14","metab_id_14","neg",NA,FALSE,FALSE
-"15","metab_id_15","neg",NA,FALSE,FALSE
-"16","metab_id_16","neg",NA,FALSE,FALSE
-"17","metab_id_17","pos",NA,FALSE,FALSE
-"18","metab_id_18","pos",NA,FALSE,FALSE
-"19","metab_id_19","neg",NA,FALSE,FALSE
-"20","metab_id_20","neg",NA,FALSE,FALSE
+"","feature_id","pathway_sortorder","biochemical","super_pathway","sub_pathway","comp_id","platform","chemical_id","ri","mass","cas","pubchem","kegg","group_hmdb"
+"48719","48719",NA,"X - 23145",NA,NA,"48719","LC/MS Neg",NA,"5642","283.26420000000002",NA,NA,NA,NA
+"43532","43532","4533","veratric acid","Xenobiotics","Drug - Neurological","43532","LC/MS Neg","100004473","1890","181.0506","93-07-2","7121",NA,NA
+"46639","46639",NA,"X - 12851",NA,NA,"46639","LC/MS Neg",NA,"4844","311.66579999999999",NA,NA,NA,NA
+"606","606","3428","uridine","Nucleotide","Pyrimidine Metabolism, Uracil containing","606","LC/MS Neg","535","1457.6","243.06229999999999","58-96-8","6029","C00299","HMDB00296"
+"62279","62279","4751","indoleacetylcarnitine*","Xenobiotics","Chemical","62279","LC/MS Pos Early","100020479","3114","319.16520000000003",NA,NA,NA,NA
+"2342","2342","230","serotonin","Amino Acid","Tryptophan Metabolism","2342","LC/MS Pos Early","504","2550","177.10220000000001","153-98-0","5202","C00780","HMDB00259"
+"53010","53010","2488","lactosyl-N-palmitoyl-sphingosine (d18:1/16:0)","Lipid","Ceramides","53010","LC/MS Pos Late","100009030","2527","862.625","4201-62-1",NA,NA,NA
+"52435","52435","2399","sphingomyelin (d18:2/23:0, d18:1/23:1, d17:1/24:1)*","Lipid","Sphingolipid Metabolism","52435","LC/MS Pos Late","100008956","2845","799.66869999999994",NA,NA,NA,NA
+"33384","33384","4297","salicyluric glucuronide*","Xenobiotics","Drug - Analgesics, Anesthetics","33384","LC/MS Neg","100001332","1463","370.07799999999997",NA,NA,NA,NA
+"52468","52468","1970","1-stearoyl-2-linoleoyl-GPI (18:0/18:2)","Lipid","Phosphatidylinositol (PI)","52468","LC/MS Pos Late","100008994","3185","880.59100000000001",NA,NA,NA,"HMDB09809"
+"47955","47955",NA,"X - 12906",NA,NA,"47955","LC/MS Neg",NA,"793","158.0462",NA,NA,NA,NA
+"37496","37496","411","N-acetylputrescine","Amino Acid","Polyamine Metabolism","37496","LC/MS Pos Early","192","2230","131.11789999999999","18233-70-0","122356","C02714","HMDB02064"
+"62101","62101","43","alpha-ketoglutaramate**","Amino Acid","Glutamate Metabolism","62101","LC/MS Polar","100002397","1916","144.03020000000001","18465-19-5",NA,NA,NA
+"47437","47437",NA,"X - 12680",NA,NA,"47437","LC/MS Pos Early",NA,"2875","229.1293",NA,NA,NA,NA
+"46297","46297","1612","5-HEPE","Lipid","Eicosanoid","46297","LC/MS Neg","100002135","5316","317.2122","83952-40-3","6439678",NA,"HMDB05081"
+"45415","45415","3713","3-(3-hydroxyphenyl)propionate sulfate","Xenobiotics","Benzoate Metabolism","45415","LC/MS Neg","100005391","1294","245.01249999999999","86321-32-6","187488",NA,NA
+"52234","52234","2479","glycosyl-N-stearoyl-sphingosine (d18:1/18:0)","Lipid","Ceramides","52234","LC/MS Pos Late","100001882","3053","728.60350000000005",NA,NA,NA,NA
+"53174","53174","1897","1,2-dilinoleoyl-GPE (18:2/18:2)*","Lipid","Phosphatidylethanolamine (PE)","53174","LC/MS Pos Late","100009217","2083","740.52250000000004",NA,"9546812",NA,"HMDB09093"
+"52307","52307","1710","glycerophosphoinositol*","Lipid","Phospholipid Metabolism","52307","LC/MS Pos Early","100001621","516","335.07380000000001","16824-65-0","167572",NA,NA
+"46690","46690",NA,"X - 18901",NA,NA,"46690","LC/MS Neg",NA,"3800","211.0247",NA,NA,NA,NA
+"1519","1519","1005","sucrose","Carbohydrate","Disaccharides and Oligosaccharides","1519","LC/MS Polar","935","3092","387.11439999999999","57-50-1","5988","C00089","HMDB00258"
+"46970","46970",NA,"X - 17676",NA,NA,"46970","LC/MS Neg",NA,"1485","167.04679999999999",NA,NA,NA,NA
+"48408","48408","185","tyramine O-sulfate","Amino Acid","Tyrosine Metabolism","48408","LC/MS Neg","100006092","1565","216.03360000000001","30223-92-8","153005",NA,"HMDB06409"
+"37459","37459","3941","ergothioneine","Xenobiotics","Food Component/Plant","37459","LC/MS Pos Early","100002154","850","230.0958","58511-63-0","3032311","C05570","HMDB03045"
+"40008","40008","637","isoleucylglycine","Peptide","Dipeptide","40008","LC/MS Neg","100003169","1992","187.1088","868-28-0","342532",NA,"HMDB28907"
+"1516","1516","4","sarcosine","Amino Acid","Glycine, Serine and Threonine Metabolism","1516","LC/MS Pos Early","1023","1280","90.055000000000007","107-97-1","1088","C00213","HMDB00271"
+"46643","46643",NA,"X - 13529",NA,NA,"46643","LC/MS Neg",NA,"2011","188.09280000000001",NA,NA,NA,NA
+"48580","48580","4282","2-acetamidophenol sulfate","Xenobiotics","Drug - Analgesics, Anesthetics","48580","LC/MS Neg","100006190","2251","230.0129","40712-60-5","181671",NA,NA
+"52790","52790",NA,"X - 24473",NA,NA,"52790","LC/MS Pos Early",NA,"1709","146.08109999999999",NA,NA,NA,NA
+"47905","47905",NA,"X - 12026",NA,NA,"47905","LC/MS Neg",NA,"1652","180.0531",NA,NA,NA,NA
+"48733","48733","187","vanillic alcohol sulfate","Amino Acid","Tyrosine Metabolism","48733","LC/MS Neg","100006125","1808","233.01249999999999","754920-02-0",NA,NA,NA
+"48433","48433","186","N-formylphenylalanine","Amino Acid","Tyrosine Metabolism","48433","LC/MS Neg","100006056","2360","192.06659999999999","13200-85-6","759256",NA,NA
+"36776","36776","2528","7-alpha-hydroxy-3-oxo-4-cholestenoate (7-Hoca)","Lipid","Sterol","36776","LC/MS Neg","100001609","5288.1","429.30099999999999","115538-85-7","3081085","C17337","HMDB12458"
+"48418","48418","3664","4-methylguaiacol sulfate","Xenobiotics","Benzoate Metabolism","48418","LC/MS Neg","100006105","2978","217.01759999999999","756760-43-7",NA,NA,NA
+"52669","52669","1962","1-palmitoyl-2-oleoyl-GPI (16:0/18:1)*","Lipid","Phosphatidylinositol (PI)","52669","LC/MS Pos Late","100009066","3140","854.57529999999997",NA,NA,NA,"HMDB09783"
+"47009","47009",NA,"X - 17354",NA,NA,"47009","LC/MS Neg",NA,"3520","473.1472",NA,NA,NA,NA
+"47120","47120","1536","9-hydroxystearate","Lipid","Fatty Acid, Monohydroxy","47120","LC/MS Neg","100005834","5384","299.25920000000002","25498-28-6","9570127",NA,"HMDB61661"
+"43255","43255","70","N-acetyl-1-methylhistidine*","Amino Acid","Histidine Metabolism","43255","LC/MS Pos Early","100004299","2100","212.1028",NA,"193270",NA,NA
+"32198","32198","1405","acetylcarnitine (C2)","Lipid","Fatty Acid Metabolism(Acyl Carnitine)","32198","LC/MS Pos Early","100000802","2282","204.12299999999999","5080-50-2","1","C02571","HMDB00201"
+"32398","32398","1311","sebacate (C10-DC)","Lipid","Fatty Acid, Dicarboxylate","32398","LC/MS Neg","100001211","1788","201.11320000000001","111-20-6","5192","C08277","HMDB00792"
+"49529","49529",NA,"X - 23652",NA,NA,"49529","LC/MS Pos Early",NA,"1991","171.0761",NA,NA,NA,NA
+"46261","46261",NA,"X - 19438",NA,NA,"46261","LC/MS Neg",NA,"1209","217.07210000000001",NA,NA,NA,NA
+"52977","52977","2727","glycocholate glucuronide (1)","Lipid","Primary Bile Acid Metabolism","52977","LC/MS Neg","100009259","4533","640.33389999999997",NA,NA,NA,NA
+"49675","49675",NA,"X - 23776",NA,NA,"49675","LC/MS Pos Early",NA,"2275","146.1174",NA,NA,NA,NA
+"43266","43266","4675","2-aminophenol sulfate","Xenobiotics","Chemical","43266","LC/MS Neg","100004322","1677","188.00229999999999",NA,"181670",NA,"HMDB61116"
+"46461","46461",NA,"X - 16124",NA,NA,"46461","LC/MS Neg",NA,"2563.6","203.00219999999999",NA,NA,NA,NA
+"57783","57783","4248","1H-indole-7-acetic acid","Xenobiotics","Bacterial/Fungal","57783","LC/MS Neg","100004601","2862","174.05609999999999","39689-63-9",NA,NA,NA
+"46409","46409",NA,"X - 21364",NA,NA,"46409","LC/MS Neg",NA,"3757","213.0865",NA,NA,NA,NA
+"62277","62277","4730","hydroxy-CMPF*","Xenobiotics","Chemical","62277","LC/MS Neg","100019794","1516","255.0874",NA,NA,NA,NA
+"61874","61874","4840","glucuronide of C12H22O4 (1)*","Partially Characterized Molecules","Partially Characterized Molecules","61874","LC/MS Neg","100019984","2590","405.17660000000001",NA,NA,NA,NA
+"46798","46798","2325","oleoyl-linoleoyl-glycerol (18:1/18:2) [1]","Lipid","Diacylglycerol","46798","LC/MS Pos Late","100002989","3115","636.55619999999999","106292-55-1",NA,NA,"HMDB07219"
+"49461","49461",NA,"X - 23585",NA,NA,"49461","LC/MS Pos Early",NA,"1378","118.08629999999999",NA,NA,NA,NA
+"21158","21158","1506","3-hydroxymyristate","Lipid","Fatty Acid, Monohydroxy","21158","LC/MS Neg","100000882","5335","243.19659999999999","3422-31-9","16064",NA,NA
+"46658","46658",NA,"X - 15220",NA,NA,"46658","LC/MS Neg",NA,"2662","274.11200000000002",NA,NA,NA,NA
+"33935","33935","4026","piperine","Xenobiotics","Food Component/Plant","33935","LC/MS Pos Late","100001267","1168","286.1438","94-62-2","638024","C03882","HMDB29377"
+"57448","57448","2494","glycosyl ceramide (d18:1/23:1, d17:1/24:1)*","Lipid","Ceramides","57448","LC/MS Pos Late","100015751","3667","796.66610000000003",NA,NA,NA,NA
+"48441","48441","4772","4-hydroxychlorothalonil","Xenobiotics","Chemical","48441","LC/MS Neg","100006082","4427","244.90819999999999","28343-61-5","34217",NA,NA
+"1303","1303","1117","malate","Energy","TCA Cycle","1303","LC/MS Neg","409","615.6","133.01429999999999","6915-15-7","525","C00149","HMDB00156"
+"15753","15753","3632","hippurate","Xenobiotics","Benzoate Metabolism","15753","LC/MS Neg","100000014","2106.9","178.05099999999999","495-69-2","464","C01586","HMDB00714"
+"62287","62287","3561","delta-CEHC*","Cofactors and Vitamins","Tocopherol Metabolism","62287","LC/MS Neg","100020416","3422","249.11320000000001","84599-16-6","11536125",NA,NA
+"57417","57417","2471","N-stearoyl-sphingadienine (d18:2/18:0)*","Lipid","Ceramides","57417","LC/MS Pos Late","100015632","2846","564.53499999999997",NA,NA,NA,NA
+"61822","61822","1668","N-stearoylserine*","Lipid","Endocannabinoid","61822","LC/MS Neg","100019957","5777","370.29629999999997",NA,NA,NA,NA
+"46701","46701",NA,"X - 19141",NA,NA,"46701","LC/MS Neg",NA,"3705","415.197",NA,NA,NA,NA
+"52432","52432","2274","2-palmitoleoylglycerol (16:1)*","Lipid","Monoacylglycerol","52432","LC/MS Neg","100008953","6016","253.21729999999999",NA,NA,NA,"HMDB11565"
+"47639","47639",NA,"X - 12456",NA,NA,"47639","LC/MS Neg",NA,"4342","427.2165",NA,NA,NA,NA
+"53013","53013","2478","glycosyl-N-palmitoyl-sphingosine (d18:1/16:0)","Lipid","Ceramides","53013","LC/MS Pos Late","100009272","2623","700.57219999999995",NA,NA,NA,NA
+"40703","40703","724","prolylglycine","Peptide","Dipeptide","40703","LC/MS Pos Early","100003674","2136","173.09209999999999","2578-57-6","6426709",NA,"HMDB11178"
+"54840","54840",NA,"X - 24812",NA,NA,"54840","LC/MS Pos Early",NA,"2650","230.1386",NA,NA,NA,NA
+"32417","32417","1207","docosatrienoate (22:3n3)","Lipid","Polyunsaturated Fatty Acid (n3 and n6)","32417","LC/MS Neg","100001195","5823","333.2799","59708-86-0","5312556","C16534","HMDB02823"
+"32553","32553","148","phenol sulfate","Amino Acid","Tyrosine Metabolism","32553","LC/MS Neg","100001510","2156","172.9914","937-34-8","74426","C02180","HMDB60015"
+"35628","35628","2075","1-oleoyl-GPE (18:1)","Lipid","Lysophospholipid","35628","LC/MS Pos Late","100001569","1554","480.30849999999998","89576-29-4","9547071",NA,"HMDB11506"
+"43424","43424","4719","dimethyl sulfone","Xenobiotics","Chemical","43424","LC/MS Pos Early","100004284","832","95.016099999999994","67-71-0","6213","C11142","HMDB04983"
+"1572","1572","933","glycerate","Carbohydrate","Glycolysis, Gluconeogenesis, and Pyruvate Metabolism","1572","LC/MS Polar","1052","2070.4","105.0193","600-19-1","752","C00258","HMDB00139"
+"47650","47650",NA,"X - 11483",NA,NA,"47650","LC/MS Neg",NA,"4449","505.20819999999998",NA,NA,NA,NA
+"35107","35107","264","isovalerylglycine","Amino Acid","Leucine, Isoleucine and Valine Metabolism","35107","LC/MS Neg","100001452","1950","158.0823","16284-60-9","546304",NA,"HMDB00678"
+"46645","46645",NA,"X - 13728",NA,NA,"46645","LC/MS Neg",NA,"1589","197.06819999999999",NA,NA,NA,NA
+"42489","42489","1486","2-hydroxydecanoate","Lipid","Fatty Acid, Monohydroxy","42489","LC/MS Neg","100004089","4840","187.13399999999999","5393-81-7","21488",NA,NA
+"19265","19265","1935","1-stearoyl-2-oleoyl-GPS (18:0/18:1)","Lipid","Phosphatidylserine (PS)","19265","LC/MS Pos Late","100000639","3000","790.55930000000001",NA,"9547087",NA,"HMDB10163"
+"31943","31943","1503","3-hydroxysebacate","Lipid","Fatty Acid, Monohydroxy","31943","LC/MS Neg","100001145","1282","217.10810000000001","73141-46-5","3017884",NA,"HMDB00350"
+"35320","35320","3662","catechol sulfate","Xenobiotics","Benzoate Metabolism","35320","LC/MS Neg","100001605","1906","188.9863","4918-96-1","3083879",NA,"HMDB59724"
+"62278","62278","3965","histidine betaine (hercynine)*","Xenobiotics","Food Component/Plant","62278","LC/MS Pos Early","100004059","2094","198.12370000000001","534-30-5","3083620",NA,NA
+"31928","31928","295","2-methylbutyrylglycine","Amino Acid","Leucine, Isoleucine and Valine Metabolism","31928","LC/MS Pos Early","100001155","2000","160.0968","52320-67-9","193872",NA,"HMDB00339"
+"46510","46510",NA,"X - 12544",NA,NA,"46510","LC/MS Neg",NA,"3166.9","209.0822",NA,NA,NA,NA
+"61883","61883","4824","glucuronide of C10H18O2 (3)*","Partially Characterized Molecules","Partially Characterized Molecules","61883","LC/MS Neg","100019992","2990","345.15550000000002",NA,NA,NA,NA
+"57554","57554","3469","2'-O-methylcytidine","Nucleotide","Pyrimidine Metabolism, Cytidine containing","57554","LC/MS Pos Early","100010895","2411","258.10849999999999","2140-72-9","150971",NA,NA
+"1559","1559","3440","5,6-dihydrouracil","Nucleotide","Pyrimidine Metabolism, Uracil containing","1559","LC/MS Neg","1125","1120","113.03570000000001","504-07-4","649","C00429","HMDB00076"
+"35718","35718","1215","dihomo-linolenate (20:3n3 or n6)","Lipid","Polyunsaturated Fatty Acid (n3 and n6)","35718","LC/MS Neg","100001739","5596","305.24860000000001","17046-59-2","5280581","C03242","HMDB02925"
+"52929","52929","1432","3,4-methyleneheptanoylcarnitine","Lipid","Fatty Acid Metabolism(Acyl Carnitine)","52929","LC/MS Neg","100009234","4096","346.18709999999999",NA,NA,NA,NA
+"18394","18394","3723","theophylline","Xenobiotics","Xanthine Metabolism","18394","LC/MS Neg","100000437","2356.9","179.0575","58-55-9","2153","C07130","HMDB01889"
+"594","594","3499","nicotinamide","Cofactors and Vitamins","Nicotinate and Nicotinamide Metabolism","594","LC/MS Pos Early","432","1942","123.0553","98-92-0","936","C00153","HMDB01406"
+"54942","54942","2305","palmitoyl-oleoyl-glycerol (16:0/18:1) [2]*","Lipid","Diacylglycerol","54942","LC/MS Pos Late","100010917","3695","612.55619999999999",NA,NA,"C13861","HMDB07102"
+"48460","48460","3697","propyl 4-hydroxybenzoate sulfate","Xenobiotics","Benzoate Metabolism","48460","LC/MS Neg","100006264","3971","259.02820000000003","162338-10-5",NA,NA,NA
+"53229","53229","15","2-methylserine","Amino Acid","Glycine, Serine and Threonine Metabolism","53229","LC/MS Pos Early","100009246","1652","120.0655",NA,"94309","C02115",NA
+"15677","15677","67","3-methylhistidine","Amino Acid","Histidine Metabolism","15677","LC/MS Neg","100000042","906.3","168.0779","368-16-1","64969","C01152","HMDB00479"
+"17747","17747","2404","sphingosine","Lipid","Sphingolipid Metabolism","17747","LC/MS Pos Late","297","1393","300.28969999999998","123-78-4","5353955","C00319","HMDB00252"
+"49517","49517",NA,"X - 23641",NA,NA,"49517","LC/MS Pos Late",NA,"910","288.21660000000003",NA,NA,NA,NA
+"1645","1645","1156","laurate (12:0)","Lipid","Medium Chain Fatty Acid","1645","LC/MS Neg","181","5300","199.1704","143-07-7","3893","C02679","HMDB00638"
+"47011","47011",NA,"X - 21834",NA,NA,"47011","LC/MS Neg",NA,"3720","229.01840000000001",NA,NA,NA,NA
+"40084","40084","3595","D-urobilin","Cofactors and Vitamins","Hemoglobin and Porphyrin Metabolism","40084","LC/MS Pos Late","100002569","935","589.3021","3947-38-4","6276321","C05795","HMDB04161"
+"49532","49532",NA,"X - 23655",NA,NA,"49532","LC/MS Pos Early",NA,"2200","110.06019999999999",NA,NA,NA,NA
+"46898","46898",NA,"X - 21729",NA,NA,"46898","LC/MS Neg",NA,"1024","87.045299999999997",NA,NA,NA,NA
+"52639","52639",NA,"X - 24410",NA,NA,"52639","LC/MS Pos Early",NA,"881","116.0705",NA,NA,NA,NA
+"52690","52690","2008","1-linoleoyl-GPA (18:2)*","Lipid","Lysophospholipid","52690","LC/MS Pos Late","100009082","1550","435.25060000000002",NA,NA,NA,"HMDB07856"
+"57714","57714",NA,"X - 24947",NA,NA,"57714","LC/MS Neg",NA,"4518","387.1848",NA,NA,NA,NA
+"35160","35160","1426","oleoylcarnitine (C18:1)","Lipid","Fatty Acid Metabolism(Acyl Carnitine)","35160","LC/MS Pos Late","100001501","1423","426.3578","38677-66-6","6441392",NA,"HMDB05065"
+"1121","1121","1167","margarate (17:0)","Lipid","Long Chain Fatty Acid","1121","LC/MS Neg","891","5731","269.24860000000001","506-12-7","10465",NA,"HMDB02259"
+"40478","40478","3940","equol sulfate","Xenobiotics","Food Component/Plant","40478","LC/MS Neg","100003429","3630","321.04379999999998",NA,NA,NA,NA
+"42027","42027","618","histidylalanine","Peptide","Dipeptide","42027","LC/MS Neg","100003542","970","225.0993","16874-75-2","351667",NA,"HMDB28878"
+"46738","46738",NA,"X - 16071",NA,NA,"46738","LC/MS Neg",NA,"3692","144.0455",NA,NA,NA,NA
+"54956","54956","2341","linoleoyl-arachidonoyl-glycerol (18:2/20:4) [2]*","Lipid","Diacylglycerol","54956","LC/MS Pos Late","100010923","2650","658.54049999999995",NA,NA,NA,"HMDB07257"
+"52454","52454","1756","1-palmitoyl-2-dihomo-linolenoyl-GPC (16:0/20:3n3 or 6)*","Lipid","Phosphatidylcholine (PC)","52454","LC/MS Pos Late","100008985","2199","784.58510000000001",NA,NA,NA,NA
+"32504","32504","1205","docosapentaenoate (n3 DPA; 22:5n3)","Lipid","Polyunsaturated Fatty Acid (n3 and n6)","32504","LC/MS Neg","100001181","5571","329.24860000000001","2234-74-4","6441454","C16513","HMDB06528"
+"48051","48051",NA,"X - 17398",NA,NA,"48051","LC/MS Neg",NA,"1765","391.03469999999999",NA,NA,NA,NA
+"39603","39603","4661","ethyl glucuronide","Xenobiotics","Chemical","39603","LC/MS Neg","100002849","793","221.0667","17685-04-0","152226",NA,"HMDB10325"
+"52605","52605","2367","sphinganine-1-phosphate","Lipid","Sphingolipid Metabolism","52605","LC/MS Pos Late","100001876","1431","382.27170000000001","19794-97-9","520",NA,"HMDB01383"
+"61878","61878","4849","glucuronide of C19H28O4 (2)*","Partially Characterized Molecules","Partially Characterized Molecules","61878","LC/MS Neg","100019988","3600","495.22359999999998",NA,NA,NA,NA
+"590","590","349","hypotaurine","Amino Acid","Methionine, Cysteine, SAM and Taurine Metabolism","590","LC/MS Pos Early","358","724","110.027","300-84-5","107812","C00519","HMDB00965"
+"57476","57476","2416","sphingomyelin (d18:0/20:0, d16:0/22:0)*","Lipid","Sphingolipid Metabolism","57476","LC/MS Pos Late","100015786","2600","761.65309999999999",NA,NA,NA,NA
+"57479","57479","2411","sphingomyelin (d18:2/24:2)*","Lipid","Sphingolipid Metabolism","57479","LC/MS Pos Late","100015789","2215","809.65309999999999",NA,NA,NA,NA
+"42459","42459","2392","sphingomyelin (d18:2/16:0, d18:1/16:1)*","Lipid","Sphingolipid Metabolism","42459","LC/MS Pos Late","100004329","2002","701.55920000000003",NA,NA,NA,NA
+"48698","48698","4790","6-hydroxyindole sulfate","Xenobiotics","Chemical","48698","LC/MS Neg","100006260","2498","212.00229999999999",NA,NA,NA,NA
+"1561","1561","3545","alpha-tocopherol","Cofactors and Vitamins","Tocopherol Metabolism","1561","LC/MS Pos Late","1105","2522","430.37819999999999","59-02-9;10191-41-0","14985","C02477","HMDB01893"
+"47275","47275",NA,"X - 16343",NA,NA,"47275","LC/MS Neg",NA,"2064","278.11470000000003",NA,NA,NA,NA
+"27731","27731","949","ribonate","Carbohydrate","Pentose Metabolism","27731","LC/MS Polar","100001007","2425","165.04050000000001","1255190","5460677","C01685","HMDB00867"
+"46623","46623",NA,"X - 12729",NA,NA,"46623","LC/MS Neg",NA,"2021","227.9973",NA,NA,NA,NA
+"46318","46318",NA,"X - 12714",NA,NA,"46318","LC/MS Neg",NA,"1617","303.07260000000002",NA,NA,NA,NA
+"40499","40499","47","4-hydroxyglutamate","Amino Acid","Glutamate Metabolism","40499","LC/MS Pos Early","100002544","1141","164.05539999999999","2485-33-8","439902","C03079","HMDB01344"
+"49228","49228",NA,"X - 23369",NA,NA,"49228","LC/MS Neg",NA,"2150","188.035",NA,NA,NA,NA
+"37182","37182","2654","5alpha-androstan-3alpha,17alpha-diol disulfate","Lipid","Androgenic Steroids","37182","LC/MS Neg","100002007","4547","225.06970000000001",NA,NA,NA,NA
+"21151","21151","4060","saccharin","Xenobiotics","Food Component/Plant","21151","LC/MS Neg","100000870","2000","181.99170000000001","81-07-2","5143","D01085","HMDB29723"
+"1124","1124","1671","myo-inositol","Lipid","Inositol Metabolism","1124","LC/MS Polar","363","3506.3","225.0616","87-89-8","892","C00137","HMDB00211"
+"33941","33941","1413","decanoylcarnitine (C10)","Lipid","Fatty Acid Metabolism(Acyl Carnitine)","33941","LC/MS Pos Late","100001251","1130","316.2482","1492-27-9","10245190",NA,"HMDB00651"
+"46982","46982",NA,"X - 11838",NA,NA,"46982","LC/MS Neg",NA,"2285","276.0016",NA,NA,NA,NA
+"34400","34400","3727","1,7-dimethylurate","Xenobiotics","Xanthine Metabolism","34400","LC/MS Neg","100001399","1578.6","195.05240000000001","33868-03-0","91611","C16356","HMDB11103"
+"47773","47773",NA,"X - 22509",NA,NA,"47773","LC/MS Neg",NA,"3562","473.1463",NA,NA,NA,NA
+"52788","52788",NA,"X - 24471",NA,NA,"52788","LC/MS Pos Early",NA,"2030","173.1395",NA,NA,NA,NA
+"46598","46598",NA,"X - 11438",NA,NA,"46598","LC/MS Neg",NA,"3121","241.14410000000001",NA,NA,NA,NA
+"37196","37196","2589","5alpha-pregnan-3beta,20beta-diol monosulfate (1)","Lipid","Progestin Steroids","37196","LC/MS Neg","100002009","5180","399.22109999999998",NA,NA,NA,NA
+"42109","42109","1131","phosphate","Energy","Oxidative Phosphorylation","42109","LC/MS Pos Early","461","576","98.984200000000001","7664-38-2","1061","C00009","HMDB01429"
+"34390","34390","3732","7-methylxanthine","Xenobiotics","Xanthine Metabolism","34390","LC/MS Pos Early","100001396","1350","167.0564","552-62-5","68374","C16353","HMDB01991"
+"46904","46904",NA,"X - 21735",NA,NA,"46904","LC/MS Neg",NA,"3172","253.1446",NA,NA,NA,NA
+"45966","45966","2098","1-stearoyl-GPS (18:0)*","Lipid","Lysophospholipid","45966","LC/MS Neg","100004327","5800","524.29939999999999",NA,"9547101",NA,NA
+"52604","52604","2370","N-palmitoyl-sphinganine (d18:0/16:0)","Lipid","Sphingolipid Metabolism","52604","LC/MS Pos Late","100009028","3090","540.53499999999997","5966-29-0","5283572",NA,"HMDB11760"
+"62292","62292","4031","glucuronide of piperine metabolite C17H21NO3 (5)*","Xenobiotics","Food Component/Plant","62292","LC/MS Neg","100020493","4039","462.17700000000002",NA,NA,NA,NA
+"35157","35157","3377","N6-carbamoylthreonyladenosine","Nucleotide","Purine Metabolism, Adenine containing","35157","LC/MS Neg","100001415","2164","411.12700000000001","24719-82-2","161466",NA,"HMDB41623"
+"32578","32578",NA,"X - 11261",NA,NA,"32578","LC/MS Pos Late",NA,"870","286.20080000000002",NA,NA,NA,NA
+"54885","54885","2110","1-linoleoyl-GPG (18:2)*","Lipid","Lysophospholipid","54885","LC/MS Neg","100009227","5516","507.27280000000002",NA,NA,NA,NA
+"48693","48693","4673","3-acetylphenol sulfate","Xenobiotics","Chemical","48693","LC/MS Neg","100004326","2477","215.00200000000001",NA,NA,NA,NA
+"17769","17769","2366","sphinganine","Lipid","Sphingolipid Metabolism","17769","LC/MS Pos Late","313","1413","302.30540000000002","3102-56-5","3126","C00836","HMDB00269"
+"43400","43400","3753","2-piperidinone","Xenobiotics","Food Component/Plant","43400","LC/MS Pos Early","100004295","1675","100.0757","675-20-7","12665",NA,"HMDB11749"
+"53176","53176","1818","1-linoleoyl-2-linolenoyl-GPC (18:2/18:3)*","Lipid","Phosphatidylcholine (PC)","53176","LC/MS Pos Late","100009343","1939","780.55380000000002",NA,NA,NA,"HMDB08141"
+"1493","1493","361","ornithine","Amino Acid","Urea cycle; Arginine and Proline Metabolism","1493","LC/MS Pos Early","444","2800","133.09719999999999","3184-13-2","6262","C00077","HMDB03374"
+"27672","27672","250","3-indoxyl sulfate","Amino Acid","Tryptophan Metabolism","27672","LC/MS Neg","100000467","2222.1999999999998","212.00229999999999","2642-37-7","10258",NA,"HMDB00682"
+"36812","36812","2007","1-oleoyl-GPA (18:1)","Lipid","Lysophospholipid","36812","LC/MS Pos Late","100001671","1635","437.2663","325465-93-8","5497152",NA,NA
+"57443","57443","2477","ceramide (d18:2/24:1, d18:1/24:2)*","Lipid","Ceramides","57443","LC/MS Pos Late","100015744","3858","646.61329999999998",NA,NA,NA,NA
+"48011","48011",NA,"X - 17359",NA,NA,"48011","LC/MS Neg",NA,"4606","541.26589999999999",NA,NA,NA,NA
+"53263","53263","1477","docosahexaenoylcholine","Lipid","Fatty Acid Metabolism (Acyl Choline)","53263","LC/MS Pos Late","100009333","1378","414.33670000000001",NA,NA,NA,NA
+"46603","46603",NA,"X - 11530",NA,NA,"46603","LC/MS Neg",NA,"4892","313.11959999999999",NA,NA,NA,NA
+"47815","47815",NA,"X - 17325",NA,NA,"47815","LC/MS Pos Early",NA,"2700","186.11240000000001",NA,NA,NA,NA
+"54837","54837",NA,"X - 24809",NA,NA,"54837","LC/MS Pos Early",NA,"2180","217.15459999999999",NA,NA,NA,NA
+"57652","57652","1199","hexadecadienoate (16:2n6)","Lipid","Polyunsaturated Fatty Acid (n3 and n6)","57652","LC/MS Neg","100009394","5398","251.20169999999999","28290-73-5",NA,NA,"HMDB00477"
+"19260","19260","2099","1-oleoyl-GPS (18:1)","Lipid","Lysophospholipid","19260","LC/MS Neg","100000630","5607","522.28369999999995","326589-90-6","9547099",NA,"HMDB61694"
+"46695","46695",NA,"X - 18913",NA,NA,"46695","LC/MS Neg",NA,"4538","185.1182",NA,NA,NA,NA
+"18368","18368","430","cys-gly, oxidized","Amino Acid","Glutathione Metabolism","18368","LC/MS Pos Early","1224","2947","355.07409999999999","7729-20-6","333293",NA,NA
+"49681","49681",NA,"X - 23782",NA,NA,"49681","LC/MS Pos Late",NA,"1627","349.27319999999997",NA,NA,NA,NA
+"1806","1806","3610","retinol (Vitamin A)","Cofactors and Vitamins","Vitamin A Metabolism","1806","LC/MS Pos Late","498","1636","269.22640000000001","68-26-8","445354","C00473","HMDB00305"
+"46618","46618",NA,"X - 12442",NA,NA,"46618","LC/MS Neg",NA,"5315","223.1705",NA,NA,NA,NA
+"48258","48258","2028","1-oleoyl-GPC (18:1)","Lipid","Lysophospholipid","48258","LC/MS Pos Late","100001272","1540","522.35540000000003","19420-56-5","16081932",NA,"HMDB02815"
+"46799","46799","2326","oleoyl-linoleoyl-glycerol (18:1/18:2) [2]","Lipid","Diacylglycerol","46799","LC/MS Pos Late","100002990","3223","636.55619999999999","104346-53-4",NA,NA,"HMDB07219"
+"53230","53230","1499","3-hydroxyhexanoate","Lipid","Fatty Acid, Monohydroxy","53230","LC/MS Neg","100006367","1725","131.07140000000001","10191-24-9","151492",NA,NA
+"553","553","3738","cotinine","Xenobiotics","Tobacco Metabolite","553","LC/MS Pos Early","848","2213","177.10220000000001","486-56-6","854019",NA,"HMDB01046"
+"18357","18357","613","glycylvaline","Peptide","Dipeptide","18357","LC/MS Pos Early","100000487","2734","175.10769999999999","1963-21-9","97417",NA,"HMDB28854"
+"62291","62291","4030","glucuronide of piperine metabolite C17H21NO3 (4)*","Xenobiotics","Food Component/Plant","62291","LC/MS Neg","100020492","3992","462.17700000000002",NA,NA,NA,NA
+"33973","33973","2641","epiandrosterone sulfate","Lipid","Androgenic Steroids","33973","LC/MS Neg","100001287","4855","369.17410000000001","22229-22-7","9929317",NA,NA
+"34384","34384","4080","stachydrine","Xenobiotics","Food Component/Plant","34384","LC/MS Pos Early","100001296","1440","144.1019","4136-37-2","115244","C10172","HMDB04827"
+"1284","1284","16","threonine","Amino Acid","Glycine, Serine and Threonine Metabolism","1284","LC/MS Pos Early","564","1514","120.0655","72-19-5","6288","C00188","HMDB00167"
+"43829","43829","458","gamma-glutamylvaline","Peptide","Gamma-glutamyl Amino Acid","43829","LC/MS Pos Early","100001126","2700","247.12889999999999","2746-34-1","7015683",NA,"HMDB11172"
+"38637","38637","3908","cinnamoylglycine","Xenobiotics","Food Component/Plant","38637","LC/MS Neg","100002253","3127","204.06659999999999","16534-24-0","709625",NA,"HMDB11621"
+"48679","48679","89","N-acetylhistamine","Amino Acid","Histidine Metabolism","48679","LC/MS Pos Early","100006123","2287","154.0975","673-49-4","69602","C05135","HMDB13253"
+"35322","35322","4591","hydroquinone sulfate","Xenobiotics","Drug - Topical Agents","35322","LC/MS Neg","100001604","1395","188.9863","123-31-9","161220","C00530","HMDB02434"
+"54960","54960","2338","oleoyl-arachidonoyl-glycerol (18:1/20:4) [1]*","Lipid","Diacylglycerol","54960","LC/MS Pos Late","100010936","2907","660.55619999999999",NA,NA,NA,"HMDB07228"
+"43493","43493","75","formiminoglutamate","Amino Acid","Histidine Metabolism","43493","LC/MS Pos Early","100002500","1880","175.07130000000001","816-90-0","439233","C00439","HMDB00854"
+"2761","2761","202","thyroxine","Amino Acid","Tyrosine Metabolism","2761","LC/MS Neg","1094","4808","775.67939999999999","51-48-9","5819","C01829","HMDB01918"
+"1549","1549","316","3-hydroxyisobutyrate","Amino Acid","Leucine, Isoleucine and Valine Metabolism","1549","LC/MS Polar","111","1619","103.0401","2068-83-9","87","C06001","HMDB00336"
+"47203","47203",NA,"X - 13007",NA,NA,"47203","LC/MS Neg",NA,"4597","329.23379999999997",NA,NA,NA,NA
+"18467","18467","1204","eicosapentaenoate (EPA; 20:5n3)","Lipid","Polyunsaturated Fatty Acid (n3 and n6)","18467","LC/MS Neg","2050","5450","301.21730000000002","10-2005-9;10417-94-4","446284","C06428","HMDB01999"
+"33230","33230","2020","1-palmitoleoyl-GPC (16:1)*","Lipid","Lysophospholipid","33230","LC/MS Pos Late","100001511","1450","494.32409999999999",NA,"24779461",NA,"HMDB10383"
+"21127","21127","2257","1-palmitoylglycerol (16:0)","Lipid","Monoacylglycerol","21127","LC/MS Neg","100000827","6550","255.2329","542-44-9","14900",NA,"HMDB31074"
+"33009","33009","3968","homostachydrine*","Xenobiotics","Food Component/Plant","33009","LC/MS Pos Early","100001550","1750","158.11760000000001","1195-94-4","441447","C08283","HMDB33433"
+"46173","46173","1108","aconitate [cis or trans]","Energy","TCA Cycle","46173","LC/MS Neg","100001359","580","173.00919999999999",NA,NA,NA,NA
+"61700","61700","1542","2-hydroxyarachidate*","Lipid","Fatty Acid, Monohydroxy","61700","LC/MS Neg","100019892","5990","327.29050000000001",NA,"5225199",NA,NA
+"37480","37480","2588","5alpha-pregnan-3beta-ol,20-one sulfate","Lipid","Progestin Steroids","37480","LC/MS Neg","100002035","5136","397.2054","7730-00-9",NA,NA,NA
+"27710","27710","2","N-acetylglycine","Amino Acid","Glycine, Serine and Threonine Metabolism","27710","LC/MS Pos Early","100001006","826","118.04989999999999","543-24-8","10972",NA,"HMDB00532"
+"46686","46686",NA,"X - 17137",NA,NA,"46686","LC/MS Neg",NA,"3497","449.20310000000001",NA,NA,NA,NA
+"53034","53034","1523","14-HDoHE/17-HDoHE","Lipid","Fatty Acid, Monohydroxy","53034","LC/MS Neg","100009278","5296","343.22789999999998",NA,NA,NA,NA
+"57478","57478","2414","sphingomyelin (d18:1/25:0, d19:0/24:1, d20:1/23:0, d19:1/24:0)*","Lipid","Sphingolipid Metabolism","57478","LC/MS Pos Late","100015792","3500","829.71569999999997",NA,NA,NA,NA
+"40406","40406","1711","trimethylamine N-oxide","Lipid","Phospholipid Metabolism","40406","LC/MS Pos Early","100003397","2100","76.075699999999998","1184-78-7","1145","C01104","HMDB00925"
+"1552","1552","1191","erucate (22:1n9)","Lipid","Long Chain Fatty Acid","1552","LC/MS Neg","1087","6355.6","337.31119999999999","112-86-7","5281116","C08316","HMDB02068"
+"46443","46443",NA,"X - 11442",NA,NA,"46443","LC/MS Neg",NA,"3890","331.13040000000001",NA,NA,NA,NA
+"32349","32349","85","4-imidazoleacetate","Amino Acid","Histidine Metabolism","32349","LC/MS Pos Early","100001207","2055","127.0502","645-65-8","96215","C02835","HMDB02024"
+"34387","34387","374","N-acetylproline","Amino Acid","Urea cycle; Arginine and Proline Metabolism","34387","LC/MS Pos Early","100001334","1695","158.0812","1074-79-9","322640",NA,NA
+"46518","46518",NA,"X - 21473",NA,NA,"46518","LC/MS Neg",NA,"2027.8","263.99700000000001",NA,NA,NA,NA
+"47439","47439",NA,"X - 13507",NA,NA,"47439","LC/MS Pos Early",NA,"2520","158.0925",NA,NA,NA,NA
+"54917","54917","241","indolepropionylglycine","Amino Acid","Tryptophan Metabolism","54917","LC/MS Neg","100010863","2926","245.0932",NA,"7677842",NA,NA
+"32397","32397","299","3-hydroxy-2-ethylpropionate","Amino Acid","Leucine, Isoleucine and Valine Metabolism","32397","LC/MS Neg","100001170","975","117.0557","4374-62-3","188979",NA,"HMDB00396"
+"61823","61823","1356","N-linoleoylserine*","Lipid","Fatty Acid, Amide","61823","LC/MS Neg","100019958","5492","366.26499999999999",NA,NA,NA,NA
+"2125","2125","350","taurine","Amino Acid","Methionine, Cysteine, SAM and Taurine Metabolism","2125","LC/MS Pos Early","512","660","126.02200000000001","107-35-7","1123","C00245","HMDB00251"
+"52909","52909",NA,"X - 24588",NA,NA,"52909","LC/MS Neg",NA,"2350","485.16719999999998",NA,NA,NA,NA
+"43239","43239","4063","S-allylcysteine","Xenobiotics","Food Component/Plant","43239","LC/MS Pos Early","100004509","2690","162.0583","21593-77-1","98280",NA,"HMDB34323"
+"32586","32586","3591","bilirubin (E,E)*","Cofactors and Vitamins","Hemoglobin and Porphyrin Metabolism","32586","LC/MS Pos Late","100001950","1045","585.27080000000001","114-25-0","5315454",NA,NA
+"37443","37443","348","cysteine sulfinic acid","Amino Acid","Methionine, Cysteine, SAM and Taurine Metabolism","37443","LC/MS Pos Early","100002113","597","154.01689999999999","207121-48-0","109","C00606","HMDB00996"
+"52434","52434","2381","palmitoyl dihydrosphingomyelin (d18:0/16:0)*","Lipid","Sphingolipid Metabolism","52434","LC/MS Pos Late","100008954","2290","705.59050000000002",NA,"9939965",NA,NA
+"46511","46511",NA,"X - 16938",NA,NA,"46511","LC/MS Neg",NA,"2000","233.10319999999999",NA,NA,NA,NA
+"32457","32457","1504","3-hydroxylaurate","Lipid","Fatty Acid, Monohydroxy","32457","LC/MS Neg","100001112","5175","215.1653","53941-38-1","94216",NA,"HMDB00387"
+"47957","47957",NA,"X - 13255",NA,NA,"47957","LC/MS Neg",NA,"2203","367.10449999999997",NA,NA,NA,NA
+"61866","61866","1304","heptenedioate (C7:1-DC)*","Lipid","Fatty Acid, Dicarboxylate","61866","LC/MS Polar","100019981","2816","157.0506",NA,NA,NA,NA
+"1494","1494","431","5-oxoproline","Amino Acid","Glutathione Metabolism","1494","LC/MS Neg","1021","738.5","128.03530000000001","98-79-3","7405","C01879","HMDB00267"
+"53243","53243","197","catechol glucuronide","Amino Acid","Tyrosine Metabolism","53243","LC/MS Neg","100009326","1742","285.0616",NA,"75124209",NA,NA
+"22202","22202","4764","triethanolamine","Xenobiotics","Chemical","22202","LC/MS Pos Early","100000989","1963","150.11250000000001","102-71-6","7618","C06771","HMDB32538"
+"35527","35527","3638","4-hydroxyhippurate","Xenobiotics","Benzoate Metabolism","35527","LC/MS Neg","100001423","1475","194.04589999999999","2482-25-9","151012",NA,"HMDB13678"
+"46972","46972",NA,"X - 21796",NA,NA,"46972","LC/MS Neg",NA,"1625","138.0566",NA,NA,NA,NA
+"32388","32388","1315","dodecanedioate (C12-DC)","Lipid","Fatty Acid, Dicarboxylate","32388","LC/MS Neg","100001102","2990","229.14449999999999","693-23-2","12736","C02678","HMDB00623"
+"46384","46384",NA,"X - 21339",NA,NA,"46384","LC/MS Neg",NA,"5105","453.32260000000002",NA,NA,NA,NA
+"42448","42448","1876","1-stearoyl-2-oleoyl-GPE (18:0/18:1)","Lipid","Phosphatidylethanolamine (PE)","42448","LC/MS Pos Late","100001856","2858","746.56939999999997",NA,NA,NA,"HMDB08993"
+"52615","52615","2393","sphingomyelin (d18:1/17:0, d17:1/18:0, d19:1/16:0)","Lipid","Sphingolipid Metabolism","52615","LC/MS Pos Late","100008920","2312","717.59050000000002","121999-64-2",NA,NA,NA
+"33173","33173","4275","2-hydroxyacetaminophen sulfate*","Xenobiotics","Drug - Analgesics, Anesthetics","33173","LC/MS Neg","100001791","1674","246.0078",NA,"86290013",NA,NA
+"57481","57481","2410","sphingomyelin (d18:1/20:2, d18:2/20:1, d16:1/22:2)*","Lipid","Sphingolipid Metabolism","57481","LC/MS Pos Late","100006293","2039","755.60619999999994",NA,NA,NA,NA
+"47654","47654",NA,"X - 11858",NA,NA,"47654","LC/MS Neg",NA,"4414","437.05549999999999",NA,NA,NA,NA
+"32405","32405","240","indolepropionate","Amino Acid","Tryptophan Metabolism","32405","LC/MS Neg","100001083","2795","188.07169999999999","830-96-6","3744",NA,"HMDB02302"
+"52012","52012",NA,"X - 23984",NA,NA,"52012","LC/MS Neg",NA,"3327.5","165.97890000000001",NA,NA,NA,NA
+"46516","46516",NA,"X - 21471",NA,NA,"46516","LC/MS Neg",NA,"4039","295.11200000000002",NA,NA,NA,NA
+"22185","22185","35","N-acetylaspartate (NAA)","Amino Acid","Alanine and Aspartate Metabolism","22185","LC/MS Polar","100000787","3143","174.04079999999999","997-55-7;997-55-7","65065","C01042","HMDB00812"
+"47938","47938",NA,"X - 12731",NA,NA,"47938","LC/MS Neg",NA,"2040","238.96940000000001",NA,NA,NA,NA
+"61785","61785","1401","2-butenoylglycine","Lipid","Fatty Acid Metabolism(Acyl Glycine)","61785","LC/MS Neg","100016110","1380","142.05099999999999","71428-89-2","6303498",NA,NA
+"53261","53261","1478","arachidonoylcholine","Lipid","Fatty Acid Metabolism (Acyl Choline)","53261","LC/MS Pos Late","100009332","1390","390.33670000000001",NA,NA,NA,NA
+"57467","57467","1223","docosatrienoate (22:3n6)*","Lipid","Polyunsaturated Fatty Acid (n3 and n6)","57467","LC/MS Neg","100015762","5850","333.2799",NA,NA,NA,NA
+"37076","37076","10","N-acetylserine","Amino Acid","Glycine, Serine and Threonine Metabolism","37076","LC/MS Polar","100001851","2000","146.04589999999999","97-14-3","65249",NA,"HMDB02931"
+"52861","52861",NA,"X - 24540",NA,NA,"52861","LC/MS Neg",NA,"2955.3","261.00779999999997",NA,NA,NA,NA
+"46710","46710",NA,"X - 17690",NA,NA,"46710","LC/MS Neg",NA,"2904","245.04859999999999",NA,NA,NA,NA
+"53023","53023",NA,"X - 24608",NA,NA,"53023","LC/MS Neg",NA,"3408","174.05590000000001",NA,NA,NA,NA
+"37432","37432","3449","N-acetyl-beta-alanine","Nucleotide","Pyrimidine Metabolism, Uracil containing","37432","LC/MS Neg","100002102","773","130.05099999999999","3025-95-4","76406","C01073",NA
+"52542","52542",NA,"X - 24346",NA,NA,"52542","LC/MS Neg",NA,"4043.3","445.20780000000002",NA,NA,NA,NA
+"52640","52640",NA,"X - 24411",NA,NA,"52640","LC/MS Pos Early",NA,"1171","116.0705",NA,NA,NA,NA
+"48782","48782","213","C-glycosyltryptophan","Amino Acid","Tryptophan Metabolism","48782","LC/MS Neg","100006379","1777","365.1354","180509-18-6","10981970",NA,NA
+"52446","52446","1879","1-stearoyl-2-linoleoyl-GPE (18:0/18:2)*","Lipid","Phosphatidylethanolamine (PE)","52446","LC/MS Pos Late","100008976","2522","744.55380000000002",NA,"9546749",NA,"HMDB08994"
+"27665","27665","3511","1-methylnicotinamide","Cofactors and Vitamins","Nicotinate and Nicotinamide Metabolism","27665","LC/MS Pos Early","55","1940","137.07089999999999","1005-24-9","10129985","C02918","HMDB00699"
+"42092","42092","1396","N-palmitoylglycine","Lipid","Fatty Acid Metabolism(Acyl Glycine)","42092","LC/MS Neg","100003686","5580","312.25439999999998","2441-41-0","151008",NA,"HMDB13034"
+"36103","36103","3702","p-cresol sulfate","Xenobiotics","Benzoate Metabolism","36103","LC/MS Neg","100001315","2890","187.00710000000001","3233-57-7","4615423",NA,"HMDB11635"
+"31675","31675","57","2-pyrrolidinone","Amino Acid","Glutamate Metabolism","31675","LC/MS Pos Early","100001081","1262","86.06","616-45-5","12025",NA,"HMDB02039"
+"49521","49521",NA,"X - 23644",NA,NA,"49521","LC/MS Pos Early",NA,"983","146.08090000000001",NA,NA,NA,NA
+"35635","35635","3716","3-(3-hydroxyphenyl)propionate","Xenobiotics","Benzoate Metabolism","35635","LC/MS Neg","100001624","1980","165.0557","621-54-5","91","C11457","HMDB00375"
+"46628","46628",NA,"X - 12472",NA,NA,"46628","LC/MS Neg",NA,"2528","241.11940000000001",NA,NA,NA,NA
+"47999","47999",NA,"X - 17349",NA,NA,"47999","LC/MS Neg",NA,"2497","367.10410000000002",NA,NA,NA,NA
