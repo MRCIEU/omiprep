@@ -127,14 +127,14 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Starting Omics QC Process</span> <span style="color: #00BBBB;">───────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Validating input parameters</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Validating input parameters <span style="color: #B2B2B2;">[9ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Validating input parameters <span style="color: #B2B2B2;">[8ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample &amp; Feature Summary Statistics for raw data</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Number of informative PCs (Scree acceleration factor): 2</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample &amp; Feature Summary Statistics for raw data<span style="color: #00BB00;">✔</span> Sample &amp; Feature Summary Statistics for raw data <span style="color: #B2B2B2;">[1.9s]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample &amp; Feature Summary Statistics for raw data<span style="color: #00BB00;">✔</span> Sample &amp; Feature Summary Statistics for raw data <span style="color: #B2B2B2;">[1.8s]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Copying input data to new 'qc' data layer</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Copying input data to new 'qc' data layer <span style="color: #B2B2B2;">[50ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Copying input data to new 'qc' data layer <span style="color: #B2B2B2;">[48ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Assessing for extreme sample missingness &gt;=80% - excluding 0 sample(s)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for extreme sample missingness &gt;=80% - excluding 0 sample(s) <span style="color: #B2B2B2;">[24ms]</span></span></span>
@@ -167,19 +167,19 @@
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Creating final QC dataset...</span></span>
 <span><span class="co">#&gt;                         step seconds   pct</span></span>
 <span><span class="co">#&gt;                   validation    0.00   0.0</span></span>
-<span><span class="co">#&gt;                summarise_raw    1.85  32.4</span></span>
+<span><span class="co">#&gt;                summarise_raw    1.79  32.0</span></span>
 <span><span class="co">#&gt;                   copy_layer    0.01   0.2</span></span>
 <span><span class="co">#&gt;   extreme_sample_missingness    0.00   0.0</span></span>
 <span><span class="co">#&gt;  extreme_feature_missingness    0.00   0.0</span></span>
 <span><span class="co">#&gt;           sample_missingness    0.00   0.0</span></span>
 <span><span class="co">#&gt;          total_sum_abundance    0.01   0.2</span></span>
-<span><span class="co">#&gt;                summarise_pca    1.98  34.7</span></span>
-<span><span class="co">#&gt;              summarise_final    1.61  28.2</span></span>
-<span><span class="co">#&gt;                        total    5.71 100.0</span></span>
+<span><span class="co">#&gt;                summarise_pca    1.92  34.4</span></span>
+<span><span class="co">#&gt;              summarise_final    1.62  29.0</span></span>
+<span><span class="co">#&gt;                        total    5.59 100.1</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Creating final QC dataset... <span style="color: #B2B2B2;">[1.7s]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> 'Omics QC Process Completed</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> 'Omics QC Process Completed <span style="color: #B2B2B2;">[30ms]</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> 'Omics QC Process Completed <span style="color: #B2B2B2;">[31ms]</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="export-omiprep">Export Omiprep<a class="anchor" aria-label="anchor" href="#export-omiprep"></a>
@@ -194,7 +194,7 @@ summaries, and sample summaries.</p>
 <span><span class="co"># run export</span></span>
 <span><span class="fu"><a href="../reference/export.html">export</a></span><span class="op">(</span><span class="va">mydata</span>, directory <span class="op">=</span> <span class="va">output_dir</span>, format <span class="op">=</span> <span class="st">"omiprep"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Exporting in omiprep format to: </span></span>
-<span><span class="co">#&gt;      /tmp/RtmpN0SHrC/output</span></span>
+<span><span class="co">#&gt;      /tmp/RtmpqNo7UR/output</span></span>
 <span></span>
 <span><span class="co"># view output directory files</span></span>
 <span><span class="va">files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="va">output_dir</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -227,7 +227,7 @@ summaries, and sample summaries.</p>
 <span></span>
 <span><span class="co"># run export</span></span>
 <span><span class="fu"><a href="../reference/export.html">export</a></span><span class="op">(</span><span class="va">mydata</span>, directory <span class="op">=</span> <span class="va">output_dir</span>, format <span class="op">=</span> <span class="st">"comets"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Exporting data layer `qc` in comets format to /tmp/RtmpN0SHrC/output/omiprep_comets_export_2026_06_25.xlsx</span></span>
+<span><span class="co">#&gt; Exporting data layer `qc` in comets format to /tmp/RtmpqNo7UR/output/omiprep_comets_export_2026_06_25.xlsx</span></span>
 <span><span class="co">#&gt; Export complete.</span></span>
 <span></span>
 <span><span class="co"># view output directory files</span></span>
@@ -251,8 +251,8 @@ abundance/concentration/intensity data ready for upload to
 <span></span>
 <span><span class="co"># run export</span></span>
 <span><span class="fu"><a href="../reference/export.html">export</a></span><span class="op">(</span><span class="va">mydata</span>, directory <span class="op">=</span> <span class="va">output_dir</span>, format <span class="op">=</span> <span class="st">"metaboanalyst"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Exporting in export_metaboanalyst format to /tmp/RtmpN0SHrC/output</span></span>
-<span><span class="co">#&gt; Exporting data layer `qc` in metaboanalyst format to /tmp/RtmpN0SHrC/output/omiprep_metaboanalyst_export_2026_06_25.csv</span></span>
+<span><span class="co">#&gt; Exporting in export_metaboanalyst format to /tmp/RtmpqNo7UR/output</span></span>
+<span><span class="co">#&gt; Exporting data layer `qc` in metaboanalyst format to /tmp/RtmpqNo7UR/output/omiprep_metaboanalyst_export_2026_06_25.csv</span></span>
 <span></span>
 <span><span class="co"># view output directory files</span></span>
 <span><span class="va">files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="va">output_dir</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>

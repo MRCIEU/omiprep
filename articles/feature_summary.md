@@ -74,10 +74,10 @@ mydata = quality_control(mydata)
 #> ℹ Sample & Feature Summary Statistics for raw data✔ Sample & Feature Summary Statistics for raw data [2s]
 #> 
 #> ℹ Copying input data to new 'qc' data layer
-#> ✔ Copying input data to new 'qc' data layer [34ms]
+#> ✔ Copying input data to new 'qc' data layer [36ms]
 #> 
 #> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)
-#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [19ms]
+#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [20ms]
 #> 
 #> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)
 #> ✔ Assessing for extreme feature missingness >=80% - excluding 5 feature(s) [19m…
@@ -92,7 +92,7 @@ mydata = quality_control(mydata)
 #> ✔ Calculating total sum abundance outliers at +/- 5 Sdev - excluding 0 sample(s…
 #> 
 #> ℹ Running sample data PCA outlier analysis at +/- 5 Sdev
-#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [19ms]
+#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [18ms]
 #> 
 #> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
 #> ℹ Number of informative PCs (Scree acceleration factor): 2
@@ -108,19 +108,19 @@ mydata = quality_control(mydata)
 #> ℹ Creating final QC dataset...
 #>                         step seconds   pct
 #>                   validation    0.00   0.0
-#>                summarise_raw    2.02  30.3
-#>                   copy_layer    0.01   0.1
+#>                summarise_raw    2.03  31.0
+#>                   copy_layer    0.01   0.2
 #>   extreme_sample_missingness    0.00   0.0
 #>  extreme_feature_missingness    0.00   0.0
 #>           sample_missingness    0.00   0.0
-#>          total_sum_abundance    0.01   0.1
-#>                summarise_pca    1.96  29.4
-#>              summarise_final    2.46  36.8
-#>                        total    6.68 100.0
-#> ✔ Creating final QC dataset... [2.5s]
+#>          total_sum_abundance    0.01   0.2
+#>                summarise_pca    1.93  29.4
+#>              summarise_final    2.37  36.1
+#>                        total    6.56 100.0
+#> ✔ Creating final QC dataset... [2.4s]
 #> 
 #> ℹ 'Omics QC Process Completed
-#> ✔ 'Omics QC Process Completed [15ms]
+#> ✔ 'Omics QC Process Completed [13ms]
 ```
 
 ## Feature Summary

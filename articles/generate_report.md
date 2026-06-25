@@ -53,23 +53,23 @@ mydata <- mydata |>
 #> 
 #> ── Starting Omics QC Process ───────────────────────────────────────────────────
 #> ℹ Validating input parameters
-#> ✔ Validating input parameters [9ms]
+#> ✔ Validating input parameters [8ms]
 #> 
 #> ℹ Excluding 0 features from sample summary analysis but keeping in output data
 #> ✔ Excluding 39 features from sample summary analysis but keeping in output data…
 #> 
 #> ℹ Sample & Feature Summary Statistics for raw data
 #> ℹ Number of informative PCs (Scree acceleration factor): 2
-#> ℹ Sample & Feature Summary Statistics for raw data✔ Sample & Feature Summary Statistics for raw data [1.7s]
+#> ℹ Sample & Feature Summary Statistics for raw data✔ Sample & Feature Summary Statistics for raw data [1.6s]
 #> 
 #> ℹ Copying input data to new 'qc' data layer
-#> ✔ Copying input data to new 'qc' data layer [21ms]
+#> ✔ Copying input data to new 'qc' data layer [20ms]
 #> 
 #> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)
-#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [18ms]
+#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [17ms]
 #> 
 #> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)
-#> ✔ Assessing for extreme feature missingness >=80% - excluding 4 feature(s) [19m…
+#> ✔ Assessing for extreme feature missingness >=80% - excluding 4 feature(s) [18m…
 #> 
 #> ℹ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
 #> ✔ Assessing for sample missingness at specified level of >=20% - excluding 1 sa…
@@ -81,7 +81,7 @@ mydata <- mydata |>
 #> ✔ Calculating total sum abundance outliers at +/- 5 Sdev - excluding 0 sample(s…
 #> 
 #> ℹ Running sample data PCA outlier analysis at +/- 5 Sdev
-#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [30ms]
+#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [23ms]
 #> 
 #> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
 #> ℹ Number of informative PCs (Scree acceleration factor): 2
@@ -97,19 +97,19 @@ mydata <- mydata |>
 #> ℹ Creating final QC dataset...
 #>                         step seconds   pct
 #>                   validation    0.00   0.0
-#>                summarise_raw    1.64  33.4
+#>                summarise_raw    1.58  33.3
 #>                   copy_layer    0.00   0.0
 #>   extreme_sample_missingness    0.00   0.0
 #>  extreme_feature_missingness    0.00   0.0
 #>           sample_missingness    0.00   0.0
 #>          total_sum_abundance    0.01   0.2
-#>                summarise_pca    1.72  35.0
-#>              summarise_final    1.30  26.4
-#>                        total    4.92 100.1
+#>                summarise_pca    1.67  35.2
+#>              summarise_final    1.25  26.3
+#>                        total    4.75 100.0
 #> ✔ Creating final QC dataset... [1.3s]
 #> 
 #> ℹ 'Omics QC Process Completed
-#> ✔ 'Omics QC Process Completed [16ms]
+#> ✔ 'Omics QC Process Completed [13ms]
 ```
 
 ## Generate the Omiprep report
@@ -117,8 +117,11 @@ mydata <- mydata |>
 ``` r
 
 # render report
+project     <- "Metabolon_Example"
+report_html <- paste0(project, "_omiprep_qc_report.html")   # name generate_report() writes
+
 generate_report(mydata,
-                project         = "Metabolon_Example",
+                project         = project,
                 output_dir      = getwd(),
                 output_filename = NULL,
                 format          = "html",
@@ -131,7 +134,7 @@ generate_report(mydata,
 #> Warning in call_block(x): The chunk 'unnamed-chunk-3' has the 'child' option,
 #> and this code chunk must be empty. Its code will be ignored.
 #> output file: /home/runner/work/omiprep/omiprep/vignettes/skeleton.knit.md
-#> /opt/hostedtoolcache/pandoc/3.8.3/x64/pandoc +RTS -K512m -RTS /home/runner/work/omiprep/omiprep/vignettes/skeleton.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output /home/runner/work/omiprep/omiprep/vignettes/metabolon_example_omiprep_qc_report.html --lua-filter /home/runner/work/_temp/Library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /home/runner/work/_temp/Library/rmarkdown/rmarkdown/lua/latex-div.lua --lua-filter /home/runner/work/_temp/Library/rmarkdown/rmarkdown/lua/table-classes.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 2 --template /home/runner/work/_temp/Library/rmarkdown/rmd/h/default.html --syntax-highlighting none --variable highlightjs=1 --number-sections --variable theme=bootstrap --css styles.css --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /tmp/Rtmp7duc2d/rmarkdown-str200d684f5cc7.html
+#> /opt/hostedtoolcache/pandoc/3.8.3/x64/pandoc +RTS -K512m -RTS /home/runner/work/omiprep/omiprep/vignettes/skeleton.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output /home/runner/work/omiprep/omiprep/vignettes/metabolon_example_omiprep_qc_report.html --lua-filter /home/runner/work/_temp/Library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /home/runner/work/_temp/Library/rmarkdown/rmarkdown/lua/latex-div.lua --lua-filter /home/runner/work/_temp/Library/rmarkdown/rmarkdown/lua/table-classes.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 2 --template /home/runner/work/_temp/Library/rmarkdown/rmd/h/default.html --syntax-highlighting none --variable highlightjs=1 --number-sections --variable theme=bootstrap --css styles.css --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /tmp/Rtmp1JKMaM/rmarkdown-str1daa5e1fb2cc.html
 #> 
 #> Output created: metabolon_example_omiprep_qc_report.html
 ```
