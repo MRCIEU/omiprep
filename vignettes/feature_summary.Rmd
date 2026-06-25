@@ -21,9 +21,10 @@ knitr::opts_chunk$set(
 library(omiprep)
 
 # import data
-data     <- read.csv(system.file("extdata", "dummy_data.csv",     package = "omiprep"), header=T, row.names = 1) |> as.matrix()
-samples  <- read.csv(system.file("extdata", "dummy_samples.csv",  package = "omiprep"), header=T, row.names = 1)
+data     <- read.csv(system.file("extdata", "dummy_data.csv", package = "omiprep"), header=T, row.names = 1, check.names = FALSE) |> as.matrix()
+samples  <- read.csv(system.file("extdata", "dummy_samples.csv", package = "omiprep"), header=T, row.names = 1)
 features <- read.csv(system.file("extdata", "dummy_features.csv", package = "omiprep"), header=T, row.names = 1)
+features$feature_id = as.character(features$feature_id)
 
 # create object
 mydata <- Omiprep(data = data, samples = samples, features = features)
@@ -93,7 +94,7 @@ Using the `sample_ids` and `feature_ids` arguments you can run the summary for a
 sids <- mydata@samples[mydata@samples$sex == "female", "sample_id"] 
 
 ## define a vector of feature IDs
-fids <- mydata@features[, "feature_id"] |> sample(10)
+fids <- mydata@features[, "feature_id"] |> sample(25)
 
 # NOTE:
 # outlier_udist = number of IQRs from the median at which a value is flagged.
@@ -135,8 +136,11 @@ names( attributes(feature_sum1) )
 In addition to the summary data, the hierarchical cluster dendrogram is appended to the returned `data.frame` as and `attribute`. This can be accessed with the attribute name: `[source_layer]_tree`, in this case we summarised the `input` data, therefore the attribute name is `input_tree`. 
 
 
-```{r tree, out.width="100%", fig.align='center', fig.alt = "Decision tree showing feature importance in dataset", fig.width = 10, fig.height = 4}
+```{r tree, out.width="100%", fig.align='center', fig.alt = "Decision tree showing feature importance in dataset", fig.width = 20, fig.height = 5}
 suppressPackageStartupMessages(library(dendextend))
+
+## number of independent features
+indfeatcount = sum( feature_sum1$independent_features, na.rm = TRUE )
 
 # extract tree from attributes
 tree <- attr(feature_sum1, 'input_tree')
@@ -145,7 +149,7 @@ dend <- stats::as.dendrogram(tree)
 # color the independent features blue
 metab_color       <- feature_sum1[, c("feature_id", "independent_features")]
 metab_color       <- metab_color[match(labels(dend), metab_color$feature_id), ]
-metab_color$color <- ifelse(metab_color$independent_features==TRUE, "#477EB8", "grey")
+metab_color$color <- ifelse(metab_color$independent_features==TRUE, "#084594", "grey80")
 
 # format dendrogram for ploting
 dend <- dend |>
@@ -155,7 +159,7 @@ dend <- dend |>
   dendextend::set("branches_k_color",  value = metab_color$color)
 
 ## plot the dendrogram
-dend |> plot(main = "Feature clustering dendrogram")
+dend |> plot(main  = paste0("Feature clustering dendrogram\n# of ind. features = ",indfeatcount ))
 abline(h = 0.5, col = "#E41A1C", lwd = 1.5)
 
 ```
