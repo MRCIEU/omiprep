@@ -18,32 +18,55 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(omiprep)
 
-# import data 
-m <- read_metabolon(system.file("extdata", "metabolon_v1.1_example.xlsx", package = "omiprep"), 
-                    sheet = "OrigScale",      ## The name of the sheet in the excel file to read in
-                    return_Omiprep = TRUE  ## Whether to return a Omiprep object (TRUE) or a list (FALSE)
-                    )
+# example file
+filepath <- system.file("extdata", "metabolon_v2_example.xlsx", package = "omiprep")
+
+# import data as a list object rather than directly as a Omiprep object
+mydata <- read_metabolon(filepath,  
+                         sheet = 'Batch-normalized Data',        ## read in the batch normalized but NOT imputed tab
+                         feature_sheet = "Chemical Annotation",  ## tab name of the feature data
+                         feature_id_col = "COMP_ID",             ## in this instance features in batch normalized.. 
+                                                                 ##  ..tab are annotated to column name COMP_ID. Verify in your data.
+                         sample_sheet = "Sample Meta Data",      ## tab name of the sample data
+                         sample_id_col = "PARENT_SAMPLE_NAME",   ## column name of sample IDs 
+                         return_Omiprep = TRUE                   ## return omiprep object
+                         )
+```
+
+## Identify the Xenobiotics to exclude from the QC steps
+
+```{r xeno_identification}
+xenos <- mydata@features[!is.na(mydata@features$SUPER_PATHWAY) & 
+                           mydata@features$SUPER_PATHWAY == "Xenobiotics", "feature_id"]
+
+## how many xenobiotics identified
+length(xenos)
 ```
 
 ### Run the quality control pipeline
 
 ```{r example}
 # run QC
-m <- quality_control(m, 
-                     source_layer = "input", 
-                     sample_missingness  = 0.2, 
-                     feature_missingness = 0.2, 
-                     feature_skewness_threshold = NULL,
-                     feature_skewness_direction = "left",
-                     total_sum_abundance_sd  = 5, 
-                     outlier_udist       = 5, 
-                     outlier_treatment   = "leave_be", 
-                     winsorize_quantile  = 1.0, 
-                     tree_cut_height     = 0.5, 
-                     pc_outlier_sd       = 5, 
-                     sample_ids          = NULL, 
-                     feature_ids         = NULL, 
-                     cores               = 1)
+mydata <- mydata |>
+  quality_control(source_layer              = "input", 
+                  sample_missingness        = 0.2, 
+                  feature_missingness       = 0.2, 
+                  total_sum_abundance_sd    = 5, 
+                  outlier_udist             = 5, 
+                  outlier_treatment         = "leave_be", 
+                  winsorize_quantile        = 1.0, 
+                  tree_cut_height           = 0.5, 
+                  pc_outlier_sd             = 5,
+                  feature_selection         = "least_missingness", ## We suggest using `least_missingness` 
+                                                                   ## when working with data, like Metabolon, 
+                                                                   ## with high missingness. 
+                                                                   ## Default is "max_var_exp".
+                  features_exclude_but_keep = xenos, ## Exclude xenobiotics from QC, but retain them in the final dataset.
+                                                     ## We suggest this as xenos can have extreme missingness and are 
+                                                     ## commonly qc'd from a data set. However, they may be appropriate 
+                                                     ## to model as a binary present|absent trait. A choice for the researcher.
+                  cores                     = 1
+                  )
 ```
 
 
@@ -51,5 +74,5 @@ m <- quality_control(m,
 
 ```{r summary}
 # view summary
-summary(m)
+summary(mydata)
 ```

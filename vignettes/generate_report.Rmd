@@ -19,10 +19,18 @@ knitr::opts_chunk$set(
 ```{r render}
 library(omiprep)
 
+## example data file path
+filepath <- system.file("extdata", "metabolon_v2_example.xlsx", package = "omiprep")
+
 # import data directly as a Omiprep object
-mydata <- read_metabolon(system.file("extdata", "metabolon_v1.1_example.xlsx", package = "omiprep"), 
-                         sheet="OrigScale",
-                         return_Omiprep = TRUE)
+mydata <- read_metabolon(filepath,  
+                         sheet = 'Batch-normalized Data',        ## read in the batch normalized but NOT imputed tab
+                         feature_sheet = "Chemical Annotation",  ## tab name of the feature data
+                         feature_id_col = "COMP_ID",             ## column name of feature IDs
+                         sample_sheet = "Sample Meta Data",      ## tab name of the sample data
+                         sample_id_col = "PARENT_SAMPLE_NAME",   ## column name of sample IDs 
+                         return_Omiprep = TRUE
+                         )
 
 ```
 
@@ -30,7 +38,8 @@ mydata <- read_metabolon(system.file("extdata", "metabolon_v1.1_example.xlsx", p
 ## Identify the Xenobiotics to exclude from the QC steps
 
 ```{r xeno_identification}
-xenos <- mydata@features[mydata@features$pathway == "xenobiotic", "feature_id"]
+xenos <- mydata@features[!is.na(mydata@features$SUPER_PATHWAY) & 
+                           mydata@features$SUPER_PATHWAY == "Xenobiotics", "feature_id"]
 
 ## how many xenobiotics identified
 length(xenos)
@@ -62,7 +71,7 @@ mydata <- mydata |>
 ```{r}
 # render report
 generate_report(mydata,
-                project         = "myproject",
+                project         = "Metabolon_Example",
                 output_dir      = getwd(),
                 output_filename = NULL,
                 format          = "html",

@@ -61,7 +61,7 @@ test_that("read_metabolon parses the v1.1 single-sheet format", {
   r <- suppressWarnings(read_metabolon(fp, sheet = 2))
 
   expect_reader_contract(r)
-  expect_identical(dim(r$data), c(100L, 100L))
+  expect_identical(dim(r$data), c(125L, 253L))
   expect_identical(r$samples$sample_id, rownames(r$data))   # reader asserts this
   expect_identical(r$features$feature_id, colnames(r$data))
   expect_builds_omiprep(r)
@@ -73,7 +73,7 @@ test_that("read_metabolon parses the v1.2 named-sheet format", {
   r <- suppressWarnings(read_metabolon(fp, sheet = "OrigScale"))
 
   expect_reader_contract(r)
-  expect_identical(dim(r$data), c(100L, 104L))
+  expect_identical(dim(r$data), c(125L, 253L))
   expect_builds_omiprep(r)
 })
 
@@ -84,13 +84,13 @@ test_that("read_metabolon parses the v2 multi-tab format", {
     fp,
     sheet          = "Batch-normalized Data",
     feature_sheet  = "Chemical Annotation",
-    feature_id_col = "CHEM_ID",
+    feature_id_col = "COMP_ID",
     sample_sheet   = "Sample Meta Data",
     sample_id_col  = "PARENT_SAMPLE_NAME"
   ))
 
   expect_reader_contract(r)
-  expect_identical(dim(r$data), c(10L, 8L))
+  expect_identical(dim(r$data), c(125L, 253L))
   expect_builds_omiprep(r)
 })
 
@@ -136,7 +136,7 @@ test_that("read_nightingale parses the v1 example", {
   r <- suppressWarnings(read_nightingale(fp))
 
   expect_reader_contract(r)
-  expect_identical(dim(r$data), c(50L, 12L))
+  expect_identical(dim(r$data), c(150L, 229L))
   expect_identical(r$features$feature_id, colnames(r$data))
   expect_builds_omiprep(r)
 })
@@ -147,7 +147,7 @@ test_that("read_nightingale parses the v2 example", {
   r <- suppressWarnings(read_nightingale(fp))
 
   expect_reader_contract(r)
-  expect_identical(dim(r$data), c(50L, 15L))
+  expect_identical(dim(r$data), c(150L, 229L))
   expect_builds_omiprep(r)
 })
 

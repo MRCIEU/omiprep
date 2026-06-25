@@ -49,73 +49,78 @@ This is a basic example which shows you how to load data and run the
 library(omiprep)
 
 # import data 
-mydata <- read_metabolon(system.file("extdata", "metabolon_v1.1_example.xlsx", package = "omiprep"), 
-                         sheet = "OrigScale",      ## The name of the sheet in the excel file to read in
+datain <- read_nightingale(system.file("extdata", "nightingale_v2_example.xlsx", package = "omiprep"), 
                          return_Omiprep = FALSE    ## Whether to return a Omiprep object (TRUE) or a list (FALSE)
                          )
 
 # create omiprep object
-mydata <-  Omiprep(data     = mydata$data, 
-                   features = mydata$features, 
-                   samples  = mydata$samples)
+mydata <-  Omiprep(data     = datain$data, 
+                   features = datain$features, 
+                   samples  = datain$samples)
 ```
 
 ### Run the quality control pipeline
 
 ``` r
 # run QC
-mydata <- mydata |> quality_control( source_layer = "input", 
-                                     sample_missingness  = 0.2, 
-                                     feature_missingness = 0.2, 
-                                     feature_skewness_threshold = NULL,
-                                     feature_skewness_direction = "left",
-                                     total_sum_abundance_sd  = 5, 
-                                     outlier_udist       = 5, 
-                                     outlier_treatment   = "leave_be", 
-                                     winsorize_quantile  = 1.0, 
-                                     tree_cut_height     = 0.5, 
-                                     pc_outlier_sd       = 5, 
-                                     sample_ids          = NULL, 
-                                     feature_ids         = NULL)
+mydata <- mydata |> quality_control()
 #> 
 #> ── Starting Omics QC Process ───────────────────────────────────────────────────
-#> ℹ Validating input parameters                              
-#> ℹ Validating input parameters                              ── Starting 'Omics QC Process ──────────────────────────────────────────────────
-#> ℹ Validating input parameters✔ Validating input parameters [9ms]
-#> ℹ Validating input parameters✔ Validating input parameters [7ms]
+#> ℹ Validating input parameters
+#> ✔ Validating input parameters [4ms]
+#> 
 #> ℹ Sample & Feature Summary Statistics for raw data
-#> AF =  2
-#> ✔ Sample & Feature Summary Statistics for raw data [272ms]
-#> ℹ Copying input data to new 'qc' data layer✔ Copying input data to new 'qc' data layer [16ms]
-#> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [10ms]
-#> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [9ms]
-#> ℹ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…✔ Assessing for sample missingness at specified level of >=20% - excluding 2 sa…
-#> ℹ Assessing for feature missingness at specified level of >=20% - excluding 0 f…✔ Assessing for feature missingness at specified level of >=20% - excluding 0 f…
-#> ℹ Calculating total peak abundance outliers at +/- 5 Sdev - excluding 0 sample(…✔ Calculating total peak abundance outliers at +/- 5 Sdev - excluding 0 sample(…
-#> ℹ Running sample data PCA outlier analysis at +/- 5 Sdev✔ Running sample data PCA outlier analysis at +/- 5 Sdev [8ms]
+#> ℹ Number of informative PCs (Scree acceleration factor): 2
+#> ℹ Sample & Feature Summary Statistics for raw data✔ Sample & Feature Summary Statistics for raw data [765ms]
+#> 
+#> ℹ Copying input data to new 'qc' data layer
+#> ✔ Copying input data to new 'qc' data layer [12ms]
+#> 
+#> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)
+#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [9ms]
+#> 
+#> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)
+#> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [13m…
+#> 
+#> ℹ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
+#> ✔ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
+#> 
+#> ℹ Assessing for feature missingness at specified level of >=20% - excluding 0 f…
+#> ✔ Assessing for feature missingness at specified level of >=20% - excluding 7 f…
+#> 
+#> ℹ Calculating total sum abundance outliers at +/- 5 Sdev - excluding 0 sample(s)
+#> ✔ Calculating total sum abundance outliers at +/- 5 Sdev - excluding 0 sample(s…
+#> 
+#> ℹ Running sample data PCA outlier analysis at +/- 5 Sdev
+#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [8ms]
+#> 
 #> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
-#> AF =  2
-#> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…                                                                                 ! The stated max PCs [max_num_pcs=10] to use in PCA outlier assessment is greater than the number of available informative PCs [2]
+#> ℹ Number of informative PCs (Scree acceleration factor): 2
+#> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
+#> ! The stated max PCs [max_num_pcs=10] to use in PCA outlier assessment is greater than the number of available informative PCs [2]
 #> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…✔ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
+#> 
 #> ℹ Creating final QC dataset...
-#> AF =  2
-#>                                
-#> ℹ Creating final QC dataset...                               ── Step timings ──
-#> ℹ Creating final QC dataset...                               
+#> ℹ Number of informative PCs (Scree acceleration factor): 2
+#> ℹ Creating final QC dataset...
+#> ℹ Creating final QC dataset...── Step timings ──
+#> ℹ Creating final QC dataset...
 #> ℹ Creating final QC dataset...
 #>                         step seconds   pct
-#>                   validation    0.01   1.2
-#>                summarise_raw    0.26  31.0
+#>                   validation    0.00   0.0
+#>                summarise_raw    0.76  27.4
 #>                   copy_layer    0.00   0.0
 #>   extreme_sample_missingness    0.00   0.0
 #>  extreme_feature_missingness    0.00   0.0
 #>           sample_missingness    0.00   0.0
 #>          total_sum_abundance    0.00   0.0
-#>                summarise_pca    0.26  31.0
-#>              summarise_final    0.20  23.9
-#>                        total    0.84 100.2
-#> ✔ Creating final QC dataset... [217ms]
-#> ℹ 'Omics QC Process Completed✔ 'Omics QC Process Completed [11ms]
+#>                summarise_pca    0.78  28.1
+#>              summarise_final    1.12  40.4
+#>                        total    2.78 100.2
+#> ✔ Creating final QC dataset... [1.2s]
+#> 
+#> ℹ 'Omics QC Process Completed
+#> ✔ 'Omics QC Process Completed [9ms]
 ```
 
 ### View a summary of the Omiprep object
@@ -125,8 +130,8 @@ mydata <- mydata |> quality_control( source_layer = "input",
 summary(mydata)
 #> Omiprep Object Summary
 #> --------------------------
-#> Samples      : 100
-#> Features     : 100
+#> Samples      : 150
+#> Features     : 229
 #> Data Layers  : 2
 #> Layer Names  : input, qc
 #> 
@@ -134,12 +139,12 @@ summary(mydata)
 #> Feature Summary Layers: input, qc
 #> 
 #> Sample Annotation (metadata):
-#>   Columns: 8
-#>   Names  : sample_id, neg, pos, run_day, box_id, lot, reason_excluded, excluded
+#>   Columns: 7
+#>   Names  : sample_id, high_pyruvate, high_lactate, low_glutamine__high_glutamate, plasma_sample, reason_excluded, excluded
 #> 
 #> Feature Annotation (metadata):
-#>   Columns: 9
-#>   Names  : feature_id, metabolite_id, comp_id, platform, pathway, kegg, group_hmdb, reason_excluded, excluded
+#>   Columns: 3
+#>   Names  : feature_id, reason_excluded, excluded
 #> 
 #> Exclusion Codes Summary:
 #> 
@@ -148,7 +153,7 @@ summary(mydata)
 #> -----------------
 #> user_excluded                     | 0
 #> extreme_sample_missingness        | 0
-#> user_defined_sample_missingness   | 2
+#> user_defined_sample_missingness   | 0
 #> user_defined_sample_totalpeakarea | 0
 #> user_defined_sample_pca_outlier   | 0
 #> 
@@ -157,7 +162,7 @@ summary(mydata)
 #> -----------------
 #> user_excluded                    | 0
 #> extreme_feature_missingness      | 0
-#> user_defined_feature_missingness | 0
+#> user_defined_feature_missingness | 7
 #> user_defined_feature_skewness    | 0
 ```
 
@@ -166,8 +171,11 @@ summary(mydata)
 ``` r
 # view feature tree
 tree <- attr(mydata@feature_summary, "qc_tree")
-par(mar = c(1,3,5,1) )
-plot(tree, hang = -1, cex = 0.75, main = "Example Dataset Feature Tree", sub = "", xlab = "")
+indfeatcount = sum( mydata@feature_summary["independent_features", , 2], na.rm = TRUE )
+par(mar = c(2,3,5,1) )
+plot(tree, hang = -1, cex = 0.5, 
+     main = paste0("Example NH Dataset Feature Tree\n# of ind. features = ",indfeatcount ), 
+     xlab = "")
 ```
 
 <img src="man/figures/README-treeplot-1.png" alt="Dendrogram" width="100%" />

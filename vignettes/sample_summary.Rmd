@@ -21,9 +21,10 @@ knitr::opts_chunk$set(
 library(omiprep)
 
 # import data
-data     <- read.csv(system.file("extdata", "dummy_data.csv",     package = "omiprep"), header=T, row.names = 1) |> as.matrix()
-samples  <- read.csv(system.file("extdata", "dummy_samples.csv",  package = "omiprep"), header=T, row.names = 1)
+data     <- read.csv(system.file("extdata", "dummy_data.csv", package = "omiprep"), header=T, row.names = 1, check.names = FALSE) |> as.matrix()
+samples  <- read.csv(system.file("extdata", "dummy_samples.csv", package = "omiprep"), header=T, row.names = 1)
 features <- read.csv(system.file("extdata", "dummy_features.csv", package = "omiprep"), header=T, row.names = 1)
+features$feature_id = as.character(features$feature_id)
 
 # create object
 mydata <- Omiprep(data = data, samples = samples, features = features)
@@ -87,10 +88,12 @@ Using the `sample_ids` and `feature_ids` arguments you can run the summary for a
 ```{r sample_summary_subset}
 ## define a vector of sample IDs
 sids <- mydata@samples[mydata@samples$sex == "female", "sample_id"] 
+cat("Number of samples being passed = ", length(sids), "\n")
 
 ## define a vector of feature IDs
 ## extract only those features run on `pos`itive ion mode. 
-fids <- mydata@features[mydata@features$platform == "pos", "feature_id"] 
+fids <- mydata@features[mydata@features$platform == "LC/MS Pos Late", "feature_id"] 
+cat("Number of features being passed = ", length(fids), "\n")
 
 # run sample summary on subset
 sample_sum_subset <- sample_summary(omiprep       = mydata, 
