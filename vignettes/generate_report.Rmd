@@ -70,7 +70,7 @@ mydata <- mydata |>
 
 ```{r}
 # render report
-project     <- "Metabolon_Example"
+project     <- "metabolon_example"
 report_html <- paste0(project, "_omiprep_qc_report.html")   # name generate_report() writes
 
 generate_report(mydata,
