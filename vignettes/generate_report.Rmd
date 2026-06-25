@@ -70,8 +70,11 @@ mydata <- mydata |>
 
 ```{r}
 # render report
+project     <- "Metabolon_Example"
+report_html <- paste0(project, "_omiprep_qc_report.html")   # name generate_report() writes
+
 generate_report(mydata,
-                project         = "Metabolon_Example",
+                project         = project,
                 output_dir      = getwd(),
                 output_filename = NULL,
                 format          = "html",
@@ -80,14 +83,14 @@ generate_report(mydata,
 
 
 ```{r, echo=FALSE}
-file.copy(file.path(getwd(), "myproject_omiprep_qc_report.html"), 
-          file.path(getwd(), "../docs/articles/myproject_omiprep_qc_report.html"), overwrite = TRUE)
+file.copy(file.path(getwd(), report_html),
+          file.path(getwd(), "../docs/articles", report_html), overwrite = TRUE)
 ```
 
 ```{r, echo=FALSE, results="asis"}
-cat('
+cat(paste0('
 <div id="iframe-container" style="width: 100%;">
-  <iframe id="myIframe" src="https://mrcieu.github.io/omiprep/articles/myproject_omiprep_qc_report.html" 
+  <iframe id="myIframe" src="https://mrcieu.github.io/omiprep/articles/', report_html, '"
           width="100%" style="border: none;"></iframe>
 </div>
 
@@ -103,5 +106,5 @@ cat('
     setTimeout(resizeIframe, 500);
   };
 </script>
-')
+'))
 ```
