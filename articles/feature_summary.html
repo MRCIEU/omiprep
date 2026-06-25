@@ -101,9 +101,10 @@
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mrcieu.github.io/omiprep/">omiprep</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># import data</span></span>
-<span><span class="va">data</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"dummy_data.csv"</span>,     package <span class="op">=</span> <span class="st">"omiprep"</span><span class="op">)</span>, header<span class="op">=</span><span class="cn">T</span>, row.names <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="va">samples</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"dummy_samples.csv"</span>,  package <span class="op">=</span> <span class="st">"omiprep"</span><span class="op">)</span>, header<span class="op">=</span><span class="cn">T</span>, row.names <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">data</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"dummy_data.csv"</span>, package <span class="op">=</span> <span class="st">"omiprep"</span><span class="op">)</span>, header<span class="op">=</span><span class="cn">T</span>, row.names <span class="op">=</span> <span class="fl">1</span>, check.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">samples</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"dummy_samples.csv"</span>, package <span class="op">=</span> <span class="st">"omiprep"</span><span class="op">)</span>, header<span class="op">=</span><span class="cn">T</span>, row.names <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="va">features</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"dummy_features.csv"</span>, package <span class="op">=</span> <span class="st">"omiprep"</span><span class="op">)</span>, header<span class="op">=</span><span class="cn">T</span>, row.names <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">features</span><span class="op">$</span><span class="va">feature_id</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">features</span><span class="op">$</span><span class="va">feature_id</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># create object</span></span>
 <span><span class="va">mydata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/class_omiprep.html">Omiprep</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, samples <span class="op">=</span> <span class="va">samples</span>, features <span class="op">=</span> <span class="va">features</span><span class="op">)</span></span></code></pre></div>
@@ -115,8 +116,8 @@
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/summary.Omiprep.html">summary</a></span><span class="op">(</span><span class="va">mydata</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Omiprep Object Summary</span></span>
 <span><span class="co">#&gt; --------------------------</span></span>
-<span><span class="co">#&gt; Samples      : 100</span></span>
-<span><span class="co">#&gt; Features     : 20</span></span>
+<span><span class="co">#&gt; Samples      : 125</span></span>
+<span><span class="co">#&gt; Features     : 253</span></span>
 <span><span class="co">#&gt; Data Layers  : 1</span></span>
 <span><span class="co">#&gt; Layer Names  : input</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -124,12 +125,12 @@
 <span><span class="co">#&gt; Feature Summary Layers: none</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Sample Annotation (metadata):</span></span>
-<span><span class="co">#&gt;   Columns: 5</span></span>
-<span><span class="co">#&gt;   Names  : sample_id, age, sex, pos, neg</span></span>
+<span><span class="co">#&gt;   Columns: 10</span></span>
+<span><span class="co">#&gt;   Names  : sample_id, parent_sample_id, client_identifier, sex, age, bmi, LC.MS.Polar, LC.MS.Neg, LC.MS.Pos.Early, LC.MS.Pos.Late</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Feature Annotation (metadata):</span></span>
-<span><span class="co">#&gt;   Columns: 5</span></span>
-<span><span class="co">#&gt;   Names  : feature_id, platform, pathway, derived_feature, xenobiotic_feature</span></span>
+<span><span class="co">#&gt;   Columns: 14</span></span>
+<span><span class="co">#&gt;   Names  : feature_id, pathway_sortorder, biochemical, super_pathway, sub_pathway, comp_id, platform, chemical_id, ri, mass, cas, pubchem, kegg, group_hmdb</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Exclusion Codes Summary:</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -158,59 +159,60 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Starting Omics QC Process</span> <span style="color: #00BBBB;">───────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Validating input parameters</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Validating input parameters <span style="color: #B2B2B2;">[8ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Validating input parameters <span style="color: #B2B2B2;">[9ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample &amp; Feature Summary Statistics for raw data</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Number of informative PCs (Scree acceleration factor): 3</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample &amp; Feature Summary Statistics for raw data<span style="color: #00BB00;">✔</span> Sample &amp; Feature Summary Statistics for raw data <span style="color: #B2B2B2;">[406ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Number of informative PCs (Scree acceleration factor): 2</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample &amp; Feature Summary Statistics for raw data<span style="color: #00BB00;">✔</span> Sample &amp; Feature Summary Statistics for raw data <span style="color: #B2B2B2;">[2s]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Copying input data to new 'qc' data layer</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Copying input data to new 'qc' data layer <span style="color: #B2B2B2;">[24ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Copying input data to new 'qc' data layer <span style="color: #B2B2B2;">[34ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Assessing for extreme sample missingness &gt;=80% - excluding 0 sample(s)</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for extreme sample missingness &gt;=80% - excluding 0 sample(s) <span style="color: #B2B2B2;">[17ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for extreme sample missingness &gt;=80% - excluding 0 sample(s) <span style="color: #B2B2B2;">[19ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Assessing for extreme feature missingness &gt;=80% - excluding 0 feature(s)</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for extreme feature missingness &gt;=80% - excluding 0 feature(s) <span style="color: #B2B2B2;">[17m</span>…</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for extreme feature missingness &gt;=80% - excluding 5 feature(s) <span style="color: #B2B2B2;">[19m</span>…</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Assessing for sample missingness at specified level of &gt;=20% - excluding 0 sa…</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for sample missingness at specified level of &gt;=20% - excluding 0 sa…</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for sample missingness at specified level of &gt;=20% - excluding 1 sa…</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Assessing for feature missingness at specified level of &gt;=20% - excluding 0 f…</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for feature missingness at specified level of &gt;=20% - excluding 0 f…</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for feature missingness at specified level of &gt;=20% - excluding 46 …</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Calculating total sum abundance outliers at +/- 5 Sdev - excluding 0 sample(s)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Calculating total sum abundance outliers at +/- 5 Sdev - excluding 0 sample(s…</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Running sample data PCA outlier analysis at +/- 5 Sdev</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Running sample data PCA outlier analysis at +/- 5 Sdev <span style="color: #B2B2B2;">[23ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Running sample data PCA outlier analysis at +/- 5 Sdev <span style="color: #B2B2B2;">[19ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample PCA outlier analysis - re-identify feature independence and PC outlier…</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Number of informative PCs (Scree acceleration factor): 3</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample PCA outlier analysis - re-identify feature independence and PC outlier…<span style="color: #BBBB00;">!</span> The stated max PCs [max_num_pcs=10] to use in PCA outlier assessment is greater than the number of available informative PCs [3]</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Number of informative PCs (Scree acceleration factor): 2</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample PCA outlier analysis - re-identify feature independence and PC outlier…<span style="color: #00BBBB;">ℹ</span> Sample PCA outlier analysis - re-identify feature independence and PC outlier…</span></span>
+<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> The stated max PCs [max_num_pcs=10] to use in PCA outlier assessment is greater than the number of available informative PCs [2]</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample PCA outlier analysis - re-identify feature independence and PC outlier…<span style="color: #00BB00;">✔</span> Sample PCA outlier analysis - re-identify feature independence and PC outlier…</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Creating final QC dataset...</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Number of informative PCs (Scree acceleration factor): 3</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Number of informative PCs (Scree acceleration factor): 2</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Creating final QC dataset...</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Creating final QC dataset...── <span style="font-weight: bold;">Step timings</span> ──</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Creating final QC dataset...</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Creating final QC dataset...</span></span>
 <span><span class="co">#&gt;                         step seconds   pct</span></span>
 <span><span class="co">#&gt;                   validation    0.00   0.0</span></span>
-<span><span class="co">#&gt;                summarise_raw    0.39  42.1</span></span>
-<span><span class="co">#&gt;                   copy_layer    0.00   0.0</span></span>
+<span><span class="co">#&gt;                summarise_raw    2.02  30.3</span></span>
+<span><span class="co">#&gt;                   copy_layer    0.01   0.1</span></span>
 <span><span class="co">#&gt;   extreme_sample_missingness    0.00   0.0</span></span>
 <span><span class="co">#&gt;  extreme_feature_missingness    0.00   0.0</span></span>
 <span><span class="co">#&gt;           sample_missingness    0.00   0.0</span></span>
-<span><span class="co">#&gt;          total_sum_abundance    0.00   0.0</span></span>
-<span><span class="co">#&gt;                summarise_pca    0.22  23.7</span></span>
-<span><span class="co">#&gt;              summarise_final    0.11  11.9</span></span>
-<span><span class="co">#&gt;                        total    0.93 100.3</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Creating final QC dataset... <span style="color: #B2B2B2;">[142ms]</span></span></span>
+<span><span class="co">#&gt;          total_sum_abundance    0.01   0.1</span></span>
+<span><span class="co">#&gt;                summarise_pca    1.96  29.4</span></span>
+<span><span class="co">#&gt;              summarise_final    2.46  36.8</span></span>
+<span><span class="co">#&gt;                        total    6.68 100.0</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Creating final QC dataset... <span style="color: #B2B2B2;">[2.5s]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> 'Omics QC Process Completed</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> 'Omics QC Process Completed <span style="color: #B2B2B2;">[17ms]</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> 'Omics QC Process Completed <span style="color: #B2B2B2;">[15ms]</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="feature-summary">Feature Summary<a class="anchor" aria-label="anchor" href="#feature-summary"></a>
@@ -295,61 +297,191 @@ independent_features
 <tbody>
 <tr>
 <td style="text-align:center;">
-metab_id_1
+48719
 </td>
 <td style="text-align:center;">
-0
+0.248
 </td>
 <td style="text-align:center;">
-0
+2
 </td>
 <td style="text-align:center;">
-100
+94
 </td>
 <td style="text-align:center;">
-0.511
+4.877
 </td>
 <td style="text-align:center;">
-0.293
+28.121
 </td>
 <td style="text-align:center;">
-0.530
+1
 </td>
 <td style="text-align:center;">
-0.000
+0.393
 </td>
 <td style="text-align:center;">
-0.993
+256.608
+</td>
+<td style="text-align:center;">
+256.215
+</td>
+<td style="text-align:center;">
+8.027
+</td>
+<td style="text-align:center;">
+66.644
+</td>
+<td style="text-align:center;">
+2.900
+</td>
+<td style="text-align:center;">
+31
+</td>
+<td style="text-align:center;">
+790.803
+</td>
+<td style="text-align:center;">
+162.154
+</td>
+<td style="text-align:center;">
+5.766
+</td>
+<td style="text-align:center;">
+0.128
+</td>
+<td style="text-align:center;">
+0.564
+</td>
+<td style="text-align:center;">
+NA
+</td>
+<td style="text-align:center;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+43532
+</td>
+<td style="text-align:center;">
+0.568
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+54
+</td>
+<td style="text-align:center;">
+1.296
+</td>
+<td style="text-align:center;">
+1.096
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+0.302
+</td>
+<td style="text-align:center;">
+7.172
+</td>
+<td style="text-align:center;">
+6.870
+</td>
+<td style="text-align:center;">
+3.189
+</td>
+<td style="text-align:center;">
+13.306
+</td>
+<td style="text-align:center;">
+0.149
+</td>
+<td style="text-align:center;">
+71
+</td>
+<td style="text-align:center;">
+1.201
+</td>
+<td style="text-align:center;">
+0.927
+</td>
+<td style="text-align:center;">
+0.846
+</td>
+<td style="text-align:center;">
+0.675
+</td>
+<td style="text-align:center;">
+0.977
+</td>
+<td style="text-align:center;">
+NA
+</td>
+<td style="text-align:center;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+46639
+</td>
+<td style="text-align:center;">
+0.128
+</td>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+109
+</td>
+<td style="text-align:center;">
+2.266
+</td>
+<td style="text-align:center;">
+3.517
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+0.078
+</td>
+<td style="text-align:center;">
+23.696
+</td>
+<td style="text-align:center;">
+23.619
+</td>
+<td style="text-align:center;">
+3.379
+</td>
+<td style="text-align:center;">
+14.104
+</td>
+<td style="text-align:center;">
+0.337
+</td>
+<td style="text-align:center;">
+16
+</td>
+<td style="text-align:center;">
+12.371
+</td>
+<td style="text-align:center;">
+5.460
+</td>
+<td style="text-align:center;">
+1.552
+</td>
+<td style="text-align:center;">
+0.596
 </td>
 <td style="text-align:center;">
 0.992
-</td>
-<td style="text-align:center;">
--0.123
-</td>
-<td style="text-align:center;">
--1.231
-</td>
-<td style="text-align:center;">
-0.029
-</td>
-<td style="text-align:center;">
-0
-</td>
-<td style="text-align:center;">
-0.086
-</td>
-<td style="text-align:center;">
-0.168
-</td>
-<td style="text-align:center;">
-0.574
-</td>
-<td style="text-align:center;">
-0.949
-</td>
-<td style="text-align:center;">
-0.744
 </td>
 <td style="text-align:center;">
 1
@@ -360,61 +492,61 @@ metab_id_1
 </tr>
 <tr>
 <td style="text-align:center;">
-metab_id_2
+606
+</td>
+<td style="text-align:center;">
+0.000
 </td>
 <td style="text-align:center;">
 0
 </td>
 <td style="text-align:center;">
-0
+125
 </td>
 <td style="text-align:center;">
-100
+0.990
 </td>
 <td style="text-align:center;">
-0.521
+0.211
 </td>
 <td style="text-align:center;">
-0.310
+1
 </td>
 <td style="text-align:center;">
-0.547
+0.006
 </td>
 <td style="text-align:center;">
-0.018
+1.461
 </td>
 <td style="text-align:center;">
-0.993
+1.455
 </td>
 <td style="text-align:center;">
-0.975
+-1.367
 </td>
 <td style="text-align:center;">
--0.150
+5.791
 </td>
 <td style="text-align:center;">
--1.404
-</td>
-<td style="text-align:center;">
-0.031
+0.019
 </td>
 <td style="text-align:center;">
 0
 </td>
 <td style="text-align:center;">
-0.096
+0.045
 </td>
 <td style="text-align:center;">
-0.184
+0.045
 </td>
 <td style="text-align:center;">
-0.594
+0.214
 </td>
 <td style="text-align:center;">
-0.924
+0.903
 </td>
 <td style="text-align:center;">
-0.834
+0.307
 </td>
 <td style="text-align:center;">
 2
@@ -425,194 +557,64 @@ metab_id_2
 </tr>
 <tr>
 <td style="text-align:center;">
-metab_id_3
+62279
 </td>
 <td style="text-align:center;">
-0
+0.168
 </td>
 <td style="text-align:center;">
-0
+1
 </td>
 <td style="text-align:center;">
-100
+104
 </td>
 <td style="text-align:center;">
-0.488
+1.315
 </td>
 <td style="text-align:center;">
-0.283
+1.146
 </td>
 <td style="text-align:center;">
-0.504
+1
 </td>
 <td style="text-align:center;">
-0.001
+0.180
 </td>
 <td style="text-align:center;">
-0.995
+7.637
 </td>
 <td style="text-align:center;">
-0.994
+7.457
 </td>
 <td style="text-align:center;">
--0.036
+2.539
 </td>
 <td style="text-align:center;">
--1.109
+8.964
 </td>
 <td style="text-align:center;">
-0.028
+0.112
 </td>
 <td style="text-align:center;">
-0
+21
 </td>
 <td style="text-align:center;">
-0.080
+1.313
 </td>
 <td style="text-align:center;">
-0.165
+0.998
 </td>
 <td style="text-align:center;">
-0.580
+0.871
 </td>
 <td style="text-align:center;">
-0.963
+0.759
 </td>
 <td style="text-align:center;">
-0.749
+0.997
 </td>
 <td style="text-align:center;">
 3
-</td>
-<td style="text-align:center;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-metab_id_4
-</td>
-<td style="text-align:center;">
-0
-</td>
-<td style="text-align:center;">
-0
-</td>
-<td style="text-align:center;">
-100
-</td>
-<td style="text-align:center;">
-0.464
-</td>
-<td style="text-align:center;">
-0.286
-</td>
-<td style="text-align:center;">
-0.466
-</td>
-<td style="text-align:center;">
-0.004
-</td>
-<td style="text-align:center;">
-0.992
-</td>
-<td style="text-align:center;">
-0.988
-</td>
-<td style="text-align:center;">
-0.092
-</td>
-<td style="text-align:center;">
--1.199
-</td>
-<td style="text-align:center;">
-0.029
-</td>
-<td style="text-align:center;">
-0
-</td>
-<td style="text-align:center;">
-0.082
-</td>
-<td style="text-align:center;">
-0.177
-</td>
-<td style="text-align:center;">
-0.617
-</td>
-<td style="text-align:center;">
-0.954
-</td>
-<td style="text-align:center;">
-0.833
-</td>
-<td style="text-align:center;">
-4
-</td>
-<td style="text-align:center;">
-1
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-metab_id_5
-</td>
-<td style="text-align:center;">
-0
-</td>
-<td style="text-align:center;">
-0
-</td>
-<td style="text-align:center;">
-100
-</td>
-<td style="text-align:center;">
-0.521
-</td>
-<td style="text-align:center;">
-0.293
-</td>
-<td style="text-align:center;">
-0.547
-</td>
-<td style="text-align:center;">
-0.004
-</td>
-<td style="text-align:center;">
-0.976
-</td>
-<td style="text-align:center;">
-0.972
-</td>
-<td style="text-align:center;">
--0.219
-</td>
-<td style="text-align:center;">
--1.161
-</td>
-<td style="text-align:center;">
-0.029
-</td>
-<td style="text-align:center;">
-0
-</td>
-<td style="text-align:center;">
-0.086
-</td>
-<td style="text-align:center;">
-0.164
-</td>
-<td style="text-align:center;">
-0.561
-</td>
-<td style="text-align:center;">
-0.945
-</td>
-<td style="text-align:center;">
-0.782
-</td>
-<td style="text-align:center;">
-5
 </td>
 <td style="text-align:center;">
 1
@@ -715,61 +717,191 @@ independent_features
 <tbody>
 <tr>
 <td style="text-align:center;">
-metab_id_1
+48719
 </td>
 <td style="text-align:center;">
-0
+0.248
 </td>
 <td style="text-align:center;">
-5
+17
 </td>
 <td style="text-align:center;">
-100
+94
 </td>
 <td style="text-align:center;">
-0.511
+4.877
 </td>
 <td style="text-align:center;">
-0.293
+28.121
 </td>
 <td style="text-align:center;">
-0.530
+1
 </td>
 <td style="text-align:center;">
-0.000
+0.393
 </td>
 <td style="text-align:center;">
-0.993
+256.608
+</td>
+<td style="text-align:center;">
+256.215
+</td>
+<td style="text-align:center;">
+8.027
+</td>
+<td style="text-align:center;">
+66.644
+</td>
+<td style="text-align:center;">
+2.900
+</td>
+<td style="text-align:center;">
+31
+</td>
+<td style="text-align:center;">
+790.803
+</td>
+<td style="text-align:center;">
+162.154
+</td>
+<td style="text-align:center;">
+5.766
+</td>
+<td style="text-align:center;">
+0.128
+</td>
+<td style="text-align:center;">
+0.564
+</td>
+<td style="text-align:center;">
+NA
+</td>
+<td style="text-align:center;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+43532
+</td>
+<td style="text-align:center;">
+0.568
+</td>
+<td style="text-align:center;">
+10
+</td>
+<td style="text-align:center;">
+54
+</td>
+<td style="text-align:center;">
+1.296
+</td>
+<td style="text-align:center;">
+1.096
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+0.302
+</td>
+<td style="text-align:center;">
+7.172
+</td>
+<td style="text-align:center;">
+6.870
+</td>
+<td style="text-align:center;">
+3.189
+</td>
+<td style="text-align:center;">
+13.306
+</td>
+<td style="text-align:center;">
+0.149
+</td>
+<td style="text-align:center;">
+71
+</td>
+<td style="text-align:center;">
+1.201
+</td>
+<td style="text-align:center;">
+0.927
+</td>
+<td style="text-align:center;">
+0.846
+</td>
+<td style="text-align:center;">
+0.675
+</td>
+<td style="text-align:center;">
+0.977
+</td>
+<td style="text-align:center;">
+NA
+</td>
+<td style="text-align:center;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+46639
+</td>
+<td style="text-align:center;">
+0.128
+</td>
+<td style="text-align:center;">
+22
+</td>
+<td style="text-align:center;">
+109
+</td>
+<td style="text-align:center;">
+2.266
+</td>
+<td style="text-align:center;">
+3.517
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+0.078
+</td>
+<td style="text-align:center;">
+23.696
+</td>
+<td style="text-align:center;">
+23.619
+</td>
+<td style="text-align:center;">
+3.379
+</td>
+<td style="text-align:center;">
+14.104
+</td>
+<td style="text-align:center;">
+0.337
+</td>
+<td style="text-align:center;">
+16
+</td>
+<td style="text-align:center;">
+12.371
+</td>
+<td style="text-align:center;">
+5.460
+</td>
+<td style="text-align:center;">
+1.552
+</td>
+<td style="text-align:center;">
+0.596
 </td>
 <td style="text-align:center;">
 0.992
-</td>
-<td style="text-align:center;">
--0.123
-</td>
-<td style="text-align:center;">
--1.231
-</td>
-<td style="text-align:center;">
-0.029
-</td>
-<td style="text-align:center;">
-0
-</td>
-<td style="text-align:center;">
-0.086
-</td>
-<td style="text-align:center;">
-0.168
-</td>
-<td style="text-align:center;">
-0.574
-</td>
-<td style="text-align:center;">
-0.949
-</td>
-<td style="text-align:center;">
-0.744
 </td>
 <td style="text-align:center;">
 1
@@ -780,61 +912,61 @@ TRUE
 </tr>
 <tr>
 <td style="text-align:center;">
-metab_id_2
+606
+</td>
+<td style="text-align:center;">
+0.000
+</td>
+<td style="text-align:center;">
+27
+</td>
+<td style="text-align:center;">
+125
+</td>
+<td style="text-align:center;">
+0.990
+</td>
+<td style="text-align:center;">
+0.211
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+0.006
+</td>
+<td style="text-align:center;">
+1.461
+</td>
+<td style="text-align:center;">
+1.455
+</td>
+<td style="text-align:center;">
+-1.367
+</td>
+<td style="text-align:center;">
+5.791
+</td>
+<td style="text-align:center;">
+0.019
 </td>
 <td style="text-align:center;">
 0
 </td>
 <td style="text-align:center;">
-0
+0.045
 </td>
 <td style="text-align:center;">
-100
+0.045
 </td>
 <td style="text-align:center;">
-0.521
+0.214
 </td>
 <td style="text-align:center;">
-0.310
+0.903
 </td>
 <td style="text-align:center;">
-0.547
-</td>
-<td style="text-align:center;">
-0.018
-</td>
-<td style="text-align:center;">
-0.993
-</td>
-<td style="text-align:center;">
-0.975
-</td>
-<td style="text-align:center;">
--0.150
-</td>
-<td style="text-align:center;">
--1.404
-</td>
-<td style="text-align:center;">
-0.031
-</td>
-<td style="text-align:center;">
-0
-</td>
-<td style="text-align:center;">
-0.096
-</td>
-<td style="text-align:center;">
-0.184
-</td>
-<td style="text-align:center;">
-0.594
-</td>
-<td style="text-align:center;">
-0.924
-</td>
-<td style="text-align:center;">
-0.834
+0.307
 </td>
 <td style="text-align:center;">
 2
@@ -845,61 +977,61 @@ TRUE
 </tr>
 <tr>
 <td style="text-align:center;">
-metab_id_3
+62279
 </td>
 <td style="text-align:center;">
-0
+0.168
 </td>
 <td style="text-align:center;">
-10
+18
 </td>
 <td style="text-align:center;">
-100
+104
 </td>
 <td style="text-align:center;">
-0.488
+1.315
 </td>
 <td style="text-align:center;">
-0.283
+1.146
 </td>
 <td style="text-align:center;">
-0.504
+1
 </td>
 <td style="text-align:center;">
-0.001
+0.180
 </td>
 <td style="text-align:center;">
-0.995
+7.637
 </td>
 <td style="text-align:center;">
-0.994
+7.457
 </td>
 <td style="text-align:center;">
--0.036
+2.539
 </td>
 <td style="text-align:center;">
--1.109
+8.964
 </td>
 <td style="text-align:center;">
-0.028
+0.112
 </td>
 <td style="text-align:center;">
-0
+21
 </td>
 <td style="text-align:center;">
-0.080
+1.313
 </td>
 <td style="text-align:center;">
-0.165
+0.998
 </td>
 <td style="text-align:center;">
-0.580
+0.871
 </td>
 <td style="text-align:center;">
-0.963
+0.759
 </td>
 <td style="text-align:center;">
-0.749
+0.997
 </td>
 <td style="text-align:center;">
 3
@@ -910,61 +1042,61 @@ TRUE
 </tr>
 <tr>
 <td style="text-align:center;">
-metab_id_4
+2342
 </td>
 <td style="text-align:center;">
-0
+0.008
 </td>
 <td style="text-align:center;">
-5
+27
 </td>
 <td style="text-align:center;">
-100
+124
 </td>
 <td style="text-align:center;">
-0.464
+1.110
 </td>
 <td style="text-align:center;">
-0.286
+0.620
 </td>
 <td style="text-align:center;">
-0.466
+1
 </td>
 <td style="text-align:center;">
-0.004
+0.048
 </td>
 <td style="text-align:center;">
-0.992
+3.500
 </td>
 <td style="text-align:center;">
-0.988
+3.452
 </td>
 <td style="text-align:center;">
-0.092
+1.053
 </td>
 <td style="text-align:center;">
--1.199
+1.586
 </td>
 <td style="text-align:center;">
-0.029
+0.056
 </td>
 <td style="text-align:center;">
-0
+1
 </td>
 <td style="text-align:center;">
-0.082
+0.385
 </td>
 <td style="text-align:center;">
-0.177
+0.347
 </td>
 <td style="text-align:center;">
-0.617
+0.559
 </td>
 <td style="text-align:center;">
-0.954
+0.940
 </td>
 <td style="text-align:center;">
-0.833
+0.907
 </td>
 <td style="text-align:center;">
 4
@@ -975,61 +1107,61 @@ TRUE
 </tr>
 <tr>
 <td style="text-align:center;">
-metab_id_5
+53010
+</td>
+<td style="text-align:center;">
+0.000
+</td>
+<td style="text-align:center;">
+25
+</td>
+<td style="text-align:center;">
+125
+</td>
+<td style="text-align:center;">
+1.021
+</td>
+<td style="text-align:center;">
+0.240
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+0.516
+</td>
+<td style="text-align:center;">
+1.753
+</td>
+<td style="text-align:center;">
+1.237
+</td>
+<td style="text-align:center;">
+0.453
+</td>
+<td style="text-align:center;">
+0.065
+</td>
+<td style="text-align:center;">
+0.021
 </td>
 <td style="text-align:center;">
 0
 </td>
 <td style="text-align:center;">
-11
+0.058
 </td>
 <td style="text-align:center;">
-100
+0.056
 </td>
 <td style="text-align:center;">
-0.521
+0.235
 </td>
 <td style="text-align:center;">
-0.293
+0.985
 </td>
 <td style="text-align:center;">
-0.547
-</td>
-<td style="text-align:center;">
-0.004
-</td>
-<td style="text-align:center;">
-0.976
-</td>
-<td style="text-align:center;">
-0.972
-</td>
-<td style="text-align:center;">
--0.219
-</td>
-<td style="text-align:center;">
--1.161
-</td>
-<td style="text-align:center;">
-0.029
-</td>
-<td style="text-align:center;">
-0
-</td>
-<td style="text-align:center;">
-0.086
-</td>
-<td style="text-align:center;">
-0.164
-</td>
-<td style="text-align:center;">
-0.561
-</td>
-<td style="text-align:center;">
-0.945
-</td>
-<td style="text-align:center;">
-0.782
+0.996
 </td>
 <td style="text-align:center;">
 5
@@ -1040,61 +1172,61 @@ TRUE
 </tr>
 <tr>
 <td style="text-align:center;">
-metab_id_6
+52435
+</td>
+<td style="text-align:center;">
+0.000
+</td>
+<td style="text-align:center;">
+24
+</td>
+<td style="text-align:center;">
+125
+</td>
+<td style="text-align:center;">
+0.998
+</td>
+<td style="text-align:center;">
+0.284
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+0.005
+</td>
+<td style="text-align:center;">
+1.715
+</td>
+<td style="text-align:center;">
+1.709
+</td>
+<td style="text-align:center;">
+-0.357
+</td>
+<td style="text-align:center;">
+1.234
+</td>
+<td style="text-align:center;">
+0.025
 </td>
 <td style="text-align:center;">
 0
 </td>
 <td style="text-align:center;">
-7
+0.081
 </td>
 <td style="text-align:center;">
-100
+0.081
 </td>
 <td style="text-align:center;">
-0.490
+0.285
 </td>
 <td style="text-align:center;">
-0.259
+0.979
 </td>
 <td style="text-align:center;">
-0.473
-</td>
-<td style="text-align:center;">
-0.007
-</td>
-<td style="text-align:center;">
-0.993
-</td>
-<td style="text-align:center;">
-0.986
-</td>
-<td style="text-align:center;">
-0.007
-</td>
-<td style="text-align:center;">
--1.006
-</td>
-<td style="text-align:center;">
-0.026
-</td>
-<td style="text-align:center;">
-0
-</td>
-<td style="text-align:center;">
-0.067
-</td>
-<td style="text-align:center;">
-0.137
-</td>
-<td style="text-align:center;">
-0.528
-</td>
-<td style="text-align:center;">
-0.973
-</td>
-<td style="text-align:center;">
-0.803
+0.440
 </td>
 <td style="text-align:center;">
 6
@@ -1105,259 +1237,129 @@ TRUE
 </tr>
 <tr>
 <td style="text-align:center;">
-metab_id_7
+33384
 </td>
 <td style="text-align:center;">
-0
+0.608
 </td>
 <td style="text-align:center;">
-7
+11
 </td>
 <td style="text-align:center;">
-100
+49
 </td>
 <td style="text-align:center;">
-0.479
+7.325
 </td>
 <td style="text-align:center;">
-0.277
+19.419
 </td>
 <td style="text-align:center;">
-0.441
+1
 </td>
 <td style="text-align:center;">
-0.029
+0.248
 </td>
 <td style="text-align:center;">
-0.992
+112.333
 </td>
 <td style="text-align:center;">
-0.963
+112.085
 </td>
 <td style="text-align:center;">
-0.135
+3.911
 </td>
 <td style="text-align:center;">
--1.211
+16.323
 </td>
 <td style="text-align:center;">
-0.028
+2.774
 </td>
 <td style="text-align:center;">
-0
+76
 </td>
 <td style="text-align:center;">
-0.077
+377.115
 </td>
 <td style="text-align:center;">
-0.160
+51.483
 </td>
 <td style="text-align:center;">
-0.579
+2.651
 </td>
 <td style="text-align:center;">
-0.953
+0.401
 </td>
 <td style="text-align:center;">
-0.899
+0.861
 </td>
 <td style="text-align:center;">
-7
+NA
 </td>
 <td style="text-align:center;">
-TRUE
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-metab_id_8
-</td>
-<td style="text-align:center;">
-0
-</td>
-<td style="text-align:center;">
-0
-</td>
-<td style="text-align:center;">
-100
-</td>
-<td style="text-align:center;">
-0.476
-</td>
-<td style="text-align:center;">
-0.312
-</td>
-<td style="text-align:center;">
-0.491
-</td>
-<td style="text-align:center;">
-0.001
-</td>
-<td style="text-align:center;">
-0.999
-</td>
-<td style="text-align:center;">
-0.998
-</td>
-<td style="text-align:center;">
-0.059
-</td>
-<td style="text-align:center;">
--1.350
-</td>
-<td style="text-align:center;">
-0.031
-</td>
-<td style="text-align:center;">
-0
-</td>
-<td style="text-align:center;">
-0.097
-</td>
-<td style="text-align:center;">
-0.205
-</td>
-<td style="text-align:center;">
-0.656
-</td>
-<td style="text-align:center;">
-0.936
-</td>
-<td style="text-align:center;">
-0.796
-</td>
-<td style="text-align:center;">
-8
-</td>
-<td style="text-align:center;">
-TRUE
+NA
 </td>
 </tr>
 <tr>
 <td style="text-align:center;">
-metab_id_9
+52468
 </td>
 <td style="text-align:center;">
-0
+0.008
 </td>
 <td style="text-align:center;">
-10
+24
 </td>
 <td style="text-align:center;">
-100
+124
 </td>
 <td style="text-align:center;">
-0.468
+1.042
 </td>
 <td style="text-align:center;">
-0.260
+0.402
 </td>
 <td style="text-align:center;">
-0.489
+1
 </td>
 <td style="text-align:center;">
 0.005
 </td>
 <td style="text-align:center;">
-0.975
+2.519
 </td>
 <td style="text-align:center;">
-0.971
+2.515
 </td>
 <td style="text-align:center;">
-0.000
+0.628
 </td>
 <td style="text-align:center;">
--1.090
+1.323
 </td>
 <td style="text-align:center;">
-0.026
+0.036
 </td>
 <td style="text-align:center;">
-0
-</td>
-<td style="text-align:center;">
-0.068
-</td>
-<td style="text-align:center;">
-0.144
-</td>
-<td style="text-align:center;">
-0.556
-</td>
-<td style="text-align:center;">
-0.968
-</td>
-<td style="text-align:center;">
-0.800
-</td>
-<td style="text-align:center;">
-9
-</td>
-<td style="text-align:center;">
-TRUE
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-metab_id_10
-</td>
-<td style="text-align:center;">
-0
-</td>
-<td style="text-align:center;">
-0
-</td>
-<td style="text-align:center;">
-100
-</td>
-<td style="text-align:center;">
-0.524
-</td>
-<td style="text-align:center;">
-0.290
-</td>
-<td style="text-align:center;">
-0.532
-</td>
-<td style="text-align:center;">
-0.019
-</td>
-<td style="text-align:center;">
-0.993
-</td>
-<td style="text-align:center;">
-0.974
-</td>
-<td style="text-align:center;">
--0.158
-</td>
-<td style="text-align:center;">
--1.252
-</td>
-<td style="text-align:center;">
-0.029
-</td>
-<td style="text-align:center;">
-0
-</td>
-<td style="text-align:center;">
-0.084
+1
 </td>
 <td style="text-align:center;">
 0.161
 </td>
 <td style="text-align:center;">
-0.554
+0.155
 </td>
 <td style="text-align:center;">
-0.945
+0.386
 </td>
 <td style="text-align:center;">
-0.841
+0.969
 </td>
 <td style="text-align:center;">
-10
+0.534
+</td>
+<td style="text-align:center;">
+7
 </td>
 <td style="text-align:center;">
 TRUE
@@ -1379,7 +1381,7 @@ specified ids.</p>
 <span><span class="va">sids</span> <span class="op">&lt;-</span> <span class="va">mydata</span><span class="op">@</span><span class="va">samples</span><span class="op">[</span><span class="va">mydata</span><span class="op">@</span><span class="va">samples</span><span class="op">$</span><span class="va">sex</span> <span class="op">==</span> <span class="st">"female"</span>, <span class="st">"sample_id"</span><span class="op">]</span> </span>
 <span></span>
 <span><span class="co">## define a vector of feature IDs</span></span>
-<span><span class="va">fids</span> <span class="op">&lt;-</span> <span class="va">mydata</span><span class="op">@</span><span class="va">features</span><span class="op">[</span>, <span class="st">"feature_id"</span><span class="op">]</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span>
+<span><span class="va">fids</span> <span class="op">&lt;-</span> <span class="va">mydata</span><span class="op">@</span><span class="va">features</span><span class="op">[</span>, <span class="st">"feature_id"</span><span class="op">]</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">25</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># NOTE:</span></span>
 <span><span class="co"># outlier_udist = number of IQRs from the median at which a value is flagged.</span></span>
@@ -1472,61 +1474,191 @@ independent_features
 <tbody>
 <tr>
 <td style="text-align:center;">
-metab_id_4
+62279
 </td>
 <td style="text-align:center;">
-0
+0.154
 </td>
 <td style="text-align:center;">
-5
+10
 </td>
 <td style="text-align:center;">
 55
 </td>
 <td style="text-align:center;">
-0.498
+1.296
 </td>
 <td style="text-align:center;">
-0.273
+1.002
 </td>
 <td style="text-align:center;">
-0.478
+0.964
 </td>
 <td style="text-align:center;">
-0.009
+0.207
 </td>
 <td style="text-align:center;">
-0.992
+4.580
 </td>
 <td style="text-align:center;">
-0.983
+4.374
 </td>
 <td style="text-align:center;">
-0.094
+1.321
 </td>
 <td style="text-align:center;">
--1.159
+1.358
 </td>
 <td style="text-align:center;">
-0.037
+0.135
+</td>
+<td style="text-align:center;">
+10
+</td>
+<td style="text-align:center;">
+1.004
+</td>
+<td style="text-align:center;">
+0.775
+</td>
+<td style="text-align:center;">
+0.773
+</td>
+<td style="text-align:center;">
+0.865
+</td>
+<td style="text-align:center;">
+0.985
+</td>
+<td style="text-align:center;">
+13
+</td>
+<td style="text-align:center;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+37459
+</td>
+<td style="text-align:center;">
+0.000
+</td>
+<td style="text-align:center;">
+10
+</td>
+<td style="text-align:center;">
+65
+</td>
+<td style="text-align:center;">
+1.423
+</td>
+<td style="text-align:center;">
+1.093
+</td>
+<td style="text-align:center;">
+1.125
+</td>
+<td style="text-align:center;">
+0.185
+</td>
+<td style="text-align:center;">
+6.077
+</td>
+<td style="text-align:center;">
+5.893
+</td>
+<td style="text-align:center;">
+1.987
+</td>
+<td style="text-align:center;">
+4.876
+</td>
+<td style="text-align:center;">
+0.136
 </td>
 <td style="text-align:center;">
 0
 </td>
 <td style="text-align:center;">
-0.075
+1.194
 </td>
 <td style="text-align:center;">
-0.150
+0.839
 </td>
 <td style="text-align:center;">
-0.549
+0.768
 </td>
 <td style="text-align:center;">
-0.960
+0.811
 </td>
 <td style="text-align:center;">
-0.836
+0.996
+</td>
+<td style="text-align:center;">
+14
+</td>
+<td style="text-align:center;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+57783
+</td>
+<td style="text-align:center;">
+0.108
+</td>
+<td style="text-align:center;">
+15
+</td>
+<td style="text-align:center;">
+58
+</td>
+<td style="text-align:center;">
+1.362
+</td>
+<td style="text-align:center;">
+1.335
+</td>
+<td style="text-align:center;">
+1.033
+</td>
+<td style="text-align:center;">
+0.212
+</td>
+<td style="text-align:center;">
+8.567
+</td>
+<td style="text-align:center;">
+8.355
+</td>
+<td style="text-align:center;">
+3.541
+</td>
+<td style="text-align:center;">
+14.508
+</td>
+<td style="text-align:center;">
+0.175
+</td>
+<td style="text-align:center;">
+7
+</td>
+<td style="text-align:center;">
+1.783
+</td>
+<td style="text-align:center;">
+1.309
+</td>
+<td style="text-align:center;">
+0.980
+</td>
+<td style="text-align:center;">
+0.593
+</td>
+<td style="text-align:center;">
+0.954
 </td>
 <td style="text-align:center;">
 7
@@ -1537,61 +1669,191 @@ TRUE
 </tr>
 <tr>
 <td style="text-align:center;">
-metab_id_5
+33935
 </td>
 <td style="text-align:center;">
-0
+0.015
 </td>
 <td style="text-align:center;">
-9
+14
 </td>
 <td style="text-align:center;">
-55
+64
 </td>
 <td style="text-align:center;">
-0.580
+1.571
 </td>
 <td style="text-align:center;">
-0.296
-</td>
-<td style="text-align:center;">
-0.632
-</td>
-<td style="text-align:center;">
-0.013
-</td>
-<td style="text-align:center;">
-0.976
+1.696
 </td>
 <td style="text-align:center;">
 0.963
 </td>
 <td style="text-align:center;">
--0.436
+0.026
 </td>
 <td style="text-align:center;">
--1.035
+10.498
 </td>
 <td style="text-align:center;">
-0.040
+10.472
+</td>
+<td style="text-align:center;">
+2.634
+</td>
+<td style="text-align:center;">
+9.978
+</td>
+<td style="text-align:center;">
+0.212
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+2.876
+</td>
+<td style="text-align:center;">
+1.830
+</td>
+<td style="text-align:center;">
+1.079
+</td>
+<td style="text-align:center;">
+0.743
+</td>
+<td style="text-align:center;">
+0.961
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+61822
+</td>
+<td style="text-align:center;">
+0.000
+</td>
+<td style="text-align:center;">
+13
+</td>
+<td style="text-align:center;">
+65
+</td>
+<td style="text-align:center;">
+1.021
+</td>
+<td style="text-align:center;">
+0.362
+</td>
+<td style="text-align:center;">
+0.975
+</td>
+<td style="text-align:center;">
+0.445
+</td>
+<td style="text-align:center;">
+2.727
+</td>
+<td style="text-align:center;">
+2.282
+</td>
+<td style="text-align:center;">
+1.833
+</td>
+<td style="text-align:center;">
+6.030
+</td>
+<td style="text-align:center;">
+0.045
 </td>
 <td style="text-align:center;">
 0
 </td>
 <td style="text-align:center;">
-0.087
+0.131
 </td>
 <td style="text-align:center;">
-0.151
+0.128
 </td>
 <td style="text-align:center;">
-0.510
+0.355
 </td>
 <td style="text-align:center;">
-0.929
+0.871
 </td>
 <td style="text-align:center;">
-0.734
+0.987
+</td>
+<td style="text-align:center;">
+18
+</td>
+<td style="text-align:center;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+46701
+</td>
+<td style="text-align:center;">
+0.000
+</td>
+<td style="text-align:center;">
+15
+</td>
+<td style="text-align:center;">
+65
+</td>
+<td style="text-align:center;">
+1.208
+</td>
+<td style="text-align:center;">
+0.650
+</td>
+<td style="text-align:center;">
+1.096
+</td>
+<td style="text-align:center;">
+0.197
+</td>
+<td style="text-align:center;">
+3.359
+</td>
+<td style="text-align:center;">
+3.163
+</td>
+<td style="text-align:center;">
+0.895
+</td>
+<td style="text-align:center;">
+0.784
+</td>
+<td style="text-align:center;">
+0.081
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0.423
+</td>
+<td style="text-align:center;">
+0.350
+</td>
+<td style="text-align:center;">
+0.538
+</td>
+<td style="text-align:center;">
+0.947
+</td>
+<td style="text-align:center;">
+0.974
 </td>
 <td style="text-align:center;">
 3
@@ -1602,64 +1864,194 @@ TRUE
 </tr>
 <tr>
 <td style="text-align:center;">
-metab_id_6
+42489
+</td>
+<td style="text-align:center;">
+0.000
+</td>
+<td style="text-align:center;">
+14
+</td>
+<td style="text-align:center;">
+65
+</td>
+<td style="text-align:center;">
+1.228
+</td>
+<td style="text-align:center;">
+0.846
+</td>
+<td style="text-align:center;">
+0.940
+</td>
+<td style="text-align:center;">
+0.386
+</td>
+<td style="text-align:center;">
+4.918
+</td>
+<td style="text-align:center;">
+4.532
+</td>
+<td style="text-align:center;">
+2.269
+</td>
+<td style="text-align:center;">
+5.571
+</td>
+<td style="text-align:center;">
+0.105
 </td>
 <td style="text-align:center;">
 0
 </td>
 <td style="text-align:center;">
-6
+0.716
 </td>
 <td style="text-align:center;">
-55
+0.583
 </td>
 <td style="text-align:center;">
-0.520
+0.689
 </td>
 <td style="text-align:center;">
-0.284
+0.734
 </td>
 <td style="text-align:center;">
-0.560
+0.950
 </td>
 <td style="text-align:center;">
-0.007
+16
 </td>
 <td style="text-align:center;">
-0.993
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+31943
+</td>
+<td style="text-align:center;">
+0.077
+</td>
+<td style="text-align:center;">
+13
+</td>
+<td style="text-align:center;">
+60
+</td>
+<td style="text-align:center;">
+1.311
+</td>
+<td style="text-align:center;">
+1.216
+</td>
+<td style="text-align:center;">
+0.920
+</td>
+<td style="text-align:center;">
+0.004
+</td>
+<td style="text-align:center;">
+6.862
+</td>
+<td style="text-align:center;">
+6.857
+</td>
+<td style="text-align:center;">
+2.369
+</td>
+<td style="text-align:center;">
+6.482
+</td>
+<td style="text-align:center;">
+0.157
+</td>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+1.479
+</td>
+<td style="text-align:center;">
+1.129
+</td>
+<td style="text-align:center;">
+0.928
+</td>
+<td style="text-align:center;">
+0.723
+</td>
+<td style="text-align:center;">
+0.795
+</td>
+<td style="text-align:center;">
+15
+</td>
+<td style="text-align:center;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+52639
+</td>
+<td style="text-align:center;">
+0.000
+</td>
+<td style="text-align:center;">
+13
+</td>
+<td style="text-align:center;">
+65
+</td>
+<td style="text-align:center;">
+1.452
+</td>
+<td style="text-align:center;">
+1.285
+</td>
+<td style="text-align:center;">
+1.073
+</td>
+<td style="text-align:center;">
+0.249
+</td>
+<td style="text-align:center;">
+7.184
+</td>
+<td style="text-align:center;">
+6.935
+</td>
+<td style="text-align:center;">
+2.489
+</td>
+<td style="text-align:center;">
+7.057
+</td>
+<td style="text-align:center;">
+0.159
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+1.651
+</td>
+<td style="text-align:center;">
+1.137
+</td>
+<td style="text-align:center;">
+0.885
+</td>
+<td style="text-align:center;">
+0.720
 </td>
 <td style="text-align:center;">
 0.986
 </td>
 <td style="text-align:center;">
--0.273
-</td>
-<td style="text-align:center;">
--1.103
-</td>
-<td style="text-align:center;">
-0.038
-</td>
-<td style="text-align:center;">
-0
-</td>
-<td style="text-align:center;">
-0.080
-</td>
-<td style="text-align:center;">
-0.155
-</td>
-<td style="text-align:center;">
-0.546
-</td>
-<td style="text-align:center;">
-0.952
-</td>
-<td style="text-align:center;">
-0.757
-</td>
-<td style="text-align:center;">
-4
+5
 </td>
 <td style="text-align:center;">
 TRUE
@@ -1667,126 +2059,126 @@ TRUE
 </tr>
 <tr>
 <td style="text-align:center;">
-metab_id_9
+52454
+</td>
+<td style="text-align:center;">
+0.000
+</td>
+<td style="text-align:center;">
+16
+</td>
+<td style="text-align:center;">
+65
+</td>
+<td style="text-align:center;">
+1.012
+</td>
+<td style="text-align:center;">
+0.198
+</td>
+<td style="text-align:center;">
+1.004
+</td>
+<td style="text-align:center;">
+0.007
+</td>
+<td style="text-align:center;">
+1.459
+</td>
+<td style="text-align:center;">
+1.452
+</td>
+<td style="text-align:center;">
+-1.613
+</td>
+<td style="text-align:center;">
+8.393
+</td>
+<td style="text-align:center;">
+0.025
 </td>
 <td style="text-align:center;">
 0
+</td>
+<td style="text-align:center;">
+0.039
+</td>
+<td style="text-align:center;">
+0.039
+</td>
+<td style="text-align:center;">
+0.196
+</td>
+<td style="text-align:center;">
+0.858
+</td>
+<td style="text-align:center;">
+0.281
 </td>
 <td style="text-align:center;">
 6
 </td>
 <td style="text-align:center;">
-55
-</td>
-<td style="text-align:center;">
-0.461
-</td>
-<td style="text-align:center;">
-0.270
-</td>
-<td style="text-align:center;">
-0.489
-</td>
-<td style="text-align:center;">
-0.005
-</td>
-<td style="text-align:center;">
-0.975
-</td>
-<td style="text-align:center;">
-0.971
-</td>
-<td style="text-align:center;">
-0.012
-</td>
-<td style="text-align:center;">
--1.151
-</td>
-<td style="text-align:center;">
-0.036
-</td>
-<td style="text-align:center;">
-0
-</td>
-<td style="text-align:center;">
-0.073
-</td>
-<td style="text-align:center;">
-0.158
-</td>
-<td style="text-align:center;">
-0.585
-</td>
-<td style="text-align:center;">
-0.963
-</td>
-<td style="text-align:center;">
-0.798
-</td>
-<td style="text-align:center;">
-9
-</td>
-<td style="text-align:center;">
 TRUE
 </td>
 </tr>
 <tr>
 <td style="text-align:center;">
-metab_id_12
+53176
 </td>
 <td style="text-align:center;">
-0
+0.031
 </td>
 <td style="text-align:center;">
-0
+13
 </td>
 <td style="text-align:center;">
-55
+63
 </td>
 <td style="text-align:center;">
-0.518
+1.360
 </td>
 <td style="text-align:center;">
-0.296
+0.687
 </td>
 <td style="text-align:center;">
-0.498
+1.185
 </td>
 <td style="text-align:center;">
-0.006
+0.450
 </td>
 <td style="text-align:center;">
-0.989
+3.733
 </td>
 <td style="text-align:center;">
-0.983
+3.283
 </td>
 <td style="text-align:center;">
--0.125
+1.262
 </td>
 <td style="text-align:center;">
--1.233
+1.451
 </td>
 <td style="text-align:center;">
-0.040
+0.087
 </td>
 <td style="text-align:center;">
-0
+2
 </td>
 <td style="text-align:center;">
-0.088
+0.472
 </td>
 <td style="text-align:center;">
-0.170
+0.347
 </td>
 <td style="text-align:center;">
-0.573
+0.505
 </td>
 <td style="text-align:center;">
-0.946
+0.894
 </td>
 <td style="text-align:center;">
-0.801
+0.991
 </td>
 <td style="text-align:center;">
 2
@@ -1797,256 +2189,61 @@ TRUE
 </tr>
 <tr>
 <td style="text-align:center;">
-metab_id_13
+47815
 </td>
 <td style="text-align:center;">
-0
+0.200
 </td>
 <td style="text-align:center;">
-4
+10
 </td>
 <td style="text-align:center;">
-55
+52
 </td>
 <td style="text-align:center;">
-0.544
+1.773
 </td>
 <td style="text-align:center;">
-0.313
+1.961
 </td>
 <td style="text-align:center;">
-0.595
+1.085
 </td>
 <td style="text-align:center;">
-0.005
+0.228
 </td>
 <td style="text-align:center;">
-0.990
+9.640
 </td>
 <td style="text-align:center;">
-0.984
+9.412
 </td>
 <td style="text-align:center;">
--0.265
+2.294
 </td>
 <td style="text-align:center;">
--1.325
+5.230
 </td>
 <td style="text-align:center;">
-0.042
+0.272
 </td>
 <td style="text-align:center;">
-0
+13
 </td>
 <td style="text-align:center;">
-0.098
+3.846
 </td>
 <td style="text-align:center;">
-0.181
+2.169
 </td>
 <td style="text-align:center;">
-0.576
+1.106
 </td>
 <td style="text-align:center;">
-0.927
+0.697
 </td>
 <td style="text-align:center;">
-0.752
-</td>
-<td style="text-align:center;">
-1
-</td>
-<td style="text-align:center;">
-TRUE
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-metab_id_15
-</td>
-<td style="text-align:center;">
-0
-</td>
-<td style="text-align:center;">
-7
-</td>
-<td style="text-align:center;">
-55
-</td>
-<td style="text-align:center;">
-0.495
-</td>
-<td style="text-align:center;">
-0.280
-</td>
-<td style="text-align:center;">
-0.522
-</td>
-<td style="text-align:center;">
-0.032
-</td>
-<td style="text-align:center;">
-0.991
-</td>
-<td style="text-align:center;">
-0.959
-</td>
-<td style="text-align:center;">
-0.054
-</td>
-<td style="text-align:center;">
--1.139
-</td>
-<td style="text-align:center;">
-0.038
-</td>
-<td style="text-align:center;">
-0
-</td>
-<td style="text-align:center;">
-0.078
-</td>
-<td style="text-align:center;">
-0.158
-</td>
-<td style="text-align:center;">
-0.566
-</td>
-<td style="text-align:center;">
-0.961
-</td>
-<td style="text-align:center;">
-0.874
-</td>
-<td style="text-align:center;">
-5
-</td>
-<td style="text-align:center;">
-TRUE
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-metab_id_16
-</td>
-<td style="text-align:center;">
-0
-</td>
-<td style="text-align:center;">
-3
-</td>
-<td style="text-align:center;">
-55
-</td>
-<td style="text-align:center;">
-0.463
-</td>
-<td style="text-align:center;">
-0.315
-</td>
-<td style="text-align:center;">
-0.447
-</td>
-<td style="text-align:center;">
-0.005
-</td>
-<td style="text-align:center;">
-0.998
-</td>
-<td style="text-align:center;">
-0.992
-</td>
-<td style="text-align:center;">
-0.276
-</td>
-<td style="text-align:center;">
--1.384
-</td>
-<td style="text-align:center;">
-0.042
-</td>
-<td style="text-align:center;">
-0
-</td>
-<td style="text-align:center;">
-0.099
-</td>
-<td style="text-align:center;">
-0.214
-</td>
-<td style="text-align:center;">
-0.679
-</td>
-<td style="text-align:center;">
-0.909
-</td>
-<td style="text-align:center;">
-0.868
-</td>
-<td style="text-align:center;">
-6
-</td>
-<td style="text-align:center;">
-TRUE
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-metab_id_17
-</td>
-<td style="text-align:center;">
-0
-</td>
-<td style="text-align:center;">
-3
-</td>
-<td style="text-align:center;">
-55
-</td>
-<td style="text-align:center;">
-0.449
-</td>
-<td style="text-align:center;">
-0.287
-</td>
-<td style="text-align:center;">
-0.437
-</td>
-<td style="text-align:center;">
-0.025
-</td>
-<td style="text-align:center;">
-0.972
-</td>
-<td style="text-align:center;">
-0.947
-</td>
-<td style="text-align:center;">
-0.185
-</td>
-<td style="text-align:center;">
--1.280
-</td>
-<td style="text-align:center;">
-0.039
-</td>
-<td style="text-align:center;">
-0
-</td>
-<td style="text-align:center;">
-0.083
-</td>
-<td style="text-align:center;">
-0.184
-</td>
-<td style="text-align:center;">
-0.639
-</td>
-<td style="text-align:center;">
-0.938
-</td>
-<td style="text-align:center;">
-0.902
+0.979
 </td>
 <td style="text-align:center;">
 8
@@ -2057,64 +2254,584 @@ TRUE
 </tr>
 <tr>
 <td style="text-align:center;">
-metab_id_18
+62291
 </td>
 <td style="text-align:center;">
-0
+0.062
+</td>
+<td style="text-align:center;">
+9
+</td>
+<td style="text-align:center;">
+61
+</td>
+<td style="text-align:center;">
+1.435
+</td>
+<td style="text-align:center;">
+1.201
+</td>
+<td style="text-align:center;">
+1.164
+</td>
+<td style="text-align:center;">
+0.110
+</td>
+<td style="text-align:center;">
+5.412
+</td>
+<td style="text-align:center;">
+5.303
+</td>
+<td style="text-align:center;">
+1.363
+</td>
+<td style="text-align:center;">
+1.537
+</td>
+<td style="text-align:center;">
+0.154
+</td>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+1.443
+</td>
+<td style="text-align:center;">
+1.006
+</td>
+<td style="text-align:center;">
+0.837
+</td>
+<td style="text-align:center;">
+0.860
+</td>
+<td style="text-align:center;">
+0.983
 </td>
 <td style="text-align:center;">
 1
 </td>
 <td style="text-align:center;">
-55
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+46173
 </td>
 <td style="text-align:center;">
-0.536
+0.000
 </td>
 <td style="text-align:center;">
-0.316
+15
 </td>
 <td style="text-align:center;">
-0.599
+65
 </td>
 <td style="text-align:center;">
-0.028
+1.066
 </td>
 <td style="text-align:center;">
-0.999
+0.300
 </td>
 <td style="text-align:center;">
-0.971
+1.042
 </td>
 <td style="text-align:center;">
--0.073
+0.007
 </td>
 <td style="text-align:center;">
--1.480
+1.952
 </td>
 <td style="text-align:center;">
-0.043
+1.945
+</td>
+<td style="text-align:center;">
+0.011
+</td>
+<td style="text-align:center;">
+1.999
+</td>
+<td style="text-align:center;">
+0.037
 </td>
 <td style="text-align:center;">
 0
 </td>
 <td style="text-align:center;">
-0.100
+0.090
 </td>
 <td style="text-align:center;">
-0.186
+0.084
 </td>
 <td style="text-align:center;">
-0.590
+0.281
 </td>
 <td style="text-align:center;">
-0.918
+0.961
 </td>
 <td style="text-align:center;">
-0.867
+0.414
+</td>
+<td style="text-align:center;">
+17
+</td>
+<td style="text-align:center;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+57478
+</td>
+<td style="text-align:center;">
+0.000
+</td>
+<td style="text-align:center;">
+8
+</td>
+<td style="text-align:center;">
+65
+</td>
+<td style="text-align:center;">
+1.053
+</td>
+<td style="text-align:center;">
+0.367
+</td>
+<td style="text-align:center;">
+1.011
+</td>
+<td style="text-align:center;">
+0.010
+</td>
+<td style="text-align:center;">
+1.889
+</td>
+<td style="text-align:center;">
+1.879
+</td>
+<td style="text-align:center;">
+-0.059
+</td>
+<td style="text-align:center;">
+-0.091
+</td>
+<td style="text-align:center;">
+0.046
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0.135
+</td>
+<td style="text-align:center;">
+0.128
+</td>
+<td style="text-align:center;">
+0.349
+</td>
+<td style="text-align:center;">
+0.990
+</td>
+<td style="text-align:center;">
+0.569
+</td>
+<td style="text-align:center;">
+9
+</td>
+<td style="text-align:center;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+40406
+</td>
+<td style="text-align:center;">
+0.000
+</td>
+<td style="text-align:center;">
+12
+</td>
+<td style="text-align:center;">
+65
+</td>
+<td style="text-align:center;">
+1.475
+</td>
+<td style="text-align:center;">
+1.108
+</td>
+<td style="text-align:center;">
+1.123
+</td>
+<td style="text-align:center;">
+0.419
+</td>
+<td style="text-align:center;">
+5.894
+</td>
+<td style="text-align:center;">
+5.474
+</td>
+<td style="text-align:center;">
+2.081
+</td>
+<td style="text-align:center;">
+4.242
+</td>
+<td style="text-align:center;">
+0.137
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+1.227
+</td>
+<td style="text-align:center;">
+0.832
+</td>
+<td style="text-align:center;">
+0.751
+</td>
+<td style="text-align:center;">
+0.742
+</td>
+<td style="text-align:center;">
+0.953
+</td>
+<td style="text-align:center;">
+12
+</td>
+<td style="text-align:center;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+34387
+</td>
+<td style="text-align:center;">
+0.000
+</td>
+<td style="text-align:center;">
+15
+</td>
+<td style="text-align:center;">
+65
+</td>
+<td style="text-align:center;">
+1.262
+</td>
+<td style="text-align:center;">
+0.664
+</td>
+<td style="text-align:center;">
+1.053
+</td>
+<td style="text-align:center;">
+0.012
+</td>
+<td style="text-align:center;">
+3.903
+</td>
+<td style="text-align:center;">
+3.891
+</td>
+<td style="text-align:center;">
+1.565
+</td>
+<td style="text-align:center;">
+2.999
+</td>
+<td style="text-align:center;">
+0.082
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0.440
+</td>
+<td style="text-align:center;">
+0.349
+</td>
+<td style="text-align:center;">
+0.526
+</td>
+<td style="text-align:center;">
+0.856
+</td>
+<td style="text-align:center;">
+0.672
+</td>
+<td style="text-align:center;">
+11
+</td>
+<td style="text-align:center;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+46511
+</td>
+<td style="text-align:center;">
+0.000
+</td>
+<td style="text-align:center;">
+13
+</td>
+<td style="text-align:center;">
+65
+</td>
+<td style="text-align:center;">
+1.055
+</td>
+<td style="text-align:center;">
+0.490
+</td>
+<td style="text-align:center;">
+1.063
+</td>
+<td style="text-align:center;">
+0.006
+</td>
+<td style="text-align:center;">
+2.333
+</td>
+<td style="text-align:center;">
+2.327
+</td>
+<td style="text-align:center;">
+0.567
+</td>
+<td style="text-align:center;">
+-0.017
+</td>
+<td style="text-align:center;">
+0.061
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0.240
+</td>
+<td style="text-align:center;">
+0.227
+</td>
+<td style="text-align:center;">
+0.464
+</td>
+<td style="text-align:center;">
+0.965
+</td>
+<td style="text-align:center;">
+0.652
+</td>
+<td style="text-align:center;">
+20
+</td>
+<td style="text-align:center;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+32405
+</td>
+<td style="text-align:center;">
+0.000
+</td>
+<td style="text-align:center;">
+9
+</td>
+<td style="text-align:center;">
+65
+</td>
+<td style="text-align:center;">
+1.299
+</td>
+<td style="text-align:center;">
+0.822
+</td>
+<td style="text-align:center;">
+1.189
+</td>
+<td style="text-align:center;">
+0.152
+</td>
+<td style="text-align:center;">
+4.215
+</td>
+<td style="text-align:center;">
+4.064
+</td>
+<td style="text-align:center;">
+1.201
+</td>
+<td style="text-align:center;">
+1.578
+</td>
+<td style="text-align:center;">
+0.102
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0.676
+</td>
+<td style="text-align:center;">
+0.520
+</td>
+<td style="text-align:center;">
+0.633
+</td>
+<td style="text-align:center;">
+0.912
+</td>
+<td style="text-align:center;">
+0.980
+</td>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+52012
+</td>
+<td style="text-align:center;">
+0.169
+</td>
+<td style="text-align:center;">
+13
+</td>
+<td style="text-align:center;">
+54
+</td>
+<td style="text-align:center;">
+2.239
+</td>
+<td style="text-align:center;">
+2.853
+</td>
+<td style="text-align:center;">
+1.025
+</td>
+<td style="text-align:center;">
+0.457
+</td>
+<td style="text-align:center;">
+14.021
+</td>
+<td style="text-align:center;">
+13.563
+</td>
+<td style="text-align:center;">
+2.443
+</td>
+<td style="text-align:center;">
+5.639
+</td>
+<td style="text-align:center;">
+0.388
+</td>
+<td style="text-align:center;">
+11
+</td>
+<td style="text-align:center;">
+8.142
+</td>
+<td style="text-align:center;">
+3.637
+</td>
+<td style="text-align:center;">
+1.274
+</td>
+<td style="text-align:center;">
+0.585
+</td>
+<td style="text-align:center;">
+0.802
 </td>
 <td style="text-align:center;">
 10
+</td>
+<td style="text-align:center;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+53023
+</td>
+<td style="text-align:center;">
+0.015
+</td>
+<td style="text-align:center;">
+15
+</td>
+<td style="text-align:center;">
+64
+</td>
+<td style="text-align:center;">
+2.057
+</td>
+<td style="text-align:center;">
+2.502
+</td>
+<td style="text-align:center;">
+1.183
+</td>
+<td style="text-align:center;">
+0.006
+</td>
+<td style="text-align:center;">
+13.928
+</td>
+<td style="text-align:center;">
+13.921
+</td>
+<td style="text-align:center;">
+2.978
+</td>
+<td style="text-align:center;">
+9.315
+</td>
+<td style="text-align:center;">
+0.313
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+6.258
+</td>
+<td style="text-align:center;">
+3.042
+</td>
+<td style="text-align:center;">
+1.216
+</td>
+<td style="text-align:center;">
+0.594
+</td>
+<td style="text-align:center;">
+0.811
+</td>
+<td style="text-align:center;">
+19
 </td>
 <td style="text-align:center;">
 TRUE
@@ -2148,6 +2865,9 @@ is appended to the returned <code>data.frame</code> as and
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://talgalili.github.io/dendextend/" class="external-link">dendextend</a></span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co">## number of independent features</span></span>
+<span><span class="va">indfeatcount</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span> <span class="va">feature_sum1</span><span class="op">$</span><span class="va">independent_features</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span> <span class="op">)</span></span>
+<span></span>
 <span><span class="co"># extract tree from attributes</span></span>
 <span><span class="va">tree</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">feature_sum1</span>, <span class="st">'input_tree'</span><span class="op">)</span></span>
 <span><span class="va">dend</span> <span class="op">&lt;-</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/dendrogram.html" class="external-link">as.dendrogram</a></span><span class="op">(</span><span class="va">tree</span><span class="op">)</span></span>
@@ -2155,7 +2875,7 @@ is appended to the returned <code>data.frame</code> as and
 <span><span class="co"># color the independent features blue</span></span>
 <span><span class="va">metab_color</span>       <span class="op">&lt;-</span> <span class="va">feature_sum1</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"feature_id"</span>, <span class="st">"independent_features"</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="va">metab_color</span>       <span class="op">&lt;-</span> <span class="va">metab_color</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/match.html" class="external-link">match</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/labels.html" class="external-link">labels</a></span><span class="op">(</span><span class="va">dend</span><span class="op">)</span>, <span class="va">metab_color</span><span class="op">$</span><span class="va">feature_id</span><span class="op">)</span>, <span class="op">]</span></span>
-<span><span class="va">metab_color</span><span class="op">$</span><span class="va">color</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">metab_color</span><span class="op">$</span><span class="va">independent_features</span><span class="op">==</span><span class="cn">TRUE</span>, <span class="st">"#477EB8"</span>, <span class="st">"grey"</span><span class="op">)</span></span>
+<span><span class="va">metab_color</span><span class="op">$</span><span class="va">color</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">metab_color</span><span class="op">$</span><span class="va">independent_features</span><span class="op">==</span><span class="cn">TRUE</span>, <span class="st">"#084594"</span>, <span class="st">"grey80"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># format dendrogram for ploting</span></span>
 <span><span class="va">dend</span> <span class="op">&lt;-</span> <span class="va">dend</span> <span class="op">|&gt;</span></span>
@@ -2165,7 +2885,7 @@ is appended to the returned <code>data.frame</code> as and
 <span>  <span class="fu">dendextend</span><span class="fu">::</span><span class="fu"><a href="https://talgalili.github.io/dendextend/reference/set.html" class="external-link">set</a></span><span class="op">(</span><span class="st">"branches_k_color"</span>,  value <span class="op">=</span> <span class="va">metab_color</span><span class="op">$</span><span class="va">color</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">## plot the dendrogram</span></span>
-<span><span class="va">dend</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span>main <span class="op">=</span> <span class="st">"Feature clustering dendrogram"</span><span class="op">)</span></span>
+<span><span class="va">dend</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span>main  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Feature clustering dendrogram\n# of ind. features = "</span>,<span class="va">indfeatcount</span> <span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>h <span class="op">=</span> <span class="fl">0.5</span>, col <span class="op">=</span> <span class="st">"#E41A1C"</span>, lwd <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span></span></code></pre></div>
 <p><img src="feature_summary_files/figure-html/tree-1.png" class="r-plt" alt="Decision tree showing feature importance in dataset" width="100%" style="display: block; margin: auto;"></p>
 </div>
@@ -2267,61 +2987,191 @@ independent_features
 <tbody>
 <tr>
 <td style="text-align:center;">
-metab_id_4
+62279
 </td>
 <td style="text-align:center;">
-0
+0.154
 </td>
 <td style="text-align:center;">
-5
+10
 </td>
 <td style="text-align:center;">
 55
 </td>
 <td style="text-align:center;">
-0.498
+1.296
 </td>
 <td style="text-align:center;">
-0.273
+1.002
 </td>
 <td style="text-align:center;">
-0.478
+0.964
 </td>
 <td style="text-align:center;">
-0.009
+0.207
 </td>
 <td style="text-align:center;">
-0.992
+4.580
 </td>
 <td style="text-align:center;">
-0.983
+4.374
 </td>
 <td style="text-align:center;">
-0.094
+1.321
 </td>
 <td style="text-align:center;">
--1.159
+1.358
 </td>
 <td style="text-align:center;">
-0.037
+0.135
+</td>
+<td style="text-align:center;">
+10
+</td>
+<td style="text-align:center;">
+1.004
+</td>
+<td style="text-align:center;">
+0.775
+</td>
+<td style="text-align:center;">
+0.773
+</td>
+<td style="text-align:center;">
+0.865
+</td>
+<td style="text-align:center;">
+0.985
+</td>
+<td style="text-align:center;">
+13
+</td>
+<td style="text-align:center;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+37459
+</td>
+<td style="text-align:center;">
+0.000
+</td>
+<td style="text-align:center;">
+10
+</td>
+<td style="text-align:center;">
+65
+</td>
+<td style="text-align:center;">
+1.423
+</td>
+<td style="text-align:center;">
+1.093
+</td>
+<td style="text-align:center;">
+1.125
+</td>
+<td style="text-align:center;">
+0.185
+</td>
+<td style="text-align:center;">
+6.077
+</td>
+<td style="text-align:center;">
+5.893
+</td>
+<td style="text-align:center;">
+1.987
+</td>
+<td style="text-align:center;">
+4.876
+</td>
+<td style="text-align:center;">
+0.136
 </td>
 <td style="text-align:center;">
 0
 </td>
 <td style="text-align:center;">
-0.075
+1.194
 </td>
 <td style="text-align:center;">
-0.150
+0.839
 </td>
 <td style="text-align:center;">
-0.549
+0.768
 </td>
 <td style="text-align:center;">
-0.960
+0.811
 </td>
 <td style="text-align:center;">
-0.836
+0.996
+</td>
+<td style="text-align:center;">
+14
+</td>
+<td style="text-align:center;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+57783
+</td>
+<td style="text-align:center;">
+0.108
+</td>
+<td style="text-align:center;">
+15
+</td>
+<td style="text-align:center;">
+58
+</td>
+<td style="text-align:center;">
+1.362
+</td>
+<td style="text-align:center;">
+1.335
+</td>
+<td style="text-align:center;">
+1.033
+</td>
+<td style="text-align:center;">
+0.212
+</td>
+<td style="text-align:center;">
+8.567
+</td>
+<td style="text-align:center;">
+8.355
+</td>
+<td style="text-align:center;">
+3.541
+</td>
+<td style="text-align:center;">
+14.508
+</td>
+<td style="text-align:center;">
+0.175
+</td>
+<td style="text-align:center;">
+7
+</td>
+<td style="text-align:center;">
+1.783
+</td>
+<td style="text-align:center;">
+1.309
+</td>
+<td style="text-align:center;">
+0.980
+</td>
+<td style="text-align:center;">
+0.593
+</td>
+<td style="text-align:center;">
+0.954
 </td>
 <td style="text-align:center;">
 7
@@ -2332,61 +3182,191 @@ TRUE
 </tr>
 <tr>
 <td style="text-align:center;">
-metab_id_5
+33935
 </td>
 <td style="text-align:center;">
-0
+0.015
 </td>
 <td style="text-align:center;">
-9
+14
 </td>
 <td style="text-align:center;">
-55
+64
 </td>
 <td style="text-align:center;">
-0.580
+1.571
 </td>
 <td style="text-align:center;">
-0.296
-</td>
-<td style="text-align:center;">
-0.632
-</td>
-<td style="text-align:center;">
-0.013
-</td>
-<td style="text-align:center;">
-0.976
+1.696
 </td>
 <td style="text-align:center;">
 0.963
 </td>
 <td style="text-align:center;">
--0.436
+0.026
 </td>
 <td style="text-align:center;">
--1.035
+10.498
 </td>
 <td style="text-align:center;">
-0.040
+10.472
+</td>
+<td style="text-align:center;">
+2.634
+</td>
+<td style="text-align:center;">
+9.978
+</td>
+<td style="text-align:center;">
+0.212
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+2.876
+</td>
+<td style="text-align:center;">
+1.830
+</td>
+<td style="text-align:center;">
+1.079
+</td>
+<td style="text-align:center;">
+0.743
+</td>
+<td style="text-align:center;">
+0.961
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+61822
+</td>
+<td style="text-align:center;">
+0.000
+</td>
+<td style="text-align:center;">
+13
+</td>
+<td style="text-align:center;">
+65
+</td>
+<td style="text-align:center;">
+1.021
+</td>
+<td style="text-align:center;">
+0.362
+</td>
+<td style="text-align:center;">
+0.975
+</td>
+<td style="text-align:center;">
+0.445
+</td>
+<td style="text-align:center;">
+2.727
+</td>
+<td style="text-align:center;">
+2.282
+</td>
+<td style="text-align:center;">
+1.833
+</td>
+<td style="text-align:center;">
+6.030
+</td>
+<td style="text-align:center;">
+0.045
 </td>
 <td style="text-align:center;">
 0
 </td>
 <td style="text-align:center;">
-0.087
+0.131
 </td>
 <td style="text-align:center;">
-0.151
+0.128
 </td>
 <td style="text-align:center;">
-0.510
+0.355
 </td>
 <td style="text-align:center;">
-0.929
+0.871
 </td>
 <td style="text-align:center;">
-0.734
+0.987
+</td>
+<td style="text-align:center;">
+18
+</td>
+<td style="text-align:center;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+46701
+</td>
+<td style="text-align:center;">
+0.000
+</td>
+<td style="text-align:center;">
+15
+</td>
+<td style="text-align:center;">
+65
+</td>
+<td style="text-align:center;">
+1.208
+</td>
+<td style="text-align:center;">
+0.650
+</td>
+<td style="text-align:center;">
+1.096
+</td>
+<td style="text-align:center;">
+0.197
+</td>
+<td style="text-align:center;">
+3.359
+</td>
+<td style="text-align:center;">
+3.163
+</td>
+<td style="text-align:center;">
+0.895
+</td>
+<td style="text-align:center;">
+0.784
+</td>
+<td style="text-align:center;">
+0.081
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0.423
+</td>
+<td style="text-align:center;">
+0.350
+</td>
+<td style="text-align:center;">
+0.538
+</td>
+<td style="text-align:center;">
+0.947
+</td>
+<td style="text-align:center;">
+0.974
 </td>
 <td style="text-align:center;">
 3
@@ -2397,64 +3377,194 @@ TRUE
 </tr>
 <tr>
 <td style="text-align:center;">
-metab_id_6
+42489
+</td>
+<td style="text-align:center;">
+0.000
+</td>
+<td style="text-align:center;">
+14
+</td>
+<td style="text-align:center;">
+65
+</td>
+<td style="text-align:center;">
+1.228
+</td>
+<td style="text-align:center;">
+0.846
+</td>
+<td style="text-align:center;">
+0.940
+</td>
+<td style="text-align:center;">
+0.386
+</td>
+<td style="text-align:center;">
+4.918
+</td>
+<td style="text-align:center;">
+4.532
+</td>
+<td style="text-align:center;">
+2.269
+</td>
+<td style="text-align:center;">
+5.571
+</td>
+<td style="text-align:center;">
+0.105
 </td>
 <td style="text-align:center;">
 0
 </td>
 <td style="text-align:center;">
-6
+0.716
 </td>
 <td style="text-align:center;">
-55
+0.583
 </td>
 <td style="text-align:center;">
-0.520
+0.689
 </td>
 <td style="text-align:center;">
-0.284
+0.734
 </td>
 <td style="text-align:center;">
-0.560
+0.950
 </td>
 <td style="text-align:center;">
-0.007
+16
 </td>
 <td style="text-align:center;">
-0.993
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+31943
+</td>
+<td style="text-align:center;">
+0.077
+</td>
+<td style="text-align:center;">
+13
+</td>
+<td style="text-align:center;">
+60
+</td>
+<td style="text-align:center;">
+1.311
+</td>
+<td style="text-align:center;">
+1.216
+</td>
+<td style="text-align:center;">
+0.920
+</td>
+<td style="text-align:center;">
+0.004
+</td>
+<td style="text-align:center;">
+6.862
+</td>
+<td style="text-align:center;">
+6.857
+</td>
+<td style="text-align:center;">
+2.369
+</td>
+<td style="text-align:center;">
+6.482
+</td>
+<td style="text-align:center;">
+0.157
+</td>
+<td style="text-align:center;">
+5
+</td>
+<td style="text-align:center;">
+1.479
+</td>
+<td style="text-align:center;">
+1.129
+</td>
+<td style="text-align:center;">
+0.928
+</td>
+<td style="text-align:center;">
+0.723
+</td>
+<td style="text-align:center;">
+0.795
+</td>
+<td style="text-align:center;">
+15
+</td>
+<td style="text-align:center;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+52639
+</td>
+<td style="text-align:center;">
+0.000
+</td>
+<td style="text-align:center;">
+13
+</td>
+<td style="text-align:center;">
+65
+</td>
+<td style="text-align:center;">
+1.452
+</td>
+<td style="text-align:center;">
+1.285
+</td>
+<td style="text-align:center;">
+1.073
+</td>
+<td style="text-align:center;">
+0.249
+</td>
+<td style="text-align:center;">
+7.184
+</td>
+<td style="text-align:center;">
+6.935
+</td>
+<td style="text-align:center;">
+2.489
+</td>
+<td style="text-align:center;">
+7.057
+</td>
+<td style="text-align:center;">
+0.159
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+1.651
+</td>
+<td style="text-align:center;">
+1.137
+</td>
+<td style="text-align:center;">
+0.885
+</td>
+<td style="text-align:center;">
+0.720
 </td>
 <td style="text-align:center;">
 0.986
 </td>
 <td style="text-align:center;">
--0.273
-</td>
-<td style="text-align:center;">
--1.103
-</td>
-<td style="text-align:center;">
-0.038
-</td>
-<td style="text-align:center;">
-0
-</td>
-<td style="text-align:center;">
-0.080
-</td>
-<td style="text-align:center;">
-0.155
-</td>
-<td style="text-align:center;">
-0.546
-</td>
-<td style="text-align:center;">
-0.952
-</td>
-<td style="text-align:center;">
-0.757
-</td>
-<td style="text-align:center;">
-4
+5
 </td>
 <td style="text-align:center;">
 TRUE
@@ -2462,126 +3572,126 @@ TRUE
 </tr>
 <tr>
 <td style="text-align:center;">
-metab_id_9
+52454
+</td>
+<td style="text-align:center;">
+0.000
+</td>
+<td style="text-align:center;">
+16
+</td>
+<td style="text-align:center;">
+65
+</td>
+<td style="text-align:center;">
+1.012
+</td>
+<td style="text-align:center;">
+0.198
+</td>
+<td style="text-align:center;">
+1.004
+</td>
+<td style="text-align:center;">
+0.007
+</td>
+<td style="text-align:center;">
+1.459
+</td>
+<td style="text-align:center;">
+1.452
+</td>
+<td style="text-align:center;">
+-1.613
+</td>
+<td style="text-align:center;">
+8.393
+</td>
+<td style="text-align:center;">
+0.025
 </td>
 <td style="text-align:center;">
 0
+</td>
+<td style="text-align:center;">
+0.039
+</td>
+<td style="text-align:center;">
+0.039
+</td>
+<td style="text-align:center;">
+0.196
+</td>
+<td style="text-align:center;">
+0.858
+</td>
+<td style="text-align:center;">
+0.281
 </td>
 <td style="text-align:center;">
 6
 </td>
 <td style="text-align:center;">
-55
-</td>
-<td style="text-align:center;">
-0.461
-</td>
-<td style="text-align:center;">
-0.270
-</td>
-<td style="text-align:center;">
-0.489
-</td>
-<td style="text-align:center;">
-0.005
-</td>
-<td style="text-align:center;">
-0.975
-</td>
-<td style="text-align:center;">
-0.971
-</td>
-<td style="text-align:center;">
-0.012
-</td>
-<td style="text-align:center;">
--1.151
-</td>
-<td style="text-align:center;">
-0.036
-</td>
-<td style="text-align:center;">
-0
-</td>
-<td style="text-align:center;">
-0.073
-</td>
-<td style="text-align:center;">
-0.158
-</td>
-<td style="text-align:center;">
-0.585
-</td>
-<td style="text-align:center;">
-0.963
-</td>
-<td style="text-align:center;">
-0.798
-</td>
-<td style="text-align:center;">
-9
-</td>
-<td style="text-align:center;">
 TRUE
 </td>
 </tr>
 <tr>
 <td style="text-align:center;">
-metab_id_12
+53176
 </td>
 <td style="text-align:center;">
-0
+0.031
 </td>
 <td style="text-align:center;">
-0
+13
 </td>
 <td style="text-align:center;">
-55
+63
 </td>
 <td style="text-align:center;">
-0.518
+1.360
 </td>
 <td style="text-align:center;">
-0.296
+0.687
 </td>
 <td style="text-align:center;">
-0.498
+1.185
 </td>
 <td style="text-align:center;">
-0.006
+0.450
 </td>
 <td style="text-align:center;">
-0.989
+3.733
 </td>
 <td style="text-align:center;">
-0.983
+3.283
 </td>
 <td style="text-align:center;">
--0.125
+1.262
 </td>
 <td style="text-align:center;">
--1.233
+1.451
 </td>
 <td style="text-align:center;">
-0.040
+0.087
 </td>
 <td style="text-align:center;">
-0
+2
 </td>
 <td style="text-align:center;">
-0.088
+0.472
 </td>
 <td style="text-align:center;">
-0.170
+0.347
 </td>
 <td style="text-align:center;">
-0.573
+0.505
 </td>
 <td style="text-align:center;">
-0.946
+0.894
 </td>
 <td style="text-align:center;">
-0.801
+0.991
 </td>
 <td style="text-align:center;">
 2
@@ -2592,256 +3702,61 @@ TRUE
 </tr>
 <tr>
 <td style="text-align:center;">
-metab_id_13
+47815
 </td>
 <td style="text-align:center;">
-0
+0.200
 </td>
 <td style="text-align:center;">
-4
+10
 </td>
 <td style="text-align:center;">
-55
+52
 </td>
 <td style="text-align:center;">
-0.544
+1.773
 </td>
 <td style="text-align:center;">
-0.313
+1.961
 </td>
 <td style="text-align:center;">
-0.595
+1.085
 </td>
 <td style="text-align:center;">
-0.005
+0.228
 </td>
 <td style="text-align:center;">
-0.990
+9.640
 </td>
 <td style="text-align:center;">
-0.984
+9.412
 </td>
 <td style="text-align:center;">
--0.265
+2.294
 </td>
 <td style="text-align:center;">
--1.325
+5.230
 </td>
 <td style="text-align:center;">
-0.042
+0.272
 </td>
 <td style="text-align:center;">
-0
+13
 </td>
 <td style="text-align:center;">
-0.098
+3.846
 </td>
 <td style="text-align:center;">
-0.181
+2.169
 </td>
 <td style="text-align:center;">
-0.576
+1.106
 </td>
 <td style="text-align:center;">
-0.927
+0.697
 </td>
 <td style="text-align:center;">
-0.752
-</td>
-<td style="text-align:center;">
-1
-</td>
-<td style="text-align:center;">
-TRUE
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-metab_id_15
-</td>
-<td style="text-align:center;">
-0
-</td>
-<td style="text-align:center;">
-7
-</td>
-<td style="text-align:center;">
-55
-</td>
-<td style="text-align:center;">
-0.495
-</td>
-<td style="text-align:center;">
-0.280
-</td>
-<td style="text-align:center;">
-0.522
-</td>
-<td style="text-align:center;">
-0.032
-</td>
-<td style="text-align:center;">
-0.991
-</td>
-<td style="text-align:center;">
-0.959
-</td>
-<td style="text-align:center;">
-0.054
-</td>
-<td style="text-align:center;">
--1.139
-</td>
-<td style="text-align:center;">
-0.038
-</td>
-<td style="text-align:center;">
-0
-</td>
-<td style="text-align:center;">
-0.078
-</td>
-<td style="text-align:center;">
-0.158
-</td>
-<td style="text-align:center;">
-0.566
-</td>
-<td style="text-align:center;">
-0.961
-</td>
-<td style="text-align:center;">
-0.874
-</td>
-<td style="text-align:center;">
-5
-</td>
-<td style="text-align:center;">
-TRUE
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-metab_id_16
-</td>
-<td style="text-align:center;">
-0
-</td>
-<td style="text-align:center;">
-3
-</td>
-<td style="text-align:center;">
-55
-</td>
-<td style="text-align:center;">
-0.463
-</td>
-<td style="text-align:center;">
-0.315
-</td>
-<td style="text-align:center;">
-0.447
-</td>
-<td style="text-align:center;">
-0.005
-</td>
-<td style="text-align:center;">
-0.998
-</td>
-<td style="text-align:center;">
-0.992
-</td>
-<td style="text-align:center;">
-0.276
-</td>
-<td style="text-align:center;">
--1.384
-</td>
-<td style="text-align:center;">
-0.042
-</td>
-<td style="text-align:center;">
-0
-</td>
-<td style="text-align:center;">
-0.099
-</td>
-<td style="text-align:center;">
-0.214
-</td>
-<td style="text-align:center;">
-0.679
-</td>
-<td style="text-align:center;">
-0.909
-</td>
-<td style="text-align:center;">
-0.868
-</td>
-<td style="text-align:center;">
-6
-</td>
-<td style="text-align:center;">
-TRUE
-</td>
-</tr>
-<tr>
-<td style="text-align:center;">
-metab_id_17
-</td>
-<td style="text-align:center;">
-0
-</td>
-<td style="text-align:center;">
-3
-</td>
-<td style="text-align:center;">
-55
-</td>
-<td style="text-align:center;">
-0.449
-</td>
-<td style="text-align:center;">
-0.287
-</td>
-<td style="text-align:center;">
-0.437
-</td>
-<td style="text-align:center;">
-0.025
-</td>
-<td style="text-align:center;">
-0.972
-</td>
-<td style="text-align:center;">
-0.947
-</td>
-<td style="text-align:center;">
-0.185
-</td>
-<td style="text-align:center;">
--1.280
-</td>
-<td style="text-align:center;">
-0.039
-</td>
-<td style="text-align:center;">
-0
-</td>
-<td style="text-align:center;">
-0.083
-</td>
-<td style="text-align:center;">
-0.184
-</td>
-<td style="text-align:center;">
-0.639
-</td>
-<td style="text-align:center;">
-0.938
-</td>
-<td style="text-align:center;">
-0.902
+0.979
 </td>
 <td style="text-align:center;">
 8
@@ -2852,64 +3767,584 @@ TRUE
 </tr>
 <tr>
 <td style="text-align:center;">
-metab_id_18
+62291
 </td>
 <td style="text-align:center;">
-0
+0.062
+</td>
+<td style="text-align:center;">
+9
+</td>
+<td style="text-align:center;">
+61
+</td>
+<td style="text-align:center;">
+1.435
+</td>
+<td style="text-align:center;">
+1.201
+</td>
+<td style="text-align:center;">
+1.164
+</td>
+<td style="text-align:center;">
+0.110
+</td>
+<td style="text-align:center;">
+5.412
+</td>
+<td style="text-align:center;">
+5.303
+</td>
+<td style="text-align:center;">
+1.363
+</td>
+<td style="text-align:center;">
+1.537
+</td>
+<td style="text-align:center;">
+0.154
+</td>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+1.443
+</td>
+<td style="text-align:center;">
+1.006
+</td>
+<td style="text-align:center;">
+0.837
+</td>
+<td style="text-align:center;">
+0.860
+</td>
+<td style="text-align:center;">
+0.983
 </td>
 <td style="text-align:center;">
 1
 </td>
 <td style="text-align:center;">
-55
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+46173
 </td>
 <td style="text-align:center;">
-0.536
+0.000
 </td>
 <td style="text-align:center;">
-0.316
+15
 </td>
 <td style="text-align:center;">
-0.599
+65
 </td>
 <td style="text-align:center;">
-0.028
+1.066
 </td>
 <td style="text-align:center;">
-0.999
+0.300
 </td>
 <td style="text-align:center;">
-0.971
+1.042
 </td>
 <td style="text-align:center;">
--0.073
+0.007
 </td>
 <td style="text-align:center;">
--1.480
+1.952
 </td>
 <td style="text-align:center;">
-0.043
+1.945
+</td>
+<td style="text-align:center;">
+0.011
+</td>
+<td style="text-align:center;">
+1.999
+</td>
+<td style="text-align:center;">
+0.037
 </td>
 <td style="text-align:center;">
 0
 </td>
 <td style="text-align:center;">
-0.100
+0.090
 </td>
 <td style="text-align:center;">
-0.186
+0.084
 </td>
 <td style="text-align:center;">
-0.590
+0.281
 </td>
 <td style="text-align:center;">
-0.918
+0.961
 </td>
 <td style="text-align:center;">
-0.867
+0.414
+</td>
+<td style="text-align:center;">
+17
+</td>
+<td style="text-align:center;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+57478
+</td>
+<td style="text-align:center;">
+0.000
+</td>
+<td style="text-align:center;">
+8
+</td>
+<td style="text-align:center;">
+65
+</td>
+<td style="text-align:center;">
+1.053
+</td>
+<td style="text-align:center;">
+0.367
+</td>
+<td style="text-align:center;">
+1.011
+</td>
+<td style="text-align:center;">
+0.010
+</td>
+<td style="text-align:center;">
+1.889
+</td>
+<td style="text-align:center;">
+1.879
+</td>
+<td style="text-align:center;">
+-0.059
+</td>
+<td style="text-align:center;">
+-0.091
+</td>
+<td style="text-align:center;">
+0.046
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0.135
+</td>
+<td style="text-align:center;">
+0.128
+</td>
+<td style="text-align:center;">
+0.349
+</td>
+<td style="text-align:center;">
+0.990
+</td>
+<td style="text-align:center;">
+0.569
+</td>
+<td style="text-align:center;">
+9
+</td>
+<td style="text-align:center;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+40406
+</td>
+<td style="text-align:center;">
+0.000
+</td>
+<td style="text-align:center;">
+12
+</td>
+<td style="text-align:center;">
+65
+</td>
+<td style="text-align:center;">
+1.475
+</td>
+<td style="text-align:center;">
+1.108
+</td>
+<td style="text-align:center;">
+1.123
+</td>
+<td style="text-align:center;">
+0.419
+</td>
+<td style="text-align:center;">
+5.894
+</td>
+<td style="text-align:center;">
+5.474
+</td>
+<td style="text-align:center;">
+2.081
+</td>
+<td style="text-align:center;">
+4.242
+</td>
+<td style="text-align:center;">
+0.137
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+1.227
+</td>
+<td style="text-align:center;">
+0.832
+</td>
+<td style="text-align:center;">
+0.751
+</td>
+<td style="text-align:center;">
+0.742
+</td>
+<td style="text-align:center;">
+0.953
+</td>
+<td style="text-align:center;">
+12
+</td>
+<td style="text-align:center;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+34387
+</td>
+<td style="text-align:center;">
+0.000
+</td>
+<td style="text-align:center;">
+15
+</td>
+<td style="text-align:center;">
+65
+</td>
+<td style="text-align:center;">
+1.262
+</td>
+<td style="text-align:center;">
+0.664
+</td>
+<td style="text-align:center;">
+1.053
+</td>
+<td style="text-align:center;">
+0.012
+</td>
+<td style="text-align:center;">
+3.903
+</td>
+<td style="text-align:center;">
+3.891
+</td>
+<td style="text-align:center;">
+1.565
+</td>
+<td style="text-align:center;">
+2.999
+</td>
+<td style="text-align:center;">
+0.082
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0.440
+</td>
+<td style="text-align:center;">
+0.349
+</td>
+<td style="text-align:center;">
+0.526
+</td>
+<td style="text-align:center;">
+0.856
+</td>
+<td style="text-align:center;">
+0.672
+</td>
+<td style="text-align:center;">
+11
+</td>
+<td style="text-align:center;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+46511
+</td>
+<td style="text-align:center;">
+0.000
+</td>
+<td style="text-align:center;">
+13
+</td>
+<td style="text-align:center;">
+65
+</td>
+<td style="text-align:center;">
+1.055
+</td>
+<td style="text-align:center;">
+0.490
+</td>
+<td style="text-align:center;">
+1.063
+</td>
+<td style="text-align:center;">
+0.006
+</td>
+<td style="text-align:center;">
+2.333
+</td>
+<td style="text-align:center;">
+2.327
+</td>
+<td style="text-align:center;">
+0.567
+</td>
+<td style="text-align:center;">
+-0.017
+</td>
+<td style="text-align:center;">
+0.061
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0.240
+</td>
+<td style="text-align:center;">
+0.227
+</td>
+<td style="text-align:center;">
+0.464
+</td>
+<td style="text-align:center;">
+0.965
+</td>
+<td style="text-align:center;">
+0.652
+</td>
+<td style="text-align:center;">
+20
+</td>
+<td style="text-align:center;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+32405
+</td>
+<td style="text-align:center;">
+0.000
+</td>
+<td style="text-align:center;">
+9
+</td>
+<td style="text-align:center;">
+65
+</td>
+<td style="text-align:center;">
+1.299
+</td>
+<td style="text-align:center;">
+0.822
+</td>
+<td style="text-align:center;">
+1.189
+</td>
+<td style="text-align:center;">
+0.152
+</td>
+<td style="text-align:center;">
+4.215
+</td>
+<td style="text-align:center;">
+4.064
+</td>
+<td style="text-align:center;">
+1.201
+</td>
+<td style="text-align:center;">
+1.578
+</td>
+<td style="text-align:center;">
+0.102
+</td>
+<td style="text-align:center;">
+0
+</td>
+<td style="text-align:center;">
+0.676
+</td>
+<td style="text-align:center;">
+0.520
+</td>
+<td style="text-align:center;">
+0.633
+</td>
+<td style="text-align:center;">
+0.912
+</td>
+<td style="text-align:center;">
+0.980
+</td>
+<td style="text-align:center;">
+4
+</td>
+<td style="text-align:center;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+52012
+</td>
+<td style="text-align:center;">
+0.169
+</td>
+<td style="text-align:center;">
+13
+</td>
+<td style="text-align:center;">
+54
+</td>
+<td style="text-align:center;">
+2.239
+</td>
+<td style="text-align:center;">
+2.853
+</td>
+<td style="text-align:center;">
+1.025
+</td>
+<td style="text-align:center;">
+0.457
+</td>
+<td style="text-align:center;">
+14.021
+</td>
+<td style="text-align:center;">
+13.563
+</td>
+<td style="text-align:center;">
+2.443
+</td>
+<td style="text-align:center;">
+5.639
+</td>
+<td style="text-align:center;">
+0.388
+</td>
+<td style="text-align:center;">
+11
+</td>
+<td style="text-align:center;">
+8.142
+</td>
+<td style="text-align:center;">
+3.637
+</td>
+<td style="text-align:center;">
+1.274
+</td>
+<td style="text-align:center;">
+0.585
+</td>
+<td style="text-align:center;">
+0.802
 </td>
 <td style="text-align:center;">
 10
+</td>
+<td style="text-align:center;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+53023
+</td>
+<td style="text-align:center;">
+0.015
+</td>
+<td style="text-align:center;">
+15
+</td>
+<td style="text-align:center;">
+64
+</td>
+<td style="text-align:center;">
+2.057
+</td>
+<td style="text-align:center;">
+2.502
+</td>
+<td style="text-align:center;">
+1.183
+</td>
+<td style="text-align:center;">
+0.006
+</td>
+<td style="text-align:center;">
+13.928
+</td>
+<td style="text-align:center;">
+13.921
+</td>
+<td style="text-align:center;">
+2.978
+</td>
+<td style="text-align:center;">
+9.315
+</td>
+<td style="text-align:center;">
+0.313
+</td>
+<td style="text-align:center;">
+1
+</td>
+<td style="text-align:center;">
+6.258
+</td>
+<td style="text-align:center;">
+3.042
+</td>
+<td style="text-align:center;">
+1.216
+</td>
+<td style="text-align:center;">
+0.594
+</td>
+<td style="text-align:center;">
+0.811
+</td>
+<td style="text-align:center;">
+19
 </td>
 <td style="text-align:center;">
 TRUE

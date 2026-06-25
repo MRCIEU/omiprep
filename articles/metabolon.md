@@ -11,45 +11,57 @@ object.
 library(omiprep)
 
 # example file
-filepath <- system.file("extdata", "metabolon_v1.2_example.xlsx", package = "omiprep")
+filepath <- system.file("extdata", "metabolon_v2_example.xlsx", package = "omiprep")
 
 # import data as a list object rather than directly as a Omiprep object
-dat <- read_metabolon(filepath, 
-                      sheet = 'OrigScale', 
-                      return_Omiprep = FALSE)
+datain <- read_metabolon(filepath,  
+                         sheet = 'Batch-normalized Data',        ## read in the batch normalized but NOT imputed tab
+                         feature_sheet = "Chemical Annotation",  ## tab name of the feature data
+                         feature_id_col = "COMP_ID",             ## in this instance features in batch normalized.. 
+                                                                 ##  ..tab are annotated to column name COMP_ID. Verify in your data.
+                         sample_sheet = "Sample Meta Data",      ## tab name of the sample data
+                         sample_id_col = "PARENT_SAMPLE_NAME",   ## column name of sample IDs 
+                         return_Omiprep = FALSE                  ## return data as a list of data, feature, and samples, ..
+                                                                 ##  .. NOT an omiprep object  
+                         )
 ```
 
 ## Quick look at data structure of the imported data
 
 ``` r
 
-str(dat)
+str(datain)
 #> List of 3
-#>  $ data    : num [1:100, 1:104] 98551 43695 44899 37811 36825 ...
+#>  $ data    : num [1:125, 1:253] 1.538 1.838 NA 0.907 0.866 ...
 #>   ..- attr(*, "dimnames")=List of 2
-#>   .. ..$ : chr [1:100] "ind1" "ind2" "ind3" "ind4" ...
-#>   .. ..$ : chr [1:104] "123" "124" "125" "126" ...
-#>  $ samples :'data.frame':    100 obs. of  5 variables:
-#>   ..$ sample_id        : chr [1:100] "ind1" "ind2" "ind3" "ind4" ...
-#>   ..$ parent_sample_id : chr [1:100] "ps_id" "ps_id" "ps_id" "ps_id" ...
-#>   ..$ client_identifier: chr [1:100] "FR01234" "FR01235" "FR01236" "FR01237" ...
-#>   ..$ pair             : chr [1:100] "99999" "99999" "99999" "99999" ...
-#>   ..$ volume_extracted : chr [1:100] "100" "100" "100" "100" ...
-#>  $ features:'data.frame':    104 obs. of  14 variables:
-#>   ..$ feature_id       : chr [1:104] "123" "124" "125" "126" ...
-#>   ..$ pathway_sortorder: chr [1:104] "1" "2" "3" "4" ...
-#>   ..$ biochemical      : chr [1:104] "(N(1) + N(8))-acetylspermidine" "1,2,3-benzenetriol sulfate (2)" "1,2-dilinoleoyl-GPC (18:2/18:2)" "1,2-dilinoleoyl-GPE (18:2/18:2)*" ...
-#>   ..$ super_pathway    : chr [1:104] "Amino Acid" "Xenobiotics" "Lipid" "Lipid" ...
-#>   ..$ sub_pathway      : chr [1:104] "Polyamine Metabolism" "Chemical" "Phosphatidylcholine (PC)" "Phosphatidylethanolamine (PE)" ...
-#>   ..$ comp_id          : chr [1:104] "123" "124" "125" "126" ...
-#>   ..$ platform         : chr [1:104] "LC/MS Pos Early" "LC/MS Neg" "LC/MS Pos Late" "LC/MS Pos Late" ...
-#>   ..$ chemical_id      : chr [1:104] "1111" "1112" "1113" "1114" ...
-#>   ..$ ri               : chr [1:104] "2221" "2222" "2223" "2224" ...
-#>   ..$ mass             : chr [1:104] "111.111" "111.11199999999999" "111.113" "111.114" ...
-#>   ..$ cas              : chr [1:104] NA NA "111-11-1" NA ...
-#>   ..$ pubchem          : chr [1:104] NA NA "11111" "11112" ...
-#>   ..$ kegg             : chr [1:104] NA NA NA NA ...
-#>   ..$ group_hmdb       : chr [1:104] NA NA "HMDB123" "HMDB124" ...
+#>   .. ..$ : chr [1:125] "sam_1" "sam_2" "sam_3" "sam_4" ...
+#>   .. ..$ : chr [1:253] "48719" "43532" "46639" "606" ...
+#>  $ samples :'data.frame':    125 obs. of  10 variables:
+#>   ..$ PARENT_SAMPLE_NAME: chr [1:125] "sam_1" "sam_2" "sam_3" "sam_4" ...
+#>   ..$ CLIENT_IDENTIFIER : chr [1:125] "1_serum_1848" "2_serum_1844" "3_serum_1089" "4_serum_1467" ...
+#>   ..$ LC/MS Polar       : chr [1:125] "batch1" "batch1" "batch2" "batch1" ...
+#>   ..$ LC/MS Neg         : chr [1:125] "batch2" "batch2" "batch2" "batch1" ...
+#>   ..$ LC/MS Pos Early   : chr [1:125] "batch1" "batch2" "batch1" "batch2" ...
+#>   ..$ LC/MS Pos Late    : chr [1:125] "batch1" "batch2" "batch1" "batch1" ...
+#>   ..$ sex               : chr [1:125] "male" "male" "male" "female" ...
+#>   ..$ age               : num [1:125] 50 42 43 54 51 35 59 36 40 57 ...
+#>   ..$ bmi               : num [1:125] 17.1 27.3 30.6 29.2 24.4 ...
+#>   ..$ sample_id         : chr [1:125] "sam_1" "sam_2" "sam_3" "sam_4" ...
+#>  $ features:'data.frame':    253 obs. of  14 variables:
+#>   ..$ COMP_ID          : num [1:253] 48719 43532 46639 606 62279 ...
+#>   ..$ CHEM_ID          : num [1:253] NA 1.00e+08 NA 5.35e+02 1.00e+08 ...
+#>   ..$ CHEMICAL_NAME    : chr [1:253] "X - 23145" "veratric acid" "X - 12851" "uridine" ...
+#>   ..$ SUPER_PATHWAY    : chr [1:253] NA "Xenobiotics" NA "Nucleotide" ...
+#>   ..$ SUB_PATHWAY      : chr [1:253] NA "Drug - Neurological" NA "Pyrimidine Metabolism, Uracil containing" ...
+#>   ..$ PATHWAY_SORTORDER: num [1:253] NA 4533 NA 3428 4751 ...
+#>   ..$ PLATFORM         : chr [1:253] "LC/MS Neg" "LC/MS Neg" "LC/MS Neg" "LC/MS Neg" ...
+#>   ..$ RI               : chr [1:253] "5642" "1890" "4844" "1457.6" ...
+#>   ..$ MASS             : chr [1:253] "283.26420000000002" "181.0506" "311.66579999999999" "243.06229999999999" ...
+#>   ..$ CAS              : chr [1:253] NA "93-07-2" NA "58-96-8" ...
+#>   ..$ PUBCHEM          : num [1:253] NA 7121 NA 6029 NA ...
+#>   ..$ KEGG             : chr [1:253] NA NA NA "C00299" ...
+#>   ..$ HMDB             : chr [1:253] NA NA NA "HMDB00296" ...
+#>   ..$ feature_id       : chr [1:253] "48719" "43532" "46639" "606" ...
 ```
 
 ## Create Omiprep object
@@ -60,9 +72,9 @@ Once imported, we pass the data to the Omiprep() function to build the
 ``` r
 
 ## This step could be avoided by defining return_Omiprep = TRUE in read_metabolon() function above.
-mydata <- Omiprep(data     = dat$data, 
-                  features = dat$features, 
-                  samples  = dat$samples)
+mydata <- Omiprep(data     = datain$data, 
+                  features = datain$features, 
+                  samples  = datain$samples)
 ```
 
 ## Quick summary of the Omiprep object
@@ -72,8 +84,8 @@ mydata <- Omiprep(data     = dat$data,
 summary(mydata)
 #> Omiprep Object Summary
 #> --------------------------
-#> Samples      : 100
-#> Features     : 104
+#> Samples      : 125
+#> Features     : 253
 #> Data Layers  : 1
 #> Layer Names  : input
 #> 
@@ -81,12 +93,12 @@ summary(mydata)
 #> Feature Summary Layers: none
 #> 
 #> Sample Annotation (metadata):
-#>   Columns: 5
-#>   Names  : sample_id, parent_sample_id, client_identifier, pair, volume_extracted
+#>   Columns: 10
+#>   Names  : PARENT_SAMPLE_NAME, CLIENT_IDENTIFIER, LC/MS Polar, LC/MS Neg, LC/MS Pos Early, LC/MS Pos Late, sex, age, bmi, sample_id
 #> 
 #> Feature Annotation (metadata):
 #>   Columns: 14
-#>   Names  : feature_id, pathway_sortorder, biochemical, super_pathway, sub_pathway, comp_id, platform, chemical_id, ri, mass, cas, pubchem, kegg, group_hmdb
+#>   Names  : COMP_ID, CHEM_ID, CHEMICAL_NAME, SUPER_PATHWAY, SUB_PATHWAY, PATHWAY_SORTORDER, PLATFORM, RI, MASS, CAS, PUBCHEM, KEGG, HMDB, feature_id
 #> 
 #> Exclusion Codes Summary:
 #> 
@@ -120,12 +132,12 @@ from QC filtering steps.
 
 ``` r
 
-xenos <- mydata@features[!is.na(mydata@features$super_pathway) & 
-                           mydata@features$super_pathway == "Xenobiotics", "feature_id"]
+xenos <- mydata@features[!is.na(mydata@features$SUPER_PATHWAY) & 
+                           mydata@features$SUPER_PATHWAY == "Xenobiotics", "feature_id"]
 
 ## how many xenobiotics identified
 length(xenos)
-#> [1] 7
+#> [1] 39
 ```
 
 ## QC Metabolon
@@ -141,55 +153,62 @@ the xenobiotics to exclude from the QC steps.
 ##   used in the construction of PCs. 
 
 mydata <- mydata |>
-  quality_control(source_layer        = "input", 
-                  sample_missingness  = 0.2, 
-                  feature_missingness = 0.2, 
-                  total_sum_abundance_sd  = 5, 
-                  outlier_udist       = 5, 
-                  outlier_treatment   = "leave_be", 
-                  winsorize_quantile  = 1.0, 
-                  tree_cut_height     = 0.5, 
-                  pc_outlier_sd       = 5,
-                  feature_selection   = "least_missingness", ## We suggest using `least_missingness` when working with data, like Metabolon, with high missingness. Default is "max_var_exp".
-                  features_exclude_but_keep = xenos, ## exclude xenobiotics from QC, but retain them in the final dataset
-                  cores               = 1
+  quality_control(source_layer              = "input", 
+                  sample_missingness        = 0.2, 
+                  feature_missingness       = 0.2, 
+                  total_sum_abundance_sd    = 5, 
+                  outlier_udist             = 5, 
+                  outlier_treatment         = "leave_be", 
+                  winsorize_quantile        = 1.0, 
+                  tree_cut_height           = 0.5, 
+                  pc_outlier_sd             = 5,
+                  feature_selection         = "least_missingness", ## We suggest using `least_missingness` 
+                                                                   ## when working with data, like Metabolon, 
+                                                                   ## with high missingness. 
+                                                                   ## Default is "max_var_exp".
+                  features_exclude_but_keep = xenos, ## Exclude xenobiotics from QC, but retain them in the final dataset.
+                                                     ## We suggest this as xenos can have extreme missingness and are 
+                                                     ## commonly qc'd from a data set. However, they may be appropriate 
+                                                     ## to model as a binary present|absent trait. A choice for the researcher.
+                  cores                     = 1
                   )
 #> 
 #> ── Starting Omics QC Process ───────────────────────────────────────────────────
 #> ℹ Validating input parameters
-#> ✔ Validating input parameters [8ms]
+#> ✔ Validating input parameters [9ms]
 #> 
 #> ℹ Excluding 0 features from sample summary analysis but keeping in output data
-#> ✔ Excluding 7 features from sample summary analysis but keeping in output data …
+#> ✔ Excluding 39 features from sample summary analysis but keeping in output data…
 #> 
 #> ℹ Sample & Feature Summary Statistics for raw data
 #> ℹ Number of informative PCs (Scree acceleration factor): 2
-#> ℹ Sample & Feature Summary Statistics for raw data✔ Sample & Feature Summary Statistics for raw data [569ms]
+#> ℹ Sample & Feature Summary Statistics for raw data✔ Sample & Feature Summary Statistics for raw data [1.5s]
 #> 
 #> ℹ Copying input data to new 'qc' data layer
-#> ✔ Copying input data to new 'qc' data layer [22ms]
+#> ✔ Copying input data to new 'qc' data layer [20ms]
 #> 
 #> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)
-#> ✔ Assessing for extreme sample missingness >=80% - excluding 1 sample(s) [22ms]
+#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [17ms]
 #> 
 #> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)
-#> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [17m…
+#> ✔ Assessing for extreme feature missingness >=80% - excluding 4 feature(s) [19m…
 #> 
 #> ℹ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
-#> ✔ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
+#> ✔ Assessing for sample missingness at specified level of >=20% - excluding 1 sa…
 #> 
 #> ℹ Assessing for feature missingness at specified level of >=20% - excluding 0 f…
-#> ✔ Assessing for feature missingness at specified level of >=20% - excluding 1 f…
+#> ✔ Assessing for feature missingness at specified level of >=20% - excluding 37 …
 #> 
 #> ℹ Calculating total sum abundance outliers at +/- 5 Sdev - excluding 0 sample(s)
 #> ✔ Calculating total sum abundance outliers at +/- 5 Sdev - excluding 0 sample(s…
 #> 
 #> ℹ Running sample data PCA outlier analysis at +/- 5 Sdev
-#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [17ms]
+#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [19ms]
 #> 
 #> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
 #> ℹ Number of informative PCs (Scree acceleration factor): 2
-#> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…! The stated max PCs [max_num_pcs=10] to use in PCA outlier assessment is greater than the number of available informative PCs [2]
+#> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
+#> ! The stated max PCs [max_num_pcs=10] to use in PCA outlier assessment is greater than the number of available informative PCs [2]
 #> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…✔ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
 #> 
 #> ℹ Creating final QC dataset...
@@ -198,21 +217,21 @@ mydata <- mydata |>
 #> ℹ Creating final QC dataset...── Step timings ──
 #> ℹ Creating final QC dataset...
 #> ℹ Creating final QC dataset...
-#>                         step seconds   pct
-#>                   validation    0.00   0.0
-#>                summarise_raw    0.55  28.3
-#>                   copy_layer    0.00   0.0
-#>   extreme_sample_missingness    0.00   0.0
-#>  extreme_feature_missingness    0.00   0.0
-#>           sample_missingness    0.00   0.0
-#>          total_sum_abundance    0.01   0.5
-#>                summarise_pca    0.61  31.3
-#>              summarise_final    0.53  27.2
-#>                        total    1.95 100.2
-#> ✔ Creating final QC dataset... [584ms]
+#>                         step seconds  pct
+#>                   validation    0.00  0.0
+#>                summarise_raw    1.45 30.4
+#>                   copy_layer    0.00  0.0
+#>   extreme_sample_missingness    0.00  0.0
+#>  extreme_feature_missingness    0.00  0.0
+#>           sample_missingness    0.00  0.0
+#>          total_sum_abundance    0.01  0.2
+#>                summarise_pca    1.71 35.8
+#>              summarise_final    1.30 27.2
+#>                        total    4.77 99.9
+#> ✔ Creating final QC dataset... [1.3s]
 #> 
 #> ℹ 'Omics QC Process Completed
-#> ✔ 'Omics QC Process Completed [28ms]
+#> ✔ 'Omics QC Process Completed [16ms]
 ```
 
 ## Quick summary of the Omiprep object following QC
@@ -222,8 +241,8 @@ mydata <- mydata |>
 summary(mydata)
 #> Omiprep Object Summary
 #> --------------------------
-#> Samples      : 100
-#> Features     : 104
+#> Samples      : 125
+#> Features     : 253
 #> Data Layers  : 2
 #> Layer Names  : input, qc
 #> 
@@ -231,12 +250,12 @@ summary(mydata)
 #> Feature Summary Layers: input, qc
 #> 
 #> Sample Annotation (metadata):
-#>   Columns: 7
-#>   Names  : sample_id, parent_sample_id, client_identifier, pair, volume_extracted, reason_excluded, excluded
+#>   Columns: 12
+#>   Names  : sample_id, PARENT_SAMPLE_NAME, CLIENT_IDENTIFIER, LC/MS Polar, LC/MS Neg, LC/MS Pos Early, LC/MS Pos Late, sex, age, bmi, reason_excluded, excluded
 #> 
 #> Feature Annotation (metadata):
 #>   Columns: 16
-#>   Names  : feature_id, pathway_sortorder, biochemical, super_pathway, sub_pathway, comp_id, platform, chemical_id, ri, mass, cas, pubchem, kegg, group_hmdb, reason_excluded, excluded
+#>   Names  : feature_id, COMP_ID, CHEM_ID, CHEMICAL_NAME, SUPER_PATHWAY, SUB_PATHWAY, PATHWAY_SORTORDER, PLATFORM, RI, MASS, CAS, PUBCHEM, KEGG, HMDB, reason_excluded, excluded
 #> 
 #> Exclusion Codes Summary:
 #> 
@@ -244,16 +263,16 @@ summary(mydata)
 #> Exclusion | Count
 #> -----------------
 #> user_excluded                     | 0
-#> extreme_sample_missingness        | 1
-#> user_defined_sample_missingness   | 0
+#> extreme_sample_missingness        | 0
+#> user_defined_sample_missingness   | 1
 #> user_defined_sample_totalpeakarea | 0
-#> user_defined_sample_pca_outlier   | 0
+#> user_defined_sample_pca_outlier   | 2
 #> 
 #>   Feature Exclusions:
 #> Exclusion | Count
 #> -----------------
-#> user_excluded                    | 0
-#> extreme_feature_missingness      | 0
-#> user_defined_feature_missingness | 1
-#> user_defined_feature_skewness    | 0
+#> user_excluded                    |  0
+#> extreme_feature_missingness      |  4
+#> user_defined_feature_missingness | 37
+#> user_defined_feature_skewness    |  0
 ```

@@ -264,16 +264,16 @@ m_qc <- quality_control(
 #> 
 #> ℹ Sample & Feature Summary Statistics for raw data
 #> ℹ Number of informative PCs (Scree acceleration factor): 3
-#> ℹ Sample & Feature Summary Statistics for raw data✔ Sample & Feature Summary Statistics for raw data [38s]
+#> ℹ Sample & Feature Summary Statistics for raw data✔ Sample & Feature Summary Statistics for raw data [39.9s]
 #> 
 #> ℹ Copying input data to new 'qc' data layer
-#> ✔ Copying input data to new 'qc' data layer [341ms]
+#> ✔ Copying input data to new 'qc' data layer [42ms]
 #> 
 #> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)
-#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [28ms]
+#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [34ms]
 #> 
 #> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)
-#> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [25m…
+#> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [261…
 #> 
 #> ℹ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
 #> ✔ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
@@ -285,7 +285,7 @@ m_qc <- quality_control(
 #> ✔ Assessing for feature skewness at threshold <= -1.25 - excluding 80 feature(s…
 #> 
 #> ℹ Running sample data PCA outlier analysis at +/- 5 Sdev
-#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [37ms]
+#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [31ms]
 #> 
 #> ℹ Creating final QC dataset...
 #> ℹ Number of informative PCs (Scree acceleration factor): 6
@@ -295,18 +295,18 @@ m_qc <- quality_control(
 #> ℹ Creating final QC dataset...
 #>                         step seconds   pct
 #>                   validation    0.00   0.0
-#>                summarise_raw   38.00  56.3
-#>                   copy_layer    0.31   0.5
-#>   extreme_sample_missingness    0.01   0.0
-#>  extreme_feature_missingness    0.01   0.0
-#>           sample_missingness    0.02   0.0
-#>          feature_missingness    0.67   1.0
-#>              summarise_final   27.92  41.4
-#>                        total   67.47 100.0
-#> ✔ Creating final QC dataset... [28.3s]
+#>                summarise_raw   39.91  57.3
+#>                   copy_layer    0.01   0.0
+#>   extreme_sample_missingness    0.02   0.0
+#>  extreme_feature_missingness    0.24   0.3
+#>           sample_missingness    0.01   0.0
+#>          feature_missingness    0.27   0.4
+#>              summarise_final   28.75  41.3
+#>                        total   69.69 100.0
+#> ✔ Creating final QC dataset... [29.1s]
 #> 
 #> ℹ 'Omics QC Process Completed
-#> ✔ 'Omics QC Process Completed [12ms]
+#> ✔ 'Omics QC Process Completed [13ms]
 ```
 
 ## 4) Post-filtering impact on distributions

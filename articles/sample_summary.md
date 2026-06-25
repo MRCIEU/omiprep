@@ -7,9 +7,10 @@
 library(omiprep)
 
 # import data
-data     <- read.csv(system.file("extdata", "dummy_data.csv",     package = "omiprep"), header=T, row.names = 1) |> as.matrix()
-samples  <- read.csv(system.file("extdata", "dummy_samples.csv",  package = "omiprep"), header=T, row.names = 1)
+data     <- read.csv(system.file("extdata", "dummy_data.csv", package = "omiprep"), header=T, row.names = 1, check.names = FALSE) |> as.matrix()
+samples  <- read.csv(system.file("extdata", "dummy_samples.csv", package = "omiprep"), header=T, row.names = 1)
 features <- read.csv(system.file("extdata", "dummy_features.csv", package = "omiprep"), header=T, row.names = 1)
+features$feature_id = as.character(features$feature_id)
 
 # create object
 mydata <- Omiprep(data = data, samples = samples, features = features)
@@ -22,8 +23,8 @@ mydata <- Omiprep(data = data, samples = samples, features = features)
 summary(mydata)
 #> Omiprep Object Summary
 #> --------------------------
-#> Samples      : 100
-#> Features     : 20
+#> Samples      : 125
+#> Features     : 253
 #> Data Layers  : 1
 #> Layer Names  : input
 #> 
@@ -31,12 +32,12 @@ summary(mydata)
 #> Feature Summary Layers: none
 #> 
 #> Sample Annotation (metadata):
-#>   Columns: 5
-#>   Names  : sample_id, age, sex, pos, neg
+#>   Columns: 10
+#>   Names  : sample_id, parent_sample_id, client_identifier, sex, age, bmi, LC.MS.Polar, LC.MS.Neg, LC.MS.Pos.Early, LC.MS.Pos.Late
 #> 
 #> Feature Annotation (metadata):
-#>   Columns: 5
-#>   Names  : feature_id, platform, pathway, derived_feature, xenobiotic_feature
+#>   Columns: 14
+#>   Names  : feature_id, pathway_sortorder, biochemical, super_pathway, sub_pathway, comp_id, platform, chemical_id, ri, mass, cas, pubchem, kegg, group_hmdb
 #> 
 #> Exclusion Codes Summary:
 #> 
@@ -69,56 +70,57 @@ mydata = quality_control(mydata)
 #> ✔ Validating input parameters [8ms]
 #> 
 #> ℹ Sample & Feature Summary Statistics for raw data
-#> ℹ Number of informative PCs (Scree acceleration factor): 3
-#> ℹ Sample & Feature Summary Statistics for raw data✔ Sample & Feature Summary Statistics for raw data [231ms]
+#> ℹ Number of informative PCs (Scree acceleration factor): 2
+#> ℹ Sample & Feature Summary Statistics for raw data✔ Sample & Feature Summary Statistics for raw data [2s]
 #> 
 #> ℹ Copying input data to new 'qc' data layer
-#> ✔ Copying input data to new 'qc' data layer [28ms]
+#> ✔ Copying input data to new 'qc' data layer [33ms]
 #> 
 #> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)
-#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [21ms]
+#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [18ms]
 #> 
 #> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)
-#> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [20m…
+#> ✔ Assessing for extreme feature missingness >=80% - excluding 5 feature(s) [19m…
 #> 
 #> ℹ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
-#> ✔ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
+#> ✔ Assessing for sample missingness at specified level of >=20% - excluding 1 sa…
 #> 
 #> ℹ Assessing for feature missingness at specified level of >=20% - excluding 0 f…
-#> ✔ Assessing for feature missingness at specified level of >=20% - excluding 0 f…
+#> ✔ Assessing for feature missingness at specified level of >=20% - excluding 46 …
 #> 
 #> ℹ Calculating total sum abundance outliers at +/- 5 Sdev - excluding 0 sample(s)
 #> ✔ Calculating total sum abundance outliers at +/- 5 Sdev - excluding 0 sample(s…
 #> 
 #> ℹ Running sample data PCA outlier analysis at +/- 5 Sdev
-#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [19ms]
+#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [17ms]
 #> 
 #> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
-#> ℹ Number of informative PCs (Scree acceleration factor): 3
-#> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…! The stated max PCs [max_num_pcs=10] to use in PCA outlier assessment is greater than the number of available informative PCs [3]
+#> ℹ Number of informative PCs (Scree acceleration factor): 2
+#> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
+#> ! The stated max PCs [max_num_pcs=10] to use in PCA outlier assessment is greater than the number of available informative PCs [2]
 #> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…✔ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
 #> 
 #> ℹ Creating final QC dataset...
-#> ℹ Number of informative PCs (Scree acceleration factor): 3
+#> ℹ Number of informative PCs (Scree acceleration factor): 2
 #> ℹ Creating final QC dataset...
 #> ℹ Creating final QC dataset...── Step timings ──
 #> ℹ Creating final QC dataset...
 #> ℹ Creating final QC dataset...
 #>                         step seconds   pct
 #>                   validation    0.00   0.0
-#>                summarise_raw    0.22  28.3
-#>                   copy_layer    0.00   0.0
+#>                summarise_raw    1.99  33.2
+#>                   copy_layer    0.01   0.2
 #>   extreme_sample_missingness    0.00   0.0
 #>  extreme_feature_missingness    0.00   0.0
 #>           sample_missingness    0.00   0.0
-#>          total_sum_abundance    0.00   0.0
-#>                summarise_pca    0.23  29.6
-#>              summarise_final    0.11  14.1
-#>                        total    0.78 100.3
-#> ✔ Creating final QC dataset... [141ms]
+#>          total_sum_abundance    0.01   0.2
+#>                summarise_pca    1.96  32.7
+#>              summarise_final    1.81  30.2
+#>                        total    6.00 100.1
+#> ✔ Creating final QC dataset... [1.8s]
 #> 
 #> ℹ 'Omics QC Process Completed
-#> ✔ 'Omics QC Process Completed [17ms]
+#> ✔ 'Omics QC Process Completed [14ms]
 ```
 
 ## Sample Summary
@@ -137,9 +139,9 @@ df |> knitr::kable( digits = 3, row.names = FALSE, align = "c") |>
 
 | sample_id | missingness | non_na_feature_count | tsa_total | tsa_complete_features | complete_feature_count | outlier_count |
 |:--:|:--:|:--:|:--:|:--:|:--:|:--:|
-| id_100 | 0 | 20 | 38.699 | 38.699 | 20 | 0 |
-| id_99 | 0 | 20 | 39.451 | 39.451 | 20 | 0 |
-| id_98 | 0 | 20 | 45.135 | 45.135 | 20 | 0 |
+| sam_1 | 0.111 | 225 | 1124.460 | 430.751 | 88 | 2 |
+| sam_2 | 0.123 | 222 | 1074.218 | 414.520 | 88 | 3 |
+| sam_3 | 0.146 | 216 | 1057.703 | 421.792 | 88 | 2 |
 
 ### Manually run sample summary
 
@@ -170,16 +172,16 @@ sample_sum1 |>
 
 | sample_id | missingness | non_na_feature_count | tsa_total | tsa_complete_features | complete_feature_count | outlier_count |
 |:--:|:--:|:--:|:--:|:--:|:--:|:--:|
-| id_100 | 0 | 20 | 38.699 | 38.699 | 20 | 0 |
-| id_99 | 0 | 20 | 39.451 | 39.451 | 20 | 0 |
-| id_98 | 0 | 20 | 45.135 | 45.135 | 20 | 1 |
-| id_97 | 0 | 20 | 37.289 | 37.289 | 20 | 2 |
-| id_96 | 0 | 20 | 31.545 | 31.545 | 20 | 3 |
-| id_95 | 0 | 20 | 36.751 | 36.751 | 20 | 2 |
-| id_94 | 0 | 20 | 37.384 | 37.384 | 20 | 0 |
-| id_93 | 0 | 20 | 34.069 | 34.069 | 20 | 0 |
-| id_92 | 0 | 20 | 38.942 | 38.942 | 20 | 0 |
-| id_91 | 0 | 20 | 42.743 | 42.743 | 20 | 2 |
+| sam_1 | 0.111 | 225 | 1124.460 | 430.751 | 88 | 19 |
+| sam_2 | 0.123 | 222 | 1074.218 | 414.520 | 88 | 34 |
+| sam_3 | 0.146 | 216 | 1057.703 | 421.792 | 88 | 21 |
+| sam_4 | 0.107 | 226 | 1184.763 | 464.685 | 88 | 43 |
+| sam_5 | 0.130 | 220 | 1079.019 | 426.939 | 88 | 29 |
+| sam_6 | 0.138 | 218 | 1116.860 | 447.960 | 88 | 35 |
+| sam_7 | 0.103 | 227 | 1149.438 | 447.185 | 88 | 31 |
+| sam_8 | 0.126 | 221 | 1131.554 | 457.195 | 88 | 38 |
+| sam_9 | 0.154 | 214 | 1078.960 | 444.311 | 88 | 32 |
+| sam_10 | 0.123 | 222 | 925.309 | 316.467 | 88 | 115 |
 
 ### Run sample summary on subset
 
@@ -191,10 +193,14 @@ summary data will only be returned for the specified ids.
 
 ## define a vector of sample IDs
 sids <- mydata@samples[mydata@samples$sex == "female", "sample_id"] 
+cat("Number of samples being passed = ", length(sids), "\n")
+#> Number of samples being passed =  65
 
 ## define a vector of feature IDs
 ## extract only those features run on `pos`itive ion mode. 
-fids <- mydata@features[mydata@features$platform == "pos", "feature_id"] 
+fids <- mydata@features[mydata@features$platform == "LC/MS Pos Late", "feature_id"] 
+cat("Number of features being passed = ", length(fids), "\n")
+#> Number of features being passed =  48
 
 # run sample summary on subset
 sample_sum_subset <- sample_summary(omiprep       = mydata, 
@@ -218,16 +224,16 @@ sample_sum_subset |>
 
 | sample_id | missingness | non_na_feature_count | tsa_total | tsa_complete_features | complete_feature_count | outlier_count |
 |:--:|:--:|:--:|:--:|:--:|:--:|:--:|
-| id_98 | 0 | 4 | 6.590 | 6.590 | 4 | 0 |
-| id_97 | 0 | 4 | 4.484 | 4.484 | 4 | 0 |
-| id_96 | 0 | 4 | 7.318 | 7.318 | 4 | 0 |
-| id_94 | 0 | 4 | 7.641 | 7.641 | 4 | 0 |
-| id_93 | 0 | 4 | 7.053 | 7.053 | 4 | 0 |
-| id_92 | 0 | 4 | 8.123 | 8.123 | 4 | 0 |
-| id_90 | 0 | 4 | 4.924 | 4.924 | 4 | 0 |
-| id_89 | 0 | 4 | 9.921 | 9.921 | 4 | 0 |
-| id_88 | 0 | 4 | 6.454 | 6.454 | 4 | 1 |
-| id_87 | 0 | 4 | 7.254 | 7.254 | 4 | 0 |
+| sam_4 | 0.000 | 48 | 243.943 | 171.822 | 33 | 4 |
+| sam_8 | 0.021 | 47 | 260.117 | 183.103 | 33 | 9 |
+| sam_9 | 0.042 | 46 | 238.005 | 174.239 | 33 | 6 |
+| sam_11 | 0.042 | 46 | 160.243 | 102.150 | 33 | 38 |
+| sam_15 | 0.000 | 48 | 259.485 | 179.407 | 33 | 6 |
+| sam_16 | 0.000 | 48 | 278.749 | 193.163 | 33 | 8 |
+| sam_17 | 0.021 | 47 | 251.332 | 173.927 | 33 | 11 |
+| sam_23 | 0.042 | 46 | 228.157 | 162.784 | 33 | 8 |
+| sam_24 | 0.021 | 47 | 255.070 | 180.097 | 33 | 7 |
+| sam_29 | 0.021 | 47 | 252.634 | 182.992 | 33 | 7 |
 
 ## Principal Componet Analysis
 
@@ -246,11 +252,11 @@ df |> knitr::kable( digits = 3, row.names = FALSE, align = "c") |>
   kableExtra::kable_styling(full_width = TRUE) 
 ```
 
-| sample_id | pc1 | pc2 | pc3 | pc4 | pc5 | pc6 | pc7 | pc8 | pc9 | pc10 | pc1_3_sd_outlier | pc2_3_sd_outlier | pc3_3_sd_outlier | pc1_4_sd_outlier | pc2_4_sd_outlier | pc3_4_sd_outlier | pc1_5_sd_outlier | pc2_5_sd_outlier | pc3_5_sd_outlier |
-|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
-| id_100 | 1.087 | 0.321 | 0.003 | 0.477 | 0.837 | 0.256 | -0.162 | -0.276 | 0.577 | -1.466 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| id_99 | 0.418 | 0.573 | 1.581 | 0.110 | -1.154 | -0.256 | -0.103 | 0.115 | 1.961 | -1.201 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| id_98 | -2.249 | 0.131 | 0.040 | -0.605 | -0.720 | 0.763 | -0.614 | 0.076 | -0.521 | -1.457 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| sample_id | pc1 | pc2 | pc3 | pc4 | pc5 | pc6 | pc7 | pc8 | pc9 | pc10 | pc1_3_sd_outlier | pc2_3_sd_outlier | pc1_4_sd_outlier | pc2_4_sd_outlier | pc1_5_sd_outlier | pc2_5_sd_outlier |
+|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
+| sam_1 | 1.204 | -1.216 | 0.433 | -1.135 | 1.196 | -1.990 | 0.646 | -1.914 | 0.484 | -0.221 | 0 | 0 | 0 | 0 | 0 | 0 |
+| sam_2 | 3.883 | 1.269 | -2.605 | 1.413 | 3.686 | 0.750 | 0.737 | -1.457 | 1.002 | 0.368 | 0 | 0 | 0 | 0 | 0 | 0 |
+| sam_3 | 2.670 | -1.278 | 0.898 | -0.638 | 1.531 | -0.849 | -0.142 | -1.217 | 0.494 | 3.369 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 ### Manually run PCA analysis
 
@@ -273,7 +279,7 @@ pc_analysis <- pc_and_outliers(omiprep      = mydata,
                                sample_ids   = sids, ## It is also possible to run on a subset of samples and/or features
                                feature_ids  = NULL
                                )
-#> ℹ Number of informative PCs (Scree acceleration factor): 3
+#> ℹ Number of informative PCs (Scree acceleration factor): 2
 ```
 
 #### Table of PCA analysis results
@@ -289,18 +295,18 @@ pc_analysis |>
   kableExtra::kable_styling(full_width = TRUE) 
 ```
 
-| sample_id | pc1 | pc2 | pc3 | pc4 | pc5 | pc6 | pc7 | pc8 | pc9 | pc10 | pc1_3_sd_outlier | pc2_3_sd_outlier | pc3_3_sd_outlier | pc1_4_sd_outlier | pc2_4_sd_outlier | pc3_4_sd_outlier | pc1_5_sd_outlier | pc2_5_sd_outlier | pc3_5_sd_outlier |
-|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
-| id_98 | 1.504 | -0.899 | -0.072 | -0.987 | 1.221 | 0.429 | -1.603 | 0.586 | -1.086 | -0.193 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| id_97 | 0.826 | 0.458 | 1.623 | 0.188 | -1.195 | 1.666 | -1.318 | -2.481 | -1.081 | 1.007 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| id_96 | -2.067 | 0.785 | -1.024 | 1.720 | 1.435 | 0.663 | 1.057 | -0.073 | -1.554 | -0.479 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| id_94 | -1.635 | 1.103 | 0.791 | 1.214 | -0.920 | -0.986 | 1.635 | 0.401 | -0.521 | 1.214 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| id_93 | -1.399 | 1.202 | -0.168 | -2.277 | 1.068 | -1.482 | -0.129 | -1.497 | 0.834 | 1.243 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| id_92 | 2.299 | 0.640 | 1.312 | 0.308 | -0.094 | 0.492 | 0.595 | -0.751 | 0.994 | -1.484 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| id_90 | -0.723 | 1.214 | 1.251 | 1.834 | -1.257 | 0.548 | -1.184 | -1.282 | 0.829 | 0.076 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| id_89 | -0.292 | 0.097 | 2.914 | 1.079 | -0.734 | -1.654 | 0.601 | 0.015 | -0.721 | 0.914 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| id_88 | 2.664 | 1.542 | -2.028 | 0.080 | 0.419 | -0.416 | 1.305 | -1.710 | 0.352 | -0.213 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| id_87 | -2.053 | 0.898 | -0.883 | 0.960 | 0.578 | 1.764 | -0.703 | 0.158 | 0.812 | 0.708 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| sample_id | pc1 | pc2 | pc3 | pc4 | pc5 | pc6 | pc7 | pc8 | pc9 | pc10 | pc1_3_sd_outlier | pc2_3_sd_outlier | pc1_4_sd_outlier | pc2_4_sd_outlier | pc1_5_sd_outlier | pc2_5_sd_outlier |
+|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
+| sam_4 | 1.041 | -4.068 | 2.467 | 1.816 | -9.147 | 0.627 | -1.254 | 2.036 | -0.379 | 6.568 | 0 | 0 | 0 | 0 | 0 | 0 |
+| sam_8 | 1.190 | -7.320 | 1.762 | 2.924 | 1.496 | 1.045 | 0.477 | -0.956 | 0.501 | -0.905 | 0 | 0 | 0 | 0 | 0 | 0 |
+| sam_9 | -1.993 | -5.138 | 2.931 | -2.109 | 0.431 | 0.131 | -3.607 | -1.101 | 1.537 | 1.745 | 0 | 0 | 0 | 0 | 0 | 0 |
+| sam_11 | -25.700 | 2.092 | -2.024 | 5.708 | 0.430 | -0.731 | -5.584 | -2.337 | -5.219 | 2.261 | 1 | 0 | 1 | 0 | 1 | 0 |
+| sam_15 | 2.709 | -3.948 | 3.872 | 0.573 | -2.070 | -0.488 | -1.619 | -1.047 | -0.627 | -1.672 | 0 | 0 | 0 | 0 | 0 | 0 |
+| sam_16 | 6.193 | 0.050 | -4.399 | -8.497 | 0.845 | 2.238 | -4.638 | -7.180 | 0.254 | 9.771 | 0 | 0 | 0 | 0 | 0 | 0 |
+| sam_17 | 2.736 | 8.006 | -1.729 | -3.800 | -3.503 | -1.503 | -0.603 | -2.113 | -0.234 | -3.739 | 0 | 0 | 0 | 0 | 0 | 0 |
+| sam_23 | -3.187 | 3.479 | 5.389 | 0.485 | 1.868 | -0.383 | -1.125 | -3.673 | -0.331 | -0.761 | 0 | 0 | 0 | 0 | 0 | 0 |
+| sam_24 | -1.744 | -1.456 | -3.028 | -0.194 | 0.494 | 2.675 | 1.340 | 3.560 | 0.497 | 1.764 | 0 | 0 | 0 | 0 | 0 | 0 |
+| sam_29 | -1.794 | -4.612 | -0.968 | 2.247 | 3.561 | 0.314 | -1.594 | -0.305 | 4.943 | -0.179 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 #### PCA plot
 
@@ -376,7 +382,7 @@ sf_sum <- summarise(omiprep         = mydata,
                     feature_ids     = NULL,
                     output          = "data.frame", 
                     cores           = 1)
-#> ℹ Number of informative PCs (Scree acceleration factor): 3
+#> ℹ Number of informative PCs (Scree acceleration factor): 2
 
 ## two data frames are returned as a list object
 names(sf_sum)
@@ -395,15 +401,15 @@ Also, please note that when running on a subset, you are returned the
 full summary for all samples and features, but only the summary data for
 the specified subset will be populated, the rest will be `NA`.
 
-| sample_id | missingness | non_na_feature_count | tsa_total | tsa_complete_features | complete_feature_count | outlier_count | pc1 | pc2 | pc3 | pc4 | pc5 | pc6 | pc7 | pc8 | pc9 | pc10 | pc1_3_sd_outlier | pc2_3_sd_outlier | pc3_3_sd_outlier | pc1_4_sd_outlier | pc2_4_sd_outlier | pc3_4_sd_outlier | pc1_5_sd_outlier | pc2_5_sd_outlier | pc3_5_sd_outlier |
-|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
-| id_100 | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA |
-| id_99 | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA |
-| id_98 | 0 | 20 | 45.392 | 45.392 | 20 | 1 | 1.504 | -0.899 | -0.072 | -0.987 | 1.221 | 0.429 | -1.603 | 0.586 | -1.086 | -0.193 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| id_97 | 0 | 20 | 37.473 | 37.473 | 20 | 3 | 0.826 | 0.458 | 1.623 | 0.188 | -1.195 | 1.666 | -1.318 | -2.481 | -1.081 | 1.007 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| id_96 | 0 | 20 | 32.042 | 32.042 | 20 | 3 | -2.067 | 0.785 | -1.024 | 1.720 | 1.435 | 0.663 | 1.057 | -0.073 | -1.554 | -0.479 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| id_95 | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA |
-| id_94 | 0 | 20 | 37.615 | 37.615 | 20 | 2 | -1.635 | 1.103 | 0.791 | 1.214 | -0.920 | -0.986 | 1.635 | 0.401 | -0.521 | 1.214 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| id_93 | 0 | 20 | 34.238 | 34.238 | 20 | 1 | -1.399 | 1.202 | -0.168 | -2.277 | 1.068 | -1.482 | -0.129 | -1.497 | 0.834 | 1.243 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| id_92 | 0 | 20 | 39.200 | 39.200 | 20 | 1 | 2.299 | 0.640 | 1.312 | 0.308 | -0.094 | 0.492 | 0.595 | -0.751 | 0.994 | -1.484 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| id_91 | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA |
+| sample_id | missingness | non_na_feature_count | tsa_total | tsa_complete_features | complete_feature_count | outlier_count | pc1 | pc2 | pc3 | pc4 | pc5 | pc6 | pc7 | pc8 | pc9 | pc10 | pc1_3_sd_outlier | pc2_3_sd_outlier | pc1_4_sd_outlier | pc2_4_sd_outlier | pc1_5_sd_outlier | pc2_5_sd_outlier |
+|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
+| sam_1 | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA |
+| sam_2 | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA |
+| sam_3 | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA |
+| sam_4 | 0.107 | 226 | 1227.482 | 533.705 | 97 | 39 | -0.572 | 2.794 | -1.116 | -1.313 | 5.502 | -2.776 | 1.948 | -3.359 | 4.725 | -4.830 | 0 | 0 | 0 | 0 | 0 | 0 |
+| sam_5 | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA |
+| sam_6 | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA |
+| sam_7 | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA |
+| sam_8 | 0.126 | 221 | 1175.210 | 524.836 | 97 | 33 | -0.521 | 5.419 | -0.659 | 2.126 | 0.590 | 0.565 | 0.891 | 0.042 | 0.223 | -1.615 | 0 | 0 | 0 | 0 | 0 | 0 |
+| sam_9 | 0.154 | 214 | 1119.124 | 508.865 | 97 | 23 | 1.378 | 4.430 | 0.672 | -2.952 | 0.214 | -1.221 | -2.563 | 1.916 | -1.041 | 1.705 | 0 | 0 | 0 | 0 | 0 | 0 |
+| sam_10 | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA |

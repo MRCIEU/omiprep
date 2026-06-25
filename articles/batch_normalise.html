@@ -100,19 +100,19 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mrcieu.github.io/omiprep/">omiprep</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">data</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"dummy_data.csv"</span>, package <span class="op">=</span> <span class="st">"omiprep"</span><span class="op">)</span>, header<span class="op">=</span><span class="cn">T</span>, row.names <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="va">samples</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"dummy_samples.csv"</span>, package <span class="op">=</span> <span class="st">"omiprep"</span><span class="op">)</span>, header<span class="op">=</span><span class="cn">T</span>, row.names <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
-<span><span class="va">features</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"dummy_features.csv"</span>, package <span class="op">=</span> <span class="st">"omiprep"</span><span class="op">)</span>, header<span class="op">=</span><span class="cn">T</span>, row.names <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="co"># example file</span></span>
+<span><span class="va">filepath</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"metabolon_v1.1_example.xlsx"</span>, package <span class="op">=</span> <span class="st">"omiprep"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co">## create Omiprep object</span></span>
-<span><span class="va">mydata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/class_omiprep.html">Omiprep</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, samples <span class="op">=</span> <span class="va">samples</span>, features <span class="op">=</span> <span class="va">features</span><span class="op">)</span></span>
+<span><span class="co">## Read in Metabolon v1.1 example and directly create Omiprep object</span></span>
+<span><span class="va">mydata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_metabolon.html">read_metabolon</a></span><span class="op">(</span><span class="va">filepath</span>, sheet <span class="op">=</span> <span class="st">"OrigScale"</span> , return_Omiprep <span class="op">=</span> <span class="cn">TRUE</span> <span class="op">)</span></span>
+<span></span>
 <span></span>
 <span><span class="co">## summary of Omiprep object</span></span>
 <span><span class="fu"><a href="../reference/summary.Omiprep.html">summary</a></span><span class="op">(</span><span class="va">mydata</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Omiprep Object Summary</span></span>
 <span><span class="co">#&gt; --------------------------</span></span>
-<span><span class="co">#&gt; Samples      : 100</span></span>
-<span><span class="co">#&gt; Features     : 20</span></span>
+<span><span class="co">#&gt; Samples      : 125</span></span>
+<span><span class="co">#&gt; Features     : 253</span></span>
 <span><span class="co">#&gt; Data Layers  : 1</span></span>
 <span><span class="co">#&gt; Layer Names  : input</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -120,12 +120,12 @@
 <span><span class="co">#&gt; Feature Summary Layers: none</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Sample Annotation (metadata):</span></span>
-<span><span class="co">#&gt;   Columns: 5</span></span>
-<span><span class="co">#&gt;   Names  : sample_id, age, sex, pos, neg</span></span>
+<span><span class="co">#&gt;   Columns: 14</span></span>
+<span><span class="co">#&gt;   Names  : sample_id, neg, pos, run_day, box_id, lot, lcms_polar, lcms_neg, lcms_pos_early, lcms_pos_late, client_identifier, sex, age, bmi</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Feature Annotation (metadata):</span></span>
-<span><span class="co">#&gt;   Columns: 5</span></span>
-<span><span class="co">#&gt;   Names  : feature_id, platform, pathway, derived_feature, xenobiotic_feature</span></span>
+<span><span class="co">#&gt;   Columns: 14</span></span>
+<span><span class="co">#&gt;   Names  : feature_id, metabolite_id, comp_id, platform, super_pathway, sub_pathway, kegg, chem_id, pathway_sortorder, ri, mass, cas, pubchem, group_hmdb</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Exclusion Codes Summary:</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -149,42 +149,24 @@
 <div class="section level2">
 <h2 id="run-batch-normalisation">Run batch normalisation<a class="anchor" aria-label="anchor" href="#run-batch-normalisation"></a>
 </h2>
+<p>Early Metabolon releases only provided the original scale data and a
+batch normalised and minimally imputed data set. We would not advocate
+using minimally imputed data, particularly not for quality control /
+pre-processing. As such, you may have to (1) batch normalize the
+original scale data, as we are doing here. Or (2) convert the minimally
+imputed cells in the ScaledImp tab of the release back into NAs.</p>
+<p>Again, here we are illustrating how to run a mass-spectroscopy style
+median batch normalization.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mydata</span> <span class="op">&lt;-</span> <span class="va">mydata</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/batch_normalise.html">batch_normalise</a></span><span class="op">(</span>run_mode_col <span class="op">=</span> <span class="st">"platform"</span>, run_mode_colmap <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>pos<span class="op">=</span><span class="st">"pos"</span>, neg<span class="op">=</span><span class="st">"neg"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; &lt;omiprep::Omiprep&gt;</span></span>
-<span><span class="co">#&gt;  @ data           : num [1:100, 1:20, 1:2] 0.755887 0.662386 0.444527 0.627146 0.000465 ...</span></span>
-<span><span class="co">#&gt;  .. - attr(*, "dimnames")=List of 3</span></span>
-<span><span class="co">#&gt;  ..  ..$ : chr [1:100] "id_100" "id_99" "id_98" "id_97" ...</span></span>
-<span><span class="co">#&gt;  ..  ..$ : chr [1:20] "metab_id_1" "metab_id_2" "metab_id_3" "metab_id_4" ...</span></span>
-<span><span class="co">#&gt;  ..  ..$ : chr [1:2] "input" "batch_normalised"</span></span>
-<span><span class="co">#&gt;  @ samples        :'data.frame': 100 obs. of  5 variables:</span></span>
-<span><span class="co">#&gt;  .. $ sample_id: chr  "id_100" "id_99" "id_98" "id_97" ...</span></span>
-<span><span class="co">#&gt;  .. $ age      : int  29 47 65 57 52 40 42 63 49 42 ...</span></span>
-<span><span class="co">#&gt;  .. $ sex      : chr  "male" "male" "female" "female" ...</span></span>
-<span><span class="co">#&gt;  .. $ pos      : chr  "batch2" "batch1" "batch2" "batch1" ...</span></span>
-<span><span class="co">#&gt;  .. $ neg      : chr  "batch2" "batch2" "batch2" "batch1" ...</span></span>
-<span><span class="co">#&gt;  @ features       :'data.frame': 20 obs. of  5 variables:</span></span>
-<span><span class="co">#&gt;  .. $ feature_id        : chr  "metab_id_1" "metab_id_2" "metab_id_3" "metab_id_4" ...</span></span>
-<span><span class="co">#&gt;  .. $ platform          : chr  "neg" "neg" "neg" "pos" ...</span></span>
-<span><span class="co">#&gt;  .. $ pathway           : logi  NA NA NA NA NA NA ...</span></span>
-<span><span class="co">#&gt;  .. $ derived_feature   : logi  TRUE FALSE FALSE FALSE FALSE FALSE ...</span></span>
-<span><span class="co">#&gt;  .. $ xenobiotic_feature: logi  FALSE FALSE FALSE FALSE FALSE FALSE ...</span></span>
-<span><span class="co">#&gt;  @ exclusions     :List of 2</span></span>
-<span><span class="co">#&gt;  .. $ samples :List of 5</span></span>
-<span><span class="co">#&gt;  ..  ..$ user_excluded                    : chr(0) </span></span>
-<span><span class="co">#&gt;  ..  ..$ extreme_sample_missingness       : chr(0) </span></span>
-<span><span class="co">#&gt;  ..  ..$ user_defined_sample_missingness  : chr(0) </span></span>
-<span><span class="co">#&gt;  ..  ..$ user_defined_sample_totalpeakarea: chr(0) </span></span>
-<span><span class="co">#&gt;  ..  ..$ user_defined_sample_pca_outlier  : chr(0) </span></span>
-<span><span class="co">#&gt;  .. $ features:List of 4</span></span>
-<span><span class="co">#&gt;  ..  ..$ user_excluded                   : chr(0) </span></span>
-<span><span class="co">#&gt;  ..  ..$ extreme_feature_missingness     : chr(0) </span></span>
-<span><span class="co">#&gt;  ..  ..$ user_defined_feature_missingness: chr(0) </span></span>
-<span><span class="co">#&gt;  ..  ..$ user_defined_feature_skewness   : chr(0) </span></span>
-<span><span class="co">#&gt;  @ feature_summary: num[0 , 0 , 0 ] </span></span>
-<span><span class="co">#&gt;  @ sample_summary : num[0 , 0 , 0 ]</span></span></code></pre></div>
+<span>  <span class="fu"><a href="../reference/batch_normalise.html">batch_normalise</a></span><span class="op">(</span>run_mode_col          <span class="op">=</span> <span class="st">"platform"</span>,  <span class="co">## Column names in feature sheet that defines the run mode for each feature</span></span>
+<span>                  run_mode_colmap       <span class="op">=</span> </span>
+<span>                    <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"LC/MS Neg"</span>       <span class="op">=</span> <span class="st">'lcms_neg'</span> , <span class="co">## string from feature sheet column = </span></span>
+<span>                                                       <span class="co">## column name in sample sheet that holds the batch information</span></span>
+<span>                      <span class="st">"LC/MS Polar"</span>     <span class="op">=</span> <span class="st">'lcms_polar'</span>,</span>
+<span>                      <span class="st">"LC/MS Pos Early"</span> <span class="op">=</span> <span class="st">'lcms_pos_early'</span>,</span>
+<span>                      <span class="st">"LC/MS Pos Late"</span>  <span class="op">=</span> <span class="st">'lcms_pos_late'</span> <span class="op">)</span> </span>
+<span>                  <span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="accessing-data">Accessing data<a class="anchor" aria-label="anchor" href="#accessing-data"></a>
@@ -194,24 +176,171 @@
 </h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mydata</span><span class="op">@</span><span class="va">data</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="st">"input"</span><span class="op">]</span></span>
-<span><span class="co">#&gt;          metab_id_1 metab_id_2 metab_id_3 metab_id_4 metab_id_5</span></span>
-<span><span class="co">#&gt; id_100 0.7558872597 0.42346365  0.2830023  0.8074991 0.52739494</span></span>
-<span><span class="co">#&gt; id_99  0.6623855066 0.94958532  0.4204349  0.1280644 0.86098936</span></span>
-<span><span class="co">#&gt; id_98  0.4445273969 0.70903790  0.5872781  0.2507785 0.67355499</span></span>
-<span><span class="co">#&gt; id_97  0.6271461844 0.41330541  0.8066944  0.3315470 0.01304103</span></span>
-<span><span class="co">#&gt; id_96  0.0004653491 0.01836408  0.2019952  0.4072693 0.69319890</span></span></code></pre></div>
+<span><span class="co">#&gt;          48719    43532     46639       606     62279</span></span>
+<span><span class="co">#&gt; sam_1 39145556       NA 1667316.8 129141879  317923.4</span></span>
+<span><span class="co">#&gt; sam_2 46799204       NA  490729.6 136439235 2111209.0</span></span>
+<span><span class="co">#&gt; sam_3       NA 320490.0        NA  96088900 3407171.5</span></span>
+<span><span class="co">#&gt; sam_4  4094175 494174.2  214858.1  41081520        NA</span></span>
+<span><span class="co">#&gt; sam_5  3908151 127978.8  238216.9  42057264  623911.2</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="batch-normlalised-data">Batch normlalised data<a class="anchor" aria-label="anchor" href="#batch-normlalised-data"></a>
+<h3 id="batch-normalised-data">Batch normalised data<a class="anchor" aria-label="anchor" href="#batch-normalised-data"></a>
 </h3>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mydata</span><span class="op">@</span><span class="va">data</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="st">"batch_normalised"</span><span class="op">]</span></span>
-<span><span class="co">#&gt;          metab_id_1 metab_id_2 metab_id_3 metab_id_4 metab_id_5</span></span>
-<span><span class="co">#&gt; id_100 1.2219122932 0.85292184  0.5567470  2.0502351  0.9094521</span></span>
-<span><span class="co">#&gt; id_99  1.0707641687 1.91261295  0.8271164  0.2650566  1.4847101</span></span>
-<span><span class="co">#&gt; id_98  0.7185906152 1.42811293  1.1553450  0.6367251  1.1614939</span></span>
-<span><span class="co">#&gt; id_97  1.3714905954 0.71888003  1.6124149  0.6862071  0.0243190</span></span>
-<span><span class="co">#&gt; id_96  0.0007522494 0.03698813  0.3973827  0.8429306  1.1953683</span></span></code></pre></div>
+<span><span class="co">#&gt;           48719    43532      46639       606     62279</span></span>
+<span><span class="co">#&gt; sam_1 1.5376548       NA 0.26359902 0.9248251 0.5003213</span></span>
+<span><span class="co">#&gt; sam_2 1.8382935       NA 0.07758324 0.9770837 1.0718382</span></span>
+<span><span class="co">#&gt; sam_3        NA 1.147501         NA 0.6881224 5.3619212</span></span>
+<span><span class="co">#&gt; sam_4 0.9071567 7.172319 0.41313486 1.0725661        NA</span></span>
+<span><span class="co">#&gt; sam_5 0.8659388 1.857452 0.45804982 1.0980411 0.9818592</span></span></code></pre></div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="now-any-quality-control-step-should-be-run-on-the-batch_normalised-layer-">Now any quality control step should be run on the “batch_normalised”
+layer.<a class="anchor" aria-label="anchor" href="#now-any-quality-control-step-should-be-run-on-the-batch_normalised-layer-"></a>
+</h2>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">## identify the xenos</span></span>
+<span><span class="va">xenos</span> <span class="op">&lt;-</span> <span class="va">mydata</span><span class="op">@</span><span class="va">features</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">mydata</span><span class="op">@</span><span class="va">features</span><span class="op">$</span><span class="va">super_pathway</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">mydata</span><span class="op">@</span><span class="va">features</span><span class="op">$</span><span class="va">super_pathway</span> <span class="op">==</span> <span class="st">"Xenobiotics"</span>, <span class="st">"feature_id"</span><span class="op">]</span></span>
+<span></span>
+<span><span class="co">## run the QC on the batch_normalised layer</span></span>
+<span><span class="va">mydata</span> <span class="op">&lt;-</span> <span class="va">mydata</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/quality_control.html">quality_control</a></span><span class="op">(</span>source_layer               <span class="op">=</span> <span class="st">"batch_normalised"</span>, </span>
+<span>                                    sample_missingness         <span class="op">=</span> <span class="fl">0.2</span>, </span>
+<span>                                    feature_missingness        <span class="op">=</span> <span class="fl">0.2</span>, </span>
+<span>                                    total_sum_abundance_sd     <span class="op">=</span> <span class="fl">5</span>, </span>
+<span>                                    outlier_udist              <span class="op">=</span> <span class="fl">5</span>, </span>
+<span>                                    outlier_treatment          <span class="op">=</span> <span class="st">"leave_be"</span>, </span>
+<span>                                    winsorize_quantile         <span class="op">=</span> <span class="fl">1.0</span>, </span>
+<span>                                    tree_cut_height            <span class="op">=</span> <span class="fl">0.5</span>, </span>
+<span>                                    pc_outlier_sd              <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>                                    feature_selection          <span class="op">=</span> <span class="st">"least_missingness"</span>, </span>
+<span>                                    features_exclude_but_keep  <span class="op">=</span> <span class="va">xenos</span>, </span>
+<span>                                    cores                      <span class="op">=</span> <span class="fl">1</span></span>
+<span>                                    <span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Starting Omics QC Process</span> <span style="color: #00BBBB;">───────────────────────────────────────────────────</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Validating input parameters</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Validating input parameters <span style="color: #B2B2B2;">[14ms]</span></span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Excluding 0 features from sample summary analysis but keeping in output data</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Excluding 39 features from sample summary analysis but keeping in output data…</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample &amp; Feature Summary Statistics for raw data</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Number of informative PCs (Scree acceleration factor): 2</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample &amp; Feature Summary Statistics for raw data<span style="color: #00BB00;">✔</span> Sample &amp; Feature Summary Statistics for raw data <span style="color: #B2B2B2;">[1.8s]</span></span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Copying batch_normalised data to new 'qc' data layer</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Copying batch_normalised data to new 'qc' data layer <span style="color: #B2B2B2;">[22ms]</span></span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Assessing for extreme sample missingness &gt;=80% - excluding 0 sample(s)</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for extreme sample missingness &gt;=80% - excluding 0 sample(s) <span style="color: #B2B2B2;">[19ms]</span></span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Assessing for extreme feature missingness &gt;=80% - excluding 0 feature(s)</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for extreme feature missingness &gt;=80% - excluding 4 feature(s) <span style="color: #B2B2B2;">[27m</span>…</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Assessing for sample missingness at specified level of &gt;=20% - excluding 0 sa…</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for sample missingness at specified level of &gt;=20% - excluding 1 sa…</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Assessing for feature missingness at specified level of &gt;=20% - excluding 0 f…</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for feature missingness at specified level of &gt;=20% - excluding 37 …</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Calculating total sum abundance outliers at +/- 5 Sdev - excluding 0 sample(s)</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Calculating total sum abundance outliers at +/- 5 Sdev - excluding 0 sample(s…</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Running sample data PCA outlier analysis at +/- 5 Sdev</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Running sample data PCA outlier analysis at +/- 5 Sdev <span style="color: #B2B2B2;">[18ms]</span></span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample PCA outlier analysis - re-identify feature independence and PC outlier…</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Number of informative PCs (Scree acceleration factor): 2</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample PCA outlier analysis - re-identify feature independence and PC outlier…<span style="color: #BBBB00;">!</span> The stated max PCs [max_num_pcs=10] to use in PCA outlier assessment is greater than the number of available informative PCs [2]</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample PCA outlier analysis - re-identify feature independence and PC outlier…<span style="color: #00BB00;">✔</span> Sample PCA outlier analysis - re-identify feature independence and PC outlier…</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Creating final QC dataset...</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Number of informative PCs (Scree acceleration factor): 2</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Creating final QC dataset...</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Creating final QC dataset...── <span style="font-weight: bold;">Step timings</span> ──</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Creating final QC dataset...</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Creating final QC dataset...</span></span>
+<span><span class="co">#&gt;                         step seconds  pct</span></span>
+<span><span class="co">#&gt;                   validation    0.00  0.0</span></span>
+<span><span class="co">#&gt;                summarise_raw    1.77 37.5</span></span>
+<span><span class="co">#&gt;                   copy_layer    0.00  0.0</span></span>
+<span><span class="co">#&gt;   extreme_sample_missingness    0.00  0.0</span></span>
+<span><span class="co">#&gt;  extreme_feature_missingness    0.00  0.0</span></span>
+<span><span class="co">#&gt;           sample_missingness    0.00  0.0</span></span>
+<span><span class="co">#&gt;          total_sum_abundance    0.01  0.2</span></span>
+<span><span class="co">#&gt;                summarise_pca    1.42 30.1</span></span>
+<span><span class="co">#&gt;              summarise_final    1.28 27.1</span></span>
+<span><span class="co">#&gt;                        total    4.72 99.9</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Creating final QC dataset... <span style="color: #B2B2B2;">[1.3s]</span></span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> 'Omics QC Process Completed</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> 'Omics QC Process Completed <span style="color: #B2B2B2;">[19ms]</span></span></span></code></pre></div>
+<div class="section level3">
+<h3 id="qc-data">QC data<a class="anchor" aria-label="anchor" href="#qc-data"></a>
+</h3>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mydata</span><span class="op">@</span><span class="va">data</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="st">"qc"</span><span class="op">]</span></span>
+<span><span class="co">#&gt;       48719    43532      46639       606     62279</span></span>
+<span><span class="co">#&gt; sam_1    NA       NA 0.26359902 0.9248251 0.5003213</span></span>
+<span><span class="co">#&gt; sam_2    NA       NA 0.07758324 0.9770837 1.0718382</span></span>
+<span><span class="co">#&gt; sam_3    NA 1.147501         NA 0.6881224 5.3619212</span></span>
+<span><span class="co">#&gt; sam_4    NA 7.172319 0.41313486 1.0725661        NA</span></span>
+<span><span class="co">#&gt; sam_5    NA 1.857452 0.45804982 1.0980411 0.9818592</span></span></code></pre></div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="quick-view-of-omiprep-object">Quick view of omiprep object<a class="anchor" aria-label="anchor" href="#quick-view-of-omiprep-object"></a>
+</h2>
+<div class="section level3">
+<h3 id="data-array-layers">data array layers<a class="anchor" aria-label="anchor" href="#data-array-layers"></a>
+</h3>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/dimnames.html" class="external-link">dimnames</a></span><span class="op">(</span><span class="va">mydata</span><span class="op">@</span><span class="va">data</span><span class="op">)</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="co">#&gt; [1] "input"            "batch_normalised" "qc"</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="omiprep-summary">omiprep summary<a class="anchor" aria-label="anchor" href="#omiprep-summary"></a>
+</h3>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/summary.Omiprep.html">summary</a></span><span class="op">(</span><span class="va">mydata</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Omiprep Object Summary</span></span>
+<span><span class="co">#&gt; --------------------------</span></span>
+<span><span class="co">#&gt; Samples      : 125</span></span>
+<span><span class="co">#&gt; Features     : 253</span></span>
+<span><span class="co">#&gt; Data Layers  : 3</span></span>
+<span><span class="co">#&gt; Layer Names  : input, batch_normalised, qc</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Sample Summary Layers : batch_normalised, qc</span></span>
+<span><span class="co">#&gt; Feature Summary Layers: batch_normalised, qc</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Sample Annotation (metadata):</span></span>
+<span><span class="co">#&gt;   Columns: 16</span></span>
+<span><span class="co">#&gt;   Names  : sample_id, neg, pos, run_day, box_id, lot, lcms_polar, lcms_neg, lcms_pos_early, lcms_pos_late, client_identifier, sex, age, bmi, reason_excluded, excluded</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Feature Annotation (metadata):</span></span>
+<span><span class="co">#&gt;   Columns: 16</span></span>
+<span><span class="co">#&gt;   Names  : feature_id, metabolite_id, comp_id, platform, super_pathway, sub_pathway, kegg, chem_id, pathway_sortorder, ri, mass, cas, pubchem, group_hmdb, reason_excluded, excluded</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Exclusion Codes Summary:</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   Sample Exclusions:</span></span>
+<span><span class="co">#&gt; Exclusion | Count</span></span>
+<span><span class="co">#&gt; -----------------</span></span>
+<span><span class="co">#&gt; user_excluded                     | 0</span></span>
+<span><span class="co">#&gt; extreme_sample_missingness        | 0</span></span>
+<span><span class="co">#&gt; user_defined_sample_missingness   | 1</span></span>
+<span><span class="co">#&gt; user_defined_sample_totalpeakarea | 0</span></span>
+<span><span class="co">#&gt; user_defined_sample_pca_outlier   | 2</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   Feature Exclusions:</span></span>
+<span><span class="co">#&gt; Exclusion | Count</span></span>
+<span><span class="co">#&gt; -----------------</span></span>
+<span><span class="co">#&gt; user_excluded                    |  0</span></span>
+<span><span class="co">#&gt; extreme_feature_missingness      |  4</span></span>
+<span><span class="co">#&gt; user_defined_feature_missingness | 37</span></span>
+<span><span class="co">#&gt; user_defined_feature_skewness    |  0</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

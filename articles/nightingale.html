@@ -116,56 +116,119 @@ S7 object.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">mydata</span><span class="op">)</span></span>
 <span><span class="co">#&gt; &lt;omiprep::Omiprep&gt;</span></span>
-<span><span class="co">#&gt;  @ data           : num [1:50, 1:12, 1] 3.85 NA 5.2 3.01 2.68 ...</span></span>
+<span><span class="co">#&gt;  @ data           : num [1:150, 1:229, 1] 9.59e-11 3.97e-10 6.30e-11 7.68e-11 1.40e-10 ...</span></span>
 <span><span class="co">#&gt;  .. - attr(*, "dimnames")=List of 3</span></span>
-<span><span class="co">#&gt;  ..  ..$ : chr [1:50] "ind1" "ind2" "ind3" "ind4" ...</span></span>
-<span><span class="co">#&gt;  ..  ..$ : chr [1:12] "Total-C" "non-HDL-C" "Remnant-C" "VLDL-C" ...</span></span>
+<span><span class="co">#&gt;  ..  ..$ : chr [1:150] "sam_1" "sam_2" "sam_3" "sam_4" ...</span></span>
+<span><span class="co">#&gt;  ..  ..$ : chr [1:229] "XXL-VLDL-P" "XXL-VLDL-L" "XXL-VLDL-PL" "XXL-VLDL-C" ...</span></span>
 <span><span class="co">#&gt;  ..  ..$ : chr "input"</span></span>
-<span><span class="co">#&gt;  @ samples        :'data.frame': 50 obs. of  37 variables:</span></span>
-<span><span class="co">#&gt;  .. $ sample_id                      : chr  "ind1" "ind2" "ind3" "ind4" ...</span></span>
-<span><span class="co">#&gt;  .. $ informed_sample_type           : chr  "Serum" "Serum" "Serum" "Serum" ...</span></span>
+<span><span class="co">#&gt;  @ samples        :'data.frame': 150 obs. of  254 variables:</span></span>
+<span><span class="co">#&gt;  .. $ sample_id                      : chr  "sam_1" "sam_2" "sam_3" "sam_4" ...</span></span>
+<span><span class="co">#&gt;  .. $ informed_sample_type           : chr  NA NA NA NA ...</span></span>
 <span><span class="co">#&gt;  .. $ sample_excluded                : chr  NA NA NA NA ...</span></span>
 <span><span class="co">#&gt;  .. $ sample_notes                   : chr  NA NA NA NA ...</span></span>
-<span><span class="co">#&gt;  .. $ edta_plasma                    : chr  "0" "1" "0" "0" ...</span></span>
-<span><span class="co">#&gt;  .. $ citrate_plasma                 : chr  "0" "0" "0" "0" ...</span></span>
-<span><span class="co">#&gt;  .. $ low_ethanol                    : chr  "0" "0" "0" "0" ...</span></span>
-<span><span class="co">#&gt;  .. $ medium_ethanol                 : chr  "0" "1" "0" "0" ...</span></span>
-<span><span class="co">#&gt;  .. $ high_ethanol                   : chr  "0" "0" "0" "0" ...</span></span>
-<span><span class="co">#&gt;  .. $ isopropyl_alcohol              : chr  "0" "0" "0" "0" ...</span></span>
-<span><span class="co">#&gt;  .. $ 1methyl2pyrrolidone            : chr  "0" "0" "0" "0" ...</span></span>
-<span><span class="co">#&gt;  .. $ polysaccharides                : chr  "0" "0" "0" "0" ...</span></span>
-<span><span class="co">#&gt;  .. $ aminocaproic_acid              : chr  "0" "0" "0" "0" ...</span></span>
-<span><span class="co">#&gt;  .. $ low_glucose                    : chr  "0" "0" "0" "0" ...</span></span>
-<span><span class="co">#&gt;  .. $ high_lactate                   : chr  "0" "0" "0" "0" ...</span></span>
-<span><span class="co">#&gt;  .. $ high_pyruvate                  : chr  "0" "0" "0" "0" ...</span></span>
-<span><span class="co">#&gt;  .. $ low_glutamine__high_glutamate  : chr  "0" "0" "0" "0" ...</span></span>
-<span><span class="co">#&gt;  .. $ gluconolactone                 : chr  "0" "0" "0" "0" ...</span></span>
-<span><span class="co">#&gt;  .. $ low_protein                    : chr  "1" "1" "0" "0" ...</span></span>
-<span><span class="co">#&gt;  .. $ unexpected_amino_acid_signals  : chr  "0" "0" "0" "0" ...</span></span>
-<span><span class="co">#&gt;  .. $ unidentified_macromolecules    : chr  "0" "0" "0" "0" ...</span></span>
-<span><span class="co">#&gt;  .. $ unidentified_small_molecule (a): chr  "0" "0" "0" "0" ...</span></span>
-<span><span class="co">#&gt;  .. $ unidentified_small_molecule (b): chr  "0" "0" "0" "0" ...</span></span>
-<span><span class="co">#&gt;  .. $ unidentified_small_molecule (c): chr  "0" "0" "0" "0" ...</span></span>
-<span><span class="co">#&gt;  .. $ below_limit_of_quantification  : chr  "1" "1" "1" "1" ...</span></span>
-<span><span class="co">#&gt;  .. $ totalc                         : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA 1 NA NA NA NA NA 1 NA NA ...</span></span>
-<span><span class="co">#&gt;  .. $ nonhdlc                        : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA 1 NA NA 1 NA NA NA 1 NA ...</span></span>
-<span><span class="co">#&gt;  .. $ remnantc                       : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
-<span><span class="co">#&gt;  .. $ vldlc                          : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA 1 NA NA NA NA NA NA NA ...</span></span>
-<span><span class="co">#&gt;  .. $ clinical_ldlc                  : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
-<span><span class="co">#&gt;  .. $ ldlc                           : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA 1 NA NA NA NA ...</span></span>
-<span><span class="co">#&gt;  .. $ hdlc                           : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
-<span><span class="co">#&gt;  .. $ totaltg                        : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
-<span><span class="co">#&gt;  .. $ vldltg                         : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA 1 NA NA NA NA NA NA NA NA ...</span></span>
-<span><span class="co">#&gt;  .. $ ldltg                          : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA 1 NA NA NA NA NA NA NA ...</span></span>
-<span><span class="co">#&gt;  .. $ hdltg                          : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": 1 NA NA NA NA NA NA NA NA NA ...</span></span>
-<span><span class="co">#&gt;  .. $ omega3_pct                     : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
-<span><span class="co">#&gt;  @ features       :'data.frame': 12 obs. of  6 variables:</span></span>
-<span><span class="co">#&gt;  .. $ feature_id     : chr  "Total-C" "non-HDL-C" "Remnant-C" "VLDL-C" ...</span></span>
-<span><span class="co">#&gt;  .. $ csv_column_name: chr  "Total_C" "non_HDL_C" "Remnant_C" "VLDL_C" ...</span></span>
-<span><span class="co">#&gt;  .. $ biomarker_name : chr  "Total cholesterol" "Total cholesterol minus HDL-C" "Remnant cholesterol (non-HDL, non-LDL -cholesterol)" "VLDL cholesterol" ...</span></span>
-<span><span class="co">#&gt;  .. $ unit           : chr  "mmol/l" "mmol/l" "mmol/l" "mmol/l" ...</span></span>
-<span><span class="co">#&gt;  .. $ group          : chr  "Cholesterol" "Cholesterol" "Cholesterol" "Cholesterol" ...</span></span>
-<span><span class="co">#&gt;  .. $ subgroup       : chr  NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ edta_plasma                    : chr  NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ citrate_plasma                 : chr  NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ low_ethanol                    : chr  NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ medium_ethanol                 : chr  NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ high_ethanol                   : chr  NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ isopropyl_alcohol              : chr  NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ 1methyl2pyrrolidone            : chr  NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ polysaccharides                : chr  NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ aminocaproic_acid              : chr  NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ low_glucose                    : chr  NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ high_lactate                   : chr  NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ high_pyruvate                  : chr  NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ low_glutamine__high_glutamate  : chr  NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ gluconolactone                 : chr  NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ low_protein                    : chr  NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ unexpected_amino_acid_signals  : chr  NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ unidentified_macromolecules    : chr  NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ unidentified_small_molecule (a): chr  NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ unidentified_small_molecule (b): chr  NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ unidentified_small_molecule (c): chr  NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ below_limit_of_quantification  : chr  NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ xxlvldlp                       : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ xxlvldll                       : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ xxlvldlpl                      : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ xxlvldlc                       : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ xxlvldlce                      : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ xxlvldlfc                      : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ xxlvldltg                      : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ xlvldlp                        : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ xlvldll                        : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ xlvldlpl                       : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ xlvldlc                        : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ xlvldlce                       : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ xlvldlfc                       : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ xlvldltg                       : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ lvldlp                         : Factor w/ 0 levels: NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ lvldll                         : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ lvldlpl                        : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ lvldlc                         : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ lvldlce                        : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ lvldlfc                        : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ lvldltg                        : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ mvldlp                         : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ mvldll                         : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA 1 ...</span></span>
+<span><span class="co">#&gt;  .. $ mvldlpl                        : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ mvldlc                         : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA 1 NA ...</span></span>
+<span><span class="co">#&gt;  .. $ mvldlce                        : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ mvldlfc                        : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ mvldltg                        : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ svldlp                         : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ svldll                         : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ svldlpl                        : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ svldlc                         : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA 1 NA ...</span></span>
+<span><span class="co">#&gt;  .. $ svldlce                        : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ svldlfc                        : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA 1 NA ...</span></span>
+<span><span class="co">#&gt;  .. $ svldltg                        : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ xsvldlp                        : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA 1 NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ xsvldll                        : Factor w/ 0 levels: NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ xsvldlpl                       : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ xsvldlc                        : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA 1 NA ...</span></span>
+<span><span class="co">#&gt;  .. $ xsvldlce                       : Factor w/ 0 levels: NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ xsvldlfc                       : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ xsvldltg                       : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ idlp                           : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA 1 NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ idll                           : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ idlpl                          : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA 1 NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ idlc                           : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ idlce                          : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ idlfc                          : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ idltg                          : Factor w/ 0 levels: NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ lldlp                          : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ lldll                          : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA 1 NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ lldlpl                         : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA 1 ...</span></span>
+<span><span class="co">#&gt;  .. $ lldlc                          : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ lldlce                         : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ lldlfc                         : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ lldltg                         : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ mldlp                          : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA 1 NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ mldll                          : Factor w/ 0 levels: NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ mldlpl                         : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA 1 NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ mldlc                          : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ mldlce                         : Factor w/ 0 levels: NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ mldlfc                         : Factor w/ 0 levels: NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ mldltg                         : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ sldlp                          : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ sldll                          : Factor w/ 0 levels: NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ sldlpl                         : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ sldlc                          : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ sldlce                         : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA 1 NA ...</span></span>
+<span><span class="co">#&gt;  .. $ sldlfc                         : Factor w/ 0 levels: NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ sldltg                         : Factor w/ 0 levels: NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ xlhdlp                         : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA 1 NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ xlhdll                         : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ xlhdlpl                        : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  .. $ xlhdlc                         : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...</span></span>
+<span><span class="co">#&gt;  ..  [list output truncated]</span></span>
+<span><span class="co">#&gt;  @ features       :'data.frame': 229 obs. of  6 variables:</span></span>
+<span><span class="co">#&gt;  .. $ feature_id     : chr  "XXL-VLDL-P" "XXL-VLDL-L" "XXL-VLDL-PL" "XXL-VLDL-C" ...</span></span>
+<span><span class="co">#&gt;  .. $ csv_column_name: chr  "XXL_VLDL_P" "XXL_VLDL_L" "XXL_VLDL_PL" "XXL_VLDL_C" ...</span></span>
+<span><span class="co">#&gt;  .. $ biomarker_name : chr  "Concentration of chylomicrons and extremely large VLDL particles" "Total lipids in chylomicrons and extremely large VLDL" "Phospholipids in chylomicrons and extremely large VLDL" "Cholesterol in chylomicrons and extremely large VLDL" ...</span></span>
+<span><span class="co">#&gt;  .. $ unit           : chr  "mol/l" "mmol/l" "mmol/l" "mmol/l" ...</span></span>
+<span><span class="co">#&gt;  .. $ group          : chr  "Lipoprotein subclasses" "Lipoprotein subclasses" "Lipoprotein subclasses" "Lipoprotein subclasses" ...</span></span>
+<span><span class="co">#&gt;  .. $ subgroup       : chr  "Chylomicrons and extremely large VLDL" "Chylomicrons and extremely large VLDL" "Chylomicrons and extremely large VLDL" "Chylomicrons and extremely large VLDL" ...</span></span>
 <span><span class="co">#&gt;  @ exclusions     :List of 2</span></span>
 <span><span class="co">#&gt;  .. $ samples :List of 5</span></span>
 <span><span class="co">#&gt;  ..  ..$ user_excluded                    : chr(0) </span></span>
@@ -208,28 +271,28 @@ function.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample &amp; Feature Summary Statistics for raw data</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Number of informative PCs (Scree acceleration factor): 2</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample &amp; Feature Summary Statistics for raw data<span style="color: #00BB00;">✔</span> Sample &amp; Feature Summary Statistics for raw data <span style="color: #B2B2B2;">[83ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample &amp; Feature Summary Statistics for raw data<span style="color: #00BB00;">✔</span> Sample &amp; Feature Summary Statistics for raw data <span style="color: #B2B2B2;">[2.5s]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Copying input data to new 'qc' data layer</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Copying input data to new 'qc' data layer <span style="color: #B2B2B2;">[21ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Copying input data to new 'qc' data layer <span style="color: #B2B2B2;">[34ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Assessing for extreme sample missingness &gt;=80% - excluding 0 sample(s)</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for extreme sample missingness &gt;=80% - excluding 2 sample(s) <span style="color: #B2B2B2;">[16ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for extreme sample missingness &gt;=80% - excluding 0 sample(s) <span style="color: #B2B2B2;">[26ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Assessing for extreme feature missingness &gt;=80% - excluding 0 feature(s)</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for extreme feature missingness &gt;=80% - excluding 0 feature(s) <span style="color: #B2B2B2;">[16m</span>…</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for extreme feature missingness &gt;=80% - excluding 0 feature(s) <span style="color: #B2B2B2;">[22m</span>…</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Assessing for sample missingness at specified level of &gt;=20% - excluding 0 sa…</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for sample missingness at specified level of &gt;=20% - excluding 1 sa…</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for sample missingness at specified level of &gt;=20% - excluding 0 sa…</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Assessing for feature missingness at specified level of &gt;=20% - excluding 0 f…</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for feature missingness at specified level of &gt;=20% - excluding 0 f…</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for feature missingness at specified level of &gt;=20% - excluding 7 f…</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Calculating total sum abundance outliers at +/- 5 Sdev - excluding 0 sample(s)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Calculating total sum abundance outliers at +/- 5 Sdev - excluding 0 sample(s…</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Running sample data PCA outlier analysis at +/- 5 Sdev</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Running sample data PCA outlier analysis at +/- 5 Sdev <span style="color: #B2B2B2;">[22ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Running sample data PCA outlier analysis at +/- 5 Sdev <span style="color: #B2B2B2;">[18ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample PCA outlier analysis - re-identify feature independence and PC outlier…</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Number of informative PCs (Scree acceleration factor): 2</span></span>
@@ -242,21 +305,21 @@ function.</p>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Creating final QC dataset...── <span style="font-weight: bold;">Step timings</span> ──</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Creating final QC dataset...</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Creating final QC dataset...</span></span>
-<span><span class="co">#&gt;                         step seconds   pct</span></span>
-<span><span class="co">#&gt;                   validation    0.00   0.0</span></span>
-<span><span class="co">#&gt;                summarise_raw    0.07  16.4</span></span>
-<span><span class="co">#&gt;                   copy_layer    0.00   0.0</span></span>
-<span><span class="co">#&gt;   extreme_sample_missingness    0.00   0.0</span></span>
-<span><span class="co">#&gt;  extreme_feature_missingness    0.00   0.0</span></span>
-<span><span class="co">#&gt;           sample_missingness    0.00   0.0</span></span>
-<span><span class="co">#&gt;          total_sum_abundance    0.00   0.0</span></span>
-<span><span class="co">#&gt;                summarise_pca    0.14  32.8</span></span>
-<span><span class="co">#&gt;              summarise_final    0.04   9.4</span></span>
-<span><span class="co">#&gt;                        total    0.43 100.7</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Creating final QC dataset... <span style="color: #B2B2B2;">[63ms]</span></span></span>
+<span><span class="co">#&gt;                         step seconds  pct</span></span>
+<span><span class="co">#&gt;                   validation    0.00  0.0</span></span>
+<span><span class="co">#&gt;                summarise_raw    2.45 34.9</span></span>
+<span><span class="co">#&gt;                   copy_layer    0.00  0.0</span></span>
+<span><span class="co">#&gt;   extreme_sample_missingness    0.00  0.0</span></span>
+<span><span class="co">#&gt;  extreme_feature_missingness    0.00  0.0</span></span>
+<span><span class="co">#&gt;           sample_missingness    0.00  0.0</span></span>
+<span><span class="co">#&gt;          total_sum_abundance    0.01  0.1</span></span>
+<span><span class="co">#&gt;                summarise_pca    2.21 31.5</span></span>
+<span><span class="co">#&gt;              summarise_final    2.08 29.6</span></span>
+<span><span class="co">#&gt;                        total    7.02 99.9</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Creating final QC dataset... <span style="color: #B2B2B2;">[2.1s]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> 'Omics QC Process Completed</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> 'Omics QC Process Completed <span style="color: #B2B2B2;">[13ms]</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> 'Omics QC Process Completed <span style="color: #B2B2B2;">[20ms]</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="quick-summary-of-the-omiprep-object-following-qc">Quick summary of the Omiprep object following QC<a class="anchor" aria-label="anchor" href="#quick-summary-of-the-omiprep-object-following-qc"></a>
@@ -265,8 +328,8 @@ function.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/summary.Omiprep.html">summary</a></span><span class="op">(</span><span class="va">mydata</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Omiprep Object Summary</span></span>
 <span><span class="co">#&gt; --------------------------</span></span>
-<span><span class="co">#&gt; Samples      : 50</span></span>
-<span><span class="co">#&gt; Features     : 12</span></span>
+<span><span class="co">#&gt; Samples      : 150</span></span>
+<span><span class="co">#&gt; Features     : 229</span></span>
 <span><span class="co">#&gt; Data Layers  : 2</span></span>
 <span><span class="co">#&gt; Layer Names  : input, qc</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -274,8 +337,8 @@ function.</p>
 <span><span class="co">#&gt; Feature Summary Layers: input, qc</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Sample Annotation (metadata):</span></span>
-<span><span class="co">#&gt;   Columns: 39</span></span>
-<span><span class="co">#&gt;   Names  : sample_id, informed_sample_type, sample_excluded, sample_notes, edta_plasma, citrate_plasma, low_ethanol, medium_ethanol, high_ethanol, isopropyl_alcohol, 1methyl2pyrrolidone, polysaccharides, aminocaproic_acid, low_glucose, high_lactate, high_pyruvate, low_glutamine__high_glutamate, gluconolactone, low_protein, unexpected_amino_acid_signals, unidentified_macromolecules, unidentified_small_molecule (a), unidentified_small_molecule (b), unidentified_small_molecule (c), below_limit_of_quantification, totalc, nonhdlc, remnantc, vldlc, clinical_ldlc, ldlc, hdlc, totaltg, vldltg, ldltg, hdltg, omega3_pct, reason_excluded, excluded</span></span>
+<span><span class="co">#&gt;   Columns: 256</span></span>
+<span><span class="co">#&gt;   Names  : sample_id, informed_sample_type, sample_excluded, sample_notes, edta_plasma, citrate_plasma, low_ethanol, medium_ethanol, high_ethanol, isopropyl_alcohol, 1methyl2pyrrolidone, polysaccharides, aminocaproic_acid, low_glucose, high_lactate, high_pyruvate, low_glutamine__high_glutamate, gluconolactone, low_protein, unexpected_amino_acid_signals, unidentified_macromolecules, unidentified_small_molecule (a), unidentified_small_molecule (b), unidentified_small_molecule (c), below_limit_of_quantification, xxlvldlp, xxlvldll, xxlvldlpl, xxlvldlc, xxlvldlce, xxlvldlfc, xxlvldltg, xlvldlp, xlvldll, xlvldlpl, xlvldlc, xlvldlce, xlvldlfc, xlvldltg, lvldlp, lvldll, lvldlpl, lvldlc, lvldlce, lvldlfc, lvldltg, mvldlp, mvldll, mvldlpl, mvldlc, mvldlce, mvldlfc, mvldltg, svldlp, svldll, svldlpl, svldlc, svldlce, svldlfc, svldltg, xsvldlp, xsvldll, xsvldlpl, xsvldlc, xsvldlce, xsvldlfc, xsvldltg, idlp, idll, idlpl, idlc, idlce, idlfc, idltg, lldlp, lldll, lldlpl, lldlc, lldlce, lldlfc, lldltg, mldlp, mldll, mldlpl, mldlc, mldlce, mldlfc, mldltg, sldlp, sldll, sldlpl, sldlc, sldlce, sldlfc, sldltg, xlhdlp, xlhdll, xlhdlpl, xlhdlc, xlhdlce, xlhdlfc, xlhdltg, lhdlp, lhdll, lhdlpl, lhdlc, lhdlce, lhdlfc, lhdltg, mhdlp, mhdll, mhdlpl, mhdlc, mhdlce, mhdlfc, mhdltg, shdlp, shdll, shdlpl, shdlc, shdlce, shdlfc, shdltg, xxlvldlpl_pct, xxlvldlc_pct, xxlvldlce_pct, xxlvldlfc_pct, xxlvldltg_pct, xlvldlpl_pct, xlvldlc_pct, xlvldlce_pct, xlvldlfc_pct, xlvldltg_pct, lvldlpl_pct, lvldlc_pct, lvldlce_pct, lvldlfc_pct, lvldltg_pct, mvldlpl_pct, mvldlc_pct, mvldlce_pct, mvldlfc_pct, mvldltg_pct, svldlpl_pct, svldlc_pct, svldlce_pct, svldlfc_pct, svldltg_pct, xsvldlpl_pct, xsvldlc_pct, xsvldlce_pct, xsvldlfc_pct, xsvldltg_pct, idlpl_pct, idlc_pct, idlce_pct, idlfc_pct, idltg_pct, lldlpl_pct, lldlc_pct, lldlce_pct, lldlfc_pct, lldltg_pct, mldlpl_pct, mldlc_pct, mldlce_pct, mldlfc_pct, mldltg_pct, sldlpl_pct, sldlc_pct, sldlce_pct, sldlfc_pct, sldltg_pct, xlhdlpl_pct, xlhdlc_pct, xlhdlce_pct, xlhdlfc_pct, xlhdltg_pct, lhdlpl_pct, lhdlc_pct, lhdlce_pct, lhdlfc_pct, lhdltg_pct, mhdlpl_pct, mhdlc_pct, mhdlce_pct, mhdlfc_pct, mhdltg_pct, shdlpl_pct, shdlc_pct, shdlce_pct, shdlfc_pct, shdltg_pct, vldl_size, ldl_size, hdl_size, totalc, vldlc, remnantc, ldlc, hdlc, hdl2c, hdl3c, totalce, totalfc, totaltg, vldltg, ldltg, hdltg, dag, dagtg, totalpg, tgpg, pc, sm, cho, apoa1, apob, apobapoa1, totalfa, falen, unsat, dha, la, cla, omega3, omega6, pufa, mufa, sfa, dha_pct, la_pct, cla_pct, omega3_pct, omega6_pct, pufa_pct, mufa_pct, sfa_pct, glc, lac, cit, ala, gln, his, ile, leu, val, phe, tyr, acetate, bohbut, crea, alb, glyca, reason_excluded, excluded</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Feature Annotation (metadata):</span></span>
 <span><span class="co">#&gt;   Columns: 8</span></span>
@@ -287,8 +350,8 @@ function.</p>
 <span><span class="co">#&gt; Exclusion | Count</span></span>
 <span><span class="co">#&gt; -----------------</span></span>
 <span><span class="co">#&gt; user_excluded                     | 0</span></span>
-<span><span class="co">#&gt; extreme_sample_missingness        | 2</span></span>
-<span><span class="co">#&gt; user_defined_sample_missingness   | 1</span></span>
+<span><span class="co">#&gt; extreme_sample_missingness        | 0</span></span>
+<span><span class="co">#&gt; user_defined_sample_missingness   | 0</span></span>
 <span><span class="co">#&gt; user_defined_sample_totalpeakarea | 0</span></span>
 <span><span class="co">#&gt; user_defined_sample_pca_outlier   | 0</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -297,7 +360,7 @@ function.</p>
 <span><span class="co">#&gt; -----------------</span></span>
 <span><span class="co">#&gt; user_excluded                    | 0</span></span>
 <span><span class="co">#&gt; extreme_feature_missingness      | 0</span></span>
-<span><span class="co">#&gt; user_defined_feature_missingness | 0</span></span>
+<span><span class="co">#&gt; user_defined_feature_missingness | 7</span></span>
 <span><span class="co">#&gt; user_defined_feature_skewness    | 0</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

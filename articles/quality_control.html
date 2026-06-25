@@ -97,64 +97,91 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mrcieu.github.io/omiprep/">omiprep</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># import data </span></span>
-<span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_metabolon.html">read_metabolon</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"metabolon_v1.1_example.xlsx"</span>, package <span class="op">=</span> <span class="st">"omiprep"</span><span class="op">)</span>, </span>
-<span>                    sheet <span class="op">=</span> <span class="st">"OrigScale"</span>,      <span class="co">## The name of the sheet in the excel file to read in</span></span>
-<span>                    return_Omiprep <span class="op">=</span> <span class="cn">TRUE</span>  <span class="co">## Whether to return a Omiprep object (TRUE) or a list (FALSE)</span></span>
-<span>                    <span class="op">)</span></span></code></pre></div>
+<span><span class="co"># example file</span></span>
+<span><span class="va">filepath</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"metabolon_v2_example.xlsx"</span>, package <span class="op">=</span> <span class="st">"omiprep"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># import data as a list object rather than directly as a Omiprep object</span></span>
+<span><span class="va">mydata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_metabolon.html">read_metabolon</a></span><span class="op">(</span><span class="va">filepath</span>,  </span>
+<span>                         sheet <span class="op">=</span> <span class="st">'Batch-normalized Data'</span>,        <span class="co">## read in the batch normalized but NOT imputed tab</span></span>
+<span>                         feature_sheet <span class="op">=</span> <span class="st">"Chemical Annotation"</span>,  <span class="co">## tab name of the feature data</span></span>
+<span>                         feature_id_col <span class="op">=</span> <span class="st">"COMP_ID"</span>,             <span class="co">## in this instance features in batch normalized.. </span></span>
+<span>                                                                 <span class="co">##  ..tab are annotated to column name COMP_ID. Verify in your data.</span></span>
+<span>                         sample_sheet <span class="op">=</span> <span class="st">"Sample Meta Data"</span>,      <span class="co">## tab name of the sample data</span></span>
+<span>                         sample_id_col <span class="op">=</span> <span class="st">"PARENT_SAMPLE_NAME"</span>,   <span class="co">## column name of sample IDs </span></span>
+<span>                         return_Omiprep <span class="op">=</span> <span class="cn">TRUE</span>                   <span class="co">## return omiprep object</span></span>
+<span>                         <span class="op">)</span></span></code></pre></div>
+<div class="section level2">
+<h2 id="identify-the-xenobiotics-to-exclude-from-the-qc-steps">Identify the Xenobiotics to exclude from the QC steps<a class="anchor" aria-label="anchor" href="#identify-the-xenobiotics-to-exclude-from-the-qc-steps"></a>
+</h2>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">xenos</span> <span class="op">&lt;-</span> <span class="va">mydata</span><span class="op">@</span><span class="va">features</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">mydata</span><span class="op">@</span><span class="va">features</span><span class="op">$</span><span class="va">SUPER_PATHWAY</span><span class="op">)</span> <span class="op">&amp;</span> </span>
+<span>                           <span class="va">mydata</span><span class="op">@</span><span class="va">features</span><span class="op">$</span><span class="va">SUPER_PATHWAY</span> <span class="op">==</span> <span class="st">"Xenobiotics"</span>, <span class="st">"feature_id"</span><span class="op">]</span></span>
+<span></span>
+<span><span class="co">## how many xenobiotics identified</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">xenos</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 39</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="run-the-quality-control-pipeline">Run the quality control pipeline<a class="anchor" aria-label="anchor" href="#run-the-quality-control-pipeline"></a>
 </h3>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># run QC</span></span>
-<span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/quality_control.html">quality_control</a></span><span class="op">(</span><span class="va">m</span>, </span>
-<span>                     source_layer <span class="op">=</span> <span class="st">"input"</span>, </span>
-<span>                     sample_missingness  <span class="op">=</span> <span class="fl">0.2</span>, </span>
-<span>                     feature_missingness <span class="op">=</span> <span class="fl">0.2</span>, </span>
-<span>                     feature_skewness_threshold <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>                     feature_skewness_direction <span class="op">=</span> <span class="st">"left"</span>,</span>
-<span>                     total_sum_abundance_sd  <span class="op">=</span> <span class="fl">5</span>, </span>
-<span>                     outlier_udist       <span class="op">=</span> <span class="fl">5</span>, </span>
-<span>                     outlier_treatment   <span class="op">=</span> <span class="st">"leave_be"</span>, </span>
-<span>                     winsorize_quantile  <span class="op">=</span> <span class="fl">1.0</span>, </span>
-<span>                     tree_cut_height     <span class="op">=</span> <span class="fl">0.5</span>, </span>
-<span>                     pc_outlier_sd       <span class="op">=</span> <span class="fl">5</span>, </span>
-<span>                     sample_ids          <span class="op">=</span> <span class="cn">NULL</span>, </span>
-<span>                     feature_ids         <span class="op">=</span> <span class="cn">NULL</span>, </span>
-<span>                     cores               <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">mydata</span> <span class="op">&lt;-</span> <span class="va">mydata</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/quality_control.html">quality_control</a></span><span class="op">(</span>source_layer              <span class="op">=</span> <span class="st">"input"</span>, </span>
+<span>                  sample_missingness        <span class="op">=</span> <span class="fl">0.2</span>, </span>
+<span>                  feature_missingness       <span class="op">=</span> <span class="fl">0.2</span>, </span>
+<span>                  total_sum_abundance_sd    <span class="op">=</span> <span class="fl">5</span>, </span>
+<span>                  outlier_udist             <span class="op">=</span> <span class="fl">5</span>, </span>
+<span>                  outlier_treatment         <span class="op">=</span> <span class="st">"leave_be"</span>, </span>
+<span>                  winsorize_quantile        <span class="op">=</span> <span class="fl">1.0</span>, </span>
+<span>                  tree_cut_height           <span class="op">=</span> <span class="fl">0.5</span>, </span>
+<span>                  pc_outlier_sd             <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>                  feature_selection         <span class="op">=</span> <span class="st">"least_missingness"</span>, <span class="co">## We suggest using `least_missingness` </span></span>
+<span>                                                                   <span class="co">## when working with data, like Metabolon, </span></span>
+<span>                                                                   <span class="co">## with high missingness. </span></span>
+<span>                                                                   <span class="co">## Default is "max_var_exp".</span></span>
+<span>                  features_exclude_but_keep <span class="op">=</span> <span class="va">xenos</span>, <span class="co">## Exclude xenobiotics from QC, but retain them in the final dataset.</span></span>
+<span>                                                     <span class="co">## We suggest this as xenos can have extreme missingness and are </span></span>
+<span>                                                     <span class="co">## commonly qc'd from a data set. However, they may be appropriate </span></span>
+<span>                                                     <span class="co">## to model as a binary present|absent trait. A choice for the researcher.</span></span>
+<span>                  cores                     <span class="op">=</span> <span class="fl">1</span></span>
+<span>                  <span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Starting Omics QC Process</span> <span style="color: #00BBBB;">───────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Validating input parameters</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Validating input parameters <span style="color: #B2B2B2;">[8ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Validating input parameters <span style="color: #B2B2B2;">[9ms]</span></span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Excluding 0 features from sample summary analysis but keeping in output data</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Excluding 39 features from sample summary analysis but keeping in output data…</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample &amp; Feature Summary Statistics for raw data</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Number of informative PCs (Scree acceleration factor): 2</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample &amp; Feature Summary Statistics for raw data<span style="color: #00BB00;">✔</span> Sample &amp; Feature Summary Statistics for raw data <span style="color: #B2B2B2;">[569ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample &amp; Feature Summary Statistics for raw data<span style="color: #00BB00;">✔</span> Sample &amp; Feature Summary Statistics for raw data <span style="color: #B2B2B2;">[1.6s]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Copying input data to new 'qc' data layer</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Copying input data to new 'qc' data layer <span style="color: #B2B2B2;">[35ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Copying input data to new 'qc' data layer <span style="color: #B2B2B2;">[20ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Assessing for extreme sample missingness &gt;=80% - excluding 0 sample(s)</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for extreme sample missingness &gt;=80% - excluding 0 sample(s) <span style="color: #B2B2B2;">[16ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for extreme sample missingness &gt;=80% - excluding 0 sample(s) <span style="color: #B2B2B2;">[18ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Assessing for extreme feature missingness &gt;=80% - excluding 0 feature(s)</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for extreme feature missingness &gt;=80% - excluding 0 feature(s) <span style="color: #B2B2B2;">[16m</span>…</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for extreme feature missingness &gt;=80% - excluding 4 feature(s) <span style="color: #B2B2B2;">[20m</span>…</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Assessing for sample missingness at specified level of &gt;=20% - excluding 0 sa…</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for sample missingness at specified level of &gt;=20% - excluding 2 sa…</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for sample missingness at specified level of &gt;=20% - excluding 1 sa…</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Assessing for feature missingness at specified level of &gt;=20% - excluding 0 f…</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for feature missingness at specified level of &gt;=20% - excluding 0 f…</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for feature missingness at specified level of &gt;=20% - excluding 37 …</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Calculating total sum abundance outliers at +/- 5 Sdev - excluding 0 sample(s)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Calculating total sum abundance outliers at +/- 5 Sdev - excluding 0 sample(s…</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Running sample data PCA outlier analysis at +/- 5 Sdev</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Running sample data PCA outlier analysis at +/- 5 Sdev <span style="color: #B2B2B2;">[17ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Running sample data PCA outlier analysis at +/- 5 Sdev <span style="color: #B2B2B2;">[24ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample PCA outlier analysis - re-identify feature independence and PC outlier…</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Number of informative PCs (Scree acceleration factor): 2</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample PCA outlier analysis - re-identify feature independence and PC outlier…<span style="color: #BBBB00;">!</span> The stated max PCs [max_num_pcs=10] to use in PCA outlier assessment is greater than the number of available informative PCs [2]</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample PCA outlier analysis - re-identify feature independence and PC outlier…<span style="color: #00BBBB;">ℹ</span> Sample PCA outlier analysis - re-identify feature independence and PC outlier…</span></span>
+<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> The stated max PCs [max_num_pcs=10] to use in PCA outlier assessment is greater than the number of available informative PCs [2]</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample PCA outlier analysis - re-identify feature independence and PC outlier…<span style="color: #00BB00;">✔</span> Sample PCA outlier analysis - re-identify feature independence and PC outlier…</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Creating final QC dataset...</span></span>
@@ -165,30 +192,30 @@
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Creating final QC dataset...</span></span>
 <span><span class="co">#&gt;                         step seconds  pct</span></span>
 <span><span class="co">#&gt;                   validation    0.00  0.0</span></span>
-<span><span class="co">#&gt;                summarise_raw    0.56 29.0</span></span>
+<span><span class="co">#&gt;                summarise_raw    1.61 31.2</span></span>
 <span><span class="co">#&gt;                   copy_layer    0.00  0.0</span></span>
 <span><span class="co">#&gt;   extreme_sample_missingness    0.00  0.0</span></span>
 <span><span class="co">#&gt;  extreme_feature_missingness    0.00  0.0</span></span>
 <span><span class="co">#&gt;           sample_missingness    0.00  0.0</span></span>
-<span><span class="co">#&gt;          total_sum_abundance    0.00  0.0</span></span>
-<span><span class="co">#&gt;                summarise_pca    0.62 32.1</span></span>
-<span><span class="co">#&gt;              summarise_final    0.54 28.0</span></span>
-<span><span class="co">#&gt;                        total    1.93 99.9</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Creating final QC dataset... <span style="color: #B2B2B2;">[579ms]</span></span></span>
+<span><span class="co">#&gt;          total_sum_abundance    0.01  0.2</span></span>
+<span><span class="co">#&gt;                summarise_pca    1.72 33.4</span></span>
+<span><span class="co">#&gt;              summarise_final    1.57 30.5</span></span>
+<span><span class="co">#&gt;                        total    5.15 99.9</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Creating final QC dataset... <span style="color: #B2B2B2;">[1.6s]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> 'Omics QC Process Completed</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> 'Omics QC Process Completed <span style="color: #B2B2B2;">[29ms]</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> 'Omics QC Process Completed <span style="color: #B2B2B2;">[13ms]</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="view-a-summary-of-the-omiprep-object">View a summary of the Omiprep object<a class="anchor" aria-label="anchor" href="#view-a-summary-of-the-omiprep-object"></a>
 </h3>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># view summary</span></span>
-<span><span class="fu"><a href="../reference/summary.Omiprep.html">summary</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/summary.Omiprep.html">summary</a></span><span class="op">(</span><span class="va">mydata</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Omiprep Object Summary</span></span>
 <span><span class="co">#&gt; --------------------------</span></span>
-<span><span class="co">#&gt; Samples      : 100</span></span>
-<span><span class="co">#&gt; Features     : 100</span></span>
+<span><span class="co">#&gt; Samples      : 125</span></span>
+<span><span class="co">#&gt; Features     : 253</span></span>
 <span><span class="co">#&gt; Data Layers  : 2</span></span>
 <span><span class="co">#&gt; Layer Names  : input, qc</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -196,12 +223,12 @@
 <span><span class="co">#&gt; Feature Summary Layers: input, qc</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Sample Annotation (metadata):</span></span>
-<span><span class="co">#&gt;   Columns: 8</span></span>
-<span><span class="co">#&gt;   Names  : sample_id, neg, pos, run_day, box_id, lot, reason_excluded, excluded</span></span>
+<span><span class="co">#&gt;   Columns: 12</span></span>
+<span><span class="co">#&gt;   Names  : sample_id, PARENT_SAMPLE_NAME, CLIENT_IDENTIFIER, LC/MS Polar, LC/MS Neg, LC/MS Pos Early, LC/MS Pos Late, sex, age, bmi, reason_excluded, excluded</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Feature Annotation (metadata):</span></span>
-<span><span class="co">#&gt;   Columns: 9</span></span>
-<span><span class="co">#&gt;   Names  : feature_id, metabolite_id, comp_id, platform, pathway, kegg, group_hmdb, reason_excluded, excluded</span></span>
+<span><span class="co">#&gt;   Columns: 16</span></span>
+<span><span class="co">#&gt;   Names  : feature_id, COMP_ID, CHEM_ID, CHEMICAL_NAME, SUPER_PATHWAY, SUB_PATHWAY, PATHWAY_SORTORDER, PLATFORM, RI, MASS, CAS, PUBCHEM, KEGG, HMDB, reason_excluded, excluded</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Exclusion Codes Summary:</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -210,17 +237,18 @@
 <span><span class="co">#&gt; -----------------</span></span>
 <span><span class="co">#&gt; user_excluded                     | 0</span></span>
 <span><span class="co">#&gt; extreme_sample_missingness        | 0</span></span>
-<span><span class="co">#&gt; user_defined_sample_missingness   | 2</span></span>
+<span><span class="co">#&gt; user_defined_sample_missingness   | 1</span></span>
 <span><span class="co">#&gt; user_defined_sample_totalpeakarea | 0</span></span>
-<span><span class="co">#&gt; user_defined_sample_pca_outlier   | 0</span></span>
+<span><span class="co">#&gt; user_defined_sample_pca_outlier   | 2</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;   Feature Exclusions:</span></span>
 <span><span class="co">#&gt; Exclusion | Count</span></span>
 <span><span class="co">#&gt; -----------------</span></span>
-<span><span class="co">#&gt; user_excluded                    | 0</span></span>
-<span><span class="co">#&gt; extreme_feature_missingness      | 0</span></span>
-<span><span class="co">#&gt; user_defined_feature_missingness | 0</span></span>
-<span><span class="co">#&gt; user_defined_feature_skewness    | 0</span></span></code></pre></div>
+<span><span class="co">#&gt; user_excluded                    |  0</span></span>
+<span><span class="co">#&gt; extreme_feature_missingness      |  4</span></span>
+<span><span class="co">#&gt; user_defined_feature_missingness | 37</span></span>
+<span><span class="co">#&gt; user_defined_feature_skewness    |  0</span></span></code></pre></div>
+</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

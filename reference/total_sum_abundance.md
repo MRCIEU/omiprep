@@ -24,4 +24,7 @@ total_sum_abundance(data, ztransform = TRUE)
 ## Value
 
 a data frame of estimates for (1) total sum abundance and (2) total sum
-abundance at complete features for each samples
+abundance at complete features for each samples. The function also
+returns the number of features that are not NA at each sample and the
+number of features with complete data, across all sampmles, used to
+estimate total sum abundance at complete features.

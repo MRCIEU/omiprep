@@ -6,19 +6,19 @@
 
 library(omiprep)
 
-data     <- read.csv(system.file("extdata", "dummy_data.csv", package = "omiprep"), header=T, row.names = 1) |> as.matrix()
-samples  <- read.csv(system.file("extdata", "dummy_samples.csv", package = "omiprep"), header=T, row.names = 1)
-features <- read.csv(system.file("extdata", "dummy_features.csv", package = "omiprep"), header=T, row.names = 1)
+# example file
+filepath <- system.file("extdata", "metabolon_v1.1_example.xlsx", package = "omiprep")
 
-## create Omiprep object
-mydata <- Omiprep(data = data, samples = samples, features = features)
+## Read in Metabolon v1.1 example and directly create Omiprep object
+mydata <- read_metabolon(filepath, sheet = "OrigScale" , return_Omiprep = TRUE )
+
 
 ## summary of Omiprep object
 summary(mydata)
 #> Omiprep Object Summary
 #> --------------------------
-#> Samples      : 100
-#> Features     : 20
+#> Samples      : 125
+#> Features     : 253
 #> Data Layers  : 1
 #> Layer Names  : input
 #> 
@@ -26,12 +26,12 @@ summary(mydata)
 #> Feature Summary Layers: none
 #> 
 #> Sample Annotation (metadata):
-#>   Columns: 5
-#>   Names  : sample_id, age, sex, pos, neg
+#>   Columns: 14
+#>   Names  : sample_id, neg, pos, run_day, box_id, lot, lcms_polar, lcms_neg, lcms_pos_early, lcms_pos_late, client_identifier, sex, age, bmi
 #> 
 #> Feature Annotation (metadata):
-#>   Columns: 5
-#>   Names  : feature_id, platform, pathway, derived_feature, xenobiotic_feature
+#>   Columns: 14
+#>   Names  : feature_id, metabolite_id, comp_id, platform, super_pathway, sub_pathway, kegg, chem_id, pathway_sortorder, ri, mass, cas, pubchem, group_hmdb
 #> 
 #> Exclusion Codes Summary:
 #> 
@@ -55,43 +55,27 @@ summary(mydata)
 
 ## Run batch normalisation
 
+Early Metabolon releases only provided the original scale data and a
+batch normalised and minimally imputed data set. We would not advocate
+using minimally imputed data, particularly not for quality control /
+pre-processing. As such, you may have to (1) batch normalize the
+original scale data, as we are doing here. Or (2) convert the minimally
+imputed cells in the ScaledImp tab of the release back into NAs.
+
+Again, here we are illustrating how to run a mass-spectroscopy style
+median batch normalization.
+
 ``` r
 
 mydata <- mydata |>
-  batch_normalise(run_mode_col = "platform", run_mode_colmap = c(pos="pos", neg="neg")) |>
-  print()
-#> <omiprep::Omiprep>
-#>  @ data           : num [1:100, 1:20, 1:2] 0.755887 0.662386 0.444527 0.627146 0.000465 ...
-#>  .. - attr(*, "dimnames")=List of 3
-#>  ..  ..$ : chr [1:100] "id_100" "id_99" "id_98" "id_97" ...
-#>  ..  ..$ : chr [1:20] "metab_id_1" "metab_id_2" "metab_id_3" "metab_id_4" ...
-#>  ..  ..$ : chr [1:2] "input" "batch_normalised"
-#>  @ samples        :'data.frame': 100 obs. of  5 variables:
-#>  .. $ sample_id: chr  "id_100" "id_99" "id_98" "id_97" ...
-#>  .. $ age      : int  29 47 65 57 52 40 42 63 49 42 ...
-#>  .. $ sex      : chr  "male" "male" "female" "female" ...
-#>  .. $ pos      : chr  "batch2" "batch1" "batch2" "batch1" ...
-#>  .. $ neg      : chr  "batch2" "batch2" "batch2" "batch1" ...
-#>  @ features       :'data.frame': 20 obs. of  5 variables:
-#>  .. $ feature_id        : chr  "metab_id_1" "metab_id_2" "metab_id_3" "metab_id_4" ...
-#>  .. $ platform          : chr  "neg" "neg" "neg" "pos" ...
-#>  .. $ pathway           : logi  NA NA NA NA NA NA ...
-#>  .. $ derived_feature   : logi  TRUE FALSE FALSE FALSE FALSE FALSE ...
-#>  .. $ xenobiotic_feature: logi  FALSE FALSE FALSE FALSE FALSE FALSE ...
-#>  @ exclusions     :List of 2
-#>  .. $ samples :List of 5
-#>  ..  ..$ user_excluded                    : chr(0) 
-#>  ..  ..$ extreme_sample_missingness       : chr(0) 
-#>  ..  ..$ user_defined_sample_missingness  : chr(0) 
-#>  ..  ..$ user_defined_sample_totalpeakarea: chr(0) 
-#>  ..  ..$ user_defined_sample_pca_outlier  : chr(0) 
-#>  .. $ features:List of 4
-#>  ..  ..$ user_excluded                   : chr(0) 
-#>  ..  ..$ extreme_feature_missingness     : chr(0) 
-#>  ..  ..$ user_defined_feature_missingness: chr(0) 
-#>  ..  ..$ user_defined_feature_skewness   : chr(0) 
-#>  @ feature_summary: num[0 , 0 , 0 ] 
-#>  @ sample_summary : num[0 , 0 , 0 ]
+  batch_normalise(run_mode_col          = "platform",  ## Column names in feature sheet that defines the run mode for each feature
+                  run_mode_colmap       = 
+                    c("LC/MS Neg"       = 'lcms_neg' , ## string from feature sheet column = 
+                                                       ## column name in sample sheet that holds the batch information
+                      "LC/MS Polar"     = 'lcms_polar',
+                      "LC/MS Pos Early" = 'lcms_pos_early',
+                      "LC/MS Pos Late"  = 'lcms_pos_late' ) 
+                  )
 ```
 
 ## Accessing data
@@ -101,23 +85,171 @@ mydata <- mydata |>
 ``` r
 
 mydata@data[1:5, 1:5, "input"]
-#>          metab_id_1 metab_id_2 metab_id_3 metab_id_4 metab_id_5
-#> id_100 0.7558872597 0.42346365  0.2830023  0.8074991 0.52739494
-#> id_99  0.6623855066 0.94958532  0.4204349  0.1280644 0.86098936
-#> id_98  0.4445273969 0.70903790  0.5872781  0.2507785 0.67355499
-#> id_97  0.6271461844 0.41330541  0.8066944  0.3315470 0.01304103
-#> id_96  0.0004653491 0.01836408  0.2019952  0.4072693 0.69319890
+#>          48719    43532     46639       606     62279
+#> sam_1 39145556       NA 1667316.8 129141879  317923.4
+#> sam_2 46799204       NA  490729.6 136439235 2111209.0
+#> sam_3       NA 320490.0        NA  96088900 3407171.5
+#> sam_4  4094175 494174.2  214858.1  41081520        NA
+#> sam_5  3908151 127978.8  238216.9  42057264  623911.2
 ```
 
-### Batch normlalised data
+### Batch normalised data
 
 ``` r
 
 mydata@data[1:5, 1:5, "batch_normalised"]
-#>          metab_id_1 metab_id_2 metab_id_3 metab_id_4 metab_id_5
-#> id_100 1.2219122932 0.85292184  0.5567470  2.0502351  0.9094521
-#> id_99  1.0707641687 1.91261295  0.8271164  0.2650566  1.4847101
-#> id_98  0.7185906152 1.42811293  1.1553450  0.6367251  1.1614939
-#> id_97  1.3714905954 0.71888003  1.6124149  0.6862071  0.0243190
-#> id_96  0.0007522494 0.03698813  0.3973827  0.8429306  1.1953683
+#>           48719    43532      46639       606     62279
+#> sam_1 1.5376548       NA 0.26359902 0.9248251 0.5003213
+#> sam_2 1.8382935       NA 0.07758324 0.9770837 1.0718382
+#> sam_3        NA 1.147501         NA 0.6881224 5.3619212
+#> sam_4 0.9071567 7.172319 0.41313486 1.0725661        NA
+#> sam_5 0.8659388 1.857452 0.45804982 1.0980411 0.9818592
+```
+
+## Now any quality control step should be run on the “batch_normalised” layer.
+
+``` r
+
+## identify the xenos
+xenos <- mydata@features[!is.na(mydata@features$super_pathway) & mydata@features$super_pathway == "Xenobiotics", "feature_id"]
+
+## run the QC on the batch_normalised layer
+mydata <- mydata |> quality_control(source_layer               = "batch_normalised", 
+                                    sample_missingness         = 0.2, 
+                                    feature_missingness        = 0.2, 
+                                    total_sum_abundance_sd     = 5, 
+                                    outlier_udist              = 5, 
+                                    outlier_treatment          = "leave_be", 
+                                    winsorize_quantile         = 1.0, 
+                                    tree_cut_height            = 0.5, 
+                                    pc_outlier_sd              = 5,
+                                    feature_selection          = "least_missingness", 
+                                    features_exclude_but_keep  = xenos, 
+                                    cores                      = 1
+                                    )
+#> 
+#> ── Starting Omics QC Process ───────────────────────────────────────────────────
+#> ℹ Validating input parameters
+#> ✔ Validating input parameters [14ms]
+#> 
+#> ℹ Excluding 0 features from sample summary analysis but keeping in output data
+#> ✔ Excluding 39 features from sample summary analysis but keeping in output data…
+#> 
+#> ℹ Sample & Feature Summary Statistics for raw data
+#> ℹ Number of informative PCs (Scree acceleration factor): 2
+#> ℹ Sample & Feature Summary Statistics for raw data✔ Sample & Feature Summary Statistics for raw data [1.8s]
+#> 
+#> ℹ Copying batch_normalised data to new 'qc' data layer
+#> ✔ Copying batch_normalised data to new 'qc' data layer [22ms]
+#> 
+#> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)
+#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [19ms]
+#> 
+#> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)
+#> ✔ Assessing for extreme feature missingness >=80% - excluding 4 feature(s) [27m…
+#> 
+#> ℹ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
+#> ✔ Assessing for sample missingness at specified level of >=20% - excluding 1 sa…
+#> 
+#> ℹ Assessing for feature missingness at specified level of >=20% - excluding 0 f…
+#> ✔ Assessing for feature missingness at specified level of >=20% - excluding 37 …
+#> 
+#> ℹ Calculating total sum abundance outliers at +/- 5 Sdev - excluding 0 sample(s)
+#> ✔ Calculating total sum abundance outliers at +/- 5 Sdev - excluding 0 sample(s…
+#> 
+#> ℹ Running sample data PCA outlier analysis at +/- 5 Sdev
+#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [18ms]
+#> 
+#> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
+#> ℹ Number of informative PCs (Scree acceleration factor): 2
+#> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…! The stated max PCs [max_num_pcs=10] to use in PCA outlier assessment is greater than the number of available informative PCs [2]
+#> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…✔ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
+#> 
+#> ℹ Creating final QC dataset...
+#> ℹ Number of informative PCs (Scree acceleration factor): 2
+#> ℹ Creating final QC dataset...
+#> ℹ Creating final QC dataset...── Step timings ──
+#> ℹ Creating final QC dataset...
+#> ℹ Creating final QC dataset...
+#>                         step seconds  pct
+#>                   validation    0.00  0.0
+#>                summarise_raw    1.77 37.5
+#>                   copy_layer    0.00  0.0
+#>   extreme_sample_missingness    0.00  0.0
+#>  extreme_feature_missingness    0.00  0.0
+#>           sample_missingness    0.00  0.0
+#>          total_sum_abundance    0.01  0.2
+#>                summarise_pca    1.42 30.1
+#>              summarise_final    1.28 27.1
+#>                        total    4.72 99.9
+#> ✔ Creating final QC dataset... [1.3s]
+#> 
+#> ℹ 'Omics QC Process Completed
+#> ✔ 'Omics QC Process Completed [19ms]
+```
+
+### QC data
+
+``` r
+
+mydata@data[1:5, 1:5, "qc"]
+#>       48719    43532      46639       606     62279
+#> sam_1    NA       NA 0.26359902 0.9248251 0.5003213
+#> sam_2    NA       NA 0.07758324 0.9770837 1.0718382
+#> sam_3    NA 1.147501         NA 0.6881224 5.3619212
+#> sam_4    NA 7.172319 0.41313486 1.0725661        NA
+#> sam_5    NA 1.857452 0.45804982 1.0980411 0.9818592
+```
+
+## Quick view of omiprep object
+
+### data array layers
+
+``` r
+
+dimnames(mydata@data)[[3]]
+#> [1] "input"            "batch_normalised" "qc"
+```
+
+### omiprep summary
+
+``` r
+
+summary(mydata)
+#> Omiprep Object Summary
+#> --------------------------
+#> Samples      : 125
+#> Features     : 253
+#> Data Layers  : 3
+#> Layer Names  : input, batch_normalised, qc
+#> 
+#> Sample Summary Layers : batch_normalised, qc
+#> Feature Summary Layers: batch_normalised, qc
+#> 
+#> Sample Annotation (metadata):
+#>   Columns: 16
+#>   Names  : sample_id, neg, pos, run_day, box_id, lot, lcms_polar, lcms_neg, lcms_pos_early, lcms_pos_late, client_identifier, sex, age, bmi, reason_excluded, excluded
+#> 
+#> Feature Annotation (metadata):
+#>   Columns: 16
+#>   Names  : feature_id, metabolite_id, comp_id, platform, super_pathway, sub_pathway, kegg, chem_id, pathway_sortorder, ri, mass, cas, pubchem, group_hmdb, reason_excluded, excluded
+#> 
+#> Exclusion Codes Summary:
+#> 
+#>   Sample Exclusions:
+#> Exclusion | Count
+#> -----------------
+#> user_excluded                     | 0
+#> extreme_sample_missingness        | 0
+#> user_defined_sample_missingness   | 1
+#> user_defined_sample_totalpeakarea | 0
+#> user_defined_sample_pca_outlier   | 2
+#> 
+#>   Feature Exclusions:
+#> Exclusion | Count
+#> -----------------
+#> user_excluded                    |  0
+#> extreme_feature_missingness      |  4
+#> user_defined_feature_missingness | 37
+#> user_defined_feature_skewness    |  0
 ```
