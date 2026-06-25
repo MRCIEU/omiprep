@@ -130,7 +130,7 @@ mydata <- mydata |> quality_control(source_layer               = "batch_normalis
 #> 
 #> ── Starting Omics QC Process ───────────────────────────────────────────────────
 #> ℹ Validating input parameters
-#> ✔ Validating input parameters [14ms]
+#> ✔ Validating input parameters [13ms]
 #> 
 #> ℹ Excluding 0 features from sample summary analysis but keeping in output data
 #> ✔ Excluding 39 features from sample summary analysis but keeping in output data…
@@ -140,7 +140,7 @@ mydata <- mydata |> quality_control(source_layer               = "batch_normalis
 #> ℹ Sample & Feature Summary Statistics for raw data✔ Sample & Feature Summary Statistics for raw data [1.7s]
 #> 
 #> ℹ Copying batch_normalised data to new 'qc' data layer
-#> ✔ Copying batch_normalised data to new 'qc' data layer [22ms]
+#> ✔ Copying batch_normalised data to new 'qc' data layer [21ms]
 #> 
 #> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)
 #> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [18ms]
@@ -158,7 +158,7 @@ mydata <- mydata |> quality_control(source_layer               = "batch_normalis
 #> ✔ Calculating total sum abundance outliers at +/- 5 Sdev - excluding 0 sample(s…
 #> 
 #> ℹ Running sample data PCA outlier analysis at +/- 5 Sdev
-#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [17ms]
+#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [16ms]
 #> 
 #> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
 #> ℹ Number of informative PCs (Scree acceleration factor): 2
@@ -171,17 +171,17 @@ mydata <- mydata |> quality_control(source_layer               = "batch_normalis
 #> ℹ Creating final QC dataset...── Step timings ──
 #> ℹ Creating final QC dataset...
 #> ℹ Creating final QC dataset...
-#>                         step seconds  pct
-#>                   validation    0.00  0.0
-#>                summarise_raw    1.73 37.2
-#>                   copy_layer    0.00  0.0
-#>   extreme_sample_missingness    0.00  0.0
-#>  extreme_feature_missingness    0.00  0.0
-#>           sample_missingness    0.00  0.0
-#>          total_sum_abundance    0.01  0.2
-#>                summarise_pca    1.41 30.3
-#>              summarise_final    1.27 27.3
-#>                        total    4.65 99.9
+#>                         step seconds   pct
+#>                   validation    0.00   0.0
+#>                summarise_raw    1.71  36.9
+#>                   copy_layer    0.00   0.0
+#>   extreme_sample_missingness    0.00   0.0
+#>  extreme_feature_missingness    0.00   0.0
+#>           sample_missingness    0.00   0.0
+#>          total_sum_abundance    0.01   0.2
+#>                summarise_pca    1.41  30.5
+#>              summarise_final    1.27  27.4
+#>                        total    4.63 100.0
 #> ✔ Creating final QC dataset... [1.3s]
 #> 
 #> ℹ 'Omics QC Process Completed

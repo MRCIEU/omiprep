@@ -43,13 +43,13 @@ mydata         <- suppressWarnings( quality_control(mydata, cores = 1) )
 #> ℹ Sample & Feature Summary Statistics for raw data✔ Sample & Feature Summary Statistics for raw data [1.8s]
 #> 
 #> ℹ Copying input data to new 'qc' data layer
-#> ✔ Copying input data to new 'qc' data layer [48ms]
+#> ✔ Copying input data to new 'qc' data layer [47ms]
 #> 
 #> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)
 #> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [24ms]
 #> 
 #> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)
-#> ✔ Assessing for extreme feature missingness >=80% - excluding 5 feature(s) [19m…
+#> ✔ Assessing for extreme feature missingness >=80% - excluding 5 feature(s) [17m…
 #> 
 #> ℹ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
 #> ✔ Assessing for sample missingness at specified level of >=20% - excluding 1 sa…
@@ -61,11 +61,12 @@ mydata         <- suppressWarnings( quality_control(mydata, cores = 1) )
 #> ✔ Calculating total sum abundance outliers at +/- 5 Sdev - excluding 0 sample(s…
 #> 
 #> ℹ Running sample data PCA outlier analysis at +/- 5 Sdev
-#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [20ms]
+#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [18ms]
 #> 
 #> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
 #> ℹ Number of informative PCs (Scree acceleration factor): 2
-#> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…! The stated max PCs [max_num_pcs=10] to use in PCA outlier assessment is greater than the number of available informative PCs [2]
+#> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
+#> ! The stated max PCs [max_num_pcs=10] to use in PCA outlier assessment is greater than the number of available informative PCs [2]
 #> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…✔ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
 #> 
 #> ℹ Creating final QC dataset...
@@ -76,19 +77,19 @@ mydata         <- suppressWarnings( quality_control(mydata, cores = 1) )
 #> ℹ Creating final QC dataset...
 #>                         step seconds   pct
 #>                   validation    0.00   0.0
-#>                summarise_raw    1.79  32.0
+#>                summarise_raw    1.75  32.1
 #>                   copy_layer    0.01   0.2
 #>   extreme_sample_missingness    0.00   0.0
 #>  extreme_feature_missingness    0.00   0.0
 #>           sample_missingness    0.00   0.0
 #>          total_sum_abundance    0.01   0.2
-#>                summarise_pca    1.92  34.4
-#>              summarise_final    1.62  29.0
-#>                        total    5.59 100.1
-#> ✔ Creating final QC dataset... [1.7s]
+#>                summarise_pca    1.90  34.8
+#>              summarise_final    1.56  28.6
+#>                        total    5.46 100.0
+#> ✔ Creating final QC dataset... [1.6s]
 #> 
 #> ℹ 'Omics QC Process Completed
-#> ✔ 'Omics QC Process Completed [31ms]
+#> ✔ 'Omics QC Process Completed [28ms]
 ```
 
 ## Export Omiprep
@@ -105,7 +106,7 @@ output_dir <- file.path(tempdir(), "output")
 # run export
 export(mydata, directory = output_dir, format = "omiprep")
 #> Exporting in omiprep format to: 
-#>      /tmp/RtmpqNo7UR/output
+#>      /tmp/RtmpWbx7Nn/output
 
 # view output directory files
 files <- list.files(output_dir, full.names = TRUE, recursive = TRUE)
@@ -140,7 +141,7 @@ output_dir <- file.path(tempdir(), "output")
 
 # run export
 export(mydata, directory = output_dir, format = "comets")
-#> Exporting data layer `qc` in comets format to /tmp/RtmpqNo7UR/output/omiprep_comets_export_2026_06_25.xlsx
+#> Exporting data layer `qc` in comets format to /tmp/RtmpWbx7Nn/output/omiprep_comets_export_2026_06_25.xlsx
 #> Export complete.
 
 # view output directory files
@@ -166,8 +167,8 @@ output_dir <- file.path(tempdir(), "output")
 
 # run export
 export(mydata, directory = output_dir, format = "metaboanalyst")
-#> Exporting in export_metaboanalyst format to /tmp/RtmpqNo7UR/output
-#> Exporting data layer `qc` in metaboanalyst format to /tmp/RtmpqNo7UR/output/omiprep_metaboanalyst_export_2026_06_25.csv
+#> Exporting in export_metaboanalyst format to /tmp/RtmpWbx7Nn/output
+#> Exporting data layer `qc` in metaboanalyst format to /tmp/RtmpWbx7Nn/output/omiprep_metaboanalyst_export_2026_06_25.csv
 
 # view output directory files
 files <- list.files(output_dir, full.names = TRUE, recursive = TRUE)

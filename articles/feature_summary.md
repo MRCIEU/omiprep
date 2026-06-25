@@ -74,13 +74,13 @@ mydata = quality_control(mydata)
 #> ℹ Sample & Feature Summary Statistics for raw data✔ Sample & Feature Summary Statistics for raw data [2s]
 #> 
 #> ℹ Copying input data to new 'qc' data layer
-#> ✔ Copying input data to new 'qc' data layer [36ms]
+#> ✔ Copying input data to new 'qc' data layer [33ms]
 #> 
 #> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)
-#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [20ms]
+#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [17ms]
 #> 
 #> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)
-#> ✔ Assessing for extreme feature missingness >=80% - excluding 5 feature(s) [19m…
+#> ✔ Assessing for extreme feature missingness >=80% - excluding 5 feature(s) [18m…
 #> 
 #> ℹ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
 #> ✔ Assessing for sample missingness at specified level of >=20% - excluding 1 sa…
@@ -108,16 +108,16 @@ mydata = quality_control(mydata)
 #> ℹ Creating final QC dataset...
 #>                         step seconds   pct
 #>                   validation    0.00   0.0
-#>                summarise_raw    2.03  31.0
-#>                   copy_layer    0.01   0.2
+#>                summarise_raw    2.03  29.9
+#>                   copy_layer    0.01   0.1
 #>   extreme_sample_missingness    0.00   0.0
 #>  extreme_feature_missingness    0.00   0.0
 #>           sample_missingness    0.00   0.0
-#>          total_sum_abundance    0.01   0.2
-#>                summarise_pca    1.93  29.4
-#>              summarise_final    2.37  36.1
-#>                        total    6.56 100.0
-#> ✔ Creating final QC dataset... [2.4s]
+#>          total_sum_abundance    0.01   0.1
+#>                summarise_pca    1.99  29.3
+#>              summarise_final    2.56  37.7
+#>                        total    6.80 100.1
+#> ✔ Creating final QC dataset... [2.6s]
 #> 
 #> ℹ 'Omics QC Process Completed
 #> ✔ 'Omics QC Process Completed [13ms]
