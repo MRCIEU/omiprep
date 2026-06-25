@@ -71,7 +71,7 @@ mydata <- mydata |>
 ```{r}
 # render report
 generate_report(mydata,
-                project         = "Metabolon_Example",
+                project         = "myproject",
                 output_dir      = getwd(),
                 output_filename = NULL,
                 format          = "html",
