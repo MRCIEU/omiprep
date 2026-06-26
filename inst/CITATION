@@ -1,7 +1,5 @@
 citHeader("To cite omiprep in publications, please use:")
 
-## After your first Zenodo release, add the concept (all-versions) DOI to the
-## bibentry below, e.g.  doi = "10.5281/zenodo.XXXXXXX"
 bibentry(
   bibtype = "Manual",
   title   = "omiprep: Omics data preparation and processing pipeline",
@@ -14,5 +12,6 @@ bibentry(
   ),
   year  = "2026",
   note  = sprintf("R package version %s", meta$Version),
-  url   = "https://github.com/MRCIEU/omiprep"
+  url   = "https://github.com/MRCIEU/omiprep",
+  doi   = "10.5281/zenodo.20941283"
 )

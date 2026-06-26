@@ -46,8 +46,7 @@ keywords:
   - quality control
   - pre-processing
   - R
-# After your first Zenodo release, add the concept (all-versions) DOI here:
-# identifiers:
-#   - type: doi
-#     value: "10.5281/zenodo.XXXXXXX"
-#     description: "Concept DOI (all versions)"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.20941283"
+    description: "Concept DOI (all versions)"
