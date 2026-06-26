@@ -10,6 +10,9 @@ pagetitle: "omiprep"
     <a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" target="_blank">
       <img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"/>
     </a>
+    <a href="https://doi.org/10.5281/zenodo.20941283" target="_blank">
+      <img src="https://zenodo.org/badge/1215269352.svg" alt="DOI"/>
+    </a>
   </div>
 </div>
 ```
