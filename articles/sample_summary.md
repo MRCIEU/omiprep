@@ -80,7 +80,7 @@ mydata = quality_control(mydata)
 #> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [21ms]
 #> 
 #> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)
-#> ✔ Assessing for extreme feature missingness >=80% - excluding 5 feature(s) [22m…
+#> ✔ Assessing for extreme feature missingness >=80% - excluding 5 feature(s) [21m…
 #> 
 #> ℹ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
 #> ✔ Assessing for sample missingness at specified level of >=20% - excluding 1 sa…
@@ -92,7 +92,7 @@ mydata = quality_control(mydata)
 #> ✔ Calculating total sum abundance outliers at +/- 5 Sdev - excluding 0 sample(s…
 #> 
 #> ℹ Running sample data PCA outlier analysis at +/- 5 Sdev
-#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [18ms]
+#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [17ms]
 #> 
 #> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
 #> ℹ Number of informative PCs (Scree acceleration factor): 2
@@ -108,15 +108,15 @@ mydata = quality_control(mydata)
 #> ℹ Creating final QC dataset...
 #>                         step seconds   pct
 #>                   validation    0.00   0.0
-#>                summarise_raw    1.81  30.6
+#>                summarise_raw    1.81  30.8
 #>                   copy_layer    0.00   0.0
 #>   extreme_sample_missingness    0.00   0.0
 #>  extreme_feature_missingness    0.00   0.0
 #>           sample_missingness    0.00   0.0
 #>          total_sum_abundance    0.01   0.2
-#>                summarise_pca    1.95  33.0
-#>              summarise_final    1.83  30.9
-#>                        total    5.92 100.1
+#>                summarise_pca    1.94  33.1
+#>              summarise_final    1.79  30.5
+#>                        total    5.87 100.0
 #> ✔ Creating final QC dataset... [1.9s]
 #> 
 #> ℹ 'Omics QC Process Completed

@@ -74,7 +74,7 @@ mydata = quality_control(mydata)
 #> ℹ Sample & Feature Summary Statistics for raw data✔ Sample & Feature Summary Statistics for raw data [2.1s]
 #> 
 #> ℹ Copying input data to new 'qc' data layer
-#> ✔ Copying input data to new 'qc' data layer [34ms]
+#> ✔ Copying input data to new 'qc' data layer [33ms]
 #> 
 #> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)
 #> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [17ms]
@@ -106,17 +106,17 @@ mydata = quality_control(mydata)
 #> ℹ Creating final QC dataset...── Step timings ──
 #> ℹ Creating final QC dataset...
 #> ℹ Creating final QC dataset...
-#>                         step seconds  pct
-#>                   validation    0.00  0.0
-#>                summarise_raw    2.11 36.5
-#>                   copy_layer    0.00  0.0
-#>   extreme_sample_missingness    0.00  0.0
-#>  extreme_feature_missingness    0.00  0.0
-#>           sample_missingness    0.00  0.0
-#>          total_sum_abundance    0.01  0.2
-#>                summarise_pca    1.78 30.8
-#>              summarise_final    1.66 28.8
-#>                        total    5.77 99.9
+#>                         step seconds   pct
+#>                   validation    0.00   0.0
+#>                summarise_raw    2.12  36.5
+#>                   copy_layer    0.00   0.0
+#>   extreme_sample_missingness    0.00   0.0
+#>  extreme_feature_missingness    0.00   0.0
+#>           sample_missingness    0.00   0.0
+#>          total_sum_abundance    0.01   0.2
+#>                summarise_pca    1.78  30.7
+#>              summarise_final    1.69  29.1
+#>                        total    5.81 100.1
 #> ✔ Creating final QC dataset... [1.7s]
 #> 
 #> ℹ 'Omics QC Process Completed
