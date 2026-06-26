@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">omiprep</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.9.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -342,16 +342,16 @@ we apply the same feature-level rule directly:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample &amp; Feature Summary Statistics for raw data</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Number of informative PCs (Scree acceleration factor): 3</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample &amp; Feature Summary Statistics for raw data<span style="color: #00BB00;">✔</span> Sample &amp; Feature Summary Statistics for raw data <span style="color: #B2B2B2;">[40.3s]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample &amp; Feature Summary Statistics for raw data<span style="color: #00BB00;">✔</span> Sample &amp; Feature Summary Statistics for raw data <span style="color: #B2B2B2;">[37s]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Copying input data to new 'qc' data layer</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Copying input data to new 'qc' data layer <span style="color: #B2B2B2;">[40ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Copying input data to new 'qc' data layer <span style="color: #B2B2B2;">[331ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Assessing for extreme sample missingness &gt;=80% - excluding 0 sample(s)</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for extreme sample missingness &gt;=80% - excluding 0 sample(s) <span style="color: #B2B2B2;">[32ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for extreme sample missingness &gt;=80% - excluding 0 sample(s) <span style="color: #B2B2B2;">[27ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Assessing for extreme feature missingness &gt;=80% - excluding 0 feature(s)</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for extreme feature missingness &gt;=80% - excluding 0 feature(s) <span style="color: #B2B2B2;">[267</span>…</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for extreme feature missingness &gt;=80% - excluding 0 feature(s) <span style="color: #B2B2B2;">[24m</span>…</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Assessing for sample missingness at specified level of &gt;=20% - excluding 0 sa…</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for sample missingness at specified level of &gt;=20% - excluding 0 sa…</span></span>
@@ -363,7 +363,7 @@ we apply the same feature-level rule directly:</p>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for feature skewness at threshold &lt;= -1.25 - excluding 80 feature(s…</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Running sample data PCA outlier analysis at +/- 5 Sdev</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Running sample data PCA outlier analysis at +/- 5 Sdev <span style="color: #B2B2B2;">[26ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Running sample data PCA outlier analysis at +/- 5 Sdev <span style="color: #B2B2B2;">[35ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Creating final QC dataset...</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Number of informative PCs (Scree acceleration factor): 6</span></span>
@@ -373,18 +373,18 @@ we apply the same feature-level rule directly:</p>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Creating final QC dataset...</span></span>
 <span><span class="co">#&gt;                         step seconds   pct</span></span>
 <span><span class="co">#&gt;                   validation    0.00   0.0</span></span>
-<span><span class="co">#&gt;                summarise_raw   40.32  57.0</span></span>
-<span><span class="co">#&gt;                   copy_layer    0.01   0.0</span></span>
-<span><span class="co">#&gt;   extreme_sample_missingness    0.02   0.0</span></span>
-<span><span class="co">#&gt;  extreme_feature_missingness    0.25   0.4</span></span>
-<span><span class="co">#&gt;           sample_missingness    0.01   0.0</span></span>
-<span><span class="co">#&gt;          feature_missingness    0.28   0.4</span></span>
-<span><span class="co">#&gt;              summarise_final   29.43  41.6</span></span>
-<span><span class="co">#&gt;                        total   70.78 100.0</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Creating final QC dataset... <span style="color: #B2B2B2;">[29.8s]</span></span></span>
+<span><span class="co">#&gt;                summarise_raw   36.99  56.2</span></span>
+<span><span class="co">#&gt;                   copy_layer    0.30   0.5</span></span>
+<span><span class="co">#&gt;   extreme_sample_missingness    0.01   0.0</span></span>
+<span><span class="co">#&gt;  extreme_feature_missingness    0.01   0.0</span></span>
+<span><span class="co">#&gt;           sample_missingness    0.02   0.0</span></span>
+<span><span class="co">#&gt;          feature_missingness    0.74   1.1</span></span>
+<span><span class="co">#&gt;              summarise_final   27.23  41.4</span></span>
+<span><span class="co">#&gt;                        total   65.82 100.0</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Creating final QC dataset... <span style="color: #B2B2B2;">[27.6s]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> 'Omics QC Process Completed</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> 'Omics QC Process Completed <span style="color: #B2B2B2;">[13ms]</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> 'Omics QC Process Completed <span style="color: #B2B2B2;">[12ms]</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="post-filtering-impact-on-distributions">4) Post-filtering impact on distributions<a class="anchor" aria-label="anchor" href="#post-filtering-impact-on-distributions"></a>

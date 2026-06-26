@@ -14,14 +14,14 @@
 
 ## Citation
 
-Corbin L, Hughes D, Sunderland N, Lee M, McKinlay A (2026). *omiprep:
+Sunderland N, Hughes DA, Lee MA, McKinlay A, Corbin LJ (2026). *omiprep:
 Omics data preparation and processing pipeline*. R package version
-1.0.0, <https://mrcieu.github.io/omiprep/>.
+0.9.0, <https://github.com/MRCIEU/omiprep>.
 
     @Manual{,
       title = {omiprep: Omics data preparation and processing pipeline},
-      author = {Laura Corbin and David Hughes and Nicholas Sunderland and Matthew Lee and Alec McKinlay},
+      author = {Nicholas Sunderland and David A. Hughes and Matthew A. Lee and Alec McKinlay and Laura J. Corbin},
       year = {2026},
-      note = {R package version 1.0.0},
-      url = {https://mrcieu.github.io/omiprep/},
+      note = {R package version 0.9.0},
+      url = {https://github.com/MRCIEU/omiprep},
     }
