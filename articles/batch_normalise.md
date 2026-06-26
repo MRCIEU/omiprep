@@ -143,7 +143,7 @@ mydata <- mydata |> quality_control(source_layer               = "batch_normalis
 #> ✔ Copying batch_normalised data to new 'qc' data layer [21ms]
 #> 
 #> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)
-#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [17ms]
+#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [18ms]
 #> 
 #> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)
 #> ✔ Assessing for extreme feature missingness >=80% - excluding 4 feature(s) [17m…
@@ -173,15 +173,15 @@ mydata <- mydata |> quality_control(source_layer               = "batch_normalis
 #> ℹ Creating final QC dataset...
 #>                         step seconds   pct
 #>                   validation    0.00   0.0
-#>                summarise_raw    1.88  39.4
+#>                summarise_raw    1.88  39.2
 #>                   copy_layer    0.00   0.0
 #>   extreme_sample_missingness    0.00   0.0
 #>  extreme_feature_missingness    0.00   0.0
 #>           sample_missingness    0.00   0.0
 #>          total_sum_abundance    0.01   0.2
-#>                summarise_pca    1.39  29.2
-#>              summarise_final    1.26  26.4
-#>                        total    4.77 100.1
+#>                summarise_pca    1.40  29.2
+#>              summarise_final    1.28  26.7
+#>                        total    4.79 100.0
 #> ✔ Creating final QC dataset... [1.3s]
 #> 
 #> ℹ 'Omics QC Process Completed

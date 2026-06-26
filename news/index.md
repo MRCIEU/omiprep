@@ -6,6 +6,14 @@ First public, peer-review release. `omiprep` is the successor to
 **metaboprep**, generalised from Nightingale/Metabolon metabolomics to
 mixed metabolomics and proteomics platforms.
 
+### Release
+
+- 2026-06-26: Version 0.9.0 formally released as a pre-release on
+  GitHub.
+- Archived on Zenodo with a package DOI:
+  [10.5281/zenodo.20941283](https://doi.org/10.5281/zenodo.20941283)
+  (concept DOI, resolves to the latest version).
+
 ### Data import
 
 - Unified readers into a single `Omiprep` object:
