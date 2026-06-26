@@ -65,7 +65,8 @@ mydata         <- suppressWarnings( quality_control(mydata, cores = 1) )
 #> 
 #> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
 #> ℹ Number of informative PCs (Scree acceleration factor): 2
-#> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…! The stated max PCs [max_num_pcs=10] to use in PCA outlier assessment is greater than the number of available informative PCs [2]
+#> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
+#> ! The stated max PCs [max_num_pcs=10] to use in PCA outlier assessment is greater than the number of available informative PCs [2]
 #> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…✔ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
 #> 
 #> ℹ Creating final QC dataset...
@@ -76,19 +77,19 @@ mydata         <- suppressWarnings( quality_control(mydata, cores = 1) )
 #> ℹ Creating final QC dataset...
 #>                         step seconds   pct
 #>                   validation    0.00   0.0
-#>                summarise_raw    1.79  32.7
+#>                summarise_raw    1.80  32.7
 #>                   copy_layer    0.00   0.0
 #>   extreme_sample_missingness    0.00   0.0
 #>  extreme_feature_missingness    0.00   0.0
 #>           sample_missingness    0.00   0.0
 #>          total_sum_abundance    0.01   0.2
-#>                summarise_pca    1.88  34.3
-#>              summarise_final    1.56  28.5
-#>                        total    5.48 100.0
+#>                summarise_pca    1.89  34.3
+#>              summarise_final    1.56  28.3
+#>                        total    5.51 100.1
 #> ✔ Creating final QC dataset... [1.6s]
 #> 
 #> ℹ 'Omics QC Process Completed
-#> ✔ 'Omics QC Process Completed [31ms]
+#> ✔ 'Omics QC Process Completed [32ms]
 ```
 
 ## Export Omiprep
@@ -105,7 +106,7 @@ output_dir <- file.path(tempdir(), "output")
 # run export
 export(mydata, directory = output_dir, format = "omiprep")
 #> Exporting in omiprep format to: 
-#>      /tmp/RtmpCAWHx6/output
+#>      /tmp/Rtmp6x7BV8/output
 
 # view output directory files
 files <- list.files(output_dir, full.names = TRUE, recursive = TRUE)
@@ -140,7 +141,7 @@ output_dir <- file.path(tempdir(), "output")
 
 # run export
 export(mydata, directory = output_dir, format = "comets")
-#> Exporting data layer `qc` in comets format to /tmp/RtmpCAWHx6/output/omiprep_comets_export_2026_06_26.xlsx
+#> Exporting data layer `qc` in comets format to /tmp/Rtmp6x7BV8/output/omiprep_comets_export_2026_06_26.xlsx
 #> Export complete.
 
 # view output directory files
@@ -166,8 +167,8 @@ output_dir <- file.path(tempdir(), "output")
 
 # run export
 export(mydata, directory = output_dir, format = "metaboanalyst")
-#> Exporting in export_metaboanalyst format to /tmp/RtmpCAWHx6/output
-#> Exporting data layer `qc` in metaboanalyst format to /tmp/RtmpCAWHx6/output/omiprep_metaboanalyst_export_2026_06_26.csv
+#> Exporting in export_metaboanalyst format to /tmp/Rtmp6x7BV8/output
+#> Exporting data layer `qc` in metaboanalyst format to /tmp/Rtmp6x7BV8/output/omiprep_metaboanalyst_export_2026_06_26.csv
 
 # view output directory files
 files <- list.files(output_dir, full.names = TRUE, recursive = TRUE)

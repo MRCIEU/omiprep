@@ -264,16 +264,16 @@ m_qc <- quality_control(
 #> 
 #> ℹ Sample & Feature Summary Statistics for raw data
 #> ℹ Number of informative PCs (Scree acceleration factor): 3
-#> ℹ Sample & Feature Summary Statistics for raw data✔ Sample & Feature Summary Statistics for raw data [40.8s]
+#> ℹ Sample & Feature Summary Statistics for raw data✔ Sample & Feature Summary Statistics for raw data [40.6s]
 #> 
 #> ℹ Copying input data to new 'qc' data layer
-#> ✔ Copying input data to new 'qc' data layer [284ms]
+#> ✔ Copying input data to new 'qc' data layer [287ms]
 #> 
 #> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)
 #> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [27ms]
 #> 
 #> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)
-#> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [27m…
+#> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [25m…
 #> 
 #> ℹ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
 #> ✔ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
@@ -285,7 +285,7 @@ m_qc <- quality_control(
 #> ✔ Assessing for feature skewness at threshold <= -1.25 - excluding 80 feature(s…
 #> 
 #> ℹ Running sample data PCA outlier analysis at +/- 5 Sdev
-#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [32ms]
+#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [38ms]
 #> 
 #> ℹ Creating final QC dataset...
 #> ℹ Number of informative PCs (Scree acceleration factor): 6
@@ -295,15 +295,15 @@ m_qc <- quality_control(
 #> ℹ Creating final QC dataset...
 #>                         step seconds   pct
 #>                   validation    0.00   0.0
-#>                summarise_raw   40.79  56.3
+#>                summarise_raw   40.55  56.4
 #>                   copy_layer    0.25   0.3
 #>   extreme_sample_missingness    0.01   0.0
 #>  extreme_feature_missingness    0.01   0.0
 #>           sample_missingness    0.02   0.0
-#>          feature_missingness    0.76   1.0
-#>              summarise_final   30.16  41.6
-#>                        total   72.47 100.0
-#> ✔ Creating final QC dataset... [30.5s]
+#>          feature_missingness    0.63   0.9
+#>              summarise_final   29.93  41.6
+#>                        total   71.87 100.0
+#> ✔ Creating final QC dataset... [30.2s]
 #> 
 #> ℹ 'Omics QC Process Completed
 #> ✔ 'Omics QC Process Completed [13ms]

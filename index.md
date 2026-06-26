@@ -5,6 +5,7 @@ for R
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![DOI](https://zenodo.org/badge/1215269352.svg)](https://doi.org/10.5281/zenodo.20941283)
 
 ## Overview
 
