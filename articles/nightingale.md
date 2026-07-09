@@ -175,7 +175,7 @@ mydata <- mydata |>
 #> 
 #> ── Starting Omics QC Process ───────────────────────────────────────────────────
 #> ℹ Validating input parameters
-#> ✔ Validating input parameters [9ms]
+#> ✔ Validating input parameters [8ms]
 #> 
 #> ℹ Sample & Feature Summary Statistics for raw data
 #> ℹ Number of informative PCs (Scree acceleration factor): 2
@@ -185,7 +185,7 @@ mydata <- mydata |>
 #> ✔ Copying input data to new 'qc' data layer [33ms]
 #> 
 #> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)
-#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [26ms]
+#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [25ms]
 #> 
 #> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)
 #> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [18m…
@@ -215,16 +215,16 @@ mydata <- mydata |>
 #> ℹ Creating final QC dataset...
 #>                         step seconds   pct
 #>                   validation    0.00   0.0
-#>                summarise_raw    2.38  34.9
+#>                summarise_raw    2.42  34.7
 #>                   copy_layer    0.00   0.0
 #>   extreme_sample_missingness    0.00   0.0
 #>  extreme_feature_missingness    0.00   0.0
 #>           sample_missingness    0.00   0.0
 #>          total_sum_abundance    0.01   0.1
-#>                summarise_pca    2.13  31.2
-#>              summarise_final    2.05  30.1
-#>                        total    6.82 100.0
-#> ✔ Creating final QC dataset... [2.1s]
+#>                summarise_pca    2.18  31.3
+#>              summarise_final    2.10  30.1
+#>                        total    6.97 100.0
+#> ✔ Creating final QC dataset... [2.2s]
 #> 
 #> ℹ 'Omics QC Process Completed
 #> ✔ 'Omics QC Process Completed [20ms]
