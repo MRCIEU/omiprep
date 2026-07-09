@@ -133,24 +133,6 @@ quantile_list <- lapply(split_list, function(x) quantile(x, probs = probs))
 tbl1          <- do.call(cbind, quantile_list)
 tbl1          <- data.frame(percentile = probs, tbl1, check.names = FALSE)
 
-tbl1 <- tbl1 |>
-  knitr::kable(
-    caption   = "Sample and feature missingness percentiles.",
-    col.names = c("Percentile", "Features", "Samples"),
-    digits    = 3,
-    align     = rep("c", 3)
-  ) |>
-  kableExtra::kable_classic(
-    lightable_options = "hover",
-    html_font         = report_font,
-    full_width        = FALSE,
-    latex_options     = c("hold_position")
-  ) |> 
-  kableExtra::column_spec(
-    column = 1:3, 
-    width  = "7em"
-  )
-
 # Estimates of sample size given various levels of missingness
 # miss_thresholds <- expand.grid(fmiss_thresh = seq(0.0, 1.0, 0.1), 
 #                                smiss_thresh = seq(0.0, 1.0, 0.1))
@@ -188,20 +170,6 @@ tbl2sf = data.frame(
   `Missingness threshold` = scales::percent(thresholds, accuracy = 1),
   `Number of Samples`     = missing_sample_sizes,
   `Number of Features`    = missing_feature_sizes
-  ) |>
-  knitr::kable(
-    caption = "Estimates of sample and feature sample sizes at different missingness thresholds.",
-    align   = rep("c", 2),
-    row.names  = FALSE
-  ) |>
-  kableExtra::kable_classic(
-    lightable_options = "hover",
-    html_font         = report_font,
-    latex_options     = c("hold_position")
-  ) |>
-  kableExtra::column_spec(
-    column = 1:2,
-    width  = "15em"
   )
 
 
@@ -302,7 +270,23 @@ miss_hists
 
 <!-- Table of sample and feature missingness percentiles. A tabled version of the histogram plots. -->
 ```{r percentiles}
-tbl1
+tbl1 |>
+  knitr::kable(
+    caption   = "Sample and feature missingness percentiles.",
+    col.names = c("Percentile", "Features", "Samples"),
+    digits    = 3,
+    align     = rep("c", 3)
+  ) |>
+  kableExtra::kable_classic(
+    lightable_options = "hover",
+    html_font         = report_font,
+    full_width        = FALSE,
+    latex_options     = c("hold_position")
+  ) |>
+  kableExtra::column_spec(
+    column = 1:3,
+    width  = "7em"
+  )
 ```
 
 <!-- Estimates of study samples sizes under various levels of feature missingness. -->
@@ -310,6 +294,20 @@ tbl1
 ```{r miss_sample_sizes}
 # tbl2f
 # tbl2s
-tbl2sf
+tbl2sf |>
+  knitr::kable(
+    caption = "Estimates of sample and feature sample sizes at different missingness thresholds.",
+    align   = rep("c", 2),
+    row.names  = FALSE
+  ) |>
+  kableExtra::kable_classic(
+    lightable_options = "hover",
+    html_font         = report_font,
+    latex_options     = c("hold_position")
+  ) |>
+  kableExtra::column_spec(
+    column = 1:2,
+    width  = "15em"
+  )
 # miss_thresh_sample_size_heatmap
 ```
