@@ -68,7 +68,6 @@ mydata <-  Omiprep(data     = datain$data,
 
 ```{r example}
 # run QC
-<<<<<<< HEAD
 mydata <- mydata |> quality_control( source_layer               = "input", 
                                      sample_missingness         = 0.2, 
                                      feature_missingness        = 0.2, 
@@ -82,9 +81,8 @@ mydata <- mydata |> quality_control( source_layer               = "input",
                                      pc_outlier_sd              = 5, 
                                      sample_ids                 = NULL, 
                                      feature_ids                = NULL)
-=======
+
 mydata <- mydata |> quality_control()
->>>>>>> 8c00fb170cff757f4092fa7824470f236a976f74
 ```
 
 

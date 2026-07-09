@@ -64,7 +64,6 @@ mydata <-  Omiprep(data     = datain$data,
 
 ``` r
 # run QC
-<<<<<<< HEAD
 mydata <- mydata |> quality_control( source_layer               = "input", 
                                      sample_missingness         = 0.2, 
                                      feature_missingness        = 0.2, 
@@ -78,91 +77,85 @@ mydata <- mydata |> quality_control( source_layer               = "input",
                                      pc_outlier_sd              = 5, 
                                      sample_ids                 = NULL, 
                                      feature_ids                = NULL)
-=======
-mydata <- mydata |> quality_control()
->>>>>>> 8c00fb170cff757f4092fa7824470f236a976f74
 #> 
 #> ── Starting Omics QC Process ───────────────────────────────────────────────────
-#> ℹ Validating input parameters
-#> ✔ Validating input parameters [4ms]
-#> 
+#> ℹ Validating input parameters                              
+#> ℹ Validating input parameters                              ── Starting 'Omics QC Process ──────────────────────────────────────────────────
+#> ℹ Validating input parameters✔ Validating input parameters [9ms]
+#> ℹ Validating input parameters✔ Validating input parameters [7ms]
 #> ℹ Sample & Feature Summary Statistics for raw data
-<<<<<<< HEAD
-#> AF =  2
-#> ✔ Sample & Feature Summary Statistics for raw data [271ms]
-#> ℹ Copying input data to new 'qc' data layer✔ Copying input data to new 'qc' data layer [15ms]
-#> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [10ms]
-#> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [10m…
-#> ℹ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…✔ Assessing for sample missingness at specified level of >=20% - excluding 2 sa…
+#> AF =  7
+#> ✔ Sample & Feature Summary Statistics for raw data [121ms]
+#> ℹ Copying input data to new 'qc' data layer✔ Copying input data to new 'qc' data layer [9ms]
+#> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [9ms]
+#> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [9ms]
+#> ℹ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…✔ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
 #> ℹ Assessing for feature missingness at specified level of >=20% - excluding 0 f…✔ Assessing for feature missingness at specified level of >=20% - excluding 0 f…
 #> ℹ Calculating total sum abundance outliers at +/- 5 Sdev - excluding 0 sample(s)✔ Calculating total sum abundance outliers at +/- 5 Sdev - excluding 0 sample(s…
-#> ℹ Running sample data PCA outlier analysis at +/- 5 Sdev✔ Running sample data PCA outlier analysis at +/- 5 Sdev [8ms]
-=======
-#> ℹ Number of informative PCs (Scree acceleration factor): 2
-#> ℹ Sample & Feature Summary Statistics for raw data✔ Sample & Feature Summary Statistics for raw data [794ms]
-#> 
-#> ℹ Copying input data to new 'qc' data layer
-#> ✔ Copying input data to new 'qc' data layer [12ms]
-#> 
-#> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)
-#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [9ms]
-#> 
-#> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)
-#> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [13m…
-#> 
-#> ℹ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
-#> ✔ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
-#> 
-#> ℹ Assessing for feature missingness at specified level of >=20% - excluding 0 f…
-#> ✔ Assessing for feature missingness at specified level of >=20% - excluding 7 f…
-#> 
-#> ℹ Calculating total sum abundance outliers at +/- 5 Sdev - excluding 0 sample(s)
-#> ✔ Calculating total sum abundance outliers at +/- 5 Sdev - excluding 0 sample(s…
-#> 
-#> ℹ Running sample data PCA outlier analysis at +/- 5 Sdev
-#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [8ms]
-#> 
->>>>>>> 8c00fb170cff757f4092fa7824470f236a976f74
+#> ℹ Running sample data PCA outlier analysis at +/- 5 Sdev✔ Running sample data PCA outlier analysis at +/- 5 Sdev [9ms]
 #> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
-#> ℹ Number of informative PCs (Scree acceleration factor): 2
-#> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
-#> ! The stated max PCs [max_num_pcs=10] to use in PCA outlier assessment is greater than the number of available informative PCs [2]
+#> AF =  7
+#> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…                                                                                 ! The stated max PCs [max_num_pcs=10] to use in PCA outlier assessment is greater than the number of available informative PCs [7]
 #> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…✔ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
-#> 
 #> ℹ Creating final QC dataset...
-#> ℹ Number of informative PCs (Scree acceleration factor): 2
+#> AF =  7
+#>                                
+#> ℹ Creating final QC dataset...                               ── Step timings ──
+#> ℹ Creating final QC dataset...                               
 #> ℹ Creating final QC dataset...
-#> ℹ Creating final QC dataset...── Step timings ──
+#>                         step seconds  pct
+#>                   validation    0.01  2.5
+#>                summarise_raw    0.09 22.2
+#>                   copy_layer    0.00  0.0
+#>   extreme_sample_missingness    0.00  0.0
+#>  extreme_feature_missingness    0.00  0.0
+#>           sample_missingness    0.00  0.0
+#>          total_sum_abundance    0.00  0.0
+#>                summarise_pca    0.12 29.6
+#>              summarise_final    0.06 14.8
+#>                        total    0.40 98.8
+#> ✔ Creating final QC dataset... [79ms]
+#> ℹ 'Omics QC Process Completed✔ 'Omics QC Process Completed [10ms]
+
+mydata <- mydata |> quality_control()
+#> ── Starting Omics QC Process ───────────────────────────────────────────────────
+#> ℹ Validating input parameters                              
+#> ℹ Validating input parameters                              ── Starting 'Omics QC Process ──────────────────────────────────────────────────
+#> ℹ Validating input parameters✔ Validating input parameters [5ms]
+#> ℹ Validating input parameters✔ Validating input parameters [6ms]
+#> ℹ Sample & Feature Summary Statistics for raw data
+#> AF =  7
+#> ✔ Sample & Feature Summary Statistics for raw data [70ms]
+#> ℹ Copying input data to new 'qc' data layer✔ Copying input data to new 'qc' data layer [9ms]
+#> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [9ms]
+#> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [8ms]
+#> ℹ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…✔ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
+#> ℹ Assessing for feature missingness at specified level of >=20% - excluding 0 f…✔ Assessing for feature missingness at specified level of >=20% - excluding 0 f…
+#> ℹ Calculating total sum abundance outliers at +/- 5 Sdev - excluding 0 sample(s)✔ Calculating total sum abundance outliers at +/- 5 Sdev - excluding 0 sample(s…
+#> ℹ Running sample data PCA outlier analysis at +/- 5 Sdev✔ Running sample data PCA outlier analysis at +/- 5 Sdev [9ms]
+#> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
+#> AF =  7
+#> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…                                                                                 ! The stated max PCs [max_num_pcs=10] to use in PCA outlier assessment is greater than the number of available informative PCs [7]
+#> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…✔ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
 #> ℹ Creating final QC dataset...
+#> AF =  7
+#>                                
+#> ℹ Creating final QC dataset...                               ── Step timings ──
+#> ℹ Creating final QC dataset...                               
 #> ℹ Creating final QC dataset...
 #>                         step seconds   pct
-<<<<<<< HEAD
-#>                   validation    0.01   1.2
-#>                summarise_raw    0.26  31.7
-=======
-#>                   validation    0.00   0.0
-#>                summarise_raw    0.79  32.9
->>>>>>> 8c00fb170cff757f4092fa7824470f236a976f74
+#>                   validation    0.01   3.4
+#>                summarise_raw    0.06  20.1
 #>                   copy_layer    0.00   0.0
 #>   extreme_sample_missingness    0.00   0.0
-#>  extreme_feature_missingness    0.01   0.4
+#>  extreme_feature_missingness    0.00   0.0
 #>           sample_missingness    0.00   0.0
 #>          total_sum_abundance    0.00   0.0
-<<<<<<< HEAD
-#>                summarise_pca    0.25  30.5
-#>              summarise_final    0.19  23.2
-#>                        total    0.82 100.1
-#> ✔ Creating final QC dataset... [210ms]
-#> ℹ 'Omics QC Process Completed✔ 'Omics QC Process Completed [12ms]
-=======
-#>                summarise_pca    0.77  32.1
-#>              summarise_final    0.73  30.4
-#>                        total    2.40 100.0
-#> ✔ Creating final QC dataset... [757ms]
-#> 
-#> ℹ 'Omics QC Process Completed
-#> ✔ 'Omics QC Process Completed [9ms]
->>>>>>> 8c00fb170cff757f4092fa7824470f236a976f74
+#>                summarise_pca    0.07  23.5
+#>              summarise_final    0.07  23.5
+#>                        total    0.30 100.7
+#> ✔ Creating final QC dataset... [86ms]
+#> ℹ 'Omics QC Process Completed✔ 'Omics QC Process Completed [8ms]
 ```
 
 ### View a summary of the Omiprep object
@@ -172,8 +165,8 @@ mydata <- mydata |> quality_control()
 summary(mydata)
 #> Omiprep Object Summary
 #> --------------------------
-#> Samples      : 150
-#> Features     : 229
+#> Samples      : 50
+#> Features     : 15
 #> Data Layers  : 2
 #> Layer Names  : input, qc
 #> 
@@ -181,12 +174,12 @@ summary(mydata)
 #> Feature Summary Layers: input, qc
 #> 
 #> Sample Annotation (metadata):
-#>   Columns: 7
-#>   Names  : sample_id, high_pyruvate, high_lactate, low_glutamine__high_glutamate, plasma_sample, reason_excluded, excluded
+#>   Columns: 10
+#>   Names  : sample_id, high_pyruvate, high_lactate, low_glutamine__high_glutamate, plasma_sample, reason_excluded.x, excluded.x, reason_excluded.y, excluded.y, excluded
 #> 
 #> Feature Annotation (metadata):
-#>   Columns: 3
-#>   Names  : feature_id, reason_excluded, excluded
+#>   Columns: 6
+#>   Names  : feature_id, reason_excluded.x, excluded.x, reason_excluded.y, excluded.y, excluded
 #> 
 #> Exclusion Codes Summary:
 #> 
@@ -204,7 +197,7 @@ summary(mydata)
 #> -----------------
 #> user_excluded                    | 0
 #> extreme_feature_missingness      | 0
-#> user_defined_feature_missingness | 7
+#> user_defined_feature_missingness | 0
 #> user_defined_feature_skewness    | 0
 ```
 
