@@ -28,6 +28,33 @@ method(generate_report, Omiprep) <- function(omiprep, output_dir, output_filenam
   template <- match.arg(template, choices = available_report_templates())
   stopifnot("\n'qc' data layer not found, have you run the quality_control() function on your Omiprep object? \n Run `dimnames(omiprep@data)[[3]]` to see current data layers" = "qc" %in% dimnames(omiprep@data)[[3]])
 
+  # the qc_report template requires these packages to be installed; fail early with
+  # an actionable message rather than deep inside rmarkdown::render()
+  required_pkgs <- c("kableExtra", "dendextend", "glue")
+  missing_pkgs  <- required_pkgs[!vapply(required_pkgs, requireNamespace, logical(1), quietly = TRUE)]
+  if (length(missing_pkgs) > 0) {
+    stop(
+      "\nThe following packages are required to generate a report but are not installed: ", paste(missing_pkgs, collapse = ", "),
+      "\n Install them with:\n   install.packages(c(", paste(sprintf("'%s'", missing_pkgs), collapse = ", "), "))",
+      call. = FALSE
+    )
+  }
+  if (!rmarkdown::pandoc_available()) {
+    stop(
+      "\nGenerating a report requires pandoc, which was not found on this system.",
+      "\n Install RStudio (which bundles pandoc) or pandoc itself: https://pandoc.org/installing.html",
+      call. = FALSE
+    )
+  }
+  if (format == "pdf" && !(requireNamespace("tinytex", quietly = TRUE) && tinytex::is_tinytex())) {
+    stop(
+      "\nGenerating a PDF report requires a working LaTeX installation via tinytex, which was not found.",
+      "\n Install it with:\n   install.packages('tinytex')\n   tinytex::install_tinytex()",
+      "\n Alternatively, use format = 'html' to generate a report without LaTeX.",
+      call. = FALSE
+    )
+  }
+
   # ensure dir exists and normalise
   output_dir <- normalizePath(output_dir, mustWork = TRUE)
   dir.create(output_dir, showWarnings = FALSE, recursive = TRUE)
@@ -69,34 +96,5 @@ method(generate_report, Omiprep) <- function(omiprep, output_dir, output_filenam
     file.rename(log_file, file.path(dirname(outpath), basename(log_file)))
   }
   
-  #
-  #
-  # # Only run if the output format is PDF
-  # output_format <- knitr::opts_knit$get("rmarkdown.pandoc.to")
-  # if (output_format == "pdf") {
-  #   # Check if TinyTeX is installed and install it if necessary
-  #   if (!requireNamespace("tinytex", quietly = TRUE)) {
-  #     message("\n\n## LaTeX Installation Instructions\n",
-  #             "It seems that TinyTeX is not installed. Please follow the instructions below to install TinyTeX and the required LaTeX packages.\n\n",
-  #             "### Steps to Install TinyTeX and Missing LaTeX Packages\n",
-  #             "1. Install TinyTeX by running the following command in R:\n",
-  #             "   ```r\n",
-  #             "   install.packages('tinytex')\n",
-  #             "   tinytex::install_tinytex()\n",
-  #             "   ```\n",
-  #             "2. Install missing LaTeX packages (e.g., 'caption'):\n",
-  #             "   ```r\n",
-  #             "   tinytex::tlmgr_install('caption')\n",
-  #             "   ```\n",
-  #             "3. If TinyTeX is installed, but packages are missing or outdated, you can update TinyTeX:\n",
-  #             "   ```r\n",
-  #             "   tinytex::tlmgr_update()\n",
-  #             "   ```\n",
-  #             "Once TinyTeX and required LaTeX packages are installed, recompile the report to generate the PDF.\n\n",
-  #             "For more help on LaTeX troubleshooting, visit: https://yihui.org/tinytex/r/#debugging\n")
-  #   }
-  # }
-
-
   invisible(omiprep)
 }

@@ -37,10 +37,12 @@ Imports:
     bslib,
     DT,
     plotly
-Suggests: 
+Suggests:
     knitr,
     dendextend,
     kableExtra,
+    glue,
+    tinytex,
     remotes,
     testthat (>= 3.0.0),
     withr
