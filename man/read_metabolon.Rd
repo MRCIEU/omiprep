@@ -11,7 +11,7 @@ read_metabolon(
   feature_id_col = NULL,
   sample_sheet = NULL,
   sample_id_col = NULL,
-  return_Omiprep = TRUE
+  return_Omiprep = FALSE
 )
 }
 \arguments{
@@ -27,7 +27,7 @@ read_metabolon(
 
 \item{sample_id_col}{character, the excel column containing the sample_id mapping to the data.}
 
-\item{return_Omiprep}{logical, if TRUE (default) return a Omiprep object, if FALSE return a list.}
+\item{return_Omiprep}{logical, if TRUE return a Omiprep object, if FALSE (default)  return a list.}
 }
 \value{
 list or Omiprep object, list(data = matrix, samples = samples data.frame, features = features data.frame)
@@ -50,7 +50,7 @@ filepath3 <- system.file("extdata", "metabolon_v2_example.xlsx", package = "omip
 m <- read_metabolon(filepath3, 
                     sheet = 'Batch-normalized Data', 
                     feature_sheet = 'Chemical Annotation', 
-                    feature_id_col = 'CHEM_ID', 
+                    feature_id_col = 'COMP_ID',
                     sample_sheet = 'Sample Meta Data', 
                     sample_id_col = 'PARENT_SAMPLE_NAME')
 

@@ -4,15 +4,19 @@
 
 ```{r sample_size, echo=FALSE, results = 'asis'}
 layer_names = dimnames(omiprep@data)[[3]]
-excl_samps = unique( unlist(omiprep@exclusions$samples ))
-incl_samps = setdiff(rownames(omiprep@data[, ,layer_names[2]]), excl_samps)
-excl_feats = unique( unlist(omiprep@exclusions$features ))
-incl_feats = setdiff(colnames(omiprep@data[, ,layer_names[2]]), excl_feats)
+raw_layer   = layer_names[1]                       # input / raw layer
+excl_samps  = unique( unlist(omiprep@exclusions$samples ))
+incl_samps  = setdiff(rownames(omiprep@data[, , raw_layer]), excl_samps)
+excl_feats  = unique( unlist(omiprep@exclusions$features ))
+incl_feats  = setdiff(colnames(omiprep@data[, , raw_layer]), excl_feats)
 
+# Two-row summary: raw input vs QC-included. `Dataset` must be length 2 to match
+# the Samples/Features vectors. Previously it used ALL layer names, which errored
+# once a 3rd layer (e.g. an imputed layer) was present in the data array.
 sample_size_table <- data.frame(
-  Dataset  = toupper(gsub("_"," ",layer_names)),
-  Samples  = c( nrow(omiprep@data[ , ,layer_names[1]]) , length(incl_samps) ),
-  Features = c( ncol(omiprep@data[ , ,layer_names[1]]) ,  length(incl_feats) ),
+  Dataset  = c( toupper(gsub("_", " ", raw_layer)), "QC INCLUDED" ),
+  Samples  = c( nrow(omiprep@data[ , , raw_layer]) , length(incl_samps) ),
+  Features = c( ncol(omiprep@data[ , , raw_layer]) ,  length(incl_feats) ),
   stringsAsFactors = FALSE
 )
 

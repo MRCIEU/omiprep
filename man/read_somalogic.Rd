@@ -9,7 +9,7 @@ read_somalogic(filepath, return_Omiprep = FALSE)
 \arguments{
 \item{filepath}{A string specifying the path to the SomaLogic `.adat` file.}
 
-\item{return_Omiprep}{logical, if TRUE (default) return a Omiprep object, if FALSE return a list.}
+\item{return_Omiprep}{logical, if TRUE return a Omiprep object, if FALSE (default) return a list.}
 }
 \value{
 A omiprep object or a named list with the following elements:

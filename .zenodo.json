@@ -1,0 +1,16 @@
+{
+  "title": "omiprep: Omics data preparation and processing pipeline",
+  "description": "An R package that reads raw Metabolon, Nightingale Health, Olink, and SomaLogic files (or flat text), and provides quality control, batch normalisation, summarisation, and reporting for metabolomics and proteomics data sets. Formerly known as metaboprep.",
+  "upload_type": "software",
+  "access_right": "open",
+  "license": "MIT",
+  "version": "0.9.0",
+  "creators": [
+    { "name": "Corbin, Laura", "affiliation": "University of Bristol" },
+    { "name": "Hughes, David A.", "affiliation": "University of Bristol" },
+    { "name": "Sunderland, Nicholas", "affiliation": "University of Bristol" },
+    { "name": "Lee, Matthew", "affiliation": "University of Bristol" },
+    { "name": "McKinlay, Alec", "affiliation": "University of Bristol" }
+  ],
+  "keywords": ["metabolomics", "proteomics", "omics", "quality control", "R"]
+}

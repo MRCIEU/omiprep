@@ -19,10 +19,18 @@ knitr::opts_chunk$set(
 ```{r render}
 library(omiprep)
 
+## example data file path
+filepath <- system.file("extdata", "metabolon_v2_example.xlsx", package = "omiprep")
+
 # import data directly as a Omiprep object
-mydata <- read_metabolon(system.file("extdata", "metabolon_v1.1_example.xlsx", package = "omiprep"), 
-                         sheet="OrigScale",
-                         return_Omiprep = TRUE)
+mydata <- read_metabolon(filepath,  
+                         sheet = 'Batch-normalized Data',        ## read in the batch normalized but NOT imputed tab
+                         feature_sheet = "Chemical Annotation",  ## tab name of the feature data
+                         feature_id_col = "COMP_ID",             ## column name of feature IDs
+                         sample_sheet = "Sample Meta Data",      ## tab name of the sample data
+                         sample_id_col = "PARENT_SAMPLE_NAME",   ## column name of sample IDs 
+                         return_Omiprep = TRUE
+                         )
 
 ```
 
@@ -30,7 +38,8 @@ mydata <- read_metabolon(system.file("extdata", "metabolon_v1.1_example.xlsx", p
 ## Identify the Xenobiotics to exclude from the QC steps
 
 ```{r xeno_identification}
-xenos <- mydata@features[mydata@features$pathway == "xenobiotic", "feature_id"]
+xenos <- mydata@features[!is.na(mydata@features$SUPER_PATHWAY) & 
+                           mydata@features$SUPER_PATHWAY == "Xenobiotics", "feature_id"]
 
 ## how many xenobiotics identified
 length(xenos)
@@ -61,8 +70,11 @@ mydata <- mydata |>
 
 ```{r}
 # render report
+project     <- "metabolon_example"
+report_html <- paste0(project, "_omiprep_qc_report.html")   # name generate_report() writes
+
 generate_report(mydata,
-                project         = "myproject",
+                project         = project,
                 output_dir      = getwd(),
                 output_filename = NULL,
                 format          = "html",
@@ -71,14 +83,14 @@ generate_report(mydata,
 
 
 ```{r, echo=FALSE}
-file.copy(file.path(getwd(), "myproject_omiprep_qc_report.html"), 
-          file.path(getwd(), "../docs/articles/myproject_omiprep_qc_report.html"), overwrite = TRUE)
+file.copy(file.path(getwd(), report_html),
+          file.path(getwd(), "../docs/articles", report_html), overwrite = TRUE)
 ```
 
 ```{r, echo=FALSE, results="asis"}
-cat('
+cat(paste0('
 <div id="iframe-container" style="width: 100%;">
-  <iframe id="myIframe" src="https://mrcieu.github.io/omiprep/articles/myproject_omiprep_qc_report.html" 
+  <iframe id="myIframe" src="https://mrcieu.github.io/omiprep/articles/', report_html, '"
           width="100%" style="border: none;"></iframe>
 </div>
 
@@ -94,5 +106,5 @@ cat('
     setTimeout(resizeIframe, 500);
   };
 </script>
-')
+'))
 ```

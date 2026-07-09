@@ -13,3 +13,9 @@ scripts
 ^vignettes/output$
 ^\.positai$
 ^\.claude$
+^doc$
+^Meta$
+^\.remember$
+^CITATION\.cff$
+^\.zenodo\.json$
+

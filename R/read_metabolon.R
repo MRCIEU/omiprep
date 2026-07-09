@@ -5,7 +5,7 @@
 #' @param feature_id_col character, the excel column containing the feature_id mapping to the data. 
 #' @param sample_sheet character or integer, the excel sheet name (or index) from which to read the sample data. 
 #' @param sample_id_col character, the excel column containing the sample_id mapping to the data. 
-#' @param return_Omiprep logical, if TRUE (default) return a Omiprep object, if FALSE return a list.
+#' @param return_Omiprep logical, if TRUE return a Omiprep object, if FALSE (default)  return a list.
 #' @returns list or Omiprep object, list(data = matrix, samples = samples data.frame, features = features data.frame)
 #'
 #' @examples
@@ -23,13 +23,13 @@
 #' m <- read_metabolon(filepath3, 
 #'                     sheet = 'Batch-normalized Data', 
 #'                     feature_sheet = 'Chemical Annotation', 
-#'                     feature_id_col = 'CHEM_ID', 
+#'                     feature_id_col = 'COMP_ID',
 #'                     sample_sheet = 'Sample Meta Data', 
 #'                     sample_id_col = 'PARENT_SAMPLE_NAME')
 #'
 #' @importFrom readxl excel_sheets read_xlsx
 #' @export
-read_metabolon <- function(filepath, sheet = NULL, feature_sheet = NULL, feature_id_col = NULL, sample_sheet = NULL, sample_id_col = NULL, return_Omiprep = TRUE) {
+read_metabolon <- function(filepath, sheet = NULL, feature_sheet = NULL, feature_id_col = NULL, sample_sheet = NULL, sample_id_col = NULL, return_Omiprep = FALSE) {
 
   # testing ====
   if (FALSE) {
@@ -188,8 +188,13 @@ read_metabolon <- function(filepath, sheet = NULL, feature_sheet = NULL, feature
   # checks
   stopifnot("Sample ids do not exactly match row names of data" = identical(samples$sample_id, rownames(data)))
   stopifnot("Feature ids do not exactly match row names of data" = identical(features$feature_id, colnames(data)))
-  
-  
+
+
+  # ensure we return data.frames with row names as ids
+  samples  <- as_meta_df(samples,  "sample_id")
+  features <- as_meta_df(features, "feature_id")
+
+
   # return ====
   if (return_Omiprep) {
     return(Omiprep(data = data, samples = samples, features = features))

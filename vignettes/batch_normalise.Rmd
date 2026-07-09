@@ -19,12 +19,12 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(omiprep)
 
-data     <- read.csv(system.file("extdata", "dummy_data.csv", package = "omiprep"), header=T, row.names = 1) |> as.matrix()
-samples  <- read.csv(system.file("extdata", "dummy_samples.csv", package = "omiprep"), header=T, row.names = 1)
-features <- read.csv(system.file("extdata", "dummy_features.csv", package = "omiprep"), header=T, row.names = 1)
+# example file
+filepath <- system.file("extdata", "metabolon_v1.1_example.xlsx", package = "omiprep")
 
-## create Omiprep object
-mydata <- Omiprep(data = data, samples = samples, features = features)
+## Read in Metabolon v1.1 example and directly create Omiprep object
+mydata <- read_metabolon(filepath, sheet = "OrigScale" , return_Omiprep = TRUE )
+
 
 ## summary of Omiprep object
 summary(mydata)
@@ -32,11 +32,23 @@ summary(mydata)
 
 ## Run batch normalisation
 
+Early Metabolon releases only provided the original scale data and a batch normalised and minimally imputed data set. We would not advocate using minimally imputed data, particularly not for quality control / pre-processing. As such, you may have to (1) batch normalize the original scale data, as we are doing here. Or (2) convert the minimally imputed cells in the ScaledImp tab of the release back into NAs. 
+
+Again, here we are illustrating how to run a mass-spectroscopy style median batch normalization. 
+
 ```{r batch_normalise}
 mydata <- mydata |>
-  batch_normalise(run_mode_col = "platform", run_mode_colmap = c(pos="pos", neg="neg")) |>
-  print()
+  batch_normalise(run_mode_col          = "platform",  ## Column names in feature sheet that defines the run mode for each feature
+                  run_mode_colmap       = 
+                    c("LC/MS Neg"       = 'lcms_neg' , ## string from feature sheet column = 
+                                                       ## column name in sample sheet that holds the batch information
+                      "LC/MS Polar"     = 'lcms_polar',
+                      "LC/MS Pos Early" = 'lcms_pos_early',
+                      "LC/MS Pos Late"  = 'lcms_pos_late' ) 
+                  )
+
 ```
+
 
 ## Accessing data
 
@@ -46,10 +58,51 @@ mydata <- mydata |>
 mydata@data[1:5, 1:5, "input"]
 ```
 
-### Batch normlalised data
+### Batch normalised data
 
 ```{r}
 mydata@data[1:5, 1:5, "batch_normalised"]
 ```
 
+## Now any quality control step should be run on the "batch_normalised" layer. 
+
+```{r}
+## identify the xenos
+xenos <- mydata@features[!is.na(mydata@features$super_pathway) & mydata@features$super_pathway == "Xenobiotics", "feature_id"]
+
+## run the QC on the batch_normalised layer
+mydata <- mydata |> quality_control(source_layer               = "batch_normalised", 
+                                    sample_missingness         = 0.2, 
+                                    feature_missingness        = 0.2, 
+                                    total_sum_abundance_sd     = 5, 
+                                    outlier_udist              = 5, 
+                                    outlier_treatment          = "leave_be", 
+                                    winsorize_quantile         = 1.0, 
+                                    tree_cut_height            = 0.5, 
+                                    pc_outlier_sd              = 5,
+                                    feature_selection          = "least_missingness", 
+                                    features_exclude_but_keep  = xenos, 
+                                    cores                      = 1
+                                    )
+```
+
+### QC data
+
+```{r}
+mydata@data[1:5, 1:5, "qc"]
+```
+
+## Quick view of omiprep object
+
+### data array layers
+
+```{r}
+dimnames(mydata@data)[[3]]
+```
+
+### omiprep summary
+
+```{r}
+summary(mydata)
+```
 

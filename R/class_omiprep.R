@@ -89,7 +89,8 @@ Omiprep <- new_class(
     }
     
     # check all sample and feature ids in data
-    stopifnot("data matrix must be named with sample_ids and feature_ids" = all(rownames(data) %in% samples[["sample_id"]] & all(colnames(data) %in% features[["feature_id"]])))
+    stopifnot("data matrix must be named with sample_ids and feature_ids" = all(rownames(data) %in% samples[["sample_id"]]) &
+                all(colnames(data) %in% features[["feature_id"]]) )
     
     # order samples and features by data
     samples  <- as.data.frame(samples[match(rownames(data), samples[["sample_id"]]), , drop = FALSE])
@@ -108,18 +109,26 @@ Omiprep <- new_class(
   # Validator function the Omiprep object
   ##########################################
   validator = function(self) {
-    if ((nrow(self@features)>0 & length(self@data)>0) && (nrow(self@features) != ncol(self@data))) {
-      sprintf("Number of @features (%i) must equal the number of features in @data (%i)", nrow(self@features), ncol(self@data))
+    errs <- character()
+    if ((nrow(self@features) > 0 & length(self@data) > 0) &&
+        (nrow(self@features) != ncol(self@data))) {
+      errs <- c(errs, sprintf("Number of @features (%i) must equal the number of features in @data (%i)",
+                              nrow(self@features), ncol(self@data)))
     }
-    if ((nrow(self@samples)>0 & length(self@data)>0) && (nrow(self@samples) != nrow(self@data))) {
-      sprintf("Number of @samples (%i) must equal the number of samples in @data (%i)", nrow(self@samples), nrow(self@data))
+    if ((nrow(self@samples) > 0 & length(self@data) > 0) &&
+        (nrow(self@samples) != nrow(self@data))) {
+      errs <- c(errs, sprintf("Number of @samples (%i) must equal the number of samples in @data (%i)",
+                              nrow(self@samples), nrow(self@data)))
     }
-    if ((nrow(self@samples)>0 & length(self@data)>0) && !identical(self@samples[, "sample_id"], rownames(self@data))) {
-      "Column `sample_id` in @samples must be identical to the rownames of @data"
+    if ((nrow(self@samples) > 0 & length(self@data) > 0) &&
+        !identical(self@samples[, "sample_id"], rownames(self@data))) {
+      errs <- c(errs, "Column `sample_id` in @samples must be identical to the rownames of @data")
     }
-    if ((nrow(self@features)>0 & length(self@data)>0) && !identical(self@features[, "feature_id"], colnames(self@data))) {
-      "Column `feature_id` in @features must be identical to the colnames of @data"
+    if ((nrow(self@features) > 0 & length(self@data) > 0) &&
+        !identical(self@features[, "feature_id"], colnames(self@data))) {
+      errs <- c(errs, "Column `feature_id` in @features must be identical to the colnames of @data")
     }
+    if (length(errs) > 0) errs else NULL
   }
 )
 

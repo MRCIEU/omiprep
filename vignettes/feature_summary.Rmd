@@ -21,9 +21,10 @@ knitr::opts_chunk$set(
 library(omiprep)
 
 # import data
-data     <- read.csv(system.file("extdata", "dummy_data.csv",     package = "omiprep"), header=T, row.names = 1) |> as.matrix()
-samples  <- read.csv(system.file("extdata", "dummy_samples.csv",  package = "omiprep"), header=T, row.names = 1)
+data     <- read.csv(system.file("extdata", "dummy_data.csv", package = "omiprep"), header=T, row.names = 1, check.names = FALSE) |> as.matrix()
+samples  <- read.csv(system.file("extdata", "dummy_samples.csv", package = "omiprep"), header=T, row.names = 1)
 features <- read.csv(system.file("extdata", "dummy_features.csv", package = "omiprep"), header=T, row.names = 1)
+features$feature_id = as.character(features$feature_id)
 
 # create object
 mydata <- Omiprep(data = data, samples = samples, features = features)
@@ -36,10 +37,36 @@ mydata <- Omiprep(data = data, samples = samples, features = features)
 summary(mydata)
 ```
 
-## Run feature summary
+## Run standard quality control
+
+```{r run_qc}
+mydata = quality_control(mydata)
+```
+
+## Feature Summary
+
+### View feature summary from the QC pipeline
+
+```{r qc_sample_sum_table, echo=TRUE}
+# Note: the quality_control() ultimately returns the feature_summary attribute as a matrix.
+df <- t( as.data.frame(mydata@feature_summary[, 1:5, "input"]) )
+df <- as.data.frame( round( df , 3) )
+df <- cbind(feature_id = rownames(df), df)
+
+df |> knitr::kable( digits = 3, row.names = FALSE, align = "c") |>
+  kableExtra::kable_styling(full_width = TRUE) 
+```
+
+### Manually run feature summary
+
+While feature summary is run as a part of the quality_control() function pipeline you can run the function yourself, on any layer you wish. 
+
 
 ```{r feature_summary1}
-# note that for illustrative purposes we are using a log outlier unit distance of 1.0 here, in practice we tend to favor a value of 5.0.
+# NOTE:
+# outlier_udist = number of IQRs from the median at which a value is flagged.
+# 1.0 here is illustrative; in practice we favour 5.0, which is the default value
+# for the quality_control() function.
 feature_sum1 <- feature_summary(omiprep         = mydata, 
                                 source_layer    = "input", 
                                 outlier_udist   = 1.0,
@@ -48,59 +75,31 @@ feature_sum1 <- feature_summary(omiprep         = mydata,
                                 cores           = 1)
 ```
 
-## Table of feature summary
+#### Table of feature summary
 
-```{r feature_sum1_table, echo=FALSE}
+```{r feature_sum1_table, echo=TRUE}
 feature_sum1 |> 
   head(n = 10) |> 
   knitr::kable( digits = 3, row.names = FALSE, align = "c") |>
   kableExtra::kable_styling(full_width = FALSE) 
 ```
 
-## Feature summary attributes
 
-In addition to the summary data, the hierarchical cluster dendrogram is appended to the returned `data.frame` as and `attribute`. This can be accessed with the attribute name: `[source_layer]_tree`, in this case we summarised the `input` data, therefore the attribute name is `input_tree`. 
-
-
-```{r tree, out.width="100%", fig.align='center', fig.alt = "Decision tree showing feature importance in dataset", fig.width = 10, fig.height = 4}
-suppressPackageStartupMessages(library(dendextend))
-
-# extract tree from attributes
-tree <- attr(feature_sum1, 'input_tree')
-dend <- stats::as.dendrogram(tree)
-
-# color the independent features blue
-metab_color       <- feature_sum1[, c("feature_id", "independent_features")]
-metab_color       <- metab_color[match(labels(dend), metab_color$feature_id), ]
-metab_color$color <- ifelse(metab_color$independent_features==TRUE, "#477EB8", "grey")
-
-# format dendrogram for ploting
-dend <- dend |>
-  dendextend::set("labels_cex", 0.75) |>
-  dendextend::set("labels_col", metab_color$color) |>
-  dendextend::set("branches_lwd", 1) |>
-  dendextend::set("branches_k_color",  value = metab_color$color)
-
-## plot the dendrogram
-dend |> plot(main = "Feature clustering dendrogram")
-abline(h = 0.5, col = "#E41A1C", lwd = 1.5)
-
-```
-
-
-## Run feature summary on subset
+### Run feature summary on subset
 
 Using the `sample_ids` and `feature_ids` arguments you can run the summary for a subset of the data. Note: all rows will be return, however summary data will only be returned for the specified ids.  
-
 
 ```{r feature_sum_subset}
 ## define a vector of sample IDs
 sids <- mydata@samples[mydata@samples$sex == "female", "sample_id"] 
 
 ## define a vector of feature IDs
-fids <- mydata@features[, "feature_id"] |> sample(10)
+fids <- mydata@features[, "feature_id"] |> sample(25)
 
-# note that for illustrative purposes we are using a log outlier unit distance of 1.0 here, in practice we tend to favor a value of 5.0.
+# NOTE:
+# outlier_udist = number of IQRs from the median at which a value is flagged.
+# 1.0 here is illustrative; in practice we favour 5.0, which is the default value
+# for the quality_control() function.
 feature_sum_subset <- feature_summary(omiprep         = mydata, 
                                       source_layer    = "input", 
                                       outlier_udist   = 1.0,
@@ -112,9 +111,9 @@ feature_sum_subset <- feature_summary(omiprep         = mydata,
 ```
 
 
-## Table of feature summary for subset
+#### Table of feature summary for subset
 
-```{r feature_sum_subset_table, echo=FALSE}
+```{r feature_sum_subset_table, echo=TRUE}
 feature_sum_subset |> 
   na.omit() |>
   knitr::kable( digits = 3, row.names = FALSE, align = "c") |>
@@ -123,26 +122,71 @@ feature_sum_subset |>
 ```
 
 
+## Additional feature_summary() attributes
+
+```{r}
+## The attributes include column names, row names, and class for the feature summary table
+## as well as a hierarchical cluster dendrogram or `input_tree` and the parameter values for 
+## outlier_udist and input_tree_cut_height passed to the function. 
+names( attributes(feature_sum1) )
+```
+
+### hierarchical cluster dendrogram
+
+In addition to the summary data, the hierarchical cluster dendrogram is appended to the returned `data.frame` as and `attribute`. This can be accessed with the attribute name: `[source_layer]_tree`, in this case we summarised the `input` data, therefore the attribute name is `input_tree`. 
+
+
+```{r tree, out.width="100%", fig.align='center', fig.alt = "Decision tree showing feature importance in dataset", fig.width = 20, fig.height = 5}
+suppressPackageStartupMessages(library(dendextend))
+
+## number of independent features
+indfeatcount = sum( feature_sum1$independent_features, na.rm = TRUE )
+
+# extract tree from attributes
+tree <- attr(feature_sum1, 'input_tree')
+dend <- stats::as.dendrogram(tree)
+
+# color the independent features blue
+metab_color       <- feature_sum1[, c("feature_id", "independent_features")]
+metab_color       <- metab_color[match(labels(dend), metab_color$feature_id), ]
+metab_color$color <- ifelse(metab_color$independent_features==TRUE, "#084594", "grey80")
+
+# format dendrogram for ploting
+dend <- dend |>
+  dendextend::set("labels_cex", 0.75) |>
+  dendextend::set("labels_col", metab_color$color) |>
+  dendextend::set("branches_lwd", 1) |>
+  dendextend::set("branches_k_color",  value = metab_color$color)
+
+## plot the dendrogram
+dend |> plot(main  = paste0("Feature clustering dendrogram\n# of ind. features = ",indfeatcount ))
+abline(h = 0.5, col = "#E41A1C", lwd = 1.5)
+
+```
+
 
 ## Run sample & feature summaries together
 
 ```{r summarise_data}
-# note that for illustrative purposes we are using a log outlier unit distance of 1.0 here, in practice we tend to favor a value of 5.0.
-sam_n_feat_sum <- summarise(omiprep         = mydata, 
-                            source_layer    = "input", 
-                            outlier_udist   = 1.0,
-                            tree_cut_height = 0.5,
-                            sample_ids      = sids, 
-                            feature_ids     = fids,
-                            output          = "data.frame", 
-                            cores           = 1)
+# NOTE:
+# outlier_udist = number of IQRs from the median at which a value is flagged.
+# 1.0 here is illustrative; in practice we favour 5.0, which is the default value
+# for the quality_control() function.
+sf_sum <- summarise(omiprep         = mydata, 
+                    source_layer    = "input", 
+                    outlier_udist   = 1.0,
+                    tree_cut_height = 0.5,
+                    sample_ids      = sids, ## It is also possible to run on a subset of samples and/or features
+                    feature_ids     = fids,
+                    output          = "data.frame", 
+                    cores           = 1)
+
 ```
 
+## Table of feature summary from summarise() function
 
-## Table of feature summary for subset
-
-```{r show2, echo=FALSE}
-sam_n_feat_sum$feature_summary |> 
+```{r show2, echo=TRUE}
+sf_sum$feature_summary |> 
   na.omit() |>
   knitr::kable( digits = 3, row.names = FALSE, align = "c") |>
   kableExtra::kable_styling(full_width = TRUE) |>

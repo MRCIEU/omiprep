@@ -1,0 +1,52 @@
+cff-version: 1.2.0
+message: "If you use omiprep, please cite it using the metadata below."
+title: "omiprep: Omics data preparation and processing pipeline"
+abstract: >-
+  An R package that reads raw Metabolon, Nightingale Health, Olink, and SomaLogic
+  files (or flat text), and provides pre-analytical quality control, batch normalisation,
+  summarisation, and reporting for metabolomics and proteomics data sets.
+  Formerly known as metaboprep.
+type: software
+authors:
+  - family-names: Sunderland
+    given-names: Nicholas
+    email: nicholas.sunderland@bristol.ac.uk
+    affiliation: "University of Bristol"
+    orcid: "https://orcid.org/0000-0003-3625-630X"
+  - family-names: Hughes
+    given-names: "David A."
+    email: david.hughes@pbrc.edu
+    affiliation: "Pennington Biomedical Research Center"
+    orcid: "https://orcid.org/0000-0002-9644-8998"
+  - family-names: Lee
+    given-names: "Matthew A."
+    email: matthew.lee@bristol.ac.uk
+    affiliation: "University of Bristol"
+    orcid: "https://orcid.org/0000-0001-6262-3447"
+  - family-names: McKinlay
+    given-names: Alec
+    email: am17168@bristol.ac.uk
+    affiliation: "University of Bristol"
+    orcid: "https://orcid.org/0000-0002-2226-5400"
+  - family-names: Corbin
+    given-names: "Laura J."
+    email: laura.corbin@bristol.ac.uk
+    affiliation: "University of Bristol"
+    orcid: "https://orcid.org/0000-0002-4032-9500"
+version: 0.9.0
+date-released: "2026-06-26"
+license: MIT
+repository-code: "https://github.com/MRCIEU/omiprep"
+url: "https://mrcieu.github.io/omiprep/"
+keywords:
+  - metabolomics
+  - proteomics
+  - lipidomics
+  - omics
+  - quality control
+  - pre-processing
+  - R
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.20941283"
+    description: "Concept DOI (all versions)"

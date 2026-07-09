@@ -1,0 +1,17 @@
+citHeader("To cite omiprep in publications, please use:")
+
+bibentry(
+  bibtype = "Manual",
+  title   = "omiprep: Omics data preparation and processing pipeline",
+  author  = c(
+    person("Nicholas", "Sunderland"),
+    person(c("David", "A."), "Hughes"),
+    person(c("Matthew", "A."), "Lee"),
+    person("Alec", "McKinlay"),
+    person(c("Laura", "J."), "Corbin")
+  ),
+  year  = "2026",
+  note  = sprintf("R package version %s", meta$Version),
+  url   = "https://github.com/MRCIEU/omiprep",
+  doi   = "10.5281/zenodo.20941283"
+)

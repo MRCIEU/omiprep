@@ -23,18 +23,25 @@ Read in the Metabolon data using the `read_metabolon` function. Here we will rea
 library(omiprep)
 
 # example file
-filepath <- system.file("extdata", "metabolon_v1.2_example.xlsx", package = "omiprep")
+filepath <- system.file("extdata", "metabolon_v2_example.xlsx", package = "omiprep")
 
 # import data as a list object rather than directly as a Omiprep object
-dat <- read_metabolon(filepath, 
-                      sheet = 'OrigScale', 
-                      return_Omiprep = FALSE)
+datain <- read_metabolon(filepath,  
+                         sheet = 'Batch-normalized Data',        ## read in the batch normalized but NOT imputed tab
+                         feature_sheet = "Chemical Annotation",  ## tab name of the feature data
+                         feature_id_col = "COMP_ID",             ## in this instance features in batch normalized.. 
+                                                                 ##  ..tab are annotated to column name COMP_ID. Verify in your data.
+                         sample_sheet = "Sample Meta Data",      ## tab name of the sample data
+                         sample_id_col = "PARENT_SAMPLE_NAME",   ## column name of sample IDs 
+                         return_Omiprep = FALSE                  ## return data as a list of data, feature, and samples, ..
+                                                                 ##  .. NOT an omiprep object  
+                         )
 ```
 
 ## Quick look at data structure of the imported data
 
 ```{r data_str}
-str(dat)
+str(datain)
 ```
 
 
@@ -44,9 +51,9 @@ Once imported, we pass the data to the Omiprep() function to build the `Omiprep`
 
 ```{r omioprep_obj}
 ## This step could be avoided by defining return_Omiprep = TRUE in read_metabolon() function above.
-mydata <- Omiprep(data     = dat$data, 
-                  features = dat$features, 
-                  samples  = dat$samples)
+mydata <- Omiprep(data     = datain$data, 
+                  features = datain$features, 
+                  samples  = datain$samples)
 ```
 
 
@@ -63,8 +70,8 @@ Use the feature data just imported to identify xenobiotic metabolites.  It may b
 
 
 ```{r xeno_identification}
-xenos <- mydata@features[!is.na(mydata@features$super_pathway) & 
-                           mydata@features$super_pathway == "Xenobiotics", "feature_id"]
+xenos <- mydata@features[!is.na(mydata@features$SUPER_PATHWAY) & 
+                           mydata@features$SUPER_PATHWAY == "Xenobiotics", "feature_id"]
 
 ## how many xenobiotics identified
 length(xenos)
@@ -81,18 +88,24 @@ Perform the QC steps using the `quality_control` function, specifying the xenobi
 ##   used in the construction of PCs. 
 
 mydata <- mydata |>
-  quality_control(source_layer        = "input", 
-                  sample_missingness  = 0.2, 
-                  feature_missingness = 0.2, 
-                  total_sum_abundance_sd  = 5, 
-                  outlier_udist       = 5, 
-                  outlier_treatment   = "leave_be", 
-                  winsorize_quantile  = 1.0, 
-                  tree_cut_height     = 0.5, 
-                  pc_outlier_sd       = 5,
-                  feature_selection   = "least_missingness", ## We suggest using `least_missingness` when working with data, like Metabolon, with high missingness. Default is "max_var_exp".
-                  features_exclude_but_keep = xenos, ## exclude xenobiotics from QC, but retain them in the final dataset
-                  cores               = 1
+  quality_control(source_layer              = "input", 
+                  sample_missingness        = 0.2, 
+                  feature_missingness       = 0.2, 
+                  total_sum_abundance_sd    = 5, 
+                  outlier_udist             = 5, 
+                  outlier_treatment         = "leave_be", 
+                  winsorize_quantile        = 1.0, 
+                  tree_cut_height           = 0.5, 
+                  pc_outlier_sd             = 5,
+                  feature_selection         = "least_missingness", ## We suggest using `least_missingness` 
+                                                                   ## when working with data, like Metabolon, 
+                                                                   ## with high missingness. 
+                                                                   ## Default is "max_var_exp".
+                  features_exclude_but_keep = xenos, ## Exclude xenobiotics from QC, but retain them in the final dataset.
+                                                     ## We suggest this as xenos can have extreme missingness and are 
+                                                     ## commonly qc'd from a data set. However, they may be appropriate 
+                                                     ## to model as a binary present|absent trait. A choice for the researcher.
+                  cores                     = 1
                   )
 
 ```

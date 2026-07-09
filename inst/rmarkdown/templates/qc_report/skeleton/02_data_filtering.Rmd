@@ -193,9 +193,14 @@ A data reduction was carried out to identify a list of representative features f
 
 ```{r pca_1_2}
 # get data
-qcing_feature_sum <- omiprep@feature_summary[, , "input"]
+# Pre-QC summary layer: quality_control() names it after `source_layer`, so it
+# is "input" in the standard pipeline but e.g. "batch_normalised" when QC was
+# run on a batch-normalised layer. Use whichever pre-QC layer is present (the
+# one that isn't "qc") rather than hard-coding "input".
+pre_layer <- setdiff(dimnames(omiprep@feature_summary)[[3]], "qc")[1]
+qcing_feature_sum <- omiprep@feature_summary[, , pre_layer]
 qcing_feature_sum <- qcing_feature_sum[, colSums(is.na(qcing_feature_sum)) < nrow(qcing_feature_sum), drop = FALSE]
-pcs               <- omiprep@sample_summary[, grep("^pc[0-9]+$", colnames(omiprep@sample_summary), value=TRUE), "input"]
+pcs               <- omiprep@sample_summary[, grep("^pc[0-9]+$", colnames(omiprep@sample_summary), value=TRUE), pre_layer]
 attribs           <- attributes(omiprep@sample_summary)
 af                <- attribs$qc_num_pcs_scree
 pc_outlier_sd     <- attribs$qc_outlier_udist
