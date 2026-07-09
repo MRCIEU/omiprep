@@ -68,19 +68,19 @@ mydata <-  Omiprep(data     = mydata$data,
 
 ```{r example}
 # run QC
-mydata <- mydata |> quality_control( source_layer = "input", 
-                                     sample_missingness  = 0.2, 
-                                     feature_missingness = 0.2, 
+mydata <- mydata |> quality_control( source_layer               = "input", 
+                                     sample_missingness         = 0.2, 
+                                     feature_missingness        = 0.2, 
                                      feature_skewness_threshold = NULL,
                                      feature_skewness_direction = "left",
-                                     total_sum_abundance_sd  = 5, 
-                                     outlier_udist       = 5, 
-                                     outlier_treatment   = "leave_be", 
-                                     winsorize_quantile  = 1.0, 
-                                     tree_cut_height     = 0.5, 
-                                     pc_outlier_sd       = 5, 
-                                     sample_ids          = NULL, 
-                                     feature_ids         = NULL)
+                                     total_sum_abundance_sd     = 5, 
+                                     outlier_udist              = 5, 
+                                     outlier_treatment          = "leave_be", 
+                                     winsorize_quantile         = 1.0, 
+                                     tree_cut_height            = 0.5, 
+                                     pc_outlier_sd              = 5, 
+                                     sample_ids                 = NULL, 
+                                     feature_ids                = NULL)
 ```
 
 

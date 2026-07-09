@@ -12,3 +12,4 @@ scripts
 ^index\.md$
 ^vignettes/output$
 ^\.positai$
+^\.claude$
