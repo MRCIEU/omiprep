@@ -43,7 +43,7 @@ mydata         <- suppressWarnings( quality_control(mydata, cores = 1) )
 #> ℹ Sample & Feature Summary Statistics for raw data✔ Sample & Feature Summary Statistics for raw data [1.8s]
 #> 
 #> ℹ Copying input data to new 'qc' data layer
-#> ✔ Copying input data to new 'qc' data layer [35ms]
+#> ✔ Copying input data to new 'qc' data layer [34ms]
 #> 
 #> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)
 #> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [26ms]
@@ -77,19 +77,19 @@ mydata         <- suppressWarnings( quality_control(mydata, cores = 1) )
 #> ℹ Creating final QC dataset...
 #>                         step seconds   pct
 #>                   validation    0.00   0.0
-#>                summarise_raw    1.81  32.8
+#>                summarise_raw    1.82  33.1
 #>                   copy_layer    0.00   0.0
 #>   extreme_sample_missingness    0.00   0.0
 #>  extreme_feature_missingness    0.00   0.0
 #>           sample_missingness    0.00   0.0
 #>          total_sum_abundance    0.01   0.2
-#>                summarise_pca    1.91  34.6
-#>              summarise_final    1.56  28.2
-#>                        total    5.53 100.1
+#>                summarise_pca    1.90  34.6
+#>              summarise_final    1.52  27.6
+#>                        total    5.50 100.0
 #> ✔ Creating final QC dataset... [1.6s]
 #> 
 #> ℹ 'Omics QC Process Completed
-#> ✔ 'Omics QC Process Completed [33ms]
+#> ✔ 'Omics QC Process Completed [32ms]
 ```
 
 ## Export Omiprep
@@ -106,7 +106,7 @@ output_dir <- file.path(tempdir(), "output")
 # run export
 export(mydata, directory = output_dir, format = "omiprep")
 #> Exporting in omiprep format to: 
-#>      /tmp/Rtmp5ROkTa/output
+#>      /tmp/Rtmp4DRK4g/output
 
 # view output directory files
 files <- list.files(output_dir, full.names = TRUE, recursive = TRUE)
@@ -141,7 +141,7 @@ output_dir <- file.path(tempdir(), "output")
 
 # run export
 export(mydata, directory = output_dir, format = "comets")
-#> Exporting data layer `qc` in comets format to /tmp/Rtmp5ROkTa/output/omiprep_comets_export_2026_07_09.xlsx
+#> Exporting data layer `qc` in comets format to /tmp/Rtmp4DRK4g/output/omiprep_comets_export_2026_07_09.xlsx
 #> Export complete.
 
 # view output directory files
@@ -167,8 +167,8 @@ output_dir <- file.path(tempdir(), "output")
 
 # run export
 export(mydata, directory = output_dir, format = "metaboanalyst")
-#> Exporting in export_metaboanalyst format to /tmp/Rtmp5ROkTa/output
-#> Exporting data layer `qc` in metaboanalyst format to /tmp/Rtmp5ROkTa/output/omiprep_metaboanalyst_export_2026_07_09.csv
+#> Exporting in export_metaboanalyst format to /tmp/Rtmp4DRK4g/output
+#> Exporting data layer `qc` in metaboanalyst format to /tmp/Rtmp4DRK4g/output/omiprep_metaboanalyst_export_2026_07_09.csv
 
 # view output directory files
 files <- list.files(output_dir, full.names = TRUE, recursive = TRUE)

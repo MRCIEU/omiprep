@@ -260,14 +260,14 @@ m_qc <- quality_control(
 #> 
 #> ── Starting Omics QC Process ───────────────────────────────────────────────────
 #> ℹ Validating input parameters
-#> ✔ Validating input parameters [11ms]
+#> ✔ Validating input parameters [10ms]
 #> 
 #> ℹ Sample & Feature Summary Statistics for raw data
 #> ℹ Number of informative PCs (Scree acceleration factor): 3
-#> ℹ Sample & Feature Summary Statistics for raw data✔ Sample & Feature Summary Statistics for raw data [40.8s]
+#> ℹ Sample & Feature Summary Statistics for raw data✔ Sample & Feature Summary Statistics for raw data [40.9s]
 #> 
 #> ℹ Copying input data to new 'qc' data layer
-#> ✔ Copying input data to new 'qc' data layer [298ms]
+#> ✔ Copying input data to new 'qc' data layer [285ms]
 #> 
 #> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)
 #> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [28ms]
@@ -285,7 +285,7 @@ m_qc <- quality_control(
 #> ✔ Assessing for feature skewness at threshold <= -1.25 - excluding 80 feature(s…
 #> 
 #> ℹ Running sample data PCA outlier analysis at +/- 5 Sdev
-#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [37ms]
+#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [36ms]
 #> 
 #> ℹ Creating final QC dataset...
 #> ℹ Number of informative PCs (Scree acceleration factor): 6
@@ -295,18 +295,18 @@ m_qc <- quality_control(
 #> ℹ Creating final QC dataset...
 #>                         step seconds   pct
 #>                   validation    0.00   0.0
-#>                summarise_raw   40.79  56.6
-#>                   copy_layer    0.27   0.4
+#>                summarise_raw   40.85  57.1
+#>                   copy_layer    0.25   0.3
 #>   extreme_sample_missingness    0.01   0.0
 #>  extreme_feature_missingness    0.01   0.0
 #>           sample_missingness    0.02   0.0
-#>          feature_missingness    0.64   0.9
-#>              summarise_final   30.09  41.8
-#>                        total   72.04 100.0
-#> ✔ Creating final QC dataset... [30.2s]
+#>          feature_missingness    0.62   0.9
+#>              summarise_final   29.63  41.4
+#>                        total   71.59 100.0
+#> ✔ Creating final QC dataset... [29.7s]
 #> 
 #> ℹ 'Omics QC Process Completed
-#> ✔ 'Omics QC Process Completed [14ms]
+#> ✔ 'Omics QC Process Completed [13ms]
 ```
 
 ## 4) Post-filtering impact on distributions
