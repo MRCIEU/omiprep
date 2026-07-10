@@ -78,39 +78,22 @@ method(generate_report, Omiprep) <- function(omiprep, output_dir, output_filenam
   # get the template
   template_path <- system.file("rmarkdown", "templates", template, "skeleton", "skeleton.Rmd", package="omiprep")
 
-  # render the report; for pdf, keep intermediate files (incl. the LaTeX .log) so a
-  # failed compile can be inspected, since rmarkdown's default clean = TRUE deletes
-  # them before an error is even raised (see https://yihui.org/tinytex/r/#debugging)
-  tryCatch({
-    rmarkdown::render(
-      input             = template_path,
-      output_file       = outpath,
-      output_dir        = dirname(outpath),
-      knit_root_dir     = dirname(outpath),
-      intermediates_dir = dirname(outpath),
-      params            = list(project = project, omiprep = omiprep),
-      output_format     = paste(format, "document", sep="_"),
-      envir             = new.env(),  # Use a new environment to avoid conflicts
-      clean             = format != "pdf"
-    )
-  }, error = function(e) {
-    log_file <- file.path(dirname(outpath), paste0(tools::file_path_sans_ext(basename(outpath)), ".log"))
-    if (file.exists(log_file)) {
-      message("\nSee the LaTeX log for details: ", log_file)
-    }
-    stop(e)
-  })
-
-  # on success, remove the leftover LaTeX intermediates so only the report remains
-  if (format == "pdf") {
-    report_basename <- tools::file_path_sans_ext(basename(outpath))
-    intermediates <- list.files(
-      dirname(outpath),
-      pattern    = paste0("^", gsub("([.|()\\[\\]{}^$*+?])", "\\\\\\1", report_basename), "\\.(tex|log|aux|toc|out)$"),
-      full.names = TRUE
-    )
-    unlink(intermediates)
-  }
+  # render the report; clean = TRUE (the default) removes all rendering
+  # intermediates on success, including sibling template files (child .Rmds,
+  # latex_styles.sty, styles.css, omiprep_workflow.png) that rmarkdown copies
+  # into intermediates_dir so relative references resolve. On a LaTeX failure,
+  # tinytex already prints the relevant .log excerpt into the error itself, so
+  # nothing further needs to be preserved on disk.
+  rmarkdown::render(
+    input             = template_path,
+    output_file       = outpath,
+    output_dir        = dirname(outpath),
+    knit_root_dir     = dirname(outpath),
+    intermediates_dir = dirname(outpath),
+    params            = list(project = project, omiprep = omiprep),
+    output_format     = paste(format, "document", sep="_"),
+    envir             = new.env()  # Use a new environment to avoid conflicts
+  )
 
   invisible(omiprep)
 }
