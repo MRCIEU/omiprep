@@ -40,16 +40,16 @@ mydata         <- suppressWarnings( quality_control(mydata, cores = 1) )
 #> 
 #> ℹ Sample & Feature Summary Statistics for raw data
 #> ℹ Number of informative PCs (Scree acceleration factor): 2
-#> ℹ Sample & Feature Summary Statistics for raw data✔ Sample & Feature Summary Statistics for raw data [1.8s]
+#> ℹ Sample & Feature Summary Statistics for raw data✔ Sample & Feature Summary Statistics for raw data [1.7s]
 #> 
 #> ℹ Copying input data to new 'qc' data layer
-#> ✔ Copying input data to new 'qc' data layer [34ms]
+#> ✔ Copying input data to new 'qc' data layer [35ms]
 #> 
 #> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)
-#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [26ms]
+#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [24ms]
 #> 
 #> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)
-#> ✔ Assessing for extreme feature missingness >=80% - excluding 5 feature(s) [20m…
+#> ✔ Assessing for extreme feature missingness >=80% - excluding 5 feature(s) [18m…
 #> 
 #> ℹ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
 #> ✔ Assessing for sample missingness at specified level of >=20% - excluding 1 sa…
@@ -61,7 +61,7 @@ mydata         <- suppressWarnings( quality_control(mydata, cores = 1) )
 #> ✔ Calculating total sum abundance outliers at +/- 5 Sdev - excluding 0 sample(s…
 #> 
 #> ℹ Running sample data PCA outlier analysis at +/- 5 Sdev
-#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [24ms]
+#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [23ms]
 #> 
 #> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
 #> ℹ Number of informative PCs (Scree acceleration factor): 2
@@ -75,21 +75,21 @@ mydata         <- suppressWarnings( quality_control(mydata, cores = 1) )
 #> ℹ Creating final QC dataset...── Step timings ──
 #> ℹ Creating final QC dataset...
 #> ℹ Creating final QC dataset...
-#>                         step seconds   pct
-#>                   validation    0.00   0.0
-#>                summarise_raw    1.82  33.1
-#>                   copy_layer    0.00   0.0
-#>   extreme_sample_missingness    0.00   0.0
-#>  extreme_feature_missingness    0.00   0.0
-#>           sample_missingness    0.00   0.0
-#>          total_sum_abundance    0.01   0.2
-#>                summarise_pca    1.90  34.6
-#>              summarise_final    1.52  27.6
-#>                        total    5.50 100.0
-#> ✔ Creating final QC dataset... [1.6s]
+#>                         step seconds  pct
+#>                   validation    0.00  0.0
+#>                summarise_raw    1.68 33.1
+#>                   copy_layer    0.00  0.0
+#>   extreme_sample_missingness    0.00  0.0
+#>  extreme_feature_missingness    0.00  0.0
+#>           sample_missingness    0.00  0.0
+#>          total_sum_abundance    0.01  0.2
+#>                summarise_pca    1.73 34.0
+#>              summarise_final    1.42 27.9
+#>                        total    5.08 99.9
+#> ✔ Creating final QC dataset... [1.5s]
 #> 
 #> ℹ 'Omics QC Process Completed
-#> ✔ 'Omics QC Process Completed [32ms]
+#> ✔ 'Omics QC Process Completed [31ms]
 ```
 
 ## Export Omiprep
@@ -106,7 +106,7 @@ output_dir <- file.path(tempdir(), "output")
 # run export
 export(mydata, directory = output_dir, format = "omiprep")
 #> Exporting in omiprep format to: 
-#>      /tmp/Rtmp4DRK4g/output
+#>      /tmp/Rtmp34QOJF/output
 
 # view output directory files
 files <- list.files(output_dir, full.names = TRUE, recursive = TRUE)
@@ -114,20 +114,20 @@ unname(sapply(files, function(path) {
   parts <- strsplit(path, .Platform$file.sep)[[1]]
   paste(tail(parts, 4), collapse = .Platform$file.sep)
 }))
-#>  [1] "output/omiprep_export_2026_07_09/input/config.yml"         
-#>  [2] "output/omiprep_export_2026_07_09/input/data.tsv"           
-#>  [3] "output/omiprep_export_2026_07_09/input/feature_summary.tsv"
-#>  [4] "output/omiprep_export_2026_07_09/input/features.tsv"       
-#>  [5] "output/omiprep_export_2026_07_09/input/sample_summary.tsv" 
-#>  [6] "output/omiprep_export_2026_07_09/input/samples.tsv"        
-#>  [7] "output/omiprep_export_2026_07_09/qc/config.yml"            
-#>  [8] "output/omiprep_export_2026_07_09/qc/data.tsv"              
-#>  [9] "output/omiprep_export_2026_07_09/qc/feature_summary.tsv"   
-#> [10] "output/omiprep_export_2026_07_09/qc/feature_tree.RDS"      
-#> [11] "output/omiprep_export_2026_07_09/qc/features.tsv"          
-#> [12] "output/omiprep_export_2026_07_09/qc/sample_summary.tsv"    
-#> [13] "output/omiprep_export_2026_07_09/qc/samples.tsv"           
-#> [14] "output/omiprep_export_2026_07_09/qc/var_exp.tsv"
+#>  [1] "output/omiprep_export_2026_07_10/input/config.yml"         
+#>  [2] "output/omiprep_export_2026_07_10/input/data.tsv"           
+#>  [3] "output/omiprep_export_2026_07_10/input/feature_summary.tsv"
+#>  [4] "output/omiprep_export_2026_07_10/input/features.tsv"       
+#>  [5] "output/omiprep_export_2026_07_10/input/sample_summary.tsv" 
+#>  [6] "output/omiprep_export_2026_07_10/input/samples.tsv"        
+#>  [7] "output/omiprep_export_2026_07_10/qc/config.yml"            
+#>  [8] "output/omiprep_export_2026_07_10/qc/data.tsv"              
+#>  [9] "output/omiprep_export_2026_07_10/qc/feature_summary.tsv"   
+#> [10] "output/omiprep_export_2026_07_10/qc/feature_tree.RDS"      
+#> [11] "output/omiprep_export_2026_07_10/qc/features.tsv"          
+#> [12] "output/omiprep_export_2026_07_10/qc/sample_summary.tsv"    
+#> [13] "output/omiprep_export_2026_07_10/qc/samples.tsv"           
+#> [14] "output/omiprep_export_2026_07_10/qc/var_exp.tsv"
 ```
 
 ## Export to Comets format
@@ -141,7 +141,7 @@ output_dir <- file.path(tempdir(), "output")
 
 # run export
 export(mydata, directory = output_dir, format = "comets")
-#> Exporting data layer `qc` in comets format to /tmp/Rtmp4DRK4g/output/omiprep_comets_export_2026_07_09.xlsx
+#> Exporting data layer `qc` in comets format to /tmp/Rtmp34QOJF/output/omiprep_comets_export_2026_07_10.xlsx
 #> Export complete.
 
 # view output directory files
@@ -151,7 +151,7 @@ unname(sapply(files[w], function(path) {
   parts <- strsplit(path, .Platform$file.sep)[[1]]
   paste(tail(parts, 2), collapse = .Platform$file.sep)
 }))
-#> [1] "output/omiprep_comets_export_2026_07_09.xlsx"
+#> [1] "output/omiprep_comets_export_2026_07_10.xlsx"
 ```
 
 ## Export to Metaboanalyst format
@@ -167,8 +167,8 @@ output_dir <- file.path(tempdir(), "output")
 
 # run export
 export(mydata, directory = output_dir, format = "metaboanalyst")
-#> Exporting in export_metaboanalyst format to /tmp/Rtmp4DRK4g/output
-#> Exporting data layer `qc` in metaboanalyst format to /tmp/Rtmp4DRK4g/output/omiprep_metaboanalyst_export_2026_07_09.csv
+#> Exporting in export_metaboanalyst format to /tmp/Rtmp34QOJF/output
+#> Exporting data layer `qc` in metaboanalyst format to /tmp/Rtmp34QOJF/output/omiprep_metaboanalyst_export_2026_07_10.csv
 
 # view output directory files
 files <- list.files(output_dir, full.names = TRUE, recursive = TRUE)
@@ -177,5 +177,5 @@ unname(sapply(files[w], function(path) {
   parts <- strsplit(path, .Platform$file.sep)[[1]]
   paste(tail(parts, 2), collapse = .Platform$file.sep)
 }))
-#> [1] "output/omiprep_metaboanalyst_export_2026_07_09.csv"
+#> [1] "output/omiprep_metaboanalyst_export_2026_07_10.csv"
 ```
