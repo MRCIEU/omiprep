@@ -112,13 +112,13 @@ mydata <- mydata |>
 #> 
 #> ℹ Sample & Feature Summary Statistics for raw data
 #> ℹ Number of informative PCs (Scree acceleration factor): 17
-#> ℹ Sample & Feature Summary Statistics for raw data✔ Sample & Feature Summary Statistics for raw data [566ms]
+#> ℹ Sample & Feature Summary Statistics for raw data✔ Sample & Feature Summary Statistics for raw data [585ms]
 #> 
 #> ℹ Copying input data to new 'qc' data layer
 #> ✔ Copying input data to new 'qc' data layer [30ms]
 #> 
 #> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)
-#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [16ms]
+#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [17ms]
 #> 
 #> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)
 #> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [17m…
@@ -147,19 +147,19 @@ mydata <- mydata |>
 #> ℹ Creating final QC dataset...
 #>                         step seconds   pct
 #>                   validation    0.00   0.0
-#>                summarise_raw    0.55  25.1
+#>                summarise_raw    0.57  25.5
 #>                   copy_layer    0.00   0.0
 #>   extreme_sample_missingness    0.00   0.0
 #>  extreme_feature_missingness    0.00   0.0
 #>           sample_missingness    0.00   0.0
-#>          total_sum_abundance    0.01   0.5
-#>                summarise_pca    0.66  30.1
-#>              summarise_final    0.77  35.2
-#>                        total    2.19 100.0
-#> ✔ Creating final QC dataset... [809ms]
+#>          total_sum_abundance    0.00   0.0
+#>                summarise_pca    0.68  30.4
+#>              summarise_final    0.77  34.4
+#>                        total    2.24 100.0
+#> ✔ Creating final QC dataset... [818ms]
 #> 
 #> ℹ 'Omics QC Process Completed
-#> ✔ 'Omics QC Process Completed [18ms]
+#> ✔ 'Omics QC Process Completed [17ms]
 ```
 
 ## Quick summary of the Omiprep object following QC

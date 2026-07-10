@@ -120,7 +120,7 @@ mydata <- mydata |>
 #> 
 #> ℹ Sample & Feature Summary Statistics for raw data
 #> ℹ Number of informative PCs (Scree acceleration factor): 2
-#> ℹ Sample & Feature Summary Statistics for raw data✔ Sample & Feature Summary Statistics for raw data [375ms]
+#> ℹ Sample & Feature Summary Statistics for raw data✔ Sample & Feature Summary Statistics for raw data [383ms]
 #> 
 #> ℹ Copying input data to new 'qc' data layer
 #> ✔ Copying input data to new 'qc' data layer [22ms]
@@ -156,16 +156,16 @@ mydata <- mydata |>
 #> ℹ Creating final QC dataset...
 #>                         step seconds  pct
 #>                   validation    0.00  0.0
-#>                summarise_raw    0.36 27.6
+#>                summarise_raw    0.37 27.7
 #>                   copy_layer    0.00  0.0
 #>   extreme_sample_missingness    0.00  0.0
 #>  extreme_feature_missingness    0.00  0.0
 #>           sample_missingness    0.00  0.0
 #>          total_sum_abundance    0.00  0.0
-#>                summarise_pca    0.43 33.0
-#>              summarise_final    0.32 24.6
-#>                        total    1.30 99.8
-#> ✔ Creating final QC dataset... [352ms]
+#>                summarise_pca    0.44 33.0
+#>              summarise_final    0.34 25.5
+#>                        total    1.33 99.6
+#> ✔ Creating final QC dataset... [366ms]
 #> 
 #> ℹ 'Omics QC Process Completed
 #> ✔ 'Omics QC Process Completed [14ms]

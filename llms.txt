@@ -43,12 +43,12 @@ mydata <- read_metabolon(
 
 # 2. Run QC pipeline
 mydata <- mydata |> quality_control(
-  source_layer        = "input",
-  sample_missingness  = 0.2,
-  feature_missingness = 0.2,
-  total_peak_area_sd  = 5,
-  outlier_udist       = 5,
-  outlier_treatment   = "leave_be"
+  source_layer           = "input",
+  sample_missingness     = 0.2,
+  feature_missingness    = 0.2,
+  total_sum_abundance_sd = 5,
+  outlier_udist          = 5,
+  outlier_treatment      = "leave_be"
 )
 
 # 3. Summarise

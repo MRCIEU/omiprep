@@ -97,15 +97,15 @@ mydata <- mydata |>
 #> ℹ Creating final QC dataset...
 #>                         step seconds   pct
 #>                   validation    0.00   0.0
-#>                summarise_raw    1.40  30.7
+#>                summarise_raw    1.43  31.0
 #>                   copy_layer    0.00   0.0
 #>   extreme_sample_missingness    0.00   0.0
 #>  extreme_feature_missingness    0.00   0.0
 #>           sample_missingness    0.00   0.0
 #>          total_sum_abundance    0.01   0.2
-#>                summarise_pca    1.66  36.4
-#>              summarise_final    1.26  27.6
-#>                        total    4.56 100.0
+#>                summarise_pca    1.68  36.4
+#>              summarise_final    1.27  27.5
+#>                        total    4.62 100.1
 #> ✔ Creating final QC dataset... [1.3s]
 #> 
 #> ℹ 'Omics QC Process Completed
@@ -134,7 +134,7 @@ generate_report(mydata,
 #> Warning in call_block(x): The chunk 'unnamed-chunk-3' has the 'child' option,
 #> and this code chunk must be empty. Its code will be ignored.
 #> output file: /home/runner/work/omiprep/omiprep/vignettes/skeleton.knit.md
-#> /opt/hostedtoolcache/pandoc/3.8.3/x64/pandoc +RTS -K512m -RTS /home/runner/work/omiprep/omiprep/vignettes/skeleton.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output /home/runner/work/omiprep/omiprep/vignettes/metabolon_example_omiprep_qc_report.html --lua-filter /home/runner/work/_temp/Library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /home/runner/work/_temp/Library/rmarkdown/rmarkdown/lua/latex-div.lua --lua-filter /home/runner/work/_temp/Library/rmarkdown/rmarkdown/lua/table-classes.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 2 --template /home/runner/work/_temp/Library/rmarkdown/rmd/h/default.html --syntax-highlighting none --variable highlightjs=1 --number-sections --variable theme=bootstrap --css styles.css --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /tmp/Rtmp8hnABo/rmarkdown-str1e144b50128e.html
+#> /opt/hostedtoolcache/pandoc/3.8.3/x64/pandoc +RTS -K512m -RTS /home/runner/work/omiprep/omiprep/vignettes/skeleton.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output /home/runner/work/omiprep/omiprep/vignettes/metabolon_example_omiprep_qc_report.html --lua-filter /home/runner/work/_temp/Library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /home/runner/work/_temp/Library/rmarkdown/rmarkdown/lua/latex-div.lua --lua-filter /home/runner/work/_temp/Library/rmarkdown/rmarkdown/lua/table-classes.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 2 --template /home/runner/work/_temp/Library/rmarkdown/rmd/h/default.html --syntax-highlighting none --variable highlightjs=1 --number-sections --variable theme=bootstrap --css styles.css --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /tmp/RtmpJcA9k9/rmarkdown-str1d7e40d62ae6.html
 #> 
 #> Output created: metabolon_example_omiprep_qc_report.html
 ```
