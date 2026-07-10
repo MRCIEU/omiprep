@@ -30,7 +30,7 @@ method(generate_report, Omiprep) <- function(omiprep, output_dir, output_filenam
 
   # the qc_report template requires these packages to be installed; fail early with
   # an actionable message rather than deep inside rmarkdown::render()
-  required_pkgs <- c("kableExtra", "dendextend", "glue")
+  required_pkgs <- c("kableExtra", "dendextend", "glue", "scales")
   missing_pkgs  <- required_pkgs[!vapply(required_pkgs, requireNamespace, logical(1), quietly = TRUE)]
   if (length(missing_pkgs) > 0) {
     stop(
@@ -78,23 +78,39 @@ method(generate_report, Omiprep) <- function(omiprep, output_dir, output_filenam
   # get the template
   template_path <- system.file("rmarkdown", "templates", template, "skeleton", "skeleton.Rmd", package="omiprep")
 
-  # render the report
-  rmarkdown::render(
-    input             = template_path,
-    output_file       = outpath,
-    output_dir        = dirname(outpath),
-    knit_root_dir     = dirname(outpath),
-    intermediates_dir = dirname(outpath),
-    params            = list(project = project, omiprep = omiprep),
-    output_format     = paste(format, "document", sep="_"),
-    envir             = new.env()  # Use a new environment to avoid conflicts
-  )
+  # render the report; for pdf, keep intermediate files (incl. the LaTeX .log) so a
+  # failed compile can be inspected, since rmarkdown's default clean = TRUE deletes
+  # them before an error is even raised (see https://yihui.org/tinytex/r/#debugging)
+  tryCatch({
+    rmarkdown::render(
+      input             = template_path,
+      output_file       = outpath,
+      output_dir        = dirname(outpath),
+      knit_root_dir     = dirname(outpath),
+      intermediates_dir = dirname(outpath),
+      params            = list(project = project, omiprep = omiprep),
+      output_format     = paste(format, "document", sep="_"),
+      envir             = new.env(),  # Use a new environment to avoid conflicts
+      clean             = format != "pdf"
+    )
+  }, error = function(e) {
+    log_file <- file.path(dirname(outpath), paste0(tools::file_path_sans_ext(basename(outpath)), ".log"))
+    if (file.exists(log_file)) {
+      message("\nSee the LaTeX log for details: ", log_file)
+    }
+    stop(e)
+  })
 
-  # move latex log files 
-  log_file <- list.files(file.path(dirname(template_path)), full.names = TRUE, pattern = paste0(output_filename, "\\.log"))
-  if (length(log_file) > 0) {
-    file.rename(log_file, file.path(dirname(outpath), basename(log_file)))
+  # on success, remove the leftover LaTeX intermediates so only the report remains
+  if (format == "pdf") {
+    report_basename <- tools::file_path_sans_ext(basename(outpath))
+    intermediates <- list.files(
+      dirname(outpath),
+      pattern    = paste0("^", gsub("([.|()\\[\\]{}^$*+?])", "\\\\\\1", report_basename), "\\.(tex|log|aux|toc|out)$"),
+      full.names = TRUE
+    )
+    unlink(intermediates)
   }
-  
+
   invisible(omiprep)
 }

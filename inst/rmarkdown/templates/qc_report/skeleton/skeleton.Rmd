@@ -60,7 +60,7 @@ Please raise any issues on the [GitHub issues](https://github.com/MRCIEU/omiprep
 
 ## Data preparation workflow:
 ```{r workflow, out.width="75%"}
-knitr::include_graphics("omiprep_workflow.png")
+knitr::include_graphics(system.file("rmarkdown", "templates", "qc_report", "skeleton", "omiprep_workflow.png", package = "omiprep"))
 ```
 
 ---

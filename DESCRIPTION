@@ -42,6 +42,7 @@ Suggests:
     dendextend,
     kableExtra,
     glue,
+    scales,
     tinytex,
     remotes,
     testthat (>= 3.0.0),
