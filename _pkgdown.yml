@@ -20,6 +20,8 @@ navbar:
         href: articles/olink.html
       - text: Somalogic
         href: articles/somalogic.html
+      - text: In-house & custom data
+        href: articles/custom_data.html
       - text: -------
       - text: Summaries
       - text: Samples

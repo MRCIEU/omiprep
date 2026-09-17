@@ -1,0 +1,201 @@
+---
+title: "Importing In-House & Custom Data"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Importing In-House & Custom Data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(omiprep)
+```
+
+## Who this vignette is for
+
+`omiprep` ships dedicated readers for four commercial platforms — `read_metabolon()`,
+`read_nightingale()`, `read_olink()` and `read_somalogic()`. Those readers exist only to
+translate a vendor's particular spreadsheet layout into a common structure. They are a
+convenience, **not** a requirement.
+
+If your data were generated in-house, come from a platform without a dedicated reader, or
+have already been through an upstream pipeline, you can build an `Omiprep` object directly
+from flat text files. Everything downstream — `quality_control()`, `summarise()`,
+`generate_report()`, `export()` — then behaves identically, because all the readers do is
+produce the same three tables you will assemble here by hand.
+
+## The three tables
+
+An `Omiprep` object is built from exactly three pieces:
+
+| Piece | Shape | Requirement |
+|---|---|---|
+| `data` | numeric matrix, **samples in rows, features in columns** | `rownames` are sample ids, `colnames` are feature ids |
+| `samples` | data.frame, one row per sample | must contain a column named `sample_id` |
+| `features` | data.frame, one row per feature | must contain a column named `feature_id` |
+
+Beyond those two id columns, both metadata tables are free-form: add as many annotation
+columns as you like (batch, run order, sex, age, pathway, assay panel, LOD), or none at all.
+`omiprep` carries them through QC and reporting untouched.
+
+### Are the column names strict?
+
+**Yes.** `sample_id` and `feature_id` are matched exactly and are **case-sensitive**. There is
+no automatic mapping or fuzzy matching: `Sample_ID`, `sampleID` and `SampleId` are all
+rejected, with an error naming the column it expected.
+
+This is a deliberate design choice — silently guessing which of a user's columns holds the
+identifier is a good way to mis-assign an entire dataset. Conforming is a one-line rename,
+shown below.
+
+## A worked example from flat text files
+
+The package bundles a small example dataset as three plain CSV files, in exactly the form an
+in-house pipeline might produce them.
+
+```{r file_paths}
+pkg <- "omiprep"
+data_file     <- system.file("extdata", "dummy_data.csv",     package = pkg)
+samples_file  <- system.file("extdata", "dummy_samples.csv",  package = pkg)
+features_file <- system.file("extdata", "dummy_features.csv", package = pkg)
+```
+
+### 1) Read the measurement matrix
+
+The measurement table has sample ids in the first column and feature ids as headers. Read it
+with `row.names = 1` and coerce to a matrix. `check.names = FALSE` keeps feature ids exactly
+as written — without it, R prefixes purely numeric column names with `X`.
+
+```{r read_data}
+data <- as.matrix(read.csv(data_file, row.names = 1, check.names = FALSE))
+
+dim(data)
+data[1:4, 1:3]
+```
+
+For a tab-delimited file, use `read.delim()` instead; nothing else changes.
+
+### 2) Read the sample and feature metadata
+
+```{r read_meta}
+samples  <- read.csv(samples_file,  row.names = 1, check.names = FALSE)
+features <- read.csv(features_file, row.names = 1, check.names = FALSE)
+
+names(samples)
+names(features)
+```
+
+Both tables already carry the required id columns alongside their annotation.
+
+```{r show_meta}
+head(samples[, c("sample_id", "sex", "age", "bmi")], 3)
+head(features[, c("feature_id", "biochemical", "super_pathway")], 3)
+```
+
+### 3) Build the object
+
+```{r build}
+mydata <- Omiprep(data = data, samples = samples, features = features)
+
+summary(mydata)
+```
+
+That is the whole import. From here the object is indistinguishable from one produced by
+`read_metabolon()`.
+
+## Renaming your own columns
+
+If your files use different identifier names, rename them before constructing the object:
+
+```{r rename_demo}
+# a metadata table as an in-house pipeline might label it
+inhouse <- data.frame(
+  SampleName = samples$sample_id,
+  RunBatch   = samples$`LC/MS Polar`
+)
+
+names(inhouse)[names(inhouse) == "SampleName"] <- "sample_id"
+names(inhouse)
+```
+
+The helper `clean_names()` is useful when your headers contain spaces, dots, dashes or
+percent signs. It lowercases and standardises them, which turns a header like `Sample ID`
+into `sample_id` directly:
+
+```{r clean_names_demo}
+clean_names(c("Sample ID", "Feature-Name.1", "Concentration %"))
+```
+
+Note that `clean_names()` lowercases everything, so apply it to the whole header vector
+rather than to one column, and check the result before relying on it.
+
+## Identifier types: a common pitfall
+
+Matrix `dimnames` in R are *always* character. If your ids are numeric and you read the
+metadata without specifying types, `read.csv()` will type them as integer, and the ids will
+not compare equal to the matrix names.
+
+`Omiprep()` guards against this by coercing `sample_id` and `feature_id` to character for
+you, so the naive read used above works. If you assemble metadata by some other route, it is
+still worth being explicit:
+
+```{r colclasses_demo, eval = FALSE}
+features <- read.csv(features_file, colClasses = c(feature_id = "character"))
+```
+
+The ids must match the matrix names as a **set**; order does not matter. The constructor
+reorders both metadata tables to follow the matrix, carrying all annotation columns with
+them. Any id present in the matrix but absent from the metadata is an error, and the message
+names the offending ids.
+
+## A minimal object
+
+Annotation is optional. If you have nothing but a matrix, generate the two id columns from
+its dimnames:
+
+```{r minimal}
+minimal <- Omiprep(
+  data     = data,
+  samples  = data.frame(sample_id  = rownames(data)),
+  features = data.frame(feature_id = colnames(data))
+)
+
+dim(minimal@data)
+```
+
+## Running the pipeline
+
+Everything downstream now works as documented elsewhere. Quality control:
+
+```{r qc, message = FALSE}
+mydata <- quality_control(
+  mydata,
+  source_layer        = "input",
+  sample_missingness  = 0.2,
+  feature_missingness = 0.2,
+  cores               = 2
+)
+```
+
+```{r qc_summary}
+summary(mydata)
+```
+
+Note that `total_sum_abundance_sd` assumes features share a comparable abundance scale. For
+in-house data that has already been normalised, standardised, or combined across assays, set
+it to `NA` to skip that step, as total abundance across such features is not interpretable.
+
+## Where to go next
+
+- `vignette("quality_control")` — what each filtering step does and how to set thresholds
+- `vignette("skewness_qc")` — the optional skewness filter and when it is appropriate
+- `vignette("sample_summary")` and `vignette("feature_summary")` — summaries without running QC
+- `vignette("generate_report")` — rendering an HTML or PDF QC report
+- `vignette("export")` — writing results out for downstream tools
