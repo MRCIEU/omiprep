@@ -58,9 +58,9 @@ quality_control(
 
 \item{feature_missingness}{numeric 0-1, percentage of data missingness which should prompt exclusion of a feature}
 
-\item{feature_skewness_threshold}{numeric, optional skewness threshold to exclude features with skewed distributions. Set to `NULL` to disable.}
+\item{feature_skewness_threshold}{numeric, optional skewness threshold to exclude features with skewed distributions. `NULL` by default, which disables the filter: no feature is excluded on the basis of skewness unless a threshold is supplied. Skewness is estimated by \code{\link[=feature_skewness]{feature_skewness()}} on the values in the `qc` layer, after missingness filtering and on the scale as supplied (no transformation is applied). The cutoff is on the signed skewness statistic, not a p-value. See `vignette("skewness_qc")` before enabling it.}
 
-\item{feature_skewness_direction}{character, direction of skewness to apply when `feature_skewness_threshold` is set. One of `"left"`, `"right"`, or `"both"`.}
+\item{feature_skewness_direction}{character, direction of skewness to apply when `feature_skewness_threshold` is set. One of `"left"` (the default; excludes `skew <= -threshold`), `"right"` (excludes `skew >= threshold`), or `"both"` (excludes `abs(skew) >= threshold`). The `"left"` default targets upper-end truncation, the pattern expected from an upper limit of quantification; it deliberately does not act on the positive skew that is common and usually benign in untransformed abundance data.}
 
 \item{total_sum_abundance_sd}{numeric, number of TSA SD after which a sample would be excluded}
 
