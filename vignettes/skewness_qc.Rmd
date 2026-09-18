@@ -402,9 +402,10 @@ confounded_skew <- feature_skewness(confounded, threshold = 1.25, direction = "l
 confounded_skew
 ```
 
-The truncated feature and the rare-biology feature have **essentially the same
-skewness**, and both are flagged. Skewness has not distinguished the artefact from
-the biology; applied unexamined, this filter would discard a real effect.
+The truncated feature and the rare-biology feature have essentially the same
+skewness, and both are flagged. Skewness has therefore not distinguished the
+artefact from the biology. This is why a flag is best treated as a prompt to
+inspect a feature rather than as a decision to remove it.
 
 ```{r confound_hist, fig.width=10, fig.height=4}
 confounded_df <- data.frame(
