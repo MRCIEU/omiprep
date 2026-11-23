@@ -42,6 +42,7 @@
     <li><a class="dropdown-item" href="../articles/nightingale.html">Nightingale</a></li>
     <li><a class="dropdown-item" href="../articles/olink.html">Olink</a></li>
     <li><a class="dropdown-item" href="../articles/somalogic.html">Somalogic</a></li>
+    <li><a class="dropdown-item" href="../articles/custom_data.html">In-house &amp; custom data</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Summaries</h6></li>
     <li><a class="dropdown-item" href="../articles/sample_summary.html">Samples</a></li>
@@ -104,13 +105,34 @@ features),</li>
 <li>show 3 feature types (normal, left-skew, right-skew),</li>
 <li>explain what skewness means,</li>
 <li>run skewness filtering in <code><a href="../reference/quality_control.html">quality_control()</a></code>,</li>
-<li>and visualize pre/post filtering impact.</li>
+<li>visualize pre/post filtering impact,</li>
+<li>and show what this criterion <strong>cannot</strong> tell you, and
+how to avoid removing biologically meaningful features.</li>
 </ol>
+<div class="section level3">
+<h3 id="this-filter-is-off-by-default">This filter is off by default<a class="anchor" aria-label="anchor" href="#this-filter-is-off-by-default"></a>
+</h3>
+<p><code>feature_skewness_threshold</code> is <code>NULL</code> unless
+you set it, and <code><a href="../reference/quality_control.html">quality_control()</a></code> excludes nothing on the
+basis of skewness while it is <code>NULL</code>. There is no recommended
+default value, because no single cutoff is appropriate across platforms,
+scales and sample sizes.</p>
+<p>Treat it as an <strong>opt-in diagnostic for a specific,
+platform-driven artefact</strong> — upper-end truncation — rather than
+as a routine filtering step. It is most likely to be useful for
+affinity-based proteomic assays, where an upper limit of quantification
+or assay non-linearity can compress the top of a feature’s range. It is
+least likely to be appropriate for untransformed abundance data, where
+positive skew is the norm and carries no implication of assay failure,
+and for small sample sizes, where the estimate itself is unreliable.</p>
+<p>Section 5 shows why the output of this filter should be inspected
+rather than applied unexamined.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mrcieu.github.io/omiprep/">omiprep</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">20260408</span><span class="op">)</span></span></code></pre></div>
+</div>
 </div>
 <div class="section level2">
 <h2 id="simulate-data-1000-samples-x-500-features">1) Simulate Data (1000 Samples x 500 Features)<a class="anchor" aria-label="anchor" href="#simulate-data-1000-samples-x-500-features"></a>
@@ -226,6 +248,36 @@ concentrated on the left side, with a tail extending to the right.</li>
 <li>larger <code>abs(skew)</code> means stronger asymmetry.</li>
 </ul>
 <div class="section level3">
+<h3 id="missing-values-sample-size-and-scale">Missing values, sample size, and scale<a class="anchor" aria-label="anchor" href="#missing-values-sample-size-and-scale"></a>
+</h3>
+<p>Three properties of the estimate matter when interpreting it:</p>
+<ul>
+<li>
+<strong>Missing values</strong> are dropped feature-wise
+(<code>na.rm = TRUE</code>). Nothing is imputed, and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+therefore differs between features. A feature measured in a third of
+samples is compared against one measured in all of them.</li>
+<li>
+<strong>No minimum sample size is imposed.</strong> A feature with
+only a few non-missing values still returns an estimate, and skewness
+from a small
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
+is unstable. Because sparse features are often the biologically
+interesting ones, apply the missingness filter first and treat skewness
+for sparsely measured features with particular caution. Features with
+zero variance return <code>NaN</code> and are never flagged.</li>
+<li>
+<strong>Skewness is not invariant to transformation.</strong> It is
+calculated on the values as supplied. Within
+<code><a href="../reference/quality_control.html">quality_control()</a></code> this is the <code>qc</code> layer, after
+missingness filtering, on whatever scale the data are already on — no
+transformation is applied. The same feature can be strongly skewed on a
+raw intensity scale and near-symmetric after a log transformation, so a
+threshold chosen for one scale does not carry over to the other.</li>
+</ul>
+</div>
+<div class="section level3">
 <h3 id="what-the-threshold-means">What the threshold means<a class="anchor" aria-label="anchor" href="#what-the-threshold-means"></a>
 </h3>
 <p>The threshold is a <strong>cutoff on skewness magnitude</strong>, not
@@ -337,20 +389,20 @@ we apply the same feature-level rule directly:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Starting Omics QC Process</span> <span style="color: #00BBBB;">───────────────────────────────────────────────────</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Validating input parameters</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Validating input parameters <span style="color: #B2B2B2;">[9ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Validating input parameters <span style="color: #B2B2B2;">[11ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample &amp; Feature Summary Statistics for raw data</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Number of informative PCs (Scree acceleration factor): 3</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample &amp; Feature Summary Statistics for raw data<span style="color: #00BB00;">✔</span> Sample &amp; Feature Summary Statistics for raw data <span style="color: #B2B2B2;">[28.5s]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Sample &amp; Feature Summary Statistics for raw data<span style="color: #00BB00;">✔</span> Sample &amp; Feature Summary Statistics for raw data <span style="color: #B2B2B2;">[37.9s]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Copying input data to new 'qc' data layer</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Copying input data to new 'qc' data layer <span style="color: #B2B2B2;">[35ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Copying input data to new 'qc' data layer <span style="color: #B2B2B2;">[45ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Assessing for extreme sample missingness &gt;=80% - excluding 0 sample(s)</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for extreme sample missingness &gt;=80% - excluding 0 sample(s) <span style="color: #B2B2B2;">[28ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for extreme sample missingness &gt;=80% - excluding 0 sample(s) <span style="color: #B2B2B2;">[37ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Assessing for extreme feature missingness &gt;=80% - excluding 0 feature(s)</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for extreme feature missingness &gt;=80% - excluding 0 feature(s) <span style="color: #B2B2B2;">[27m</span>…</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for extreme feature missingness &gt;=80% - excluding 0 feature(s) <span style="color: #B2B2B2;">[30m</span>…</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Assessing for sample missingness at specified level of &gt;=20% - excluding 0 sa…</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for sample missingness at specified level of &gt;=20% - excluding 0 sa…</span></span>
@@ -362,7 +414,7 @@ we apply the same feature-level rule directly:</p>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Assessing for feature skewness at threshold &lt;= -1.25 - excluding 80 feature(s…</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Running sample data PCA outlier analysis at +/- 5 Sdev</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Running sample data PCA outlier analysis at +/- 5 Sdev <span style="color: #B2B2B2;">[24ms]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Running sample data PCA outlier analysis at +/- 5 Sdev <span style="color: #B2B2B2;">[26ms]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Creating final QC dataset...</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Number of informative PCs (Scree acceleration factor): 6</span></span>
@@ -372,18 +424,18 @@ we apply the same feature-level rule directly:</p>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Creating final QC dataset...</span></span>
 <span><span class="co">#&gt;                         step seconds   pct</span></span>
 <span><span class="co">#&gt;                   validation    0.00   0.0</span></span>
-<span><span class="co">#&gt;                summarise_raw   28.47  57.9</span></span>
-<span><span class="co">#&gt;                   copy_layer    0.01   0.0</span></span>
-<span><span class="co">#&gt;   extreme_sample_missingness    0.01   0.0</span></span>
-<span><span class="co">#&gt;  extreme_feature_missingness    0.01   0.0</span></span>
+<span><span class="co">#&gt;                summarise_raw   37.87  57.3</span></span>
+<span><span class="co">#&gt;                   copy_layer    0.02   0.0</span></span>
+<span><span class="co">#&gt;   extreme_sample_missingness    0.02   0.0</span></span>
+<span><span class="co">#&gt;  extreme_feature_missingness    0.02   0.0</span></span>
 <span><span class="co">#&gt;           sample_missingness    0.01   0.0</span></span>
-<span><span class="co">#&gt;          feature_missingness    0.19   0.4</span></span>
-<span><span class="co">#&gt;              summarise_final   19.98  40.7</span></span>
-<span><span class="co">#&gt;                        total   49.13 100.0</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Creating final QC dataset... <span style="color: #B2B2B2;">[20.3s]</span></span></span>
+<span><span class="co">#&gt;          feature_missingness    0.25   0.4</span></span>
+<span><span class="co">#&gt;              summarise_final   27.39  41.5</span></span>
+<span><span class="co">#&gt;                        total   66.07 100.0</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> Creating final QC dataset... <span style="color: #B2B2B2;">[27.7s]</span></span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> 'Omics QC Process Completed</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> 'Omics QC Process Completed <span style="color: #B2B2B2;">[10ms]</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> 'Omics QC Process Completed <span style="color: #B2B2B2;">[12ms]</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="post-filtering-impact-on-distributions">4) Post-filtering impact on distributions<a class="anchor" aria-label="anchor" href="#post-filtering-impact-on-distributions"></a>
@@ -482,6 +534,149 @@ except where explicitly stated.</p>
 <span>  <span class="op">)</span></span></code></pre></div>
 <p><img src="skewness_qc_files/figure-html/post_filter_group_skew_boxplot-1.png" class="r-plt" alt="" width="960"></p>
 </div>
+</div>
+<div class="section level2">
+<h2 id="what-skewness-does-not-tell-you">5) What skewness does not tell you<a class="anchor" aria-label="anchor" href="#what-skewness-does-not-tell-you"></a>
+</h2>
+<p>The simulation above was built so that skewed features <em>were</em>
+the truncated ones. Real data offer no such guarantee. Skewness
+describes the <strong>shape</strong> of a distribution; it says nothing
+about the <strong>cause</strong> of that shape.</p>
+<p>A strongly skewed feature may reflect:</p>
+<ul>
+<li>an upper limit of quantification, or assay non-linearity — a
+technical artefact;</li>
+<li>a low-frequency biological phenomenon, such as a deficiency allele,
+a rare metabolic state, or a small group of treated or diseased
+individuals;</li>
+<li>genuine subgroup structure, for example by sex, fasting status or
+medication use;</li>
+<li>a floor imposed by a limit of detection, or an upstream imputation
+rule;</li>
+<li>nothing more than the natural shape of the analyte’s concentration
+distribution.</li>
+</ul>
+<p>Only the first is a QC problem. The others are signal.</p>
+<div class="section level3">
+<h3 id="skewness-alone-cannot-identify-a-ceiling-or-hook-effect">Skewness alone cannot identify a ceiling or hook effect<a class="anchor" aria-label="anchor" href="#skewness-alone-cannot-identify-a-ceiling-or-hook-effect"></a>
+</h3>
+<p>Consider three features, all measured in 1000 samples. One is
+genuinely truncated at an upper bound; one carries a real low-frequency
+biological effect; one has two biological subgroups.</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">20260408</span><span class="op">)</span></span>
+<span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">1000</span></span>
+<span></span>
+<span><span class="va">confounded</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span></span>
+<span>  <span class="co"># a true assay ceiling: values are capped, creating exact ties at the bound</span></span>
+<span>  ceiling_artefact <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">pmin</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n</span>, mean <span class="op">=</span> <span class="fl">11</span>, sd <span class="op">=</span> <span class="fl">1.4</span><span class="op">)</span>, <span class="fl">11</span><span class="op">)</span>,</span>
+<span>  <span class="co"># 8% of individuals with a genuinely lower value: real biology</span></span>
+<span>  rare_biology     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">920</span>, mean <span class="op">=</span> <span class="fl">10</span>, sd <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">80</span>, mean <span class="op">=</span> <span class="fl">5</span>, sd <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="co"># two biological subgroups</span></span>
+<span>  subgroup         <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">700</span>, mean <span class="op">=</span> <span class="fl">10</span>, sd <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">300</span>, mean <span class="op">=</span> <span class="fl">6.5</span>, sd <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">confounded_skew</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/feature_skewness.html">feature_skewness</a></span><span class="op">(</span><span class="va">confounded</span>, threshold <span class="op">=</span> <span class="fl">1.25</span>, direction <span class="op">=</span> <span class="st">"left"</span><span class="op">)</span></span>
+<span><span class="va">confounded_skew</span></span>
+<span><span class="co">#&gt;         feature_id       skew exclude_by_skewness</span></span>
+<span><span class="co">#&gt; 1 ceiling_artefact -1.7177530                TRUE</span></span>
+<span><span class="co">#&gt; 2     rare_biology -1.4747493                TRUE</span></span>
+<span><span class="co">#&gt; 3         subgroup -0.5568049               FALSE</span></span></code></pre></div>
+<p>The truncated feature and the rare-biology feature have essentially
+the same skewness, and both are flagged. Skewness has therefore not
+distinguished the artefact from the biology. This is why a flag is best
+treated as a prompt to inspect a feature rather than as a decision to
+remove it.</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">confounded_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  feature <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">confounded</span><span class="op">)</span>, each <span class="op">=</span> <span class="va">n</span><span class="op">)</span>,</span>
+<span>  value   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">as.vector</a></span><span class="op">(</span><span class="va">confounded</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">confounded_df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">value</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html" class="external-link">geom_histogram</a></span><span class="op">(</span>bins <span class="op">=</span> <span class="fl">45</span>, fill <span class="op">=</span> <span class="st">"#377EB8"</span>, color <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">feature</span>, scales <span class="op">=</span> <span class="st">"free"</span>, nrow <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_classic</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Feature value"</span>, y <span class="op">=</span> <span class="st">"Count (samples)"</span>,</span>
+<span>       title <span class="op">=</span> <span class="st">"Same skewness, different causes"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="skewness_qc_files/figure-html/confound_hist-1.png" class="r-plt" alt="" width="960"></p>
+<p>The histograms show what the statistic misses. Truncation produces a
+hard edge with many values piled at exactly the bound; the biological
+features have smooth tails.</p>
+</div>
+<div class="section level3">
+<h3 id="a-diagnostic-that-does-separate-them">A diagnostic that does separate them<a class="anchor" aria-label="anchor" href="#a-diagnostic-that-does-separate-them"></a>
+</h3>
+<p>Truncation creates repeated values at the limit. Counting the most
+frequent value distinguishes a capped feature from a biologically skewed
+one far more reliably than skewness does:</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">max_tie_fraction</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">x</span> <span class="op">&lt;-</span> <span class="va">x</span><span class="op">[</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">]</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  feature      <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">confounded</span><span class="op">)</span>,</span>
+<span>  skew         <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">confounded_skew</span><span class="op">$</span><span class="va">skew</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span>  tie_fraction <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">confounded</span>, <span class="fl">2</span>, <span class="va">max_tie_fraction</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span>,</span>
+<span>  row.names    <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt;            feature  skew tie_fraction</span></span>
+<span><span class="co">#&gt; 1 ceiling_artefact -1.72        0.478</span></span>
+<span><span class="co">#&gt; 2     rare_biology -1.47        0.001</span></span>
+<span><span class="co">#&gt; 3         subgroup -0.56        0.001</span></span></code></pre></div>
+<p>Nearly half of the truncated feature’s values sit at a single point,
+against 0.1% for the biological features. A pile-up of identical values
+at the extreme of the range is evidence of a ceiling; a negative
+skewness value on its own is not.</p>
+<p>Note also that a <strong>hook effect</strong> — signal
+<em>decreasing</em> at high concentration in a sandwich immunoassay — is
+not a distributional property at all. It produces non-monotonicity
+between true and measured concentration, which cannot be detected from
+the marginal distribution of a single feature. Skewness should not be
+cited as evidence of one.</p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="recommended-use">6) Recommended use<a class="anchor" aria-label="anchor" href="#recommended-use"></a>
+</h2>
+<p>If you enable this filter:</p>
+<ol style="list-style-type: decimal">
+<li>
+<strong>Run it as a diagnostic first.</strong> Call
+<code><a href="../reference/feature_skewness.html">feature_skewness()</a></code> with <code>threshold = NULL</code> to
+obtain skewness for every feature without excluding anything, and look
+at the distribution before choosing a cutoff.</li>
+<li>
+<strong>Plot the flagged features.</strong> A histogram per flagged
+feature is the single most informative check, and flagged features are
+usually few enough to inspect.</li>
+<li>
+<strong>Check for a pile-up at the bound</strong>, as above, before
+attributing skew to an assay ceiling.</li>
+<li>
+<strong>Consider the scale.</strong> If your data are untransformed,
+positive skew is expected and the <code>"right"</code> and
+<code>"both"</code> directions will flag large numbers of ordinary
+features. The <code>"left"</code> default exists for this reason.</li>
+<li>
+<strong>Apply the missingness filter first</strong>, so that
+skewness is not estimated from very few observations.</li>
+<li>
+<strong>Prefer recording to removing.</strong> Features excluded by
+skewness are recorded in
+<code>omiprep@exclusions$features$user_defined_feature_skewness</code>,
+so you can report which features were dropped and why, and compare
+downstream results with and without the filter.</li>
+<li>
+<strong>Where an exclusion is not clearly technical, keep the
+feature</strong> and account for its distribution in analysis instead —
+for example with a rank-based or non-parametric method, or by modelling
+the subgroup explicitly.</li>
+</ol>
+<p>Default to leaving this filter off unless you have a specific,
+platform-motivated reason to apply it.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

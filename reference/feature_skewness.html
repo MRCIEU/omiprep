@@ -25,6 +25,7 @@ skewness threshold."><meta property="og:image" content="https://mrcieu.github.io
     <li><a class="dropdown-item" href="../articles/nightingale.html">Nightingale</a></li>
     <li><a class="dropdown-item" href="../articles/olink.html">Olink</a></li>
     <li><a class="dropdown-item" href="../articles/somalogic.html">Somalogic</a></li>
+    <li><a class="dropdown-item" href="../articles/custom_data.html">In-house &amp; custom data</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Summaries</h6></li>
     <li><a class="dropdown-item" href="../articles/sample_summary.html">Samples</a></li>
@@ -80,19 +81,49 @@ skewness threshold.</p>
 
 
 <dt id="arg-threshold">threshold<a class="anchor" aria-label="anchor" href="#arg-threshold"></a></dt>
-<dd><p>numeric, optional skewness threshold. If `NULL`, only skewness is
-returned and no exclusion flag is calculated.</p></dd>
+<dd><p>numeric, optional skewness threshold. If `NULL` (the default),
+only skewness is returned and no exclusion flag is calculated.</p></dd>
 
 
 <dt id="arg-direction">direction<a class="anchor" aria-label="anchor" href="#arg-direction"></a></dt>
-<dd><p>character, direction of skewness to flag. One of `"left"`,
-`"right"`, or `"both"`.</p></dd>
+<dd><p>character, direction of skewness to flag. One of `"left"`
+(the default), `"right"`, or `"both"`.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>data.frame with columns `feature_id`, `skew`, and
 `exclude_by_skewness` (logical; `NA` if `threshold = NULL`).</p>
+    </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>Skewness is calculated for each feature across samples using <code><a href="https://rdrr.io/pkg/psych/man/describe.html" class="external-link">psych::describe()</a></code>,
+which by default returns the type 3 estimator
+\(b_1 = g_1 \cdot ((n-1)/n)^{3/2}\), where \(g_1\) is the standard
+moment coefficient of skewness and \(n\) is the number of non-missing values for
+that feature.</p>
+<p>Missing values are dropped feature-wise, so \(n\) varies between features and no
+imputation is performed. No minimum sample-size is imposed: a feature with only a
+handful of non-missing values will still return an estimate, and such estimates are
+unstable. Features with zero variance return `NaN` and are never flagged.</p>
+<p>The threshold is a cutoff on the skewness statistic itself, not a p-value, and is
+applied to the <strong>signed</strong> value unless `direction = "both"`:</p>
+<ul><li><p>`direction = "left"` flags features where `skew &lt;= -threshold`;</p></li>
+<li><p>`direction = "right"` flags features where `skew &gt;= threshold`;</p></li>
+<li><p>`direction = "both"` flags features where `abs(skew) &gt;= threshold`.</p></li>
+</ul><p>Skewness is computed on the values as supplied. It is not invariant to
+transformation, so a feature's skewness on a raw intensity scale and on a
+log scale can differ substantially.</p>
+<p>A skewed distribution is a description of shape, not evidence of technical
+failure. Genuine biological variation, subgroup structure and low-frequency
+phenomena all produce skewed features. Treat the flag as a prompt to inspect a
+feature rather than as grounds to remove it; see `vignette("skewness_qc")` for
+guidance on interpretation.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
+    <div class="dont-index"><p><code><a href="quality_control.html">quality_control()</a></code> for applying this filter within the QC pipeline,
+and <code><a href="feature_describe.html">feature_describe()</a></code>, which also reports per-feature skewness.</p></div>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

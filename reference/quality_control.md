@@ -81,13 +81,25 @@ quality_control(
 - feature_skewness_threshold:
 
   numeric, optional skewness threshold to exclude features with skewed
-  distributions. Set to \`NULL\` to disable.
+  distributions. \`NULL\` by default, which disables the filter: no
+  feature is excluded on the basis of skewness unless a threshold is
+  supplied. Skewness is estimated by
+  [`feature_skewness()`](https://mrcieu.github.io/omiprep/reference/feature_skewness.md)
+  on the values in the \`qc\` layer, after missingness filtering and on
+  the scale as supplied (no transformation is applied). The cutoff is on
+  the signed skewness statistic, not a p-value. See
+  \`vignette("skewness_qc")\` before enabling it.
 
 - feature_skewness_direction:
 
   character, direction of skewness to apply when
-  \`feature_skewness_threshold\` is set. One of \`"left"\`, \`"right"\`,
-  or \`"both"\`.
+  \`feature_skewness_threshold\` is set. One of \`"left"\` (the default;
+  excludes \`skew \<= -threshold\`), \`"right"\` (excludes \`skew \>=
+  threshold\`), or \`"both"\` (excludes \`abs(skew) \>= threshold\`).
+  The \`"left"\` default targets upper-end truncation, the pattern
+  expected from an upper limit of quantification; it deliberately does
+  not act on the positive skew that is common and usually benign in
+  untransformed abundance data.
 
 - total_sum_abundance_sd:
 

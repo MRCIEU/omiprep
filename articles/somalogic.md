@@ -116,20 +116,20 @@ mydata <- mydata |>
 #> 
 #> ── Starting Omics QC Process ───────────────────────────────────────────────────
 #> ℹ Validating input parameters
-#> ✔ Validating input parameters [7ms]
+#> ✔ Validating input parameters [9ms]
 #> 
 #> ℹ Sample & Feature Summary Statistics for raw data
 #> ℹ Number of informative PCs (Scree acceleration factor): 2
-#> ℹ Sample & Feature Summary Statistics for raw data✔ Sample & Feature Summary Statistics for raw data [227ms]
+#> ℹ Sample & Feature Summary Statistics for raw data✔ Sample & Feature Summary Statistics for raw data [293ms]
 #> 
 #> ℹ Copying input data to new 'qc' data layer
-#> ✔ Copying input data to new 'qc' data layer [17ms]
+#> ✔ Copying input data to new 'qc' data layer [21ms]
 #> 
 #> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)
-#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [13ms]
+#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [16ms]
 #> 
 #> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)
-#> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [13m…
+#> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [16m…
 #> 
 #> ℹ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
 #> ✔ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
@@ -141,7 +141,7 @@ mydata <- mydata |>
 #> ✔ Calculating total sum abundance outliers at +/- 5 Sdev - excluding 0 sample(s…
 #> 
 #> ℹ Running sample data PCA outlier analysis at +/- 5 Sdev
-#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [12ms]
+#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [15ms]
 #> 
 #> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
 #> ℹ Number of informative PCs (Scree acceleration factor): 2
@@ -154,21 +154,21 @@ mydata <- mydata |>
 #> ℹ Creating final QC dataset...── Step timings ──
 #> ℹ Creating final QC dataset...
 #> ℹ Creating final QC dataset...
-#>                         step seconds  pct
-#>                   validation    0.00  0.0
-#>                summarise_raw    0.22 25.8
-#>                   copy_layer    0.00  0.0
-#>   extreme_sample_missingness    0.00  0.0
-#>  extreme_feature_missingness    0.00  0.0
-#>           sample_missingness    0.00  0.0
-#>          total_sum_abundance    0.00  0.0
-#>                summarise_pca    0.28 32.8
-#>              summarise_final    0.21 24.6
-#>                        total    0.85 99.5
-#> ✔ Creating final QC dataset... [227ms]
+#>                         step seconds   pct
+#>                   validation    0.00   0.0
+#>                summarise_raw    0.28  25.8
+#>                   copy_layer    0.00   0.0
+#>   extreme_sample_missingness    0.00   0.0
+#>  extreme_feature_missingness    0.00   0.0
+#>           sample_missingness    0.00   0.0
+#>          total_sum_abundance    0.00   0.0
+#>                summarise_pca    0.35  32.3
+#>              summarise_final    0.27  24.9
+#>                        total    1.09 100.5
+#> ✔ Creating final QC dataset... [296ms]
 #> 
 #> ℹ 'Omics QC Process Completed
-#> ✔ 'Omics QC Process Completed [11ms]
+#> ✔ 'Omics QC Process Completed [13ms]
 ```
 
 ## Quick summary of the Omiprep object following QC

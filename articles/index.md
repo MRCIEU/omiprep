@@ -4,6 +4,8 @@
 
 - [Batch
   Normalise](https://mrcieu.github.io/omiprep/articles/batch_normalise.md):
+- [Importing In-House & Custom
+  Data](https://mrcieu.github.io/omiprep/articles/custom_data.md):
 - [Export Data](https://mrcieu.github.io/omiprep/articles/export.md):
 - [Feature
   summary](https://mrcieu.github.io/omiprep/articles/feature_summary.md):

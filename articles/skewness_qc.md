@@ -10,7 +10,29 @@ result in skewed data with ceiling effects. In this vignette we:
 3.  explain what skewness means,
 4.  run skewness filtering in
     [`quality_control()`](https://mrcieu.github.io/omiprep/reference/quality_control.md),
-5.  and visualize pre/post filtering impact.
+5.  visualize pre/post filtering impact,
+6.  and show what this criterion **cannot** tell you, and how to avoid
+    removing biologically meaningful features.
+
+### This filter is off by default
+
+`feature_skewness_threshold` is `NULL` unless you set it, and
+[`quality_control()`](https://mrcieu.github.io/omiprep/reference/quality_control.md)
+excludes nothing on the basis of skewness while it is `NULL`. There is
+no recommended default value, because no single cutoff is appropriate
+across platforms, scales and sample sizes.
+
+Treat it as an **opt-in diagnostic for a specific, platform-driven
+artefact** — upper-end truncation — rather than as a routine filtering
+step. It is most likely to be useful for affinity-based proteomic
+assays, where an upper limit of quantification or assay non-linearity
+can compress the top of a feature’s range. It is least likely to be
+appropriate for untransformed abundance data, where positive skew is the
+norm and carries no implication of assay failure, and for small sample
+sizes, where the estimate itself is unreliable.
+
+Section 5 shows why the output of this filter should be inspected rather
+than applied unexamined.
 
 ``` r
 
@@ -130,6 +152,29 @@ Plain-language interpretation:
 - `skew > 0` (`right_skew`): most values are concentrated on the left
   side, with a tail extending to the right.
 - larger `abs(skew)` means stronger asymmetry.
+
+### Missing values, sample size, and scale
+
+Three properties of the estimate matter when interpreting it:
+
+- **Missing values** are dropped feature-wise (`na.rm = TRUE`). Nothing
+  is imputed, and $`n`$ therefore differs between features. A feature
+  measured in a third of samples is compared against one measured in all
+  of them.
+- **No minimum sample size is imposed.** A feature with only a few
+  non-missing values still returns an estimate, and skewness from a
+  small $`n`$ is unstable. Because sparse features are often the
+  biologically interesting ones, apply the missingness filter first and
+  treat skewness for sparsely measured features with particular caution.
+  Features with zero variance return `NaN` and are never flagged.
+- **Skewness is not invariant to transformation.** It is calculated on
+  the values as supplied. Within
+  [`quality_control()`](https://mrcieu.github.io/omiprep/reference/quality_control.md)
+  this is the `qc` layer, after missingness filtering, on whatever scale
+  the data are already on — no transformation is applied. The same
+  feature can be strongly skewed on a raw intensity scale and
+  near-symmetric after a log transformation, so a threshold chosen for
+  one scale does not carry over to the other.
 
 ### What the threshold means
 
@@ -260,20 +305,20 @@ m_qc <- quality_control(
 #> 
 #> ── Starting Omics QC Process ───────────────────────────────────────────────────
 #> ℹ Validating input parameters
-#> ✔ Validating input parameters [9ms]
+#> ✔ Validating input parameters [11ms]
 #> 
 #> ℹ Sample & Feature Summary Statistics for raw data
 #> ℹ Number of informative PCs (Scree acceleration factor): 3
-#> ℹ Sample & Feature Summary Statistics for raw data✔ Sample & Feature Summary Statistics for raw data [28.5s]
+#> ℹ Sample & Feature Summary Statistics for raw data✔ Sample & Feature Summary Statistics for raw data [37.9s]
 #> 
 #> ℹ Copying input data to new 'qc' data layer
-#> ✔ Copying input data to new 'qc' data layer [35ms]
+#> ✔ Copying input data to new 'qc' data layer [45ms]
 #> 
 #> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)
-#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [28ms]
+#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [37ms]
 #> 
 #> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)
-#> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [27m…
+#> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [30m…
 #> 
 #> ℹ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
 #> ✔ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
@@ -285,7 +330,7 @@ m_qc <- quality_control(
 #> ✔ Assessing for feature skewness at threshold <= -1.25 - excluding 80 feature(s…
 #> 
 #> ℹ Running sample data PCA outlier analysis at +/- 5 Sdev
-#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [24ms]
+#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [26ms]
 #> 
 #> ℹ Creating final QC dataset...
 #> ℹ Number of informative PCs (Scree acceleration factor): 6
@@ -295,18 +340,18 @@ m_qc <- quality_control(
 #> ℹ Creating final QC dataset...
 #>                         step seconds   pct
 #>                   validation    0.00   0.0
-#>                summarise_raw   28.47  57.9
-#>                   copy_layer    0.01   0.0
-#>   extreme_sample_missingness    0.01   0.0
-#>  extreme_feature_missingness    0.01   0.0
+#>                summarise_raw   37.87  57.3
+#>                   copy_layer    0.02   0.0
+#>   extreme_sample_missingness    0.02   0.0
+#>  extreme_feature_missingness    0.02   0.0
 #>           sample_missingness    0.01   0.0
-#>          feature_missingness    0.19   0.4
-#>              summarise_final   19.98  40.7
-#>                        total   49.13 100.0
-#> ✔ Creating final QC dataset... [20.3s]
+#>          feature_missingness    0.25   0.4
+#>              summarise_final   27.39  41.5
+#>                        total   66.07 100.0
+#> ✔ Creating final QC dataset... [27.7s]
 #> 
 #> ℹ 'Omics QC Process Completed
-#> ✔ 'Omics QC Process Completed [10ms]
+#> ✔ 'Omics QC Process Completed [12ms]
 ```
 
 ## 4) Post-filtering impact on distributions
@@ -414,3 +459,150 @@ ggplot(box_df, aes(x = simulated_group, y = skew, fill = stage)) +
 ```
 
 ![](skewness_qc_files/figure-html/post_filter_group_skew_boxplot-1.png)
+
+## 5) What skewness does not tell you
+
+The simulation above was built so that skewed features *were* the
+truncated ones. Real data offer no such guarantee. Skewness describes
+the **shape** of a distribution; it says nothing about the **cause** of
+that shape.
+
+A strongly skewed feature may reflect:
+
+- an upper limit of quantification, or assay non-linearity — a technical
+  artefact;
+- a low-frequency biological phenomenon, such as a deficiency allele, a
+  rare metabolic state, or a small group of treated or diseased
+  individuals;
+- genuine subgroup structure, for example by sex, fasting status or
+  medication use;
+- a floor imposed by a limit of detection, or an upstream imputation
+  rule;
+- nothing more than the natural shape of the analyte’s concentration
+  distribution.
+
+Only the first is a QC problem. The others are signal.
+
+### Skewness alone cannot identify a ceiling or hook effect
+
+Consider three features, all measured in 1000 samples. One is genuinely
+truncated at an upper bound; one carries a real low-frequency biological
+effect; one has two biological subgroups.
+
+``` r
+
+set.seed(20260408)
+n <- 1000
+
+confounded <- cbind(
+  # a true assay ceiling: values are capped, creating exact ties at the bound
+  ceiling_artefact = pmin(rnorm(n, mean = 11, sd = 1.4), 11),
+  # 8% of individuals with a genuinely lower value: real biology
+  rare_biology     = c(rnorm(920, mean = 10, sd = 1), rnorm(80, mean = 5, sd = 1)),
+  # two biological subgroups
+  subgroup         = c(rnorm(700, mean = 10, sd = 1), rnorm(300, mean = 6.5, sd = 1))
+)
+
+confounded_skew <- feature_skewness(confounded, threshold = 1.25, direction = "left")
+confounded_skew
+#>         feature_id       skew exclude_by_skewness
+#> 1 ceiling_artefact -1.7177530                TRUE
+#> 2     rare_biology -1.4747493                TRUE
+#> 3         subgroup -0.5568049               FALSE
+```
+
+The truncated feature and the rare-biology feature have essentially the
+same skewness, and both are flagged. Skewness has therefore not
+distinguished the artefact from the biology. This is why a flag is best
+treated as a prompt to inspect a feature rather than as a decision to
+remove it.
+
+``` r
+
+confounded_df <- data.frame(
+  feature = rep(colnames(confounded), each = n),
+  value   = as.vector(confounded)
+)
+
+ggplot(confounded_df, aes(x = value)) +
+  geom_histogram(bins = 45, fill = "#377EB8", color = "white") +
+  facet_wrap(~feature, scales = "free", nrow = 1) +
+  theme_classic() +
+  labs(x = "Feature value", y = "Count (samples)",
+       title = "Same skewness, different causes")
+```
+
+![](skewness_qc_files/figure-html/confound_hist-1.png)
+
+The histograms show what the statistic misses. Truncation produces a
+hard edge with many values piled at exactly the bound; the biological
+features have smooth tails.
+
+### A diagnostic that does separate them
+
+Truncation creates repeated values at the limit. Counting the most
+frequent value distinguishes a capped feature from a biologically skewed
+one far more reliably than skewness does:
+
+``` r
+
+max_tie_fraction <- function(x) {
+  x <- x[!is.na(x)]
+  max(table(x)) / length(x)
+}
+
+data.frame(
+  feature      = colnames(confounded),
+  skew         = round(confounded_skew$skew, 2),
+  tie_fraction = round(apply(confounded, 2, max_tie_fraction), 3),
+  row.names    = NULL
+)
+#>            feature  skew tie_fraction
+#> 1 ceiling_artefact -1.72        0.478
+#> 2     rare_biology -1.47        0.001
+#> 3         subgroup -0.56        0.001
+```
+
+Nearly half of the truncated feature’s values sit at a single point,
+against 0.1% for the biological features. A pile-up of identical values
+at the extreme of the range is evidence of a ceiling; a negative
+skewness value on its own is not.
+
+Note also that a **hook effect** — signal *decreasing* at high
+concentration in a sandwich immunoassay — is not a distributional
+property at all. It produces non-monotonicity between true and measured
+concentration, which cannot be detected from the marginal distribution
+of a single feature. Skewness should not be cited as evidence of one.
+
+## 6) Recommended use
+
+If you enable this filter:
+
+1.  **Run it as a diagnostic first.** Call
+    [`feature_skewness()`](https://mrcieu.github.io/omiprep/reference/feature_skewness.md)
+    with `threshold = NULL` to obtain skewness for every feature without
+    excluding anything, and look at the distribution before choosing a
+    cutoff.
+2.  **Plot the flagged features.** A histogram per flagged feature is
+    the single most informative check, and flagged features are usually
+    few enough to inspect.
+3.  **Check for a pile-up at the bound**, as above, before attributing
+    skew to an assay ceiling.
+4.  **Consider the scale.** If your data are untransformed, positive
+    skew is expected and the `"right"` and `"both"` directions will flag
+    large numbers of ordinary features. The `"left"` default exists for
+    this reason.
+5.  **Apply the missingness filter first**, so that skewness is not
+    estimated from very few observations.
+6.  **Prefer recording to removing.** Features excluded by skewness are
+    recorded in
+    `omiprep@exclusions$features$user_defined_feature_skewness`, so you
+    can report which features were dropped and why, and compare
+    downstream results with and without the filter.
+7.  **Where an exclusion is not clearly technical, keep the feature**
+    and account for its distribution in analysis instead — for example
+    with a rank-based or non-parametric method, or by modelling the
+    subgroup explicitly.
+
+Default to leaving this filter off unless you have a specific,
+platform-motivated reason to apply it.

@@ -6,6 +6,16 @@ manipulation of data, supporting quality control, transformations, and
 various analyses. This object facilitates easy access to data layers,
 sample and feature summaries, outlier treatment, and more.
 
+An \`Omiprep\` object can be built directly from any data source, not
+only the commercial formats handled by the \`read\_\*()\` functions. It
+requires a numeric matrix with samples in rows and features in columns,
+plus two metadata data.frames containing the columns \`sample_id\` and
+\`feature_id\` respectively. These two column names are matched exactly
+and are case-sensitive; no alternative spellings are mapped. Ids are
+coerced to character so that numeric identifiers read from flat files
+match the matrix dimnames. See \`vignette("custom_data")\` for a worked
+example starting from plain text files.
+
 ## Usage
 
 ``` r

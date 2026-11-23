@@ -37,6 +37,7 @@ Key principles:
     <li><a class="dropdown-item" href="../articles/nightingale.html">Nightingale</a></li>
     <li><a class="dropdown-item" href="../articles/olink.html">Olink</a></li>
     <li><a class="dropdown-item" href="../articles/somalogic.html">Somalogic</a></li>
+    <li><a class="dropdown-item" href="../articles/custom_data.html">In-house &amp; custom data</a></li>
     <li><hr class="dropdown-divider"></li>
     <li><h6 class="dropdown-header" data-toc-skip>Summaries</h6></li>
     <li><a class="dropdown-item" href="../articles/sample_summary.html">Samples</a></li>
@@ -153,11 +154,11 @@ Key principles:
 
 
 <dt id="arg-feature-skewness-threshold">feature_skewness_threshold<a class="anchor" aria-label="anchor" href="#arg-feature-skewness-threshold"></a></dt>
-<dd><p>numeric, optional skewness threshold to exclude features with skewed distributions. Set to `NULL` to disable.</p></dd>
+<dd><p>numeric, optional skewness threshold to exclude features with skewed distributions. `NULL` by default, which disables the filter: no feature is excluded on the basis of skewness unless a threshold is supplied. Skewness is estimated by <code><a href="feature_skewness.html">feature_skewness()</a></code> on the values in the `qc` layer, after missingness filtering and on the scale as supplied (no transformation is applied). The cutoff is on the signed skewness statistic, not a p-value. See `vignette("skewness_qc")` before enabling it.</p></dd>
 
 
 <dt id="arg-feature-skewness-direction">feature_skewness_direction<a class="anchor" aria-label="anchor" href="#arg-feature-skewness-direction"></a></dt>
-<dd><p>character, direction of skewness to apply when `feature_skewness_threshold` is set. One of `"left"`, `"right"`, or `"both"`.</p></dd>
+<dd><p>character, direction of skewness to apply when `feature_skewness_threshold` is set. One of `"left"` (the default; excludes `skew &lt;= -threshold`), `"right"` (excludes `skew &gt;= threshold`), or `"both"` (excludes `abs(skew) &gt;= threshold`). The `"left"` default targets upper-end truncation, the pattern expected from an upper limit of quantification; it deliberately does not act on the positive skew that is common and usually benign in untransformed abundance data.</p></dd>
 
 
 <dt id="arg-total-sum-abundance-sd">total_sum_abundance_sd<a class="anchor" aria-label="anchor" href="#arg-total-sum-abundance-sd"></a></dt>
