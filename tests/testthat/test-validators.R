@@ -55,8 +55,40 @@ test_that("constructor errors when data names are absent from metadata", {
     Omiprep(data,
             data.frame(sample_id = c("Sample_1", "Sample_2", "WRONG")),
             good_features),
-    "must be named with sample_ids and feature_ids"
+    "sample id\\(s\\) in `data` are absent from `samples\\$sample_id`"
   )
+})
+
+test_that("constructor coerces numeric ids to character", {
+  # ids that read from file as numeric must not fail the validator's identical() check
+  data <- matrix(seq_len(4), nrow = 2, ncol = 2)
+  rownames(data) <- c("101", "102")
+  colnames(data) <- c("2001", "2002")
+
+  m <- Omiprep(data,
+               data.frame(sample_id  = c(101, 102)),
+               data.frame(feature_id = c(2001L, 2002L)))
+
+  expect_type(m@samples[["sample_id"]], "character")
+  expect_type(m@features[["feature_id"]], "character")
+  expect_identical(m@samples[["sample_id"]], rownames(data))
+  expect_identical(m@features[["feature_id"]], colnames(data))
+})
+
+test_that("constructor gives targeted errors for missing id columns and unnamed data", {
+  data <- matrix(seq_len(4), nrow = 2, ncol = 2,
+                 dimnames = list(c("s1", "s2"), c("f1", "f2")))
+  samples  <- data.frame(sample_id  = c("s1", "s2"))
+  features <- data.frame(feature_id = c("f1", "f2"))
+
+  expect_error(Omiprep(data, data.frame(Sample_ID = c("s1", "s2")), features),
+               "must contain a column named `sample_id`")
+  expect_error(Omiprep(data, samples, data.frame(FeatureID = c("f1", "f2"))),
+               "must contain a column named `feature_id`")
+
+  unnamed <- matrix(seq_len(4), nrow = 2, ncol = 2)
+  expect_error(Omiprep(unnamed, samples, features),
+               "must have rownames \\(sample ids\\) and colnames \\(feature ids\\)")
 })
 
 # ---- property validators ----------------------------------------------------

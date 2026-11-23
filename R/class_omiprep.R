@@ -7,7 +7,15 @@ globalVariables(c(""), package = "omiprep")
 #' It allows for efficient storage and manipulation of data, supporting quality control, transformations,
 #' and various analyses. This object facilitates easy access to data layers, sample and feature summaries,
 #' outlier treatment, and more.
-#' 
+#'
+#' An `Omiprep` object can be built directly from any data source, not only the commercial formats
+#' handled by the `read_*()` functions. It requires a numeric matrix with samples in rows and features
+#' in columns, plus two metadata data.frames containing the columns `sample_id` and `feature_id`
+#' respectively. These two column names are matched exactly and are case-sensitive; no alternative
+#' spellings are mapped. Ids are coerced to character so that numeric identifiers read from flat files
+#' match the matrix dimnames. See `vignette("custom_data")` for a worked example starting from
+#' plain text files.
+#'
 #' @param data numeric matrix, the data matrix containing 'omics values (not to be set directly).
 #' @param samples data.frame, a data frame containing sample-related information (not to be set directly).
 #' @param features data.frame, a data frame containing feature-related information (not to be set directly).
@@ -87,11 +95,34 @@ Omiprep <- new_class(
     if (is.matrix(data)) {
       data <- array(data, dim = c(nrow(data), ncol(data), 1), dimnames = list(rownames(data), colnames(data), "input"))
     }
-    
+
+    samples  <- as.data.frame(samples,  stringsAsFactors = FALSE, check.names = FALSE)
+    features <- as.data.frame(features, stringsAsFactors = FALSE, check.names = FALSE)
+
+    # the id columns must exist before they can be matched against the data dimnames
+    stopifnot("`samples` must contain a column named `sample_id`"   = "sample_id"  %in% names(samples))
+    stopifnot("`features` must contain a column named `feature_id`" = "feature_id" %in% names(features))
+
+    # dimnames are always character, so ids read from file as numeric would otherwise
+    # match here but fail the validator's identical() check
+    samples[["sample_id"]]   <- as.character(samples[["sample_id"]])
+    features[["feature_id"]] <- as.character(features[["feature_id"]])
+
+    stopifnot("`data` must have rownames (sample ids) and colnames (feature ids)" =
+                !is.null(rownames(data)) && !is.null(colnames(data)))
+
     # check all sample and feature ids in data
-    stopifnot("data matrix must be named with sample_ids and feature_ids" = all(rownames(data) %in% samples[["sample_id"]]) &
-                all(colnames(data) %in% features[["feature_id"]]) )
-    
+    missing_samples  <- setdiff(rownames(data), samples[["sample_id"]])
+    missing_features <- setdiff(colnames(data), features[["feature_id"]])
+    if (length(missing_samples) > 0) {
+      stop(sprintf("%i sample id(s) in `data` are absent from `samples$sample_id`, e.g. %s",
+                   length(missing_samples), paste(missing_samples[seq_len(min(3L, length(missing_samples)))], collapse = ", ")), call. = FALSE)
+    }
+    if (length(missing_features) > 0) {
+      stop(sprintf("%i feature id(s) in `data` are absent from `features$feature_id`, e.g. %s",
+                   length(missing_features), paste(missing_features[seq_len(min(3L, length(missing_features)))], collapse = ", ")), call. = FALSE)
+    }
+
     # order samples and features by data
     samples  <- as.data.frame(samples[match(rownames(data), samples[["sample_id"]]), , drop = FALSE])
     features <- as.data.frame(features[match(colnames(data), features[["feature_id"]]), , drop = FALSE])
