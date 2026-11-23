@@ -37,15 +37,15 @@ Omiprep <- new_class(
   properties = list(
     # the data
     data       = new_property(class     = class_numeric,
-                              default   = array(NA_real_, dim = c(0,0,0)), 
+                              default   = quote(array(NA_real_, dim = c(0,0,0))), 
                               validator = function(value) if (!is.array(value) | !is.numeric(value)) "should be a numeric matrix" else NULL),
     # the sample information
     samples    = new_property(class     = class_data.frame, 
-                              default   = data.frame("sample_id"=character()),
+                              default   = quote(data.frame("sample_id"=character())),
                               validator = function(value) if (length(setdiff(c("sample_id"), names(value))) > 0) "should have at least the column named `sample_id`" else NULL),
     # the feature information
     features   = new_property(class     = class_data.frame, 
-                              default   = data.frame("feature_id"=character()), 
+                              default   = quote(data.frame("feature_id"=character())), 
                               validator = function(value) if (length(setdiff(c("feature_id"), names(value))) > 0) "should have at least the column named `feature_id`" else NULL),
     # a list of exclusions
     exclusions = new_property(class     = class_list,
@@ -61,11 +61,11 @@ Omiprep <- new_class(
                               }),
     # summary data for features
     feature_summary       = new_property(class     = class_numeric,
-                                         default   = array(NA_real_, dim = c(0,0,0)),
+                                         default   = quote(array(NA_real_, dim = c(0,0,0))),
                                          validator = function(value) if (!is.array(value) | !is.numeric(value)) "should be a numeric matrix" else NULL),
     # summary data for samples
     sample_summary        = new_property(class     = class_numeric,
-                                         default   = array(NA_real_, dim = c(0,0,0)),
+                                         default   = quote(array(NA_real_, dim = c(0,0,0))),
                                          validator = function(value) if (!is.array(value) | !is.numeric(value)) "should be a numeric matrix" else NULL)
   ),
   ############################################
@@ -97,8 +97,9 @@ Omiprep <- new_class(
     features <- as.data.frame(features[match(colnames(data), features[["feature_id"]]), , drop = FALSE])
     
     # populate object and return it
-    new_object(.parent         = S7_object(), 
-               data            = data, 
+    # (parent passed by position: the argument is `.parent` before S7 1.0.0 and `_parent` from 1.0.0)
+    new_object(S7_object(),
+               data            = data,
                samples         = samples, 
                features        = features, 
                exclusions      = exclusions,
