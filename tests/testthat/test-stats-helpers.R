@@ -92,6 +92,64 @@ test_that("feature_skewness validates its inputs", {
   expect_error(feature_skewness(X, threshold = -1), "non-negative")
 })
 
+# The following pin behaviour asserted in ?feature_skewness and
+# vignette("skewness_qc"); they exist so the documentation cannot drift.
+
+test_that("feature_skewness uses the psych type 3 estimator", {
+  set.seed(42)
+  x <- rlnorm(200)
+  expect_equal(feature_skewness(cbind(a = x))$skew,
+               psych::skew(x, type = 3))
+})
+
+test_that("feature_skewness drops missing values feature-wise", {
+  set.seed(42)
+  x <- rlnorm(100)
+  x_na <- x
+  x_na[1:30] <- NA
+
+  # skew of the NA-padded feature equals skew of its non-missing values alone
+  expect_equal(feature_skewness(cbind(a = x_na))$skew,
+               feature_skewness(cbind(a = x[-(1:30)]))$skew)
+})
+
+test_that("zero-variance features are never flagged by skewness", {
+  X <- cbind(constant = rep(5, 30), varying = rnorm(30))
+  fs <- feature_skewness(X, threshold = 0, direction = "both")
+
+  expect_true(is.nan(fs$skew[fs$feature_id == "constant"]))
+  # NaN must not become an exclusion
+  expect_true(is.na(fs$exclude_by_skewness[fs$feature_id == "constant"]))
+})
+
+test_that("the skewness filter is disabled by default", {
+  expect_null(formals(feature_skewness)$threshold)
+  expect_null(formals(quality_control)$feature_skewness_threshold)
+  expect_identical(eval(formals(feature_skewness)$direction), "left")
+  expect_identical(eval(formals(quality_control)$feature_skewness_direction), "left")
+})
+
+test_that("quality_control excludes nothing by skewness when threshold is NULL", {
+  set.seed(42)
+  n <- 60
+  data <- cbind(
+    skewed = c(rnorm(n - 6, 10, 1), rnorm(6, 2, 1)),  # strongly left-skewed
+    matrix(rnorm(n * 8, 10, 1), nrow = n,
+           dimnames = list(NULL, paste0("plain_", 1:8)))
+  )
+  rownames(data) <- paste0("s", seq_len(n))
+
+  m <- Omiprep(data,
+               data.frame(sample_id  = rownames(data)),
+               data.frame(feature_id = colnames(data)))
+
+  qc <- suppressMessages(quality_control(
+    m, total_sum_abundance_sd = NA, pc_outlier_sd = NA, cores = 2
+  ))
+
+  expect_length(qc@exclusions$features$user_defined_feature_skewness, 0)
+})
+
 # ---- cramerV ----------------------------------------------------------------
 
 test_that("cramerV is 1 for perfect association and 0 for independence", {
