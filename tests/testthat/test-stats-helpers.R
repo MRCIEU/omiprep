@@ -161,3 +161,20 @@ test_that("remove_perfect_correlation keeps merely-correlated columns", {
   out <- remove_perfect_correlation(df)
   expect_identical(names(out), names(df))   # nothing dropped
 })
+
+test_that("feature_describe returns the same columns above psych's fast-mode size", {
+  skip_on_cran()
+  # psych::describe switches to its fast mode above 1e7 values, which returns
+  # different columns; feature_describe must not depend on which mode psych picks
+  set.seed(1)
+  small <- matrix(rexp(50 * 20), 50, dimnames = list(NULL, paste0("f", 1:20)))
+  big   <- matrix(rexp(1000 * 10001), 1000, dimnames = list(NULL, paste0("f", 1:10001)))
+  big[sample(length(big), 1e5)] <- NA
+  expect_gt(length(big), 1e7)
+  ds <- feature_describe(small)
+  db <- feature_describe(big)
+  expect_identical(colnames(ds), colnames(db))
+  expect_true(all(c("n", "mean", "sd", "median", "min", "max", "range", "skew", "kurtosis", "se") %in% colnames(db)))
+  expect_false(any(c("vars", "trimmed", "mad") %in% colnames(db)))
+  expect_equal(db$min, unname(apply(big, 2, min, na.rm = TRUE)))
+})

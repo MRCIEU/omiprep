@@ -1,22 +1,22 @@
 #' Metaboprep 1 pipeline
 #' 
 #' @description This function runs the original metaboprep1 pipeline using the old parameter file input format. 
-#' The function requires access to the internet as the old package (default github commit `bbe1f85`)
+#' The function requires access to the internet as the old package (default github tag `v1.0.1`)
 #' will be dynamically downloaded and used to process the data. 
 #' 
 #' @param parameter_file character, full file path to the metaboprep 1 parameter file
-#' @param gitcommit character, Github commit - default pinned to the last stable metaboprep 1 version `bbe1f85`
+#' @param gitcommit character, Github commit - default pinned to the metaboprep 1 release `v1.0.1`
 #' @param attempt_report logical, whether to attempt metaboprep1 report generation. Default=FALSE as this can lead to errors on some operating systems.
 #'
 #' @returns NULL
 #' @export
 #'
-run_metaboprep1 <- function(parameter_file, gitcommit = "bbe1f85", attempt_report = FALSE) {
+run_metaboprep1 <- function(parameter_file, gitcommit = "v1.0.1", attempt_report = FALSE) {
   
   # testing 
   if (FALSE) {
     parameter_file  <- "/Users/xx20081/Downloads/parameter_file.sh"
-    gitcommit = "bbe1f85"
+    gitcommit = "v1.0.1"
   }
   
   # get the previous version and attached ====

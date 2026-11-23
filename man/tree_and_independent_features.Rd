@@ -24,7 +24,7 @@ tree_and_independent_features(
 
 \item{cores}{number of cores available for parallelism; the default null will try find the maximum available cores - 1; set to 1 for linear, but potentially slow, computation of the correlation matrix.}
 
-\item{fast}{If \code{TRUE}, accelerates correlation computation by imputing missing values to the column minimum, pre-ranking all columns, and computing Pearson correlation on ranked data (approximating Spearman). Substantially faster than exact Spearman at large feature dimensions (\eqn{p > 5000}) but assumes missing data are missing at random. Features with high missingness will have inflated rank ties at the median (ensure these are filtered out appropriately with the missingness option). Default \code{FALSE}.
+\item{fast}{If \code{TRUE}, accelerates correlation computation by imputing missing values to the column minimum, pre-ranking all columns, and computing Pearson correlation on ranked data (approximating Spearman). Substantially faster than exact Spearman at large feature dimensions (\eqn{p > 5000}) but assumes values are missing because they fall below a lower limit of detection: every missing value is treated as the lowest value of its feature. If values are missing for other reasons (e.g. at random) the correlations are weakened and fewer features are clustered, so use the exact method (\code{fast = FALSE}). Features with high missingness will have many tied ranks at the minimum (ensure these are filtered out appropriately with the missingness option). Default \code{FALSE}.
 One of:
 \describe{
   \item{\code{"max_var_exp"}}{(Default) Selects the feature with the highest sum of absolute Spearman correlations to other features in the cluster; 

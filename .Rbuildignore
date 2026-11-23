@@ -1,6 +1,7 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 scripts
+submission
 ^LICENSE\.md$
 ^README\.Rmd$
 ^_pkgdown\.yml$

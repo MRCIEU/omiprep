@@ -32,8 +32,14 @@ method(pc_and_outliers, Omiprep) <- function(omiprep, source_layer="input", samp
   if (is.null(feature_ids)) feature_ids <- omiprep@features[["feature_id"]]
   
   
-  # set data
-  pcadata <- omiprep@data[sample_ids, feature_ids, source_layer]
+  # set data - keep a samples x features matrix even when only 1 sample/feature remains
+  pcadata <- matrix(omiprep@data[sample_ids, feature_ids, source_layer],
+                    nrow = length(sample_ids), dimnames = list(sample_ids, feature_ids))
+  if (nrow(pcadata) < 3 || ncol(pcadata) < 2) {
+    stop(sprintf("PCA needs >= 3 samples and >= 2 independent features; %d sample(s) and %d feature(s) remain after filtering. ",
+                 nrow(pcadata), ncol(pcadata)),
+         "Consider relaxing sample_missingness / feature_missingness.", call. = FALSE)
+  }
   
   
   # impute missingness as medians + z-transformation
@@ -53,6 +59,7 @@ method(pc_and_outliers, Omiprep) <- function(omiprep, source_layer="input", samp
     mypca <- stats::prcomp(pcadata, center = FALSE, scale = FALSE)
   } else {
     mypca <- irlba::prcomp_irlba(pcadata, n = k, center = FALSE, scale = FALSE)
+    rownames(mypca$x) <- rownames(pcadata)
   }
   varexp <- summary(mypca)[[6]][2, ]
 

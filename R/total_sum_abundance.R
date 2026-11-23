@@ -31,7 +31,7 @@ total_sum_abundance <- function(data, ztransform = TRUE){
   completefeatures = which(mis == 0)
 
   # TSA with complete features
-  completeF_tsa = apply(data[, completefeatures], 1, function(x){ sum(x, na.rm = TRUE) })
+  completeF_tsa = apply(data[, completefeatures, drop = FALSE], 1, function(x){ sum(x, na.rm = TRUE) })
 
   # output data.frame
   out = data.frame("sample_id" = names(total_tsa), 

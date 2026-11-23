@@ -20,7 +20,7 @@ test_that("omiprep output same as metaboprep1", {
   # clones the old repo ====
   system2("git", c("clone", "https://github.com/MRCIEU/metaboprep.git", tmp_lib))
   setwd(tmp_lib)
-  system2("git", c("checkout", "bbe1f85"))
+  system2("git", c("checkout", "v1.0.1"))
   
   # copy the data across
   new_fp <- file.path(tmp_lib, "inst", "extdata", "metabolon_v1.1_example.xlsx")
@@ -130,7 +130,10 @@ test_that("omiprep output same as metaboprep1", {
   m <- read_metabolon(fp, sheet="OrigScale", return_Omiprep = TRUE)
   m <- batch_normalise(m,
                        run_mode_col = "platform", 
-                       run_mode_colmap = c(pos="pos", neg="neg"),
+                       run_mode_colmap = c("LC/MS Neg"       = "lcms_neg",
+                                           "LC/MS Polar"     = "lcms_polar",
+                                           "LC/MS Pos Early" = "lcms_pos_early",
+                                           "LC/MS Pos Late"  = "lcms_pos_late"),
                        source_layer = "input",
                        dest_layer = "batch_normalised")
   m <- quality_control(m, 

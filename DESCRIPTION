@@ -72,6 +72,7 @@ Collate:
     'run_metaboprep1.R'
     'sample_summary.R'
     'shiny_app.R'
+    'simulate_omics.R'
     'summarise.R'
     'summary_omiprep.R'
     'total_sum_abundance.R'

@@ -14,7 +14,10 @@
 #'
 feature_describe = function(data){
 
-  d = psych::describe(data)[, -c(1,6,7)]
+  # fast = TRUE always: psych switches to fast mode by itself on large inputs, which
+  # returns different columns, so fixing it keeps the output columns stable
+  d = psych::describe(data, fast = TRUE)
+  d = d[, setdiff(colnames(d), "vars"), drop = FALSE]
 
   e = t(apply(data, 2, function(x) {
     ## missing

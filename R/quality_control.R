@@ -83,6 +83,8 @@ method(quality_control, Omiprep) <- function(omiprep,
   stopifnot("feature_ids must all be found in the data" = is.null(feature_ids) || all(feature_ids %in% omiprep@features[["feature_id"]]))  
   stopifnot("feature_skewness_threshold must be NULL or a non-negative numeric scalar" = is.null(feature_skewness_threshold) || (is.numeric(feature_skewness_threshold) && length(feature_skewness_threshold) == 1 && !is.na(feature_skewness_threshold) && feature_skewness_threshold >= 0))
   stopifnot("`features_exclude_but_keep` must be a logical column in the features data or a vector of feature ids all present in the data" = is.null(features_exclude_but_keep) || (all(features_exclude_but_keep %in% names(omiprep@features)) && all(is.logical(omiprep@features[[features_exclude_but_keep]]))) || all(features_exclude_but_keep %in% omiprep@features[["feature_id"]]) )
+  cores <- .resolve_cores(cores)
+  if (.start_cluster(cores)) on.exit(.stop_cluster(), add = TRUE)   # Windows: one socket cluster for the whole run
   cli::cli_progress_update()
   .qc_timings[["validation"]] <- (proc.time() - t_step)["elapsed"]
   

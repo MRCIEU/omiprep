@@ -89,6 +89,12 @@ reference:
     - batch_normalise
     
     
+- title: "Simulated data"
+  desc: >
+    Generate synthetic data with known quality problems, for testing and tutorials.
+  contents:
+    - simulate_omics
+
 - title: "Helper functions"
   desc: >
     Helper functions, mainly used internally.

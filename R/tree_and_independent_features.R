@@ -1,12 +1,60 @@
-.par_lapply <- function(X, FUN, cores, ...) {
-  if (.Platform$OS.type == "windows" && cores > 1) {
-    cl <- parallel::makeCluster(cores)
-    on.exit(parallel::stopCluster(cl))
-    parallel::parLapply(cl, X, FUN, ...)
-  } else {
-    parallel::mclapply(X, FUN, mc.cores = cores, ...)
+## ── parallel helpers ─────────────────────────────────────────────────────────
+## Forked workers (mclapply) on macOS/Linux; a socket cluster (parLapply) on Windows,
+## where forking is unavailable. quality_control() starts one socket cluster for the
+## whole run and stores it here, so workers start once rather than on every call.
+## options(omiprep.parallel_backend = "socket") forces the socket path on any OS (testing).
+.omiprep_env <- new.env(parent = emptyenv())
+
+.resolve_cores <- function(cores) {
+  if (is.null(cores)) {
+    cores <- local({
+      # R CMD check / CRAN cap parallelism at 2 cores — honour that limit
+      if (nzchar(Sys.getenv("_R_CHECK_LIMIT_CORES_"))) return(2L)
+      slurm <- as.integer(Sys.getenv("SLURM_CPUS_PER_TASK")) # guard against cluster specifying all node cores
+      if (!is.na(slurm)) slurm else max(parallel::detectCores() - 1, 1)
+    })
+  }
+  if (!(is.numeric(cores) && length(cores) == 1 && cores >= 1 && cores == as.integer(cores))) {
+    stop(sprintf("Cores must be a positive integer, got: %s", deparse(cores)))
+  }
+  cores
+}
+
+.use_socket <- function(cores) {
+  backend <- getOption("omiprep.parallel_backend", "auto")
+  cores > 1 && (identical(backend, "socket") || (identical(backend, "auto") && .Platform$OS.type == "windows"))
+}
+
+# start the shared socket cluster; TRUE if this call started it (so the caller stops it)
+.start_cluster <- function(cores) {
+  if (!.use_socket(cores) || !is.null(.omiprep_env$cl)) return(FALSE)
+  .omiprep_env$cl <- parallel::makePSOCKcluster(cores)
+  TRUE
+}
+
+.stop_cluster <- function() {
+  if (!is.null(.omiprep_env$cl)) {
+    try(parallel::stopCluster(.omiprep_env$cl), silent = TRUE)
+    .omiprep_env$cl <- NULL
   }
 }
+
+.par_lapply <- function(X, FUN, cores, ...) {
+  if (cores <= 1) return(lapply(X, FUN, ...))
+  if (!.use_socket(cores)) return(parallel::mclapply(X, FUN, mc.cores = cores, ...))
+  cl <- .omiprep_env$cl
+  if (is.null(cl) || length(cl) != cores) {            # no shared cluster: one for this call only
+    cl <- parallel::makePSOCKcluster(cores)
+    on.exit(parallel::stopCluster(cl))
+  }
+  parallel::parLapply(cl, X, FUN, ...)
+}
+
+# one block of the correlation matrix ('mat', not 'x', which parLapply uses itself). Its environment is base, not the omiprep
+# namespace, so socket workers receive only the function and its arguments and do
+# not need to load omiprep or its imports.
+.cor_block <- function(j, mat, method, use) stats::cor(mat[, j, drop = FALSE], mat, method = method, use = use)
+environment(.cor_block) <- baseenv()
 
 #' @title Identify Independent Features in a Numeric Matrix
 #' @description
@@ -17,7 +65,7 @@
 #' @param features_exclude character, vector of feature id indicating features to exclude from the sample and PCA summary analysis but keep in the data
 #' @param feature_selection character. Method for selecting a representative feature from each correlated feature cluster. 
 #' @param cores number of cores available for parallelism; the default null will try find the maximum available cores - 1; set to 1 for linear, but potentially slow, computation of the correlation matrix. 
-#' @param fast If \code{TRUE}, accelerates correlation computation by imputing missing values to the column minimum, pre-ranking all columns, and computing Pearson correlation on ranked data (approximating Spearman). Substantially faster than exact Spearman at large feature dimensions (\eqn{p > 5000}) but assumes missing data are missing at random. Features with high missingness will have inflated rank ties at the median (ensure these are filtered out appropriately with the missingness option). Default \code{FALSE}.
+#' @param fast If \code{TRUE}, accelerates correlation computation by imputing missing values to the column minimum, pre-ranking all columns, and computing Pearson correlation on ranked data (approximating Spearman). Substantially faster than exact Spearman at large feature dimensions (\eqn{p > 5000}) but assumes values are missing because they fall below a lower limit of detection: every missing value is treated as the lowest value of its feature. If values are missing for other reasons (e.g. at random) the correlations are weakened and fewer features are clustered, so use the exact method (\code{fast = FALSE}). Features with high missingness will have many tied ranks at the minimum (ensure these are filtered out appropriately with the missingness option). Default \code{FALSE}.
 #' One of:
 #' \describe{
 #'   \item{\code{"max_var_exp"}}{(Default) Selects the feature with the highest sum of absolute Spearman correlations to other features in the cluster; 
@@ -37,7 +85,7 @@
 #' }
 #' 
 #' @importFrom stats as.dist hclust cutree
-#' @importFrom parallel mclapply makeCluster stopCluster parLapply
+#' @importFrom parallel mclapply makePSOCKcluster stopCluster parLapply
 #'
 #' @export
 #'
@@ -61,17 +109,7 @@ tree_and_independent_features = function(data, tree_cut_height = 0.5, features_e
   
   
   # find available cores for parallel processing
-  if (is.null(cores)) {
-    cores <- local({
-      # R CMD check / CRAN cap parallelism at 2 cores — honour that limit
-      if (nzchar(Sys.getenv("_R_CHECK_LIMIT_CORES_"))) return(2L)
-      slurm <- as.integer(Sys.getenv("SLURM_CPUS_PER_TASK")) # guard against cluster specifying all node cores
-      if (!is.na(slurm)) slurm else max(parallel::detectCores() - 1, 1)
-    })
-  }
-  if (!(is.numeric(cores) && length(cores) == 1 && cores >= 1 && cores == as.integer(cores))) {
-    stop(sprintf("Cores must be a positive integer, got: %s", deparse(cores)))
-  }
+  cores <- .resolve_cores(cores)
   
   # remove excluded features
   if (!is.null(features_exclude)) {
@@ -106,9 +144,7 @@ tree_and_independent_features = function(data, tree_cut_height = 0.5, features_e
       cor_matrix <- stats::cor(ranked, method = "pearson")
     } else {
       idx    <- split(1:ncol(ranked), cut(seq_along(1:ncol(ranked)), breaks=cores, labels=FALSE))
-      c_list <- .par_lapply(idx, function(j) {
-        stats::cor(ranked[, j, drop=FALSE], ranked, method="pearson")
-      }, cores=cores)
+      c_list <- .par_lapply(idx, .cor_block, cores = cores, mat = ranked, method = "pearson", use = "everything")
       cor_matrix <- do.call(rbind, c_list)
     }
   } else {
@@ -117,16 +153,15 @@ tree_and_independent_features = function(data, tree_cut_height = 0.5, features_e
       cor_matrix <- stats::cor(data, method = "spearman",  use = "pairwise.complete.obs")
     } else {
       idx <- split(1:ncol(data), cut(seq_along(1:ncol(data)), breaks=cores, labels=FALSE))
-      c_list <- .par_lapply(idx, function(j) {
-        stats::cor(data[, j, drop=FALSE], data, method = "spearman",  use = "pairwise.complete.obs")
-      }, cores=cores)
+      c_list <- .par_lapply(idx, .cor_block, cores = cores, mat = data, method = "spearman", use = "pairwise.complete.obs")
       cor_matrix <- do.call(rbind, c_list)
     }
   }
   rownames(cor_matrix) <- colnames(data)
   colnames(cor_matrix) <- colnames(data)
-  dist_matrix <- stats::as.dist(1 - abs(cor_matrix))
-  stree       <- stats::hclust(dist_matrix, method = "complete")
+  diag(cor_matrix)     <- 1
+  dist_matrix          <- stats::as.dist(1 - abs(cor_matrix))
+  stree                <- stats::hclust(dist_matrix, method = "complete")
   
   
   # restrict based on cut off

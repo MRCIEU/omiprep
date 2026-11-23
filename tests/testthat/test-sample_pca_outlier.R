@@ -91,3 +91,21 @@ test_that("sample pca outlier works", {
   }
   
 })
+
+test_that("pca fails with an informative error when too few samples or features remain", {
+
+  set.seed(1)
+  x <- matrix(rnorm(20 * 5), nrow = 20, dimnames = list(paste0("s", 1:20), paste0("f", 1:5)))
+  m <- Omiprep(x, data.frame(sample_id = rownames(x)), data.frame(feature_id = colnames(x)))
+
+  # one feature
+  expect_error(pc_and_outliers(m, feature_ids = "f1"),
+               "PCA needs >= 3 samples and >= 2 independent features; 20 sample\\(s\\) and 1 feature\\(s\\) remain")
+
+  # two samples
+  expect_error(pc_and_outliers(m, sample_ids = c("s1", "s2")),
+               "PCA needs >= 3 samples and >= 2 independent features; 2 sample\\(s\\) and 5 feature\\(s\\) remain")
+
+  # one sample (subset would otherwise collapse to a vector across features)
+  expect_error(pc_and_outliers(m, sample_ids = "s1"), "1 sample\\(s\\) and 5 feature\\(s\\) remain")
+})
