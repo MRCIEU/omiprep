@@ -2,13 +2,13 @@
 
 This function runs the original metaboprep1 pipeline using the old
 parameter file input format. The function requires access to the
-internet as the old package (default github commit \`bbe1f85\`) will be
+internet as the old package (default github tag \`v1.0.1\`) will be
 dynamically downloaded and used to process the data.
 
 ## Usage
 
 ``` r
-run_metaboprep1(parameter_file, gitcommit = "bbe1f85", attempt_report = FALSE)
+run_metaboprep1(parameter_file, gitcommit = "v1.0.1", attempt_report = FALSE)
 ```
 
 ## Arguments
@@ -19,8 +19,8 @@ run_metaboprep1(parameter_file, gitcommit = "bbe1f85", attempt_report = FALSE)
 
 - gitcommit:
 
-  character, Github commit - default pinned to the last stable
-  metaboprep 1 version \`bbe1f85\`
+  character, Github commit - default pinned to the metaboprep 1 release
+  \`v1.0.1\`
 
 - attempt_report:
 

@@ -28,7 +28,7 @@ str(mydata)
 #>  ..  ..$ : chr [1:150] "sam_1" "sam_2" "sam_3" "sam_4" ...
 #>  ..  ..$ : chr [1:229] "XXL-VLDL-P" "XXL-VLDL-L" "XXL-VLDL-PL" "XXL-VLDL-C" ...
 #>  ..  ..$ : chr "input"
-#>  @ samples        :'data.frame': 150 obs. of  254 variables:
+#>  @ samples        : 'data.frame':    150 obs. of  254 variables:
 #>  .. $ sample_id                      : chr  "sam_1" "sam_2" "sam_3" "sam_4" ...
 #>  .. $ informed_sample_type           : chr  NA NA NA NA ...
 #>  .. $ sample_excluded                : chr  NA NA NA NA ...
@@ -129,14 +129,14 @@ str(mydata)
 #>  .. $ xlhdlpl                        : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...
 #>  .. $ xlhdlc                         : Factor w/ 1 level "Value was rejected by automatic sample and measurement quality control": NA NA NA NA NA NA NA NA NA NA ...
 #>  ..  [list output truncated]
-#>  @ features       :'data.frame': 229 obs. of  6 variables:
+#>  @ features       : 'data.frame':    229 obs. of  6 variables:
 #>  .. $ feature_id     : chr  "XXL-VLDL-P" "XXL-VLDL-L" "XXL-VLDL-PL" "XXL-VLDL-C" ...
 #>  .. $ csv_column_name: chr  "XXL_VLDL_P" "XXL_VLDL_L" "XXL_VLDL_PL" "XXL_VLDL_C" ...
 #>  .. $ biomarker_name : chr  "Concentration of chylomicrons and extremely large VLDL particles" "Total lipids in chylomicrons and extremely large VLDL" "Phospholipids in chylomicrons and extremely large VLDL" "Cholesterol in chylomicrons and extremely large VLDL" ...
 #>  .. $ unit           : chr  "mol/l" "mmol/l" "mmol/l" "mmol/l" ...
 #>  .. $ group          : chr  "Lipoprotein subclasses" "Lipoprotein subclasses" "Lipoprotein subclasses" "Lipoprotein subclasses" ...
 #>  .. $ subgroup       : chr  "Chylomicrons and extremely large VLDL" "Chylomicrons and extremely large VLDL" "Chylomicrons and extremely large VLDL" "Chylomicrons and extremely large VLDL" ...
-#>  @ exclusions     :List of 2
+#>  @ exclusions     : List of 2
 #>  .. $ samples :List of 5
 #>  ..  ..$ user_excluded                    : chr(0) 
 #>  ..  ..$ extreme_sample_missingness       : chr(0) 
@@ -175,20 +175,20 @@ mydata <- mydata |>
 #> 
 #> ── Starting Omics QC Process ───────────────────────────────────────────────────
 #> ℹ Validating input parameters
-#> ✔ Validating input parameters [8ms]
+#> ✔ Validating input parameters [7ms]
 #> 
 #> ℹ Sample & Feature Summary Statistics for raw data
 #> ℹ Number of informative PCs (Scree acceleration factor): 2
-#> ℹ Sample & Feature Summary Statistics for raw data✔ Sample & Feature Summary Statistics for raw data [2.4s]
+#> ℹ Sample & Feature Summary Statistics for raw data✔ Sample & Feature Summary Statistics for raw data [1.8s]
 #> 
 #> ℹ Copying input data to new 'qc' data layer
-#> ✔ Copying input data to new 'qc' data layer [33ms]
+#> ✔ Copying input data to new 'qc' data layer [18ms]
 #> 
 #> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)
-#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [26ms]
+#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [14ms]
 #> 
 #> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)
-#> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [18m…
+#> ✔ Assessing for extreme feature missingness >=80% - excluding 0 feature(s) [13m…
 #> 
 #> ℹ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
 #> ✔ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
@@ -200,7 +200,7 @@ mydata <- mydata |>
 #> ✔ Calculating total sum abundance outliers at +/- 5 Sdev - excluding 0 sample(s…
 #> 
 #> ℹ Running sample data PCA outlier analysis at +/- 5 Sdev
-#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [17ms]
+#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [12ms]
 #> 
 #> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
 #> ℹ Number of informative PCs (Scree acceleration factor): 2
@@ -213,21 +213,21 @@ mydata <- mydata |>
 #> ℹ Creating final QC dataset...── Step timings ──
 #> ℹ Creating final QC dataset...
 #> ℹ Creating final QC dataset...
-#>                         step seconds   pct
-#>                   validation    0.00   0.0
-#>                summarise_raw    2.41  34.8
-#>                   copy_layer    0.00   0.0
-#>   extreme_sample_missingness    0.00   0.0
-#>  extreme_feature_missingness    0.00   0.0
-#>           sample_missingness    0.00   0.0
-#>          total_sum_abundance    0.01   0.1
-#>                summarise_pca    2.16  31.2
-#>              summarise_final    2.08  30.0
-#>                        total    6.92 100.0
-#> ✔ Creating final QC dataset... [2.2s]
+#>                         step seconds  pct
+#>                   validation    0.00  0.0
+#>                summarise_raw    1.74 37.3
+#>                   copy_layer    0.00  0.0
+#>   extreme_sample_missingness    0.00  0.0
+#>  extreme_feature_missingness    0.00  0.0
+#>           sample_missingness    0.01  0.2
+#>          total_sum_abundance    0.01  0.2
+#>                summarise_pca    1.40 30.0
+#>              summarise_final    1.35 28.9
+#>                        total    4.66 99.9
+#> ✔ Creating final QC dataset... [1.4s]
 #> 
 #> ℹ 'Omics QC Process Completed
-#> ✔ 'Omics QC Process Completed [19ms]
+#> ✔ 'Omics QC Process Completed [11ms]
 ```
 
 ## Quick summary of the Omiprep object following QC

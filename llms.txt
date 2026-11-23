@@ -209,6 +209,14 @@ Stand alone data processing or filtering tools.
 - [`batch_normalise()`](https://mrcieu.github.io/omiprep/reference/batch_normalise.md)
   : Batch Normalisation
 
+## Simulated data
+
+Generate synthetic data with known quality problems, for testing and
+tutorials.
+
+- [`simulate_omics()`](https://mrcieu.github.io/omiprep/reference/simulate_omics.md)
+  : Simulate an omics dataset with known quality problems
+
 ## Helper functions
 
 Helper functions, mainly used internally.

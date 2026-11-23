@@ -67,20 +67,20 @@ mydata = quality_control(mydata)
 #> 
 #> ── Starting Omics QC Process ───────────────────────────────────────────────────
 #> ℹ Validating input parameters
-#> ✔ Validating input parameters [9ms]
+#> ✔ Validating input parameters [11ms]
 #> 
 #> ℹ Sample & Feature Summary Statistics for raw data
 #> ℹ Number of informative PCs (Scree acceleration factor): 2
-#> ℹ Sample & Feature Summary Statistics for raw data✔ Sample & Feature Summary Statistics for raw data [1.9s]
+#> ℹ Sample & Feature Summary Statistics for raw data✔ Sample & Feature Summary Statistics for raw data [1.4s]
 #> 
 #> ℹ Copying input data to new 'qc' data layer
-#> ✔ Copying input data to new 'qc' data layer [28ms]
+#> ✔ Copying input data to new 'qc' data layer [19ms]
 #> 
 #> ℹ Assessing for extreme sample missingness >=80% - excluding 0 sample(s)
-#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [21ms]
+#> ✔ Assessing for extreme sample missingness >=80% - excluding 0 sample(s) [14ms]
 #> 
 #> ℹ Assessing for extreme feature missingness >=80% - excluding 0 feature(s)
-#> ✔ Assessing for extreme feature missingness >=80% - excluding 5 feature(s) [21m…
+#> ✔ Assessing for extreme feature missingness >=80% - excluding 5 feature(s) [15m…
 #> 
 #> ℹ Assessing for sample missingness at specified level of >=20% - excluding 0 sa…
 #> ✔ Assessing for sample missingness at specified level of >=20% - excluding 1 sa…
@@ -92,12 +92,11 @@ mydata = quality_control(mydata)
 #> ✔ Calculating total sum abundance outliers at +/- 5 Sdev - excluding 0 sample(s…
 #> 
 #> ℹ Running sample data PCA outlier analysis at +/- 5 Sdev
-#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [17ms]
+#> ✔ Running sample data PCA outlier analysis at +/- 5 Sdev [14ms]
 #> 
 #> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
 #> ℹ Number of informative PCs (Scree acceleration factor): 2
-#> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
-#> ! The stated max PCs [max_num_pcs=10] to use in PCA outlier assessment is greater than the number of available informative PCs [2]
+#> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…! The stated max PCs [max_num_pcs=10] to use in PCA outlier assessment is greater than the number of available informative PCs [2]
 #> ℹ Sample PCA outlier analysis - re-identify feature independence and PC outlier…✔ Sample PCA outlier analysis - re-identify feature independence and PC outlier…
 #> 
 #> ℹ Creating final QC dataset...
@@ -108,19 +107,19 @@ mydata = quality_control(mydata)
 #> ℹ Creating final QC dataset...
 #>                         step seconds   pct
 #>                   validation    0.00   0.0
-#>                summarise_raw    1.79  29.9
+#>                summarise_raw    1.39  30.8
 #>                   copy_layer    0.00   0.0
 #>   extreme_sample_missingness    0.00   0.0
 #>  extreme_feature_missingness    0.00   0.0
 #>           sample_missingness    0.00   0.0
 #>          total_sum_abundance    0.01   0.2
-#>                summarise_pca    2.00  33.4
-#>              summarise_final    1.88  31.4
-#>                        total    5.99 100.0
-#> ✔ Creating final QC dataset... [1.9s]
+#>                summarise_pca    1.51  33.5
+#>              summarise_final    1.43  31.7
+#>                        total    4.51 100.0
+#> ✔ Creating final QC dataset... [1.5s]
 #> 
 #> ℹ 'Omics QC Process Completed
-#> ✔ 'Omics QC Process Completed [14ms]
+#> ✔ 'Omics QC Process Completed [15ms]
 ```
 
 ## Sample Summary
@@ -254,9 +253,9 @@ df |> knitr::kable( digits = 3, row.names = FALSE, align = "c") |>
 
 | sample_id | pc1 | pc2 | pc3 | pc4 | pc5 | pc6 | pc7 | pc8 | pc9 | pc10 | pc1_3_sd_outlier | pc2_3_sd_outlier | pc1_4_sd_outlier | pc2_4_sd_outlier | pc1_5_sd_outlier | pc2_5_sd_outlier |
 |:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
-| sam_1 | 1.204 | -1.216 | 0.433 | -1.135 | 1.196 | -1.990 | 0.646 | -1.914 | 0.484 | -0.221 | 0 | 0 | 0 | 0 | 0 | 0 |
-| sam_2 | 3.883 | 1.269 | -2.605 | 1.413 | 3.686 | 0.750 | 0.737 | -1.457 | 1.002 | 0.368 | 0 | 0 | 0 | 0 | 0 | 0 |
-| sam_3 | 2.670 | -1.278 | 0.898 | -0.638 | 1.531 | -0.849 | -0.142 | -1.217 | 0.494 | 3.369 | 0 | 0 | 0 | 0 | 0 | 0 |
+| sam_1 | -1.162 | 1.369 | 0.470 | -1.908 | 0.083 | -1.557 | 0.104 | -1.815 | 1.097 | -0.225 | 0 | 0 | 0 | 0 | 0 | 0 |
+| sam_2 | -4.226 | -0.822 | -3.378 | 0.136 | -2.964 | -0.674 | -1.161 | 0.128 | 0.931 | -0.271 | 0 | 0 | 0 | 0 | 0 | 0 |
+| sam_3 | -2.563 | 1.392 | 0.965 | -0.905 | -0.847 | -0.199 | 1.057 | -1.108 | 1.056 | -3.363 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 ### Manually run PCA analysis
 
@@ -406,10 +405,10 @@ the specified subset will be populated, the rest will be `NA`.
 | sam_1 | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA |
 | sam_2 | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA |
 | sam_3 | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA |
-| sam_4 | 0.107 | 226 | 1227.482 | 533.705 | 97 | 39 | -0.572 | 2.794 | -1.116 | -1.313 | 5.502 | -2.776 | 1.948 | -3.359 | 4.725 | -4.830 | 0 | 0 | 0 | 0 | 0 | 0 |
+| sam_4 | 0.107 | 226 | 1227.482 | 533.705 | 97 | 39 | -0.286 | 2.615 | -1.012 | -1.634 | 3.199 | -5.219 | 1.552 | -3.803 | 3.350 | -6.099 | 0 | 0 | 0 | 0 | 0 | 0 |
 | sam_5 | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA |
 | sam_6 | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA |
 | sam_7 | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA |
-| sam_8 | 0.126 | 221 | 1175.210 | 524.836 | 97 | 33 | -0.521 | 5.419 | -0.659 | 2.126 | 0.590 | 0.565 | 0.891 | 0.042 | 0.223 | -1.615 | 0 | 0 | 0 | 0 | 0 | 0 |
-| sam_9 | 0.154 | 214 | 1119.124 | 508.865 | 97 | 23 | 1.378 | 4.430 | 0.672 | -2.952 | 0.214 | -1.221 | -2.563 | 1.916 | -1.041 | 1.705 | 0 | 0 | 0 | 0 | 0 | 0 |
+| sam_8 | 0.126 | 221 | 1175.210 | 524.836 | 97 | 33 | -0.270 | 5.278 | -0.681 | 2.137 | 0.839 | 0.059 | 0.909 | 0.015 | 0.073 | -1.459 | 0 | 0 | 0 | 0 | 0 | 0 |
+| sam_9 | 0.154 | 214 | 1119.124 | 508.865 | 97 | 23 | 1.223 | 4.532 | 0.395 | -2.912 | -0.525 | -1.004 | -2.740 | 2.100 | -0.243 | 1.429 | 0 | 0 | 0 | 0 | 0 | 0 |
 | sam_10 | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA | NA |
